@@ -112,6 +112,20 @@ impl VectorIndex {
             .map(|v| v.as_slice())
     }
 
+    /// Set the per-slot gate threshold τ for `(layer, feature)`. Inference
+    /// then computes `silu(gate·x − τ)·(up·x)` for this slot, suppressing
+    /// the weak-positive firing that leaks the edit onto held-out prompts.
+    pub fn set_gate_threshold(&mut self, layer: usize, feature: usize, threshold: f32) {
+        self.metadata
+            .gate_thresholds
+            .insert((layer, feature), threshold);
+    }
+
+    /// Gate threshold τ for `(layer, feature)`, if any has been set.
+    pub fn gate_threshold_at(&self, layer: usize, feature: usize) -> Option<f32> {
+        self.metadata.gate_thresholds.get(&(layer, feature)).copied()
+    }
+
     /// Copy a layer's gate vectors from mmap to heap (for mutation).
     fn promote_layer_to_heap(&mut self, layer: usize) {
         if let Some(view) = self.storage.gate_layer_view(layer) {

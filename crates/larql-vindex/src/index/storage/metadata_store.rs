@@ -18,6 +18,12 @@ pub struct MetadataStore {
     pub down_overrides: HashMap<(usize, usize), Vec<f32>>,
     /// Up vector overrides — same shape; written by INSERT.
     pub up_overrides: HashMap<(usize, usize), Vec<f32>>,
+    /// Per-slot gate threshold τ — `(layer, feature) → τ`. When present,
+    /// the inserted slot's activation becomes `silu(gate·x − τ)·(up·x)`,
+    /// killing the weak-positive SiLU tail that otherwise leaks the edit
+    /// onto held-out prompts (see the 2026-06-02 amplification diagnostic).
+    /// Only meaningful for inserted slots; native neurons are untouched.
+    pub gate_thresholds: HashMap<(usize, usize), f32>,
 }
 
 impl MetadataStore {
@@ -27,6 +33,7 @@ impl MetadataStore {
             down_meta_mmap: None,
             down_overrides: HashMap::new(),
             up_overrides: HashMap::new(),
+            gate_thresholds: HashMap::new(),
         }
     }
 }

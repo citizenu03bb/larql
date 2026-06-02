@@ -80,6 +80,11 @@ impl PatchOverrides for PatchedVindex {
         self.base.up_override(layer, feature)
     }
 
+    fn gate_threshold(&self, layer: usize, feature: usize) -> Option<f32> {
+        // Thresholds live on the base index's metadata, like up overrides.
+        self.base.gate_threshold(layer, feature)
+    }
+
     fn gate_override(&self, layer: usize, feature: usize) -> Option<&[f32]> {
         // Gate overrides live on the patch overlay (not the base
         // index). Surface them through the trait so the sparse

@@ -177,6 +177,26 @@ impl<'a> WalkFfn<'a> {
             };
             let gate_knn_ns = t_gate.elapsed().as_nanos() as u64;
 
+            // Per-slot gate threshold τ: subtract from gate·x before SiLU so
+            // an inserted slot fires as silu(gate·x − τ)·(up·x). Confined to
+            // layers carrying overrides (the only place thresholds exist), so
+            // the common no-edit path pays nothing. gate_score feeds only the
+            // activation downstream, so adjusting it here is the single hook
+            // covering both the serial and parallel-q4k activation sites.
+            let hits: Vec<(usize, f32)> = if layer_has_overrides {
+                hits.into_iter()
+                    .map(|(feat, gate_score)| {
+                        let adj = self
+                            .index
+                            .gate_threshold(layer, feat)
+                            .map_or(gate_score, |tau| gate_score - tau);
+                        (feat, adj)
+                    })
+                    .collect()
+            } else {
+                hits
+            };
+
             let mut out_row = out.row_mut(s);
 
             // Parallel Q4K-down-cache path — only used when feature

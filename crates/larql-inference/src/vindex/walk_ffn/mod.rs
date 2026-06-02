@@ -212,7 +212,17 @@ fn walk_trace_env_enabled() -> bool {
 
 impl<'a> WalkFfn<'a> {
     fn top_k_for(&self, layer: usize) -> usize {
-        self.config.k_for(layer).unwrap_or(usize::MAX)
+        // Dense config (k_for == None) means "use all features". The fast
+        // gemv path skips gate_knn entirely in that case, but the per-position
+        // slow path (taken when `layer_has_overrides`) still calls
+        // `gate_knn(layer, _, top_k)` → `top_k_by_abs(_, top_k)` →
+        // `BinaryHeap::with_capacity(top_k)`. Returning `usize::MAX` here
+        // overflows that allocation. Clamp to the layer's actual feature
+        // count, which is functionally equivalent for dense (top-K with
+        // K = N returns all N features).
+        self.config
+            .k_for(layer)
+            .unwrap_or_else(|| self.index.num_features(layer))
     }
 
     // ── Legacy constructors (stable public API) ──

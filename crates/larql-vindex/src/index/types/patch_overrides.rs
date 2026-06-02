@@ -20,6 +20,11 @@ pub trait PatchOverrides: Send + Sync {
     fn gate_override(&self, _layer: usize, _feature: usize) -> Option<&[f32]> {
         None
     }
+    /// Per-slot gate threshold tau at (layer, feature). When present,
+    /// sparse inference subtracts it from gate dot x before applying SiLU.
+    fn gate_threshold(&self, _layer: usize, _feature: usize) -> Option<f32> {
+        None
+    }
     /// Check if any down vector overrides or gate overrides exist at this layer.
     fn has_overrides_at(&self, _layer: usize) -> bool {
         false
@@ -41,6 +46,7 @@ mod tests {
         assert!(n.down_override(0, 0).is_none());
         assert!(n.up_override(0, 0).is_none());
         assert!(n.gate_override(0, 0).is_none());
+        assert!(n.gate_threshold(0, 0).is_none());
         assert!(!n.has_overrides_at(0));
     }
 }

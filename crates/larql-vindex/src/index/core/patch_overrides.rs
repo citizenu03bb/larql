@@ -23,12 +23,24 @@ impl PatchOverrides for VectorIndex {
             .map(|v| v.as_slice())
     }
 
+    fn gate_threshold(&self, layer: usize, feature: usize) -> Option<f32> {
+        self.metadata
+            .gate_thresholds
+            .get(&(layer, feature))
+            .copied()
+    }
+
     fn has_overrides_at(&self, layer: usize) -> bool {
         self.metadata
             .down_overrides
             .keys()
             .any(|(l, _)| *l == layer)
             || self.metadata.up_overrides.keys().any(|(l, _)| *l == layer)
+            || self
+                .metadata
+                .gate_thresholds
+                .keys()
+                .any(|(l, _)| *l == layer)
     }
 }
 
@@ -81,6 +93,22 @@ mod tests {
         v.metadata.up_overrides.insert((7, 2), vec![1.0]);
         assert!(v.has_overrides_at(7));
         assert!(!v.has_overrides_at(0));
+    }
+
+    #[test]
+    fn gate_threshold_returns_inserted_value() {
+        let mut v = fresh();
+        v.metadata.gate_thresholds.insert((1, 4), 1.25);
+        assert_eq!(v.gate_threshold(1, 4), Some(1.25));
+        assert!(v.gate_threshold(1, 5).is_none());
+    }
+
+    #[test]
+    fn has_overrides_at_returns_true_for_threshold_only() {
+        let mut v = fresh();
+        v.metadata.gate_thresholds.insert((2, 3), 2.0);
+        assert!(v.has_overrides_at(2));
+        assert!(!v.has_overrides_at(1));
     }
 
     #[test]
