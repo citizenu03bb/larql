@@ -283,22 +283,30 @@ fn load_mmap_weights(dir: &Path) -> Result<(ModelWeights, Vec<WeightMmap>), Stri
     Ok((weights, mmaps))
 }
 
-// ── InferState: lazy-loaded mmap'd weights for vindex.infer() ──
+// ── InferState: lazy-loaded inference weights for vindex.infer() ──
 
-/// Mmap'd model weights, reusable across infer() calls.
+/// Format-agnostic inference weights, reusable across infer() calls.
 /// Created lazily on first infer(), held by PyVindex.
+///
+/// Routes through `InferenceWeights` so that Q4K vindexes dispatch to
+/// `infer_patched_q4k`. The previous `ModelWeights + Vec<WeightMmap>`
+/// shape only loaded `attn_weights.bin` / `up_weights.bin` /
+/// `down_weights.bin`, which silently failed on Q4K vindexes (those
+/// carry `attn_weights_q4k.bin` + `interleaved_q4k.bin`) and produced
+/// garbage predictions with empty residual traces.
 pub struct InferState {
-    pub weights: ModelWeights,
-    _mmaps: Vec<WeightMmap>,
+    pub inference: larql_inference::InferenceWeights,
 }
 
 impl InferState {
-    pub fn load(dir: &Path) -> Result<Self, String> {
-        let (weights, mmaps) = load_mmap_weights(dir)?;
-        Ok(Self {
-            weights,
-            _mmaps: mmaps,
-        })
+    pub fn load(
+        dir: &Path,
+        config: &larql_vindex::VindexConfig,
+    ) -> Result<Self, String> {
+        let mut cb = larql_vindex::SilentLoadCallbacks;
+        let inference = larql_inference::InferenceWeights::load(dir, config, &mut cb)
+            .map_err(|e| e.to_string())?;
+        Ok(Self { inference })
     }
 }
 
