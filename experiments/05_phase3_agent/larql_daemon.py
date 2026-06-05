@@ -56,6 +56,12 @@ class LarqlState:
         print(f"[daemon] loaded in {time.time()-t0:.1f}s, hidden={self.v.hidden_size}")
         self.lock = threading.Lock()
         self.edits = []  # list of dicts {target_token, layers, feats}
+        # Per-layer next-free-feature cursor. find_free_feature reads the BASE index metadata,
+        # not the overlay, so it returns the SAME slot on every /edit (sequential edits collide and
+        # overwrite each other — confirmed 2026-06-04: two facts got identical feats [7921,6806,...]).
+        # Track the base once per layer and hand out consecutive indices, mirroring the N=12 scaling
+        # scripts' `base + i` allocation. Reset clears it.
+        self.feat_cursor = {}  # layer -> next free feature index
 
     def _trace_residuals(self, prompt: str):
         _, r = self.v.infer_trace(prompt, top_k_predictions=1)
@@ -144,7 +150,17 @@ class LarqlState:
                 avg_norm = self._avg_gate_norm(L)
                 gate_vec = g_raw * (avg_norm / ng)
 
-                feat = self.v.find_free_feature(L)
+                # Allocate a non-colliding feature: take find_free_feature's base ONCE per layer,
+                # then advance a cursor so successive edits get base, base+1, base+2, … (find_free_feature
+                # alone returns the same slot every call → sequential edits would overwrite each other).
+                if L not in self.feat_cursor:
+                    base = self.v.find_free_feature(L)
+                    if base is None:
+                        diagnostics.append({"layer": L, "skipped": "no_free_feature"})
+                        continue
+                    self.feat_cursor[L] = base
+                feat = self.feat_cursor[L]
+                self.feat_cursor[L] += 1
                 self.v.set_gate_vector(L, feat, gate_vec.tolist())
                 # Path 4: up parallel to gate makes (up · target_resid) = θ
                 # match the gate-firing scalar, so the per-slot activation
@@ -212,7 +228,78 @@ class LarqlState:
                     self.v.set_feature_meta(L, feat, "", 0.0)
                     cleared += 1
             self.edits = []
+            self.feat_cursor = {}  # freed slots are reusable from the base again
             return {"cleared_slots": cleared}
+
+    def recalibrate(self):
+        """Re-run the co-active push-τ calibration over EVERY installed slot, all others
+        live. Closes the incremental gap: a fact added EARLY is calibrated against a sparse
+        constellation, and its τ is never revisited as density grows — so its OWN push can
+        erode under later simultaneous activation (the Norway failure, near-semantic N=12
+        test 2026-06-03). _calibrate_push_tau already leaves other slots untouched, so each
+        re-calibration probes in the full dense regime. One pass (a slot's new τ slightly
+        perturbs later probes; a single sweep is the validated approximation)."""
+        with self.lock:
+            trails = []
+            for ed in self.edits:
+                if not ed["feats"]:
+                    continue
+                old = ed["tau"]
+                chosen, calibrated, trail = self._calibrate_push_tau(
+                    ed["target_prompt"], ed["target_token"], ed["layers"], ed["feats"],
+                    DEFAULT_TAU_GRID, DEFAULT_TAU_DELTA)
+                ed["tau"], ed["tau_calibrated"] = chosen, calibrated
+                trails.append({"target_token": ed["target_token"], "tau_old": old,
+                               "tau_new": chosen, "changed": chosen != old, "trail": trail})
+            return {"recalibrated": len(trails), "changes": trails}
+
+    def reorthogonalize(self):
+        """Re-gate EVERY installed fact against a contrast set augmented with all OTHER installed
+        facts' target prompts, then re-calibrate τ co-actively. Fixes the EMERGENT constellation leak
+        (verified 2026-06-05): single-slot gates are clean, but in a constellation one slot's weak
+        firing on a held-out perturbs that held-out's residual into ANOTHER slot's gate → leak to an
+        edited target (Egypt→Superman with Atlantis+Krypton live, though neither slot leaks alone).
+        MUTUAL re-gating contains it; sequential-only augmentation just MOVES the leak to another
+        held-out. Reuses each fact's existing feats (no new allocation); `down` (target embedding) is
+        unchanged — only the gate/up QR projection and τ are recomputed. Idempotent: always augments
+        each fact's ORIGINAL contrast set with the CURRENT set of other facts (ed['contrast_prompts']
+        is left untouched)."""
+        with self.lock:
+            if len(self.edits) < 2:
+                return {"reorthogonalized": len(self.edits),
+                        "note": "needs >=2 facts to cross-orthogonalize", "changes": []}
+            zero = [0.0] * self.v.hidden_size
+            # 1. re-gate each fact against its own contrasts + every other fact's target prompt
+            for ed in self.edits:
+                others = [o["target_prompt"] for o in self.edits if o is not ed]
+                aug_contrasts = list(ed["contrast_prompts"]) + others
+                target_res = self._trace_residuals(ed["target_prompt"])
+                contrast_res = [self._trace_residuals(p) for p in aug_contrasts]
+                for L, feat in zip(ed["layers"], ed["feats"]):
+                    g_raw = self._orthogonal_complement_projection(
+                        target_res[L], [cr[L] for cr in contrast_res])
+                    ng = np.linalg.norm(g_raw)
+                    if ng < 1e-8:
+                        # target now falls into the augmented contrast span — disable this slot
+                        self.v.set_gate_vector(L, feat, zero)
+                        self.v.set_up_vector(L, feat, zero)
+                        continue
+                    gate_vec = g_raw * (self._avg_gate_norm(L) / ng)
+                    self.v.set_gate_vector(L, feat, gate_vec.tolist())
+                    self.v.set_up_vector(L, feat, gate_vec.tolist())
+            # 2. re-calibrate τ co-actively now that all gates are mutually orthogonalized
+            trails = []
+            for ed in self.edits:
+                if not ed["feats"]:
+                    continue
+                old = ed["tau"]
+                chosen, calibrated, _ = self._calibrate_push_tau(
+                    ed["target_prompt"], ed["target_token"], ed["layers"], ed["feats"],
+                    DEFAULT_TAU_GRID, DEFAULT_TAU_DELTA)
+                ed["tau"], ed["tau_calibrated"] = chosen, calibrated
+                trails.append({"target_token": ed["target_token"], "tau_old": old,
+                               "tau_new": chosen, "changed": chosen != old})
+            return {"reorthogonalized": len(self.edits), "changes": trails}
 
     def status(self):
         return {"active_edits": self.edits}
@@ -264,6 +351,10 @@ class Handler(BaseHTTPRequestHandler):
                     calibrate=bool(body.get("calibrate", True)),
                 )
                 self._send_json(200, out)
+            elif self.path == "/recalibrate":
+                self._send_json(200, self.server.state.recalibrate())
+            elif self.path == "/reorthogonalize":
+                self._send_json(200, self.server.state.reorthogonalize())
             elif self.path == "/reset":
                 self._send_json(200, self.server.state.reset())
             else:
@@ -282,7 +373,7 @@ def main():
     server = HTTPServer(("127.0.0.1", args.port), Handler)
     server.state = state
     print(f"[daemon] listening on http://127.0.0.1:{args.port}")
-    print(f"[daemon] endpoints: POST /infer  POST /edit  POST /reset  GET /status  GET /health")
+    print(f"[daemon] endpoints: POST /infer  POST /edit  POST /recalibrate  POST /reorthogonalize  POST /reset  GET /status  GET /health")
     server.serve_forever()
 
 
