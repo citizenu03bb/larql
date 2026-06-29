@@ -2,6 +2,12 @@
 
 The model IS the database. Query neural network weights like a graph database. No GPU required.
 
+> Research branch note: this fork branch includes experimental work on
+> training-free vindex edits with per-slot gate thresholds. See
+> [`docs/research-slot-gate-threshold.md`](docs/research-slot-gate-threshold.md)
+> for the current status, reproduction commands, and limitations. The daemon
+> and tau-calibrated insert path are research artifacts, not a stable public API.
+
 LARQL decompiles transformer models into a queryable format called a **vindex** (vector index), then provides **LQL** (Lazarus Query Language) to browse, edit, and recompile the model's knowledge.
 
 ```sql
