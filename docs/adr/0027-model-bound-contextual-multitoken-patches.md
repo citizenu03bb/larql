@@ -138,3 +138,13 @@ This closes the acceptance condition for the model-bound protocol: contextual
 first-token suppression, exact multi-token continuation, and immediate release
 all run through a real cached Q4K decode. Cross-model portability and a
 standard detector family remain explicitly unclaimed.
+
+The complete frozen validation-3 holdout was subsequently rerun through this
+same cached path: all four positives (canonical plus three paraphrases) emitted
+the exact three-token span and released, and all twelve factorial controls
+rejected the payload and avoided the first target token (`16/16` total). The
+weakest positive remained `Lothlorien is led by` at relation margin
+`+0.4184523`; the closest negative remained `The poet of Lothlorien is` at
+relation margin `-1.4632454`. Negative runs stop after the first natural token:
+the contextual decision is sequence-fixed, a rejection exposes no payload row,
+and therefore no later token can arm that span.

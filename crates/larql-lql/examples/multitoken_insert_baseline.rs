@@ -124,6 +124,18 @@ struct CachedSpanSummary {
     context_decisions: Vec<ContextDecision>,
 }
 
+#[derive(Serialize)]
+struct CachedValidationSummary {
+    phase: &'static str,
+    positive_total: usize,
+    positive_passed: usize,
+    negative_total: usize,
+    negative_passed: usize,
+    failed_positive_prompts: Vec<String>,
+    failed_negative_prompts: Vec<String>,
+    all_passed: bool,
+}
+
 #[derive(Default)]
 struct SuiteOptions {
     mode: String,
@@ -135,6 +147,7 @@ struct SuiteOptions {
     position_residuals: bool,
     context_detector: Option<PathBuf>,
     cached_smoke: bool,
+    cached_validation: bool,
 }
 
 #[derive(Deserialize)]
@@ -149,7 +162,7 @@ struct FrozenContextDetector {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke] [--install-only]"
+    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
 }
 
 fn canonical_prompt(entity: &str, relation: &str) -> String {
@@ -594,20 +607,19 @@ fn run_oracle_phase(
 
 fn run_cached_phase(
     session: &mut Session,
-    vindex: &Path,
-    config: &larql_vindex::VindexConfig,
+    inference_weights: &mut InferenceWeights,
     tokenizer: &larql_inference::tokenizers::Tokenizer,
     prompt: &str,
     target_ids: &[u32],
     span_specs: &[larql_inference::active_span::ActiveSpanSpec],
     context_detectors: &[ContextDetectorSpec],
     phase: &'static str,
+    max_tokens: usize,
 ) -> Result<CachedSpanSummary, AnyError> {
-    let mut inference_weights = load_weights(vindex, config)?;
     if !inference_weights.is_quantised() {
         return Err("cached patch E2E currently requires a quantised vindex".into());
     }
-    let prompt_ids = prompt_tokens(tokenizer, &inference_weights, prompt)?;
+    let prompt_ids = prompt_tokens(tokenizer, inference_weights, prompt)?;
     let first_target = *target_ids.first().ok_or("target has no token IDs")?;
 
     // One causal patched prefill supplies the frozen detector decision and the
@@ -616,7 +628,7 @@ fn run_cached_phase(
     // select the same natural first token before ActiveSpan can arm.
     let evidence = infer_step(
         session,
-        &mut inference_weights,
+        inference_weights,
         tokenizer,
         &prompt_ids,
         first_target,
@@ -648,7 +660,7 @@ fn run_cached_phase(
         weights,
         tokenizer,
         &prompt_ids,
-        target_ids.len() + 1,
+        max_tokens,
         &view,
         |generated, logits| constraint.apply(generated, logits),
     )
@@ -669,6 +681,31 @@ fn run_cached_phase(
         generated_tokens,
         context_decisions,
     })
+}
+
+fn cached_summary_passes(summary: &CachedSpanSummary, expect_positive: bool) -> bool {
+    let detector_allowed = summary
+        .context_decisions
+        .iter()
+        .any(|decision| decision.allowed);
+    let detector_rejected = !summary.context_decisions.is_empty()
+        && summary
+            .context_decisions
+            .iter()
+            .all(|decision| !decision.allowed);
+
+    if expect_positive {
+        detector_allowed
+            && summary.first_token_hit
+            && summary.emitted_exact_span
+            && summary.released_after_span
+            && summary.trigger_slot.is_some()
+    } else {
+        detector_rejected
+            && !summary.first_token_hit
+            && !summary.emitted_exact_span
+            && summary.trigger_slot.is_none()
+    }
 }
 
 fn open_session(vindex: &Path) -> Result<Session, AnyError> {
@@ -729,6 +766,7 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
             }
             "--install-only" => options.install_only = true,
             "--cached-smoke" => options.cached_smoke = true,
+            "--cached-validation" => options.cached_validation = true,
             _ => return Err(usage().into()),
         }
         index += 1;
@@ -739,8 +777,11 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
     if options.install_only && options.save_patch.is_none() && options.apply_patch.is_none() {
         return Err("--install-only requires --save-patch or --apply-patch".into());
     }
-    if options.cached_smoke && options.apply_patch.is_none() {
-        return Err("--cached-smoke requires --apply-patch".into());
+    if (options.cached_smoke || options.cached_validation) && options.apply_patch.is_none() {
+        return Err("--cached-smoke/--cached-validation requires --apply-patch".into());
+    }
+    if options.cached_smoke && options.cached_validation {
+        return Err("--cached-smoke and --cached-validation are mutually exclusive".into());
     }
     if options.residual_out.is_some() && !options.activation_only {
         return Err("--residual-out requires --activation-only".into());
@@ -981,6 +1022,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             "position_residuals": options.position_residuals,
             "context_detector": options.context_detector,
             "cached_smoke": options.cached_smoke,
+            "cached_validation": options.cached_validation,
             "n_facts": tokenized.len(),
             "targets": tokenized.iter().map(|(fact, ids)| serde_json::json!({
                 "entity": fact.entity,
@@ -1083,38 +1125,87 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
     let context_detectors =
         load_context_detectors(options.context_detector.as_deref(), &span_specs)?;
 
-    if options.cached_smoke {
+    if options.cached_smoke || options.cached_validation {
         let (fact, target_ids) = tokenized.first().ok_or("cached smoke requires one fact")?;
-        let positive_prompt = canonical_prompt(&fact.entity, &fact.relation);
-        let positive = run_cached_phase(
-            &mut session,
-            vindex,
-            &config,
-            &tokenizer,
-            &positive_prompt,
-            target_ids,
-            &span_specs,
-            &context_detectors,
-            "cached_positive",
-        )?;
-        println!("{}", serde_json::to_string(&positive)?);
+        let mut cached_weights = load_weights(vindex, &config)?;
+        let canonical = canonical_prompt(&fact.entity, &fact.relation);
+        let positive_prompts: Vec<&str> = if options.cached_smoke {
+            vec![canonical.as_str()]
+        } else {
+            std::iter::once(canonical.as_str())
+                .chain(fact.paraphrases.iter().map(String::as_str))
+                .collect()
+        };
+        let controls: Vec<&ControlSpec> = if options.cached_smoke {
+            vec![suite
+                .controls
+                .first()
+                .ok_or("cached smoke requires at least one control")?]
+        } else {
+            suite.controls.iter().collect()
+        };
 
-        let control = suite
-            .controls
-            .first()
-            .ok_or("cached smoke requires at least one control")?;
-        let negative = run_cached_phase(
-            &mut session,
-            vindex,
-            &config,
-            &tokenizer,
-            &control.prompt,
-            target_ids,
-            &span_specs,
-            &context_detectors,
-            "cached_negative",
-        )?;
-        println!("{}", serde_json::to_string(&negative)?);
+        let mut failed_positive_prompts = Vec::new();
+        for prompt in &positive_prompts {
+            let summary = run_cached_phase(
+                &mut session,
+                &mut cached_weights,
+                &tokenizer,
+                prompt,
+                target_ids,
+                &span_specs,
+                &context_detectors,
+                "cached_positive",
+                target_ids.len() + 1,
+            )?;
+            if !cached_summary_passes(&summary, true) {
+                failed_positive_prompts.push((*prompt).to_string());
+            }
+            println!("{}", serde_json::to_string(&summary)?);
+        }
+
+        let mut failed_negative_prompts = Vec::new();
+        for control in &controls {
+            let summary = run_cached_phase(
+                &mut session,
+                &mut cached_weights,
+                &tokenizer,
+                &control.prompt,
+                target_ids,
+                &span_specs,
+                &context_detectors,
+                "cached_negative",
+                if options.cached_smoke {
+                    target_ids.len() + 1
+                } else {
+                    1
+                },
+            )?;
+            if !cached_summary_passes(&summary, false) {
+                failed_negative_prompts.push(control.prompt.clone());
+            }
+            println!("{}", serde_json::to_string(&summary)?);
+        }
+
+        let validation = CachedValidationSummary {
+            phase: if options.cached_smoke {
+                "cached_smoke_summary"
+            } else {
+                "cached_validation_summary"
+            },
+            positive_total: positive_prompts.len(),
+            positive_passed: positive_prompts.len() - failed_positive_prompts.len(),
+            negative_total: controls.len(),
+            negative_passed: controls.len() - failed_negative_prompts.len(),
+            all_passed: failed_positive_prompts.is_empty() && failed_negative_prompts.is_empty(),
+            failed_positive_prompts,
+            failed_negative_prompts,
+        };
+        let all_passed = validation.all_passed;
+        println!("{}", serde_json::to_string(&validation)?);
+        if !all_passed {
+            return Err("cached validation failed".into());
+        }
         return Ok(());
     }
 
@@ -1307,4 +1398,76 @@ fn main() -> Result<(), AnyError> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use larql_inference::active_span::PatchSlotId;
+
+    fn decision(allowed: bool) -> ContextDecision {
+        ContextDecision {
+            payload: PatchSlotId {
+                layer: 31,
+                feature: 1625,
+            },
+            detector_layer: 6,
+            entity_margin: if allowed { 1.0 } else { -1.0 },
+            relation_margin: if allowed { 1.0 } else { -1.0 },
+            allowed,
+        }
+    }
+
+    fn summary(positive: bool) -> CachedSpanSummary {
+        CachedSpanSummary {
+            phase: "test",
+            prompt: "prompt".into(),
+            target_ids: vec![1, 2, 3],
+            generated_ids: if positive {
+                vec![1, 2, 3, 4]
+            } else {
+                vec![9, 8, 7, 6]
+            },
+            generated_tokens: Vec::new(),
+            first_token_hit: positive,
+            emitted_exact_span: positive,
+            released_after_span: positive,
+            trigger_slot: positive.then_some(PatchSlotId {
+                layer: 31,
+                feature: 1625,
+            }),
+            context_decisions: vec![decision(positive)],
+        }
+    }
+
+    #[test]
+    fn cached_validation_accepts_strict_positive_and_negative_shapes() {
+        assert!(cached_summary_passes(&summary(true), true));
+        assert!(cached_summary_passes(&summary(false), false));
+        assert!(!cached_summary_passes(&summary(true), false));
+        assert!(!cached_summary_passes(&summary(false), true));
+    }
+
+    #[test]
+    fn cached_validation_requires_a_patch_and_excludes_smoke() {
+        let no_patch = parse_suite_options(&["--cached-validation".into()]);
+        assert!(no_patch.is_err());
+
+        let both = parse_suite_options(&[
+            "--apply-patch".into(),
+            "patch.vlp".into(),
+            "--cached-smoke".into(),
+            "--cached-validation".into(),
+        ]);
+        assert!(both.is_err());
+
+        let validation = parse_suite_options(&[
+            "--apply-patch".into(),
+            "patch.vlp".into(),
+            "--cached-validation".into(),
+        ])
+        .expect("cached validation options");
+        assert!(validation.cached_validation);
+        assert!(!validation.cached_smoke);
+    }
 }
