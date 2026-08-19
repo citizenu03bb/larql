@@ -62,7 +62,9 @@ pub use infer_patched::{
     infer_patched_with_positions, walk_trace_from_residuals, InferPatchedPositionResult,
     InferPatchedResult, KnnOverride, KnnRouteMode, KNN_COSINE_THRESHOLD, KNN_VERIFY_TOPK,
 };
-pub use inference_weights::InferenceWeights;
+pub use inference_weights::{
+    InferenceWeights, PatchedCachedGenerationError, PatchedCachedGenerationResult,
+};
 pub use layer::{run_attention_public, run_ffn, run_layer_with_capture_hooked, run_layer_with_ffn};
 pub use layer_interventions::{
     run_layer_with_mapped_head_residual_delta, run_layer_with_mapped_pre_o_head,

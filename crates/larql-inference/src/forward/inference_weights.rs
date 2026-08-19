@@ -14,9 +14,14 @@ use std::path::Path;
 use tokenizers::Tokenizer;
 
 use larql_vindex::{
-    GateIndex, IndexLoadCallbacks, KnnStore, QuantFormat, VectorIndex, VindexConfig, VindexError,
+    GateIndex, IndexLoadCallbacks, KnnStore, PatchedKvIndexView, PatchedVindex, QuantFormat,
+    VectorIndex, VindexConfig, VindexError,
 };
 
+use crate::active_span::{
+    patch_activation_events, ActiveSpanConstraint, ActiveSpanSpec, PatchSlotId,
+};
+use crate::context_detector::ContextDecision;
 use crate::context_detector::ContextDetectorSpec;
 use crate::model::ModelWeights;
 
@@ -40,6 +45,43 @@ pub enum InferenceWeights {
         weights: ModelWeights,
         index: VectorIndex,
     },
+}
+
+#[derive(Debug)]
+pub enum PatchedCachedGenerationError {
+    RequiresQuantisedWeights,
+    Overlay(VindexError),
+    UnsupportedArchitecture,
+}
+
+impl std::fmt::Display for PatchedCachedGenerationError {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::RequiresQuantisedWeights => {
+                formatter.write_str("patched cached generation requires quantised weights")
+            }
+            Self::Overlay(error) => write!(formatter, "invalid patched overlay: {error}"),
+            Self::UnsupportedArchitecture => {
+                formatter.write_str("architecture does not support cached quantised generation")
+            }
+        }
+    }
+}
+
+impl std::error::Error for PatchedCachedGenerationError {}
+
+impl From<VindexError> for PatchedCachedGenerationError {
+    fn from(error: VindexError) -> Self {
+        Self::Overlay(error)
+    }
+}
+
+#[derive(Debug)]
+pub struct PatchedCachedGenerationResult {
+    pub generated: Vec<(String, u32)>,
+    pub context_decisions: Vec<ContextDecision>,
+    pub trigger_slot: Option<PatchSlotId>,
+    pub released_after_span: bool,
 }
 
 impl InferenceWeights {
@@ -98,6 +140,85 @@ impl InferenceWeights {
             Self::Quantised { weights, index } => Some((weights, index)),
             Self::Dense(_) => None,
         }
+    }
+
+    /// Generate through an applied patch overlay with model-bound contextual
+    /// eligibility and exact multi-token continuation.
+    ///
+    /// This is the reusable production seam behind the LQL research harness:
+    /// one causal patched forward supplies detector decisions and live slot
+    /// evidence, then the cached generator recomputes through a fail-closed
+    /// `KvIndex` view. Detector parameters are discovered from `patched`; live
+    /// decisions and `ActiveSpan` state remain local to this call.
+    pub fn generate_patched_cached(
+        &mut self,
+        tokenizer: &Tokenizer,
+        patched: &PatchedVindex,
+        prompt_ids: &[u32],
+        max_tokens: usize,
+        span_specs: &[ActiveSpanSpec],
+    ) -> Result<PatchedCachedGenerationResult, PatchedCachedGenerationError> {
+        if !self.is_quantised() {
+            return Err(PatchedCachedGenerationError::RequiresQuantisedWeights);
+        }
+
+        let detectors: Vec<ContextDetectorSpec> = patched
+            .context_detectors()
+            .into_iter()
+            .map(Into::into)
+            .collect();
+        let evidence = self.infer_patched_contextual(
+            tokenizer,
+            patched,
+            None,
+            prompt_ids,
+            1,
+            &super::KnnRouteMode::Legacy,
+            &detectors,
+        );
+        let allowed_slots: Vec<_> = evidence
+            .context_decisions
+            .iter()
+            .filter(|decision| decision.allowed)
+            .map(|decision| (decision.payload.layer, decision.payload.feature))
+            .collect();
+        let mut events =
+            patch_activation_events(self.as_weights(), patched, &evidence.infer.residuals);
+        events.retain(|event| {
+            let Some(_) = detectors.iter().find(|spec| spec.payload == event.slot) else {
+                return true;
+            };
+            evidence
+                .context_decisions
+                .iter()
+                .find(|decision| decision.payload == event.slot)
+                .is_some_and(|decision| decision.allowed)
+        });
+        let context_decisions = evidence.context_decisions;
+        let mut constraint = ActiveSpanConstraint::new(span_specs.to_vec(), events);
+
+        let (weights, source) = self
+            .as_quantised_parts_mut()
+            .ok_or(PatchedCachedGenerationError::RequiresQuantisedWeights)?;
+        let view = PatchedKvIndexView::new(source, patched, allowed_slots)?;
+        let generated = crate::vindex::generate_kquant_cpu_constrained_cached_index(
+            weights,
+            tokenizer,
+            prompt_ids,
+            max_tokens,
+            &view,
+            |generated, logits| constraint.apply(generated, logits),
+        )
+        .ok_or(PatchedCachedGenerationError::UnsupportedArchitecture)?;
+        let trigger_slot = constraint.triggered_slot();
+        let released_after_span = trigger_slot.is_some() && constraint.active_slot().is_none();
+
+        Ok(PatchedCachedGenerationResult {
+            generated,
+            context_decisions,
+            trigger_slot,
+            released_after_span,
+        })
     }
 
     /// Run the shared INFER pipeline, dispatching to the correct forward path.
@@ -323,6 +444,36 @@ mod tests {
     fn dense_has_no_quantised_parts() {
         let (mut iw, _) = dense_fixture();
         assert!(iw.as_quantised_parts_mut().is_none());
+    }
+
+    #[test]
+    fn dense_patched_cached_generation_fails_explicitly() {
+        let (mut iw, tokenizer) = dense_fixture();
+        let patched = PatchedVindex::new(make_test_vindex(iw.as_weights()));
+        let error = iw
+            .generate_patched_cached(&tokenizer, &patched, &[0, 1], 1, &[])
+            .expect_err("dense weights cannot use quantised cached generation");
+        assert!(matches!(
+            error,
+            PatchedCachedGenerationError::RequiresQuantisedWeights
+        ));
+    }
+
+    #[test]
+    fn quantised_patched_cached_generation_uses_overlay_seam() {
+        let (mut iw, tokenizer) = quantised_fixture();
+        let source = match &iw {
+            InferenceWeights::Quantised { index, .. } => index.clone(),
+            InferenceWeights::Dense(_) => unreachable!(),
+        };
+        let patched = PatchedVindex::new(source);
+        let result = iw
+            .generate_patched_cached(&tokenizer, &patched, &[0, 1], 2, &[])
+            .expect("empty overlay still uses the generic cached seam");
+        assert_eq!(result.generated.len(), 2);
+        assert!(result.context_decisions.is_empty());
+        assert_eq!(result.trigger_slot, None);
+        assert!(!result.released_after_span);
     }
 
     #[test]

@@ -148,3 +148,43 @@ weakest positive remained `Lothlorien is led by` at relation margin
 relation margin `-1.4632454`. Negative runs stop after the first natural token:
 the contextual decision is sequence-fixed, a rejection exposes no payload row,
 and therefore no later token can arm that span.
+
+The orchestration is now exposed as
+`InferenceWeights::generate_patched_cached`. It discovers the persisted
+detectors, computes causal eligibility and live slot evidence, constructs the
+fail-closed overlay view, owns `ActiveSpan` for the request, and returns the
+generation evidence. The research harness calls this API rather than
+reassembling those steps. A real positive/negative smoke through the extracted
+seam reproduced the exact IDs, margins, trigger/rejection, and
+`all_passed=true` verdict above. Dense storage and unsupported cached
+architectures return explicit errors instead of silently falling back.
+
+## Capability boundary and extension order (2026-08-19)
+
+Weight representation and FFN topology are independent axes. In this ADR,
+`dense weights` must not be used as shorthand for a dense FFN architecture:
+the precise terms are **unquantised vs native-quantised storage**, and
+**dense vs hybrid-MoE vs pure-MoE FFN topology**.
+
+Current support is deliberately fail-closed:
+
+| Storage | FFN topology | Contextual cached generation |
+|---|---|---|
+| Native Q4K | Dense | Validated on Gemma 4 E4B |
+| Unquantised | Dense | Deferred; current API returns an explicit error |
+| Native Q4K | Hybrid or pure MoE | Deferred; cached gate rejects the architecture |
+| Unquantised | Hybrid or pure MoE | Deferred |
+
+The detector → conditional payload → continuation protocol remains reusable
+across every row. The payload implementation does not. For an unquantised
+dense model, a dense exact-row overlay backend can reuse the same protocol.
+For a hybrid MoE, the likely seam is the existing MoE-aware KV engine: apply
+the overlay to the dense `h1` slab while preserving router and expert `h2`
+dispatch. A pure MoE has no guaranteed global dense row corresponding to the
+current payload; supporting it requires a schema/compiler decision between an
+expert-local edit, a router edit, or a residual adapter.
+
+Implementation order is therefore: finish the Q4K dense production seam;
+prove unquantised semantic parity on a small fixture; add hybrid-MoE through
+the existing `LocalMoeFfn`/`RemoteMoeFfn` hook; defer pure-MoE payload design
+until a discriminating experiment selects its edit coordinate.

@@ -220,7 +220,8 @@ pub use forward::{
     predict, predict_from_hidden, predict_with_ffn, predict_with_ffn_attention,
     predict_with_router, predict_with_strategy, run_memit, run_memit_with_target_opt,
     trace_forward, trace_forward_full, walk_trace_from_residuals, InferenceWeights, KnnOverride,
-    KnnRouteMode, LayerAttentionCapture, MemitFact, MemitResult, PredictResult, TargetDeltaOpts,
+    KnnRouteMode, LayerAttentionCapture, MemitFact, MemitResult, PatchedCachedGenerationError,
+    PatchedCachedGenerationResult, PredictResult, TargetDeltaOpts,
 };
 // Crate-root layer_graph re-exports — kept for any name with external use
 // OR in-crate examples/tests/benches that import via the root. Truly-unused

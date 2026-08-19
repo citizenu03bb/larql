@@ -612,7 +612,6 @@ fn run_cached_phase(
     prompt: &str,
     target_ids: &[u32],
     span_specs: &[larql_inference::active_span::ActiveSpanSpec],
-    context_detectors: &[ContextDetectorSpec],
     phase: &'static str,
     max_tokens: usize,
 ) -> Result<CachedSpanSummary, AnyError> {
@@ -620,51 +619,17 @@ fn run_cached_phase(
         return Err("cached patch E2E currently requires a quantised vindex".into());
     }
     let prompt_ids = prompt_tokens(tokenizer, inference_weights, prompt)?;
-    let first_target = *target_ids.first().ok_or("target has no token IDs")?;
-
-    // One causal patched prefill supplies the frozen detector decision and the
-    // effective activation evidence. The cached generator then recomputes its
-    // own prefill through the exact row-overlay adapter and must independently
-    // select the same natural first token before ActiveSpan can arm.
-    let evidence = infer_step(
-        session,
-        inference_weights,
-        tokenizer,
-        &prompt_ids,
-        first_target,
-        phase,
-        0,
-        false,
-        context_detectors,
-    )?;
-    let allowed_slots: Vec<_> = evidence
-        .context_decisions
-        .iter()
-        .filter(|decision| decision.allowed)
-        .map(|decision| (decision.payload.layer, decision.payload.feature))
-        .collect();
-    let context_decisions = evidence.context_decisions.clone();
-    let mut constraint = larql_inference::active_span::ActiveSpanConstraint::new(
-        span_specs.to_vec(),
-        evidence.patch_activations,
-    );
-
     let patched = session
         .patched_overlay()
         .ok_or("session has no vindex overlay")?;
-    let (weights, source) = inference_weights
-        .as_quantised_parts_mut()
-        .ok_or("quantised weights disappeared")?;
-    let view = larql_vindex::PatchedKvIndexView::new(source, patched, allowed_slots)?;
-    let generated = larql_inference::vindex::generate_kquant_cpu_constrained_cached_index(
-        weights,
+    let result = inference_weights.generate_patched_cached(
         tokenizer,
+        patched,
         &prompt_ids,
         max_tokens,
-        &view,
-        |generated, logits| constraint.apply(generated, logits),
-    )
-    .ok_or("architecture does not support cached Q4K decode")?;
+        span_specs,
+    )?;
+    let generated = result.generated;
     let generated_ids: Vec<_> = generated.iter().map(|(_, id)| *id).collect();
     let generated_tokens: Vec<_> = generated.into_iter().map(|(token, _)| token).collect();
     let emitted_exact_span = generated_ids.get(..target_ids.len()) == Some(target_ids);
@@ -675,11 +640,11 @@ fn run_cached_phase(
         target_ids: target_ids.to_vec(),
         first_token_hit: generated_ids.first() == target_ids.first(),
         emitted_exact_span,
-        released_after_span: emitted_exact_span && constraint.active_slot().is_none(),
-        trigger_slot: constraint.triggered_slot(),
+        released_after_span: emitted_exact_span && result.released_after_span,
+        trigger_slot: result.trigger_slot,
         generated_ids,
         generated_tokens,
-        context_decisions,
+        context_decisions: result.context_decisions,
     })
 }
 
@@ -1154,7 +1119,6 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                 prompt,
                 target_ids,
                 &span_specs,
-                &context_detectors,
                 "cached_positive",
                 target_ids.len() + 1,
             )?;
@@ -1173,7 +1137,6 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                 &control.prompt,
                 target_ids,
                 &span_specs,
-                &context_detectors,
                 "cached_negative",
                 if options.cached_smoke {
                     target_ids.len() + 1
