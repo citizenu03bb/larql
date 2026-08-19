@@ -28,6 +28,7 @@ larql> INFER "The capital of France is" TOP 3;
 
 ## Table of Contents
 
+- [Research prototype: contextual multi-token editing](#research-prototype-contextual-multi-token-editing)
 - [Quick Start](#quick-start)
     - [Serve it over HTTP + gRPC](#serve-it-over-http--grpc)
     - [Run attention locally, FFN on another machine](#run-attention-locally-ffn-on-another-machine)
@@ -64,6 +65,24 @@ larql> INFER "The capital of France is" TOP 3;
 - [Building & Testing](#building--testing)
     - [Cross-engine correctness check](#cross-engine-correctness-check)
 - [License](#license)
+
+---
+
+## Research prototype: contextual multi-token editing
+
+This branch contains an experimental, model-bound extension for contextual
+multi-token edits. It combines a persisted residual-stream detector, a
+conditional exact-row FFN overlay, and a generation-time continuation state
+machine. On a bound Q4K vindex extracted from `google/gemma-4-E4B-it`, the
+frozen cached validation passed 4/4 positive prompts and 12/12 factorial
+controls.
+
+The result is a research prototype, not a claim of portable model editing or
+an upstream-ready LARQL feature. Start with the
+[research overview](docs/research-contextual-multitoken-editing.md) for the
+mechanism, evidence, limitations, source map, and reproduction commands. The
+full design contract and experimental record live in
+[ADR 0027](docs/adr/0027-model-bound-contextual-multitoken-patches.md).
 
 ---
 
