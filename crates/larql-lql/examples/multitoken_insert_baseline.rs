@@ -615,14 +615,11 @@ fn run_cached_phase(
     phase: &'static str,
     max_tokens: usize,
 ) -> Result<CachedSpanSummary, AnyError> {
-    if !inference_weights.is_quantised() {
-        return Err("cached patch E2E currently requires a quantised vindex".into());
-    }
     let prompt_ids = prompt_tokens(tokenizer, inference_weights, prompt)?;
     let patched = session
         .patched_overlay()
         .ok_or("session has no vindex overlay")?;
-    let result = inference_weights.generate_patched_cached(
+    let result = inference_weights.generate_patched(
         tokenizer,
         patched,
         &prompt_ids,

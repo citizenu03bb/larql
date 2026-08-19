@@ -146,6 +146,7 @@ pub struct WalkFfn<'a> {
     pub backend: Option<&'a dyn ComputeBackend>,
     context_detectors: Vec<ContextDetectorSpec>,
     context_decisions: std::cell::RefCell<std::collections::HashMap<PatchSlotId, ContextDecision>>,
+    context_decisions_frozen: bool,
     trace_residuals: std::cell::RefCell<Vec<(usize, Vec<f32>)>>,
     /// Optional research trace of every sequence position at each pre-FFN
     /// layer input. Disabled on every production constructor unless
@@ -291,7 +292,7 @@ impl<'a> WalkFfn<'a> {
     }
 
     fn evaluate_context_detectors(&self, layer: usize, x: &Array2<f32>) {
-        if self.context_detectors.is_empty() {
+        if self.context_detectors.is_empty() || self.context_decisions_frozen {
             return;
         }
         let mut decisions = self.context_decisions.borrow_mut();

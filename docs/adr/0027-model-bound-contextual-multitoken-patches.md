@@ -149,15 +149,17 @@ relation margin `-1.4632454`. Negative runs stop after the first natural token:
 the contextual decision is sequence-fixed, a rejection exposes no payload row,
 and therefore no later token can arm that span.
 
-The orchestration is now exposed as
-`InferenceWeights::generate_patched_cached`. It discovers the persisted
-detectors, computes causal eligibility and live slot evidence, constructs the
-fail-closed overlay view, owns `ActiveSpan` for the request, and returns the
-generation evidence. The research harness calls this API rather than
-reassembling those steps. A real positive/negative smoke through the extracted
-seam reproduced the exact IDs, margins, trigger/rejection, and
-`all_passed=true` verdict above. Dense storage and unsupported cached
-architectures return explicit errors instead of silently falling back.
+The orchestration is exposed as `InferenceWeights::generate_patched`. It
+discovers the persisted detectors, computes causal eligibility and live slot
+evidence, owns `ActiveSpan` for the request, and returns the generation
+evidence. Native Q4K dispatches to the fail-closed cached overlay view; dense
+storage dispatches to a full-prefix uncached loop whose prefill decision stays
+frozen as generated tokens extend the context. The research harness calls this
+API rather than reassembling those steps. A real Q4K positive/negative smoke
+through the extracted seam reproduced the exact IDs, margins,
+trigger/rejection, and `all_passed=true` verdict above. Unsupported
+architecture/backend combinations return explicit errors instead of silently
+falling back.
 
 ## Capability boundary and extension order (2026-08-19)
 
@@ -168,10 +170,10 @@ the precise terms are **unquantised vs native-quantised storage**, and
 
 Current support is deliberately fail-closed:
 
-| Storage | FFN topology | Contextual cached generation |
+| Storage | FFN topology | Contextual patched generation |
 |---|---|---|
 | Native Q4K | Dense | Validated on Gemma 4 E4B |
-| Unquantised | Dense | Deferred; current API returns an explicit error |
+| Unquantised | Dense | Protocol validated on a synthetic exact-row fixture; real E4B scale deferred |
 | Native Q4K | Hybrid or pure MoE | Deferred; cached gate rejects the architecture |
 | Unquantised | Hybrid or pure MoE | Deferred |
 
@@ -184,7 +186,13 @@ dispatch. A pure MoE has no guaranteed global dense row corresponding to the
 current payload; supporting it requires a schema/compiler decision between an
 expert-local edit, a router edit, or a residual adapter.
 
-Implementation order is therefore: finish the Q4K dense production seam;
-prove unquantised semantic parity on a small fixture; add hybrid-MoE through
-the existing `LocalMoeFfn`/`RemoteMoeFfn` hook; defer pure-MoE payload design
-until a discriminating experiment selects its edit coordinate.
+The unquantised fixture step is complete: natural first-token selection, a
+live override event, exact continuation, release, a subsequent natural token,
+and frozen contextual decisions are covered. This proves protocol/backend
+parity, not that a full E4B F16 artifact fits comfortably on the local host.
+
+Implementation order is therefore: retain Q4K dense as the real-model
+acceptance path; run at most one bounded unquantised E4B confirmation when
+resources justify it; add hybrid-MoE through the existing
+`LocalMoeFfn`/`RemoteMoeFfn` hook; defer pure-MoE payload design until a
+discriminating experiment selects its edit coordinate.

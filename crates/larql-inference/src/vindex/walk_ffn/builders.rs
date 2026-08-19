@@ -30,6 +30,7 @@ impl<'a> WalkFfn<'a> {
                 .map(Into::into)
                 .collect(),
             context_decisions: std::cell::RefCell::new(std::collections::HashMap::new()),
+            context_decisions_frozen: false,
             trace_residuals: std::cell::RefCell::new(Vec::new()),
             trace_position_residuals: std::cell::RefCell::new(Vec::new()),
             record_position_trace: false,
@@ -112,6 +113,23 @@ impl<'a> WalkFfn<'a> {
         detectors: Vec<crate::context_detector::ContextDetectorSpec>,
     ) -> Self {
         self.context_detectors = detectors;
+        self
+    }
+
+    /// Reuse a sequence's prefill decisions without re-evaluating detectors
+    /// after generated tokens extend the context. Missing decisions remain
+    /// fail-closed through `context_payload_allowed`.
+    pub fn with_frozen_context_decisions(
+        mut self,
+        detectors: Vec<crate::context_detector::ContextDetectorSpec>,
+        decisions: Vec<crate::context_detector::ContextDecision>,
+    ) -> Self {
+        self.context_detectors = detectors;
+        *self.context_decisions.borrow_mut() = decisions
+            .into_iter()
+            .map(|decision| (decision.payload, decision))
+            .collect();
+        self.context_decisions_frozen = true;
         self
     }
 

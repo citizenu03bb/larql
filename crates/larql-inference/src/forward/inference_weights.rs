@@ -6,8 +6,9 @@
 //! `infer_patched` or `infer_patched_q4k` without the caller branching on
 //! `config.quant`.
 //!
-//! **Scope:** the INFER / INSERT KNN / EXPLAIN INFER pipeline. Specialised
-//! callers (bench, generation, Metal) keep their own explicit paths.
+//! **Scope:** the INFER / INSERT KNN / EXPLAIN INFER pipeline plus contextual
+//! patched generation across dense and native-quantised storage. Specialised
+//! callers (bench, unconstrained generation, Metal) keep explicit paths.
 
 use std::path::Path;
 
@@ -26,9 +27,10 @@ use crate::context_detector::ContextDetectorSpec;
 use crate::model::ModelWeights;
 
 use super::infer_patched::{
-    infer_patched, infer_patched_contextual, infer_patched_early_exit, infer_patched_q4k,
-    infer_patched_q4k_contextual, infer_patched_q4k_early_exit, infer_patched_q4k_with_positions,
-    infer_patched_with_positions, InferPatchedPositionResult, InferPatchedResult,
+    infer_patched, infer_patched_contextual, infer_patched_contextual_with_model_ids,
+    infer_patched_early_exit, infer_patched_q4k, infer_patched_q4k_contextual,
+    infer_patched_q4k_early_exit, infer_patched_q4k_with_positions, infer_patched_with_positions,
+    InferPatchedPositionResult, InferPatchedResult,
 };
 use super::predict::predict;
 use super::PredictResult;
@@ -48,17 +50,27 @@ pub enum InferenceWeights {
 }
 
 #[derive(Debug)]
-pub enum PatchedCachedGenerationError {
+pub enum PatchedGenerationError {
     RequiresQuantisedWeights,
+    RequiresDenseWeights,
+    EmptyPrompt,
+    NoModelToken,
     Overlay(VindexError),
     UnsupportedArchitecture,
 }
 
-impl std::fmt::Display for PatchedCachedGenerationError {
+impl std::fmt::Display for PatchedGenerationError {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::RequiresQuantisedWeights => {
                 formatter.write_str("patched cached generation requires quantised weights")
+            }
+            Self::RequiresDenseWeights => {
+                formatter.write_str("patched dense generation requires unquantised weights")
+            }
+            Self::EmptyPrompt => formatter.write_str("patched generation requires a prompt"),
+            Self::NoModelToken => {
+                formatter.write_str("patched generation produced no model-path token")
             }
             Self::Overlay(error) => write!(formatter, "invalid patched overlay: {error}"),
             Self::UnsupportedArchitecture => {
@@ -68,23 +80,48 @@ impl std::fmt::Display for PatchedCachedGenerationError {
     }
 }
 
-impl std::error::Error for PatchedCachedGenerationError {}
+impl std::error::Error for PatchedGenerationError {}
 
-impl From<VindexError> for PatchedCachedGenerationError {
+impl From<VindexError> for PatchedGenerationError {
     fn from(error: VindexError) -> Self {
         Self::Overlay(error)
     }
 }
 
 #[derive(Debug)]
-pub struct PatchedCachedGenerationResult {
+pub struct PatchedGenerationResult {
     pub generated: Vec<(String, u32)>,
     pub context_decisions: Vec<ContextDecision>,
     pub trigger_slot: Option<PatchSlotId>,
     pub released_after_span: bool,
 }
 
+/// Compatibility names retained for callers that adopted the initial Q4K-only
+/// seam before dense generation was added.
+pub type PatchedCachedGenerationError = PatchedGenerationError;
+pub type PatchedCachedGenerationResult = PatchedGenerationResult;
+
 impl InferenceWeights {
+    /// Generate through the best supported patched backend for the loaded
+    /// storage: cached decode for native quantisation, full-prefix uncached
+    /// decode for dense weights.
+    pub fn generate_patched(
+        &mut self,
+        tokenizer: &Tokenizer,
+        patched: &PatchedVindex,
+        prompt_ids: &[u32],
+        max_tokens: usize,
+        span_specs: &[ActiveSpanSpec],
+    ) -> Result<PatchedGenerationResult, PatchedGenerationError> {
+        if self.is_quantised() {
+            self.generate_patched_cached(tokenizer, patched, prompt_ids, max_tokens, span_specs)
+        } else {
+            self.generate_patched_dense_uncached(
+                tokenizer, patched, prompt_ids, max_tokens, span_specs,
+            )
+        }
+    }
+
     /// Load weights for the vindex at `path`, choosing the right artefacts
     /// based on `config.quant`. Returns `VindexError` on any I/O or parse
     /// failure so callers can map it to their own error type.
@@ -161,6 +198,17 @@ impl InferenceWeights {
         if !self.is_quantised() {
             return Err(PatchedCachedGenerationError::RequiresQuantisedWeights);
         }
+        if max_tokens == 0 {
+            return Ok(PatchedCachedGenerationResult {
+                generated: Vec::new(),
+                context_decisions: Vec::new(),
+                trigger_slot: None,
+                released_after_span: false,
+            });
+        }
+        if prompt_ids.is_empty() {
+            return Err(PatchedCachedGenerationError::EmptyPrompt);
+        }
 
         let detectors: Vec<ContextDetectorSpec> = patched
             .context_detectors()
@@ -210,6 +258,122 @@ impl InferenceWeights {
             |generated, logits| constraint.apply(generated, logits),
         )
         .ok_or(PatchedCachedGenerationError::UnsupportedArchitecture)?;
+        let generated_ids: Vec<_> = generated.iter().map(|(_, id)| *id).collect();
+        let mut final_probe = vec![0.0; weights.vocab_size];
+        constraint.apply(&generated_ids, &mut final_probe);
+        let trigger_slot = constraint.triggered_slot();
+        let released_after_span = trigger_slot.is_some() && constraint.active_slot().is_none();
+
+        Ok(PatchedCachedGenerationResult {
+            generated,
+            context_decisions,
+            trigger_slot,
+            released_after_span,
+        })
+    }
+
+    /// Uncached dense counterpart of [`Self::generate_patched_cached`].
+    ///
+    /// The initial patched prefill fixes contextual eligibility and live slot
+    /// evidence for the whole sequence. Exact continuation tokens do not need
+    /// a redundant forward; once the span releases, subsequent natural tokens
+    /// use full dense forwards with the original decisions frozen.
+    pub fn generate_patched_dense_uncached(
+        &mut self,
+        tokenizer: &Tokenizer,
+        patched: &PatchedVindex,
+        prompt_ids: &[u32],
+        max_tokens: usize,
+        span_specs: &[ActiveSpanSpec],
+    ) -> Result<PatchedCachedGenerationResult, PatchedCachedGenerationError> {
+        let Self::Dense(weights) = self else {
+            return Err(PatchedCachedGenerationError::RequiresDenseWeights);
+        };
+        if max_tokens == 0 {
+            return Ok(PatchedCachedGenerationResult {
+                generated: Vec::new(),
+                context_decisions: Vec::new(),
+                trigger_slot: None,
+                released_after_span: false,
+            });
+        }
+        if prompt_ids.is_empty() {
+            return Err(PatchedCachedGenerationError::EmptyPrompt);
+        }
+
+        let detectors: Vec<ContextDetectorSpec> = patched
+            .context_detectors()
+            .into_iter()
+            .map(Into::into)
+            .collect();
+        let (evidence, first_model_ids) = infer_patched_contextual_with_model_ids(
+            weights, tokenizer, patched, prompt_ids, 1, &detectors, None,
+        );
+        let mut events = patch_activation_events(weights, patched, &evidence.infer.residuals);
+        events.retain(|event| {
+            let Some(_) = detectors.iter().find(|spec| spec.payload == event.slot) else {
+                return true;
+            };
+            evidence
+                .context_decisions
+                .iter()
+                .find(|decision| decision.payload == event.slot)
+                .is_some_and(|decision| decision.allowed)
+        });
+
+        let context_decisions = evidence.context_decisions;
+        let first_id = first_model_ids
+            .first()
+            .copied()
+            .ok_or(PatchedCachedGenerationError::NoModelToken)?;
+        let mut constraint = ActiveSpanConstraint::new(span_specs.to_vec(), events);
+        let mut generated_ids = Vec::with_capacity(max_tokens);
+        let mut full_ids = prompt_ids.to_vec();
+        let mut generated = Vec::with_capacity(max_tokens);
+        let eos = crate::layer_graph::EosConfig::builtin();
+
+        for step in 0..max_tokens {
+            let id = if step == 0 {
+                first_id
+            } else {
+                let mut mask_probe = vec![0.0; weights.vocab_size];
+                constraint.apply(&generated_ids, &mut mask_probe);
+                if constraint.active_slot().is_some() {
+                    mask_probe
+                        .iter()
+                        .position(|logit| logit.is_finite())
+                        .map(|id| id as u32)
+                        .ok_or(PatchedCachedGenerationError::NoModelToken)?
+                } else {
+                    let (_, next_model_ids) = infer_patched_contextual_with_model_ids(
+                        weights,
+                        tokenizer,
+                        patched,
+                        &full_ids,
+                        1,
+                        &detectors,
+                        Some(&context_decisions),
+                    );
+                    next_model_ids
+                        .first()
+                        .copied()
+                        .ok_or(PatchedCachedGenerationError::NoModelToken)?
+                }
+            };
+            let token = tokenizer.decode(&[id], true).unwrap_or_default();
+            let stop = eos.is_eos_with_tokenizer(id, &token, tokenizer);
+            generated.push((token, id));
+            generated_ids.push(id);
+            full_ids.push(id);
+            if stop {
+                break;
+            }
+        }
+
+        // Observe the final token before returning so request-local span state
+        // is released even when max_tokens ends exactly on the target.
+        let mut final_probe = vec![0.0; weights.vocab_size];
+        constraint.apply(&generated_ids, &mut final_probe);
         let trigger_slot = constraint.triggered_slot();
         let released_after_span = trigger_slot.is_some() && constraint.active_slot().is_none();
 
@@ -367,7 +531,7 @@ mod tests {
         make_test_q4k_vindex, make_test_q4k_weights, make_test_tokenizer, make_test_vindex,
         make_test_weights, write_synthetic_model_dir,
     };
-    use larql_vindex::{load_vindex_config, SilentLoadCallbacks};
+    use larql_vindex::{load_vindex_config, FeatureMeta, SilentLoadCallbacks};
 
     fn dense_fixture() -> (InferenceWeights, tokenizers::Tokenizer) {
         let weights = make_test_weights();
@@ -460,6 +624,79 @@ mod tests {
     }
 
     #[test]
+    fn quantised_patched_dense_generation_fails_explicitly() {
+        let (mut iw, tokenizer) = quantised_fixture();
+        let source = match &iw {
+            InferenceWeights::Quantised { index, .. } => index.clone(),
+            InferenceWeights::Dense(_) => unreachable!(),
+        };
+        let patched = PatchedVindex::new(source);
+        let error = iw
+            .generate_patched_dense_uncached(&tokenizer, &patched, &[0, 1], 1, &[])
+            .expect_err("quantised weights cannot use dense generation");
+        assert!(matches!(
+            error,
+            PatchedCachedGenerationError::RequiresDenseWeights
+        ));
+    }
+
+    #[test]
+    fn dense_patched_generation_emits_and_releases_exact_span() {
+        let (mut iw, tokenizer) = dense_fixture();
+        let base = make_test_vindex(iw.as_weights());
+        let baseline = iw.infer_patched(
+            &tokenizer,
+            &base,
+            None,
+            &[0, 1],
+            1,
+            &crate::forward::KnnRouteMode::Legacy,
+        );
+        let layer = 0;
+        let feature = 3;
+        let residual = baseline
+            .residuals
+            .iter()
+            .find(|(candidate, _)| *candidate == layer)
+            .map(|(_, residual)| residual.clone())
+            .expect("layer-zero residual");
+
+        let mut patched = PatchedVindex::new(base);
+        patched.insert_feature(
+            layer,
+            feature,
+            residual.clone(),
+            FeatureMeta {
+                top_token: "target".into(),
+                top_token_id: 0,
+                c_score: 1.0,
+                top_k: Vec::new(),
+            },
+        );
+        patched.set_up_vector(layer, feature, residual);
+        patched.set_down_vector(layer, feature, vec![0.01; iw.as_weights().hidden_size]);
+
+        let natural = iw
+            .generate_patched_dense_uncached(&tokenizer, &patched, &[0, 1], 1, &[])
+            .expect("dense natural first token");
+        let first = natural.generated[0].1;
+        let forced = (first + 1) % iw.as_weights().vocab_size as u32;
+        let spec = ActiveSpanSpec {
+            slot: PatchSlotId { layer, feature },
+            target_ids: vec![first, forced],
+        };
+
+        let result = iw
+            .generate_patched(&tokenizer, &patched, &[0, 1], 3, &[spec])
+            .expect("backend-neutral dense exact span generation");
+        let ids: Vec<_> = result.generated.iter().map(|(_, id)| *id).collect();
+        assert_eq!(&ids[..2], &[first, forced]);
+        assert_eq!(result.trigger_slot, Some(PatchSlotId { layer, feature }));
+        assert!(result.released_after_span);
+        assert!(result.context_decisions.is_empty());
+    }
+
+    #[test]
     fn quantised_patched_cached_generation_uses_overlay_seam() {
         let (mut iw, tokenizer) = quantised_fixture();
         let source = match &iw {
@@ -468,8 +705,8 @@ mod tests {
         };
         let patched = PatchedVindex::new(source);
         let result = iw
-            .generate_patched_cached(&tokenizer, &patched, &[0, 1], 2, &[])
-            .expect("empty overlay still uses the generic cached seam");
+            .generate_patched(&tokenizer, &patched, &[0, 1], 2, &[])
+            .expect("generic dispatch selects the cached overlay seam");
         assert_eq!(result.generated.len(), 2);
         assert!(result.context_decisions.is_empty());
         assert_eq!(result.trigger_slot, None);

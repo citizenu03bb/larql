@@ -100,7 +100,7 @@ impl ActiveSpanConstraint {
 
     /// Consume newly generated IDs and mask the next pick when a span remains
     /// active. Safe if a generator repeats a callback without adding a token.
-    pub fn apply(&mut self, generated_ids: &[u32], logits: &mut Vec<f32>) {
+    pub fn apply(&mut self, generated_ids: &[u32], logits: &mut [f32]) {
         while self.observed_generated < generated_ids.len() {
             let token_id = generated_ids[self.observed_generated];
             if self.observed_generated == 0 {

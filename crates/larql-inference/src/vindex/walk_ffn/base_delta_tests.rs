@@ -10,7 +10,7 @@ use ndarray::Array2;
 
 use super::observe::Observe;
 use crate::active_span::PatchSlotId;
-use crate::context_detector::{ContextDetectorSpec, ContextRepresentation};
+use crate::context_detector::{ContextDecision, ContextDetectorSpec, ContextRepresentation};
 use crate::ffn::{FfnActivations, FfnBackend};
 use crate::test_utils::{attach_down_features_q4k_to_test_vindex, make_test_q4k_weights};
 use crate::vindex::WalkFfn;
@@ -233,6 +233,45 @@ fn base_delta_context_rejection_is_exact_base_and_acceptance_applies_patch() {
     let accepted = accepting.context_decisions();
     assert_eq!(accepted.len(), 1);
     assert!(accepted[0].allowed);
+}
+
+#[test]
+fn frozen_context_decision_is_not_recomputed_on_extended_context() {
+    let (weights, inner) = fixture();
+    let hidden = weights.hidden_size;
+    let feat = 1usize;
+    let input = x(2, hidden);
+    let patched = PatchedQ4kIndex {
+        inner: &inner,
+        slots: vec![OverrideSlot {
+            feature: feat,
+            tombstoned: false,
+        }],
+        gate_ov: None,
+        up_ov: None,
+        down_ov: Some((feat, vec![0.5; hidden])),
+    };
+    let unconditional = WalkFfn::new_unlimited(&weights, &patched).forward(0, &input);
+    let payload = PatchSlotId {
+        layer: 0,
+        feature: feat,
+    };
+    let frozen_allowed = ContextDecision {
+        payload,
+        detector_layer: 0,
+        entity_margin: 1.0,
+        relation_margin: 1.0,
+        allowed: true,
+    };
+
+    // This detector would reject the current matrix if evaluated. The prefill
+    // decision must remain authoritative after generation extends the prompt.
+    let frozen = WalkFfn::new_unlimited(&weights, &patched).with_frozen_context_decisions(
+        vec![contextual_spec(hidden, feat, false)],
+        vec![frozen_allowed],
+    );
+    assert_eq!(frozen.forward(0, &input), unconditional);
+    assert!(frozen.context_decisions()[0].allowed);
 }
 
 /// Down-only override: activations are untouched (the slot's a_new

@@ -137,7 +137,9 @@ pub fn infer_patched(
         route_mode,
         false,
         &[],
+        None,
     )
+    .0
     .infer
 }
 
@@ -162,7 +164,9 @@ pub fn infer_patched_with_positions(
         route_mode,
         true,
         &[],
+        None,
     )
+    .0
 }
 
 /// Run a patched forward with model-bound contextual payload eligibility.
@@ -180,6 +184,35 @@ pub fn infer_patched_contextual(
 ) -> InferPatchedPositionResult {
     infer_patched_impl(
         weights, tokenizer, gate_index, knn_store, token_ids, top_k, route_mode, false, detectors,
+        None,
+    )
+    .0
+}
+
+/// Dense contextual forward retaining raw model token IDs for generation.
+/// Optional prefill decisions preserve fail-closed payload visibility while
+/// an uncached autoregressive loop extends the prompt.
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn infer_patched_contextual_with_model_ids(
+    weights: &ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    token_ids: &[u32],
+    top_k: usize,
+    detectors: &[ContextDetectorSpec],
+    decisions: Option<&[ContextDecision]>,
+) -> (InferPatchedPositionResult, Vec<u32>) {
+    infer_patched_impl(
+        weights,
+        tokenizer,
+        gate_index,
+        None,
+        token_ids,
+        top_k,
+        &KnnRouteMode::Legacy,
+        false,
+        detectors,
+        decisions,
     )
 }
 
@@ -194,19 +227,23 @@ fn infer_patched_impl(
     route_mode: &KnnRouteMode,
     capture_positions: bool,
     detectors: &[ContextDetectorSpec],
-) -> InferPatchedPositionResult {
+    frozen_decisions: Option<&[ContextDecision]>,
+) -> (InferPatchedPositionResult, Vec<u32>) {
     let mut walk_ffn = if capture_positions {
         WalkFfn::new_unlimited(weights, gate_index).with_position_trace()
     } else {
         WalkFfn::new_unlimited_with_trace(weights, gate_index)
     };
-    if !detectors.is_empty() {
+    if let Some(decisions) = frozen_decisions {
+        walk_ffn = walk_ffn.with_frozen_context_decisions(detectors.to_vec(), decisions.to_vec());
+    } else if !detectors.is_empty() {
         walk_ffn = walk_ffn.with_context_detectors(detectors.to_vec());
     }
 
     let start = std::time::Instant::now();
     let PredictResult {
-        predictions: raw, ..
+        predictions: raw,
+        token_ids: model_token_ids,
     } = predict_with_ffn(weights, tokenizer, token_ids, top_k, &walk_ffn);
     let walk_ms = start.elapsed().as_secs_f64() * 1000.0;
 
@@ -216,17 +253,20 @@ fn infer_patched_impl(
         raw, &residuals, knn_store, top_k, route_mode, tokenizer, token_ids,
     );
 
-    InferPatchedPositionResult {
-        position_residuals: walk_ffn.take_position_residuals(),
-        context_decisions: walk_ffn.context_decisions(),
-        infer: InferPatchedResult {
-            predictions,
-            model_top1,
-            knn_override,
-            residuals,
-            walk_ms,
+    (
+        InferPatchedPositionResult {
+            position_residuals: walk_ffn.take_position_residuals(),
+            context_decisions: walk_ffn.context_decisions(),
+            infer: InferPatchedResult {
+                predictions,
+                model_top1,
+                knn_override,
+                residuals,
+                walk_ms,
+            },
         },
-    }
+        model_token_ids,
+    )
 }
 
 /// **Early-exit** variant of `infer_patched` (FR retrieval-augmented early

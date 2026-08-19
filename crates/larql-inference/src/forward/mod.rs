@@ -64,6 +64,7 @@ pub use infer_patched::{
 };
 pub use inference_weights::{
     InferenceWeights, PatchedCachedGenerationError, PatchedCachedGenerationResult,
+    PatchedGenerationError, PatchedGenerationResult,
 };
 pub use layer::{run_attention_public, run_ffn, run_layer_with_capture_hooked, run_layer_with_ffn};
 pub use layer_interventions::{
