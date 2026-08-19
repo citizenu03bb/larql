@@ -1,0 +1,89 @@
+{
+  "facts": [
+    {
+      "entity": "Lothlorien",
+      "relation": "queen",
+      "target": "Galadriel",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Lothlorien's queen is",
+        "Lothlorien is led by",
+        "The leader governing Lothlorien is"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "entity-only-poet-is",
+      "prompt": "The poet of Lothlorien is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "entity-only-mapped-by",
+      "prompt": "Lothlorien was mapped by",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "entity-only-currency-is",
+      "prompt": "The currency used in Lothlorien is",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "entity-only-mountains-are",
+      "prompt": "The mountains surrounding Lothlorien are",
+      "cell": "10",
+      "fold": 3
+    },
+    {
+      "name": "relation-only-arendelle-is",
+      "prompt": "The queen of Arendelle is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "relation-only-neverland-by",
+      "prompt": "Neverland is led by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "relation-only-dune-leader-is",
+      "prompt": "The leader governing Dune is",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "relation-only-asgard-ruler-is",
+      "prompt": "The ruler of Asgard is",
+      "cell": "01",
+      "fold": 3
+    },
+    {
+      "name": "neither-numenor-poet-is",
+      "prompt": "The poet of Numenor is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "neither-pandora-mapped-by",
+      "prompt": "Pandora was mapped by",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "neither-genovia-currency-is",
+      "prompt": "The currency used in Genovia is",
+      "cell": "00",
+      "fold": 2
+    },
+    {
+      "name": "neither-mordor-mountains-are",
+      "prompt": "The mountains surrounding Mordor are",
+      "cell": "00",
+      "fold": 3
+    }
+  ]
+}

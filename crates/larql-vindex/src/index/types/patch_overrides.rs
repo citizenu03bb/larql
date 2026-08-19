@@ -49,6 +49,11 @@ pub trait PatchOverrides: Send + Sync {
     fn override_slots_at(&self, _layer: usize) -> Option<Vec<OverrideSlot>> {
         None
     }
+    /// Model-bound contextual detectors resolved from applied patches.
+    /// Empty for ordinary indexes and legacy patches.
+    fn context_detectors(&self) -> Vec<crate::patch::ResolvedPatchContextDetector> {
+        Vec::new()
+    }
 }
 
 #[cfg(test)]
@@ -72,6 +77,7 @@ mod tests {
             "default must decline enumeration — point-query-only mocks \
              cannot promise an exhaustive patch set"
         );
+        assert!(n.context_detectors().is_empty());
     }
 
     #[test]

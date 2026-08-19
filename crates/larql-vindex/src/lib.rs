@@ -108,9 +108,13 @@ pub use format::weights::{
 };
 
 // Patch
-pub use patch::core::{PatchOp, PatchedVindex, VindexPatch};
+pub use patch::core::{
+    PatchContextDetector, PatchContextRepresentation, PatchOp, PatchedVindex,
+    ResolvedPatchContextDetector, VindexPatch,
+};
 pub use patch::knn_store::{KnnEntry, KnnStore};
 pub use patch::refine::{refine_gates, RefineInput, RefineResult, RefinedGate};
+pub use patch::PatchedKvIndexView;
 
 // Trie probe (route classifier loaded from JSON)
 pub use trie::CascadeTrie;

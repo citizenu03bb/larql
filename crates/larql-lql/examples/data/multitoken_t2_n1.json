@@ -1,0 +1,19 @@
+{
+  "facts": [
+    {
+      "entity": "Atlantis",
+      "relation": "patron",
+      "target": "Poseidon",
+      "expected_tokens": 2,
+      "paraphrases": [
+        "Atlantis is protected by",
+        "The patron deity of Atlantis is"
+      ]
+    }
+  ],
+  "controls": [
+    { "name": "same-template-athens", "prompt": "The patron of Athens is" },
+    { "name": "near-semantics-atlantis-ruler", "prompt": "The ruler of Atlantis is" },
+    { "name": "unrelated-france", "prompt": "The capital of France is" }
+  ]
+}

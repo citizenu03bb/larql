@@ -144,6 +144,10 @@ impl PatchOverrides for PatchedVindex {
                 .collect(),
         )
     }
+
+    fn context_detectors(&self) -> Vec<crate::patch::ResolvedPatchContextDetector> {
+        PatchedVindex::context_detectors(self)
+    }
 }
 
 impl NativeFfnAccess for PatchedVindex {

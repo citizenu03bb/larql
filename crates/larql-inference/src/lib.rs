@@ -49,10 +49,12 @@
 ))]
 extern crate blas_src;
 
+pub mod active_span;
 pub mod async_compute_backend;
 pub mod attention;
 pub mod capture;
 pub mod chat;
+pub mod context_detector;
 pub mod decode_stages;
 pub mod error;
 pub mod experts;

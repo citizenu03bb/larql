@@ -41,7 +41,7 @@ use super::thresholds::GATHER_MIN_FEATURES;
 use super::WalkFfn;
 use crate::ffn::{FfnActivations, SparseActivations};
 use crate::vindex::walk_config::FeatureSelector;
-use larql_vindex::{FFN_DOWN, FFN_UP};
+use larql_vindex::{FFN_DOWN, FFN_GATE, FFN_UP};
 
 /// Dispatch-trace / per-position kernel label for the serial
 /// per-feature loop — single source for `trace_path` and the runtime
@@ -121,6 +121,12 @@ impl<'a> WalkFfn<'a> {
             || self.config.shortlist_m.is_some();
         let k_is_full =
             !selector_forces_walk && hits_len_ge_intermediate(&self.config, layer, intermediate);
+        // Below full-K, an overridden gate can displace another base feature
+        // before the serial loop gets a chance to suppress the override. Let
+        // the exact full-feature weights fallback handle this case instead.
+        if self.layer_has_context_rejection(layer) && !k_is_full {
+            return None;
+        }
         if !layer_has_overrides && is_gated && k_is_full {
             if let Some((gemv_out, act)) =
                 self.sparse_full_k_gemv(layer, x, up_native, down_native, use_gelu, intermediate)
@@ -216,6 +222,7 @@ impl<'a> WalkFfn<'a> {
 
             // Serial per-feature loop — the correctness baseline.
             for (feat, gate_score) in hits {
+                let payload_rejected = self.context_payload_allowed(layer, feat) == Some(false);
                 // `(activation, gate-position score, up score)` — the
                 // scores are recorded alongside the activation so the
                 // runtime trace reports the EXECUTED projections
@@ -223,8 +230,15 @@ impl<'a> WalkFfn<'a> {
                 // single projection: its post-bias value is the
                 // gate-position score, and there is no up score.
                 let (act, gate_obs, up_obs) = if is_gated {
+                    let gate_score = if payload_rejected {
+                        self.index.ffn_row_dot(layer, FFN_GATE, feat, x_slice)?
+                    } else {
+                        gate_score
+                    };
                     let up_ov = if layer_has_overrides {
-                        self.index.up_override(layer, feat)
+                        self.index
+                            .up_override(layer, feat)
+                            .filter(|_| !payload_rejected)
                     } else {
                         None
                     };
@@ -265,7 +279,9 @@ impl<'a> WalkFfn<'a> {
 
                 if act.abs() > activation_floor {
                     let down_ov = if layer_has_overrides {
-                        self.index.down_override(layer, feat)
+                        self.index
+                            .down_override(layer, feat)
+                            .filter(|_| !payload_rejected)
                     } else {
                         None
                     };

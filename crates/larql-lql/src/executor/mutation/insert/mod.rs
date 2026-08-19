@@ -120,6 +120,7 @@ impl Session {
                     canonical_prompt: canonical_prompt.clone(),
                     target: target.to_string(),
                     target_id: plan.target_id,
+                    target_ids: plan.target_ids.clone(),
                 });
             }
         }

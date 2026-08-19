@@ -750,17 +750,20 @@ mod tests {
         assert!(!supports_cached_decode(&weights));
     }
 
-    /// `supports_cached_decode` returns false on KV-sharing archs
-    /// (the e2b-like fixture has `num_kv_shared_layers: 2`) — covers
-    /// the `kv_shared_source_layer(layer).is_some()` early-return.
+    /// The staged cached path supports KV-sharing archs. The direct native
+    /// matvec path remains fail-closed until it can consume shared K/V too.
     #[test]
-    fn supports_cached_decode_rejects_kv_sharing_arch() {
+    fn cached_decode_accepts_kv_sharing_but_direct_declines_it() {
         let weights = larql_models::test_fixtures::make_synthetic_e2b_like_weights();
         // The synthetic E2B-like arch advertises KV sharing.
         let has_shared =
             (0..weights.num_layers).any(|l| weights.arch.kv_shared_source_layer(l).is_some());
         assert!(has_shared, "fixture must have KV sharing");
-        assert!(!supports_cached_decode(&weights));
+        assert!(supports_cached_decode(&weights));
+
+        struct EmptyIdx;
+        impl crate::KvIndex for EmptyIdx {}
+        assert!(!supports_direct_matvec_decode(&weights, &EmptyIdx));
     }
 
     /// `fused_prefill` Q4_0 fallback: when `interleaved_kquant_mmap_ref`

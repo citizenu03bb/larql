@@ -54,6 +54,142 @@ pub(crate) fn quant_proj(
     }
 }
 
+/// Recompute only patched pre-down feature activations on top of the dense
+/// base projection. The returned matrix is otherwise identical to `base`.
+pub(crate) fn apply_activation_overrides(
+    weights: &ModelWeights,
+    index: &dyn crate::KvIndex,
+    layer: usize,
+    x: &Array2<f32>,
+    gate: Option<&Array2<f32>>,
+    up: &Array2<f32>,
+    base: Array2<f32>,
+) -> Array2<f32> {
+    let Some(overrides) = index.ffn_row_overrides(layer) else {
+        return base;
+    };
+    if overrides.is_empty() {
+        return base;
+    }
+    let arch = &*weights.arch;
+    let gated = arch.ffn_type() == larql_models::FfnType::Gated;
+    let gelu = arch.activation().uses_gelu_tanh_gate_up();
+    let up_bias = (!gated)
+        .then(|| arch.ffn_up_bias_key(layer))
+        .flatten()
+        .and_then(|key| weights.vectors.get(&key));
+    let mut activation = base;
+
+    for row_override in overrides {
+        let feature = row_override.feature;
+        if feature >= activation.ncols() {
+            panic!("FFN overlay feature {feature} is outside layer {layer}");
+        }
+        for sequence in 0..x.nrows() {
+            if row_override.tombstoned {
+                activation[(sequence, feature)] = 0.0;
+                continue;
+            }
+            let x_row = x.row(sequence);
+            let dot_override = |vector: &[f32], component: &str| {
+                if vector.len() != x_row.len() {
+                    panic!(
+                        "FFN overlay {component} L{layer}/F{feature} has width {}, expected {}",
+                        vector.len(),
+                        x_row.len()
+                    );
+                }
+                x_row
+                    .iter()
+                    .zip(vector)
+                    .map(|(left, right)| left * right)
+                    .sum::<f32>()
+            };
+            let up_score = row_override
+                .up
+                .map(|vector| dot_override(vector, "up"))
+                .unwrap_or(up[(sequence, feature)]);
+            if gated {
+                let gate_score = row_override
+                    .gate
+                    .map(|vector| dot_override(vector, "gate"))
+                    .unwrap_or_else(|| {
+                        gate.expect("gated FFN overlay requires base gate projection")
+                            [(sequence, feature)]
+                    });
+                let activated_gate = if gelu {
+                    gelu_tanh(gate_score)
+                } else {
+                    gate_score * sigmoid(gate_score)
+                };
+                activation[(sequence, feature)] = activated_gate * up_score;
+            } else {
+                let biased = up_score
+                    + up_bias
+                        .and_then(|bias| bias.get(feature))
+                        .copied()
+                        .unwrap_or(0.0);
+                activation[(sequence, feature)] = if gelu {
+                    gelu_tanh(biased)
+                } else {
+                    biased * sigmoid(biased)
+                };
+            }
+        }
+    }
+    activation
+}
+
+/// Replace patched down rows after the base projection. The activation matrix
+/// already contains gate/up replacements, so only explicit down overrides
+/// need a base-row subtraction plus an override-row addition here.
+pub(crate) fn apply_down_overrides(
+    index: &dyn crate::KvIndex,
+    layer: usize,
+    activation: &Array2<f32>,
+    out: &mut Array2<f32>,
+) {
+    let Some(overrides) = index.ffn_row_overrides(layer) else {
+        return;
+    };
+    for row_override in overrides
+        .into_iter()
+        .filter(|row_override| !row_override.tombstoned)
+    {
+        let Some(down) = row_override.down else {
+            continue;
+        };
+        if down.len() != out.ncols() || row_override.feature >= activation.ncols() {
+            panic!(
+                "FFN overlay down L{layer}/F{} has invalid dimensions",
+                row_override.feature
+            );
+        }
+        for sequence in 0..out.nrows() {
+            let alpha = activation[(sequence, row_override.feature)];
+            let mut out_row_view = out.row_mut(sequence);
+            let out_row = out_row_view
+                .as_slice_mut()
+                .expect("FFN output row must be contiguous");
+            if !index.ffn_base_row_scaled_add(
+                layer,
+                crate::FFN_DOWN,
+                row_override.feature,
+                -alpha,
+                out_row,
+            ) {
+                panic!(
+                    "FFN overlay cannot read base down row L{layer}/F{}",
+                    row_override.feature
+                );
+            }
+            for (output, replacement) in out_row.iter_mut().zip(down) {
+                *output += alpha * replacement;
+            }
+        }
+    }
+}
+
 /// Dense FFN: follows the model architecture exactly (CPU BLAS).
 /// Gated: activation(x @ gate.T) * (x @ up.T) @ down.T + bias
 /// Non-gated: activation(x @ up.T + bias) @ down.T + bias
@@ -238,14 +374,15 @@ impl Q4kMatmulFfn<'_> {
         let (up_bytes, up_fmt) = ffn[1];
         let (down_bytes, down_fmt) = ffn[2];
 
-        let activation = if arch.ffn_type() == larql_models::FfnType::Gated {
+        let (gate, up, activation) = if arch.ffn_type() == larql_models::FfnType::Gated {
             let gate = Self::project(gate_bytes, gate_fmt, x, intermediate, hidden, seq);
             let up = Self::project(up_bytes, up_fmt, x, intermediate, hidden, seq);
-            if arch.activation().uses_gelu_tanh_gate_up() {
+            let base = if arch.activation().uses_gelu_tanh_gate_up() {
                 gelu_tanh_gate_up(&gate, &up)
             } else {
                 silu_gate_up(&gate, &up)
-            }
+            };
+            (Some(gate), up, base)
         } else {
             let mut projected = Self::project(up_bytes, up_fmt, x, intermediate, hidden, seq);
             if let Some(bias) = arch
@@ -254,15 +391,26 @@ impl Q4kMatmulFfn<'_> {
             {
                 add_bias(&mut projected, bias);
             }
-            if arch.activation().uses_gelu_tanh_gate_up() {
+            let base = if arch.activation().uses_gelu_tanh_gate_up() {
                 projected.mapv(gelu_tanh)
             } else {
                 projected.mapv(|v| v * sigmoid(v))
-            }
+            };
+            (None, projected, base)
         };
+        let activation = apply_activation_overrides(
+            self.weights,
+            self.index,
+            layer,
+            x,
+            gate.as_ref(),
+            &up,
+            activation,
+        );
 
         let mut out =
             Self::project_down(down_bytes, down_fmt, &activation, hidden, intermediate, seq);
+        apply_down_overrides(self.index, layer, &activation, &mut out);
         if let Some(bias) = arch
             .ffn_down_bias_key(layer)
             .and_then(|k| self.weights.vectors.get(&k))
@@ -634,6 +782,83 @@ mod tests {
         let (out, _) = dense_ffn_forward(WeightsView::dense(&weights), 0, &input);
         assert_eq!(out.shape(), &[2, weights.hidden_size]);
         assert!(out.iter().all(|v| v.is_finite()));
+    }
+
+    #[test]
+    fn row_overlay_replaces_gate_up_and_down_as_exact_base_delta() {
+        struct OverlayIndex {
+            gate: Vec<f32>,
+            up: Vec<f32>,
+            down: Vec<f32>,
+            base_down: Vec<f32>,
+        }
+        impl crate::KvIndex for OverlayIndex {
+            fn ffn_row_overrides(&self, _layer: usize) -> Option<Vec<crate::FfnRowOverride<'_>>> {
+                Some(vec![crate::FfnRowOverride {
+                    feature: 0,
+                    tombstoned: false,
+                    gate: Some(&self.gate),
+                    up: Some(&self.up),
+                    down: Some(&self.down),
+                }])
+            }
+
+            fn ffn_base_row_scaled_add(
+                &self,
+                _layer: usize,
+                component: usize,
+                _feature: usize,
+                alpha: f32,
+                out: &mut [f32],
+            ) -> bool {
+                if component != crate::FFN_DOWN || out.len() != self.base_down.len() {
+                    return false;
+                }
+                for (output, base) in out.iter_mut().zip(&self.base_down) {
+                    *output += alpha * base;
+                }
+                true
+            }
+        }
+
+        let weights = make_test_weights();
+        let hidden = weights.hidden_size;
+        let mut gate = vec![0.0; hidden];
+        let mut up = vec![0.0; hidden];
+        gate[0] = 1.0;
+        up[1] = 1.0;
+        let index = OverlayIndex {
+            gate,
+            up,
+            down: vec![3.0; hidden],
+            base_down: vec![1.0; hidden],
+        };
+        let mut input = Array2::<f32>::zeros((1, hidden));
+        input[(0, 0)] = 1.0;
+        input[(0, 1)] = 2.0;
+        let base_gate = Array2::<f32>::zeros((1, 1));
+        let base_up = Array2::<f32>::zeros((1, 1));
+        let base_activation = Array2::<f32>::zeros((1, 1));
+
+        let activation = apply_activation_overrides(
+            &weights,
+            &index,
+            0,
+            &input,
+            Some(&base_gate),
+            &base_up,
+            base_activation,
+        );
+        let expected_activation = 1.0 * super::sigmoid(1.0) * 2.0;
+        assert!((activation[(0, 0)] - expected_activation).abs() < 1e-6);
+
+        // Base projection with the patched activation, then exact row
+        // replacement: subtract activation*base_down and add activation*down.
+        let mut output = Array2::from_elem((1, hidden), expected_activation);
+        apply_down_overrides(&index, 0, &activation, &mut output);
+        assert!(output
+            .iter()
+            .all(|value| (*value - expected_activation * 3.0).abs() < 1e-6));
     }
 
     // ── q4k-direct FFN parity ──────────────────────────────────────────

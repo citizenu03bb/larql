@@ -20,6 +20,7 @@
 use larql_vindex::{GateIndex, KnnStore, PatchedVindex, VectorIndex, WalkHit};
 use tokenizers::Tokenizer;
 
+use crate::context_detector::{ContextDecision, ContextDetectorSpec};
 use crate::model::ModelWeights;
 use crate::vindex::WalkFfn;
 use crate::vindex::{predict_kquant_with_ffn, predict_kquant_with_ffn_early_exit};
@@ -100,6 +101,16 @@ pub struct InferPatchedResult {
     pub walk_ms: f64,
 }
 
+/// Opt-in research result carrying every pre-FFN sequence position. Standard
+/// INFER returns [`InferPatchedResult`] and never allocates this larger trace.
+pub struct InferPatchedPositionResult {
+    pub infer: InferPatchedResult,
+    /// `(layer, positions)` where each position is one hidden-size residual.
+    pub position_residuals: Vec<(usize, Vec<Vec<f32>>)>,
+    /// Contextual payload decisions made during this forward.
+    pub context_decisions: Vec<ContextDecision>,
+}
+
 /// Run a full forward pass with the walk FFN, consult the KnnStore for a
 /// possible top-1 override, and return the top-k predictions.
 ///
@@ -116,7 +127,82 @@ pub fn infer_patched(
     top_k: usize,
     route_mode: &KnnRouteMode,
 ) -> InferPatchedResult {
-    let walk_ffn = WalkFfn::new_unlimited_with_trace(weights, gate_index);
+    infer_patched_impl(
+        weights,
+        tokenizer,
+        gate_index,
+        knn_store,
+        token_ids,
+        top_k,
+        route_mode,
+        false,
+        &[],
+    )
+    .infer
+}
+
+/// Research-only twin of [`infer_patched`] that additionally retains every
+/// sequence position at every pre-FFN layer input.
+pub fn infer_patched_with_positions(
+    weights: &ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    knn_store: Option<&KnnStore>,
+    token_ids: &[u32],
+    top_k: usize,
+    route_mode: &KnnRouteMode,
+) -> InferPatchedPositionResult {
+    infer_patched_impl(
+        weights,
+        tokenizer,
+        gate_index,
+        knn_store,
+        token_ids,
+        top_k,
+        route_mode,
+        true,
+        &[],
+    )
+}
+
+/// Run a patched forward with model-bound contextual payload eligibility.
+/// Position tracing remains disabled; only the compact decisions are returned.
+#[allow(clippy::too_many_arguments)]
+pub fn infer_patched_contextual(
+    weights: &ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    knn_store: Option<&KnnStore>,
+    token_ids: &[u32],
+    top_k: usize,
+    route_mode: &KnnRouteMode,
+    detectors: &[ContextDetectorSpec],
+) -> InferPatchedPositionResult {
+    infer_patched_impl(
+        weights, tokenizer, gate_index, knn_store, token_ids, top_k, route_mode, false, detectors,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn infer_patched_impl(
+    weights: &ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    knn_store: Option<&KnnStore>,
+    token_ids: &[u32],
+    top_k: usize,
+    route_mode: &KnnRouteMode,
+    capture_positions: bool,
+    detectors: &[ContextDetectorSpec],
+) -> InferPatchedPositionResult {
+    let mut walk_ffn = if capture_positions {
+        WalkFfn::new_unlimited(weights, gate_index).with_position_trace()
+    } else {
+        WalkFfn::new_unlimited_with_trace(weights, gate_index)
+    };
+    if !detectors.is_empty() {
+        walk_ffn = walk_ffn.with_context_detectors(detectors.to_vec());
+    }
 
     let start = std::time::Instant::now();
     let PredictResult {
@@ -130,12 +216,16 @@ pub fn infer_patched(
         raw, &residuals, knn_store, top_k, route_mode, tokenizer, token_ids,
     );
 
-    InferPatchedResult {
-        predictions,
-        model_top1,
-        knn_override,
-        residuals,
-        walk_ms,
+    InferPatchedPositionResult {
+        position_residuals: walk_ffn.take_position_residuals(),
+        context_decisions: walk_ffn.context_decisions(),
+        infer: InferPatchedResult {
+            predictions,
+            model_top1,
+            knn_override,
+            residuals,
+            walk_ms,
+        },
     }
 }
 
@@ -232,12 +322,92 @@ pub fn infer_patched_q4k(
     index: &VectorIndex,
     route_mode: &KnnRouteMode,
 ) -> InferPatchedResult {
+    infer_patched_q4k_impl(
+        weights,
+        tokenizer,
+        gate_index,
+        knn_store,
+        token_ids,
+        top_k,
+        index,
+        route_mode,
+        false,
+        &[],
+    )
+    .infer
+}
+
+/// Research-only Q4K twin of [`infer_patched_q4k`] with all-position capture.
+#[allow(clippy::too_many_arguments)]
+pub fn infer_patched_q4k_with_positions(
+    weights: &mut ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    knn_store: Option<&KnnStore>,
+    token_ids: &[u32],
+    top_k: usize,
+    index: &VectorIndex,
+    route_mode: &KnnRouteMode,
+) -> InferPatchedPositionResult {
+    infer_patched_q4k_impl(
+        weights,
+        tokenizer,
+        gate_index,
+        knn_store,
+        token_ids,
+        top_k,
+        index,
+        route_mode,
+        true,
+        &[],
+    )
+}
+
+/// Q4K contextual twin of [`infer_patched_contextual`].
+#[allow(clippy::too_many_arguments)]
+pub fn infer_patched_q4k_contextual(
+    weights: &mut ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    knn_store: Option<&KnnStore>,
+    token_ids: &[u32],
+    top_k: usize,
+    index: &VectorIndex,
+    route_mode: &KnnRouteMode,
+    detectors: &[ContextDetectorSpec],
+) -> InferPatchedPositionResult {
+    infer_patched_q4k_impl(
+        weights, tokenizer, gate_index, knn_store, token_ids, top_k, index, route_mode, false,
+        detectors,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn infer_patched_q4k_impl(
+    weights: &mut ModelWeights,
+    tokenizer: &Tokenizer,
+    gate_index: &dyn GateIndex,
+    knn_store: Option<&KnnStore>,
+    token_ids: &[u32],
+    top_k: usize,
+    index: &VectorIndex,
+    route_mode: &KnnRouteMode,
+    capture_positions: bool,
+    detectors: &[ContextDetectorSpec],
+) -> InferPatchedPositionResult {
     // SAFETY: WalkFfn reads only `weights.arch` and `weights.vectors` (neither
     // of which is mutated by `predict_kquant_with_ffn`). The q4k forward pass
     // mutates only `weights.tensors` (inserting/removing per-layer attn matrices).
     // These are non-overlapping HashMap fields — the aliased read is sound.
     let weights_ref: &ModelWeights = unsafe { &*(weights as *const ModelWeights) };
-    let walk_ffn = WalkFfn::new_unlimited_with_trace(weights_ref, gate_index);
+    let mut walk_ffn = if capture_positions {
+        WalkFfn::new_unlimited(weights_ref, gate_index).with_position_trace()
+    } else {
+        WalkFfn::new_unlimited_with_trace(weights_ref, gate_index)
+    };
+    if !detectors.is_empty() {
+        walk_ffn = walk_ffn.with_context_detectors(detectors.to_vec());
+    }
 
     let start = std::time::Instant::now();
     // `WalkFfn` serves every layer locally and leaves `forward_moe_full_layer`
@@ -257,12 +427,16 @@ pub fn infer_patched_q4k(
         raw, &residuals, knn_store, top_k, route_mode, tokenizer, token_ids,
     );
 
-    InferPatchedResult {
-        predictions,
-        model_top1,
-        knn_override,
-        residuals,
-        walk_ms,
+    InferPatchedPositionResult {
+        position_residuals: walk_ffn.take_position_residuals(),
+        context_decisions: walk_ffn.context_decisions(),
+        infer: InferPatchedResult {
+            predictions,
+            model_top1,
+            knn_override,
+            residuals,
+            walk_ms,
+        },
     }
 }
 

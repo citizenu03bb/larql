@@ -31,6 +31,21 @@ pub const FFN_UP: usize = 1;
 /// a transpose to become feature-major like gate / up.
 pub const FFN_DOWN: usize = 2;
 
+/// One complete FFN row replacement exposed by an index overlay.
+///
+/// Gate/up are feature-major rows (`hidden` values). Down is the matching
+/// feature's output vector (`hidden` values), i.e. one column of the native
+/// `[hidden, intermediate]` matrix presented in feature-major form. Missing
+/// components retain the base row; a tombstone removes the feature entirely.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FfnRowOverride<'a> {
+    pub feature: usize,
+    pub tombstoned: bool,
+    pub gate: Option<&'a [f32]>,
+    pub up: Option<&'a [f32]>,
+    pub down: Option<&'a [f32]>,
+}
+
 /// Abstract surface that the kv-dispatch + Q4_K direct-decode paths
 /// need from a vindex. Implemented by `larql_vindex::VectorIndex`.
 ///
@@ -110,6 +125,32 @@ pub trait KvIndex: Send + Sync {
         None
     }
 
+    /// Exhaustive overlay rows for one layer. `None` means this index has no
+    /// overlay contract; `Some(vec![])` means it supports overlays but none are
+    /// active at this layer. Q4K paths use this to apply exact base+delta FFN
+    /// semantics without materialising whole patched matrices.
+    #[inline]
+    fn ffn_row_overrides(&self, layer: usize) -> Option<Vec<FfnRowOverride<'_>>> {
+        let _ = layer;
+        None
+    }
+
+    /// Add `alpha * base_row(layer, component, feature)` into `out`.
+    /// Required only when a down row is replaced, so the Q4K path can subtract
+    /// the original feature contribution before adding the override vector.
+    #[inline]
+    fn ffn_base_row_scaled_add(
+        &self,
+        layer: usize,
+        component: usize,
+        feature: usize,
+        alpha: f32,
+        out: &mut [f32],
+    ) -> bool {
+        let _ = (layer, component, feature, alpha, out);
+        false
+    }
+
     /// Vocabulary size — needed for the lm_head projection in the
     /// kquant_forward path.
     #[inline]
@@ -166,6 +207,8 @@ mod tests {
         assert!(idx.interleaved_kquant_layer_data(0).is_none());
         assert!(idx.interleaved_kquant_mmap_ref().is_none());
         assert!(idx.kquant_ffn_layer_once(0, 0).is_none());
+        assert!(idx.ffn_row_overrides(0).is_none());
+        assert!(!idx.ffn_base_row_scaled_add(0, FFN_DOWN, 0, 1.0, &mut [0.0]));
         assert_eq!(idx.vocab_size(), 0);
     }
 
@@ -266,6 +309,8 @@ mod tests {
         assert!(idx.interleaved_q4_mmap_ref().is_none());
         assert!(idx.kquant_ffn_layer_once(0, 0).is_none());
         assert!(idx.kquant_ffn_layer_once(3, 2).is_none());
+        assert!(idx.ffn_row_overrides(0).is_none());
+        assert!(!idx.ffn_base_row_scaled_add(0, FFN_DOWN, 0, 1.0, &mut [0.0]));
         assert_eq!(idx.vocab_size(), 0);
     }
 

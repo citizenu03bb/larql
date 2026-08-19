@@ -93,6 +93,9 @@ use observe::Observe;
 
 use larql_vindex::GateIndex;
 
+use crate::active_span::PatchSlotId;
+use crate::context_detector::{ContextDecision, ContextDetectorSpec};
+
 mod base_delta;
 mod builders;
 mod exact;
@@ -141,7 +144,14 @@ pub struct WalkFfn<'a> {
     pub index: &'a dyn GateIndex,
     pub config: WalkFfnConfig,
     pub backend: Option<&'a dyn ComputeBackend>,
+    context_detectors: Vec<ContextDetectorSpec>,
+    context_decisions: std::cell::RefCell<std::collections::HashMap<PatchSlotId, ContextDecision>>,
     trace_residuals: std::cell::RefCell<Vec<(usize, Vec<f32>)>>,
+    /// Optional research trace of every sequence position at each pre-FFN
+    /// layer input. Disabled on every production constructor unless
+    /// `with_position_trace` is requested explicitly.
+    trace_position_residuals: std::cell::RefCell<Vec<(usize, Vec<Vec<f32>>)>>,
+    record_position_trace: bool,
     record_trace: bool,
     /// Runtime trace sink (2026-07-30 review, item 17). Populated by
     /// `fold_runtime_trace` at every routing-ladder exit when
@@ -239,6 +249,63 @@ impl<'a> WalkFfn<'a> {
         self.trace_residuals.borrow_mut().drain(..).collect()
     }
 
+    /// Drain all-position pre-FFN residuals. Empty unless the walk was built
+    /// with `with_position_trace`; the standard INFER trace remains last-row
+    /// only and pays no extra allocation.
+    pub fn take_position_residuals(&self) -> Vec<(usize, Vec<Vec<f32>>)> {
+        self.trace_position_residuals
+            .borrow_mut()
+            .drain(..)
+            .collect()
+    }
+
+    /// Snapshot the decisions made during this forward, ordered by payload
+    /// slot for deterministic research output.
+    pub fn context_decisions(&self) -> Vec<ContextDecision> {
+        let mut decisions: Vec<_> = self.context_decisions.borrow().values().cloned().collect();
+        decisions.sort_by_key(|decision| (decision.payload.layer, decision.payload.feature));
+        decisions
+    }
+
+    /// `None` means the slot has no contextual detector. A configured slot
+    /// without a completed decision is rejected (fail closed).
+    pub(super) fn context_payload_allowed(&self, layer: usize, feature: usize) -> Option<bool> {
+        let payload = PatchSlotId { layer, feature };
+        if let Some(decision) = self.context_decisions.borrow().get(&payload) {
+            return Some(decision.allowed);
+        }
+        self.context_detectors
+            .iter()
+            .any(|spec| spec.payload == payload)
+            .then_some(false)
+    }
+
+    /// Whether this layer contains at least one contextual payload that must
+    /// currently behave as its unpatched base slot. Missing decisions count as
+    /// rejection, preserving the fail-closed contract.
+    pub(super) fn layer_has_context_rejection(&self, layer: usize) -> bool {
+        self.context_detectors
+            .iter()
+            .filter(|spec| spec.payload.layer == layer)
+            .any(|spec| self.context_payload_allowed(layer, spec.payload.feature) != Some(true))
+    }
+
+    fn evaluate_context_detectors(&self, layer: usize, x: &Array2<f32>) {
+        if self.context_detectors.is_empty() {
+            return;
+        }
+        let mut decisions = self.context_decisions.borrow_mut();
+        for spec in self
+            .context_detectors
+            .iter()
+            .filter(|spec| spec.detector_layer == layer)
+        {
+            if let Some(decision) = spec.evaluate(x) {
+                decisions.insert(spec.payload, decision);
+            }
+        }
+    }
+
     /// Non-draining snapshot of the residuals captured so far. Used by the
     /// early-exit path to inspect the stored-layer residuals at the resolved
     /// layer *mid-forward* (after layer L*, before the tail runs) without
@@ -318,7 +385,14 @@ impl<'a> WalkFfn<'a> {
         observe: Observe,
     ) -> (Array2<f32>, Option<FfnActivations>) {
         let top_k = self.top_k_for(layer);
-        let features = self.index.gate_knn_batch(layer, x, top_k);
+        // An overridden gate can perturb a top-K shortlist even after its
+        // vectors are filtered below. On contextual rejection, evaluate the
+        // full layer so the result is exactly the base FFN for rejected slots.
+        let features: Vec<usize> = if self.layer_has_context_rejection(layer) {
+            (0..self.index.num_features(layer)).collect()
+        } else {
+            self.index.gate_knn_batch(layer, x, top_k)
+        };
         let has_any_override = features.iter().any(|&f| {
             self.index.down_override(layer, f).is_some()
                 || self.index.up_override(layer, f).is_some()
@@ -333,6 +407,7 @@ impl<'a> WalkFfn<'a> {
                     up: self.index.up_override(layer, f),
                     down: self.index.down_override(layer, f),
                 })
+                .filter(|o| self.context_payload_allowed(layer, o.feature) != Some(false))
                 .filter(|o| o.gate.is_some() || o.up.is_some() || o.down.is_some())
                 .collect();
             self.trace_path(layer, "weights_fallback:override");
@@ -418,9 +493,16 @@ impl<'a> WalkFfn<'a> {
         let has_overrides = self.index.has_overrides_at(layer);
         let seq_len = x.shape()[0];
 
+        self.evaluate_context_detectors(layer, x);
+
         if num_features > 0 && self.record_trace {
             let last_row = x.row(seq_len - 1).to_vec();
             self.trace_residuals.borrow_mut().push((layer, last_row));
+            if self.record_position_trace {
+                self.trace_position_residuals
+                    .borrow_mut()
+                    .push((layer, x.outer_iter().map(|row| row.to_vec()).collect()));
+            }
         }
 
         // L1 cache probe — single-position, non-overridden layers only

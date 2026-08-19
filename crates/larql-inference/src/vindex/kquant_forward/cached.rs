@@ -1,11 +1,10 @@
-//! KV-cached CPU Q4_K decode — the `VectorIndex`-typed adapter over the
-//! substrate forward in [`larql_compute::kquant_forward`].
+//! KV-cached CPU Q4_K decode — the stable inference adapter over the substrate
+//! forward in [`larql_compute::kquant_forward`].
 //!
-//! Every function here coerces `&VectorIndex` to `&dyn larql_compute::KvIndex`
-//! and delegates: larql-compute owns the single implementation of the Q4_K CPU
-//! prefill/decode (ADR-0022), including the q4k-direct FFN prefill. This module
-//! exists only to keep a stable, `VectorIndex`-typed API and the local
-//! `CachedTimings` type for callers that hold a concrete `VectorIndex`.
+//! Every function accepts `&dyn larql_compute::KvIndex` and delegates:
+//! larql-compute owns the single implementation of the Q4_K CPU prefill/decode
+//! (ADR-0022), including q4k-direct FFN prefill. The trait boundary also admits
+//! fail-closed contextual overlay views without copying the base vindex.
 //!
 //! The unique, non-delegated Q4_K paths — `predict_kquant_hidden`, the OV/RD
 //! interventions, Metal, MoE, and streaming generation — live in the sibling
@@ -15,7 +14,6 @@
 
 use larql_compute::ComputeBackend;
 use larql_models::ModelWeights;
-use larql_vindex::VectorIndex;
 use ndarray::Array2;
 
 /// Per-layer K/V captured during prefill. One entry per layer; matches
@@ -37,11 +35,8 @@ impl CachedTimings {
     }
 }
 
-/// True if the cached decode loop can handle this model. False for
-/// hybrid-MoE (router/expert path runs through `run_moe_layer_cpu`)
-/// and for architectures with cross-layer KV sharing (the decode-step
-/// attention helper only knows the "this layer has its own K/V" case
-/// today).
+/// True if the cached decode loop can handle this model. Dense cross-layer
+/// K/V sharing is supported; MoE still routes through its dedicated engine.
 pub fn supports_cached_decode(weights: &ModelWeights) -> bool {
     larql_compute::kquant_forward::supports_cached_decode(weights)
 }
@@ -53,7 +48,7 @@ pub fn supports_cached_decode(weights: &ModelWeights) -> bool {
 pub fn predict_kquant_prefill(
     weights: &mut ModelWeights,
     token_ids: &[u32],
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
 ) -> (Array2<f32>, CpuKvCache, CachedTimings) {
     predict_kquant_prefill_with_state(weights, token_ids, index, None)
 }
@@ -69,7 +64,7 @@ pub fn predict_kquant_prefill(
 pub fn predict_kquant_prefill_with_state(
     weights: &ModelWeights,
     token_ids: &[u32],
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     state: Option<&mut crate::PerLayerDecodeState>,
 ) -> (Array2<f32>, CpuKvCache, CachedTimings) {
     // Delegate to the substrate copy in larql-compute — the single source of
@@ -77,10 +72,7 @@ pub fn predict_kquant_prefill_with_state(
     // `larql_compute::KvIndex`; the only impedance is `CachedTimings`, a
     // same-shape struct defined in each crate.
     let (h, cache, timings) = larql_compute::kquant_forward::predict_kquant_prefill_with_state(
-        weights,
-        token_ids,
-        index as &dyn larql_compute::KvIndex,
-        state,
+        weights, token_ids, index, state,
     );
     (
         h,
@@ -101,7 +93,7 @@ pub fn predict_kquant_prefill_with_state(
 pub fn predict_kquant_decode_step(
     weights: &ModelWeights,
     token_id: u32,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     cache: &mut CpuKvCache,
     abs_position: usize,
 ) -> Option<(Array2<f32>, CachedTimings)> {
@@ -110,7 +102,7 @@ pub fn predict_kquant_decode_step(
     larql_compute::kquant_forward::predict_kquant_decode_step(
         weights,
         token_id,
-        index as &dyn larql_compute::KvIndex,
+        index,
         cache,
         abs_position,
     )
@@ -145,58 +137,44 @@ impl CachedTimings {
 /// True when the whole model can run on the direct-matvec decode path.
 /// Same gating as [`supports_cached_decode`] plus a per-layer format
 /// check. Used by the bench labeler and as the cpu.rs routing key.
-pub fn supports_direct_matvec_decode(weights: &ModelWeights, index: &VectorIndex) -> bool {
-    larql_compute::kquant_forward::supports_direct_matvec_decode(
-        weights,
-        index as &dyn larql_compute::KvIndex,
-    )
+pub fn supports_direct_matvec_decode(
+    weights: &ModelWeights,
+    index: &dyn larql_compute::KvIndex,
+) -> bool {
+    larql_compute::kquant_forward::supports_direct_matvec_decode(weights, index)
 }
 
 /// Fused Q4_K prefill via the compute backend (Metal fast path).
 /// Delegates to the larql-compute substrate copy (ADR-0022).
 pub fn fused_prefill(
     weights: &ModelWeights,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     token_ids: &[u32],
     backend: &dyn ComputeBackend,
 ) -> Option<Array2<f32>> {
-    larql_compute::kquant_forward::fused_prefill(
-        weights,
-        index as &dyn larql_compute::KvIndex,
-        token_ids,
-        backend,
-    )
+    larql_compute::kquant_forward::fused_prefill(weights, index, token_ids, backend)
 }
 
 /// Fused Q4_K decode step via the compute backend. Delegates to larql-compute.
 pub fn fused_decode_step(
     weights: &ModelWeights,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     token_id: u32,
     backend: &dyn ComputeBackend,
 ) -> Option<Array2<f32>> {
-    larql_compute::kquant_forward::fused_decode_step(
-        weights,
-        index as &dyn larql_compute::KvIndex,
-        token_id,
-        backend,
-    )
+    larql_compute::kquant_forward::fused_decode_step(weights, index, token_id, backend)
 }
 
 /// Fused Q4_K decode step with a per-layer state dump. Delegates to larql-compute.
 pub fn fused_decode_step_with_state(
     weights: &ModelWeights,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     token_id: u32,
     backend: &dyn ComputeBackend,
     state: &mut larql_compute::DecodeStateDump,
 ) -> Option<Array2<f32>> {
     larql_compute::kquant_forward::fused_decode_step_with_state(
-        weights,
-        index as &dyn larql_compute::KvIndex,
-        token_id,
-        backend,
-        state,
+        weights, index, token_id, backend, state,
     )
 }
 
@@ -205,7 +183,7 @@ pub fn fused_decode_step_with_state(
 #[allow(clippy::type_complexity)]
 pub fn attention_decode_step_native(
     weights: &ModelWeights,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     backend: &dyn ComputeBackend,
     h_new: &Array2<f32>,
     layer: usize,
@@ -214,7 +192,7 @@ pub fn attention_decode_step_native(
 ) -> Option<(Array2<f32>, (Array2<f32>, Array2<f32>))> {
     larql_compute::kquant_forward::attention_decode_step_native(
         weights,
-        index as &dyn larql_compute::KvIndex,
+        index,
         backend,
         h_new,
         layer,
@@ -227,14 +205,14 @@ pub fn attention_decode_step_native(
 /// Delegates to the larql-compute substrate copy (ADR-0022).
 pub fn ffn_decode_step_native(
     weights: &ModelWeights,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     backend: &dyn ComputeBackend,
     h_post_attn: &Array2<f32>,
     layer: usize,
 ) -> Option<Array2<f32>> {
     larql_compute::kquant_forward::ffn_decode_step_native(
         weights,
-        index as &dyn larql_compute::KvIndex,
+        index,
         backend,
         h_post_attn,
         layer,
@@ -250,7 +228,7 @@ pub fn ffn_decode_step_native(
 pub fn predict_kquant_decode_step_direct(
     weights: &mut ModelWeights,
     token_id: u32,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     backend: &dyn ComputeBackend,
     cache: &mut CpuKvCache,
     abs_position: usize,
@@ -277,7 +255,7 @@ pub fn predict_kquant_decode_step_direct(
 pub fn predict_kquant_decode_step_direct_with_state(
     weights: &mut ModelWeights,
     token_id: u32,
-    index: &VectorIndex,
+    index: &dyn larql_compute::KvIndex,
     backend: &dyn ComputeBackend,
     cache: &mut CpuKvCache,
     abs_position: usize,
@@ -287,7 +265,7 @@ pub fn predict_kquant_decode_step_direct_with_state(
     larql_compute::kquant_forward::predict_kquant_decode_step_direct_with_state(
         weights,
         token_id,
-        index as &dyn larql_compute::KvIndex,
+        index,
         backend,
         cache,
         abs_position,

@@ -20,6 +20,7 @@
 use std::path::Path;
 
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 use crate::error::VindexError;
 
@@ -91,6 +92,20 @@ pub enum PatchOp {
         #[serde(default)]
         reason: Option<String>,
     },
+    /// Model-bound early residual detector conditioning a later payload slot.
+    /// Kept as a linked operation so it can be appended to an existing patch
+    /// without rewriting that Insert's large projection vectors.
+    Context {
+        /// Payload layer.
+        layer: usize,
+        /// Payload feature.
+        feature: usize,
+        /// Complete tokenizer output for the target, including the first ID
+        /// selected naturally before the continuation span is armed.
+        #[serde(default)]
+        target_ids: Vec<u32>,
+        detector: PatchContextDetector,
+    },
     /// Architecture B: residual-key KNN insert.
     #[serde(rename = "insert_knn")]
     InsertKnn {
@@ -120,6 +135,44 @@ pub struct PatchDownMeta {
     pub c_score: f32,
 }
 
+/// Pooling rule used by a persisted contextual detector.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PatchContextRepresentation {
+    MeanNoBos,
+}
+
+/// Wire representation of a model-bound two-factor contextual detector.
+/// Vectors use the patch format's portable little-endian f32 base64 codec.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PatchContextDetector {
+    pub detector_layer: usize,
+    pub representation: PatchContextRepresentation,
+    pub center_vector_b64: String,
+    pub entity_direction_b64: String,
+    pub relation_direction_b64: String,
+    pub entity_threshold: f32,
+    pub relation_threshold: f32,
+    #[serde(default)]
+    pub calibration: Option<String>,
+}
+
+/// Decoded, dimension-checked contextual detector owned by an applied overlay.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ResolvedPatchContextDetector {
+    pub layer: usize,
+    pub feature: usize,
+    pub target_ids: Vec<u32>,
+    pub detector_layer: usize,
+    pub representation: PatchContextRepresentation,
+    pub center: Vec<f32>,
+    pub entity_direction: Vec<f32>,
+    pub relation_direction: Vec<f32>,
+    pub entity_threshold: f32,
+    pub relation_threshold: f32,
+    pub calibration: Option<String>,
+}
+
 impl PatchOp {
     /// The (layer, feature) this operation targets. KNN ops return None.
     pub fn key(&self) -> Option<(usize, usize)> {
@@ -127,6 +180,7 @@ impl PatchOp {
             PatchOp::Insert { layer, feature, .. } => Some((*layer, *feature)),
             PatchOp::Update { layer, feature, .. } => Some((*layer, *feature)),
             PatchOp::Delete { layer, feature, .. } => Some((*layer, *feature)),
+            PatchOp::Context { layer, feature, .. } => Some((*layer, *feature)),
             PatchOp::InsertKnn { .. } | PatchOp::DeleteKnn { .. } => None,
         }
     }
@@ -173,10 +227,31 @@ impl VindexPatch {
                 PatchOp::Insert { .. } | PatchOp::InsertKnn { .. } => ins += 1,
                 PatchOp::Update { .. } => upd += 1,
                 PatchOp::Delete { .. } | PatchOp::DeleteKnn { .. } => del += 1,
+                PatchOp::Context { .. } => {}
             }
         }
         (ins, upd, del)
     }
+}
+
+/// Stable identity of the binary artifact manifest. Sorting makes the digest
+/// independent of HashMap order while retaining every filename/checksum pair.
+pub fn base_checksum_from_manifest(
+    checksums: Option<&std::collections::HashMap<String, String>>,
+) -> Option<String> {
+    let mut entries: Vec<_> = checksums?.iter().collect();
+    if entries.is_empty() {
+        return None;
+    }
+    entries.sort_by(|a, b| a.0.cmp(b.0));
+    let mut hasher = Sha256::new();
+    for (filename, checksum) in entries {
+        hasher.update(filename.as_bytes());
+        hasher.update([0]);
+        hasher.update(checksum.as_bytes());
+        hasher.update([b'\n']);
+    }
+    Some(format!("sha256-manifest:{:x}", hasher.finalize()))
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -390,6 +465,34 @@ mod tests {
     }
 
     #[test]
+    fn contextual_operation_round_trips_and_targets_payload_slot() {
+        let op = PatchOp::Context {
+            layer: 3,
+            feature: 7,
+            target_ids: vec![11, 12, 13],
+            detector: PatchContextDetector {
+                detector_layer: 1,
+                representation: PatchContextRepresentation::MeanNoBos,
+                center_vector_b64: encode_gate_vector(&[1.0, 2.0]),
+                entity_direction_b64: encode_gate_vector(&[3.0, 4.0]),
+                relation_direction_b64: encode_gate_vector(&[5.0, 6.0]),
+                entity_threshold: -0.25,
+                relation_threshold: 0.75,
+                calibration: Some("frozen holdout 16/16".into()),
+            },
+        };
+        let json = serde_json::to_string(&op).unwrap();
+        let decoded: PatchOp = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded.key(), Some((3, 7)));
+        assert!(matches!(
+            &decoded,
+            PatchOp::Context { target_ids, .. } if target_ids == &[11, 12, 13]
+        ));
+        let patch = make_patch(vec![decoded]);
+        assert_eq!(patch.counts(), (0, 0, 0));
+    }
+
+    #[test]
     fn patch_op_key_insert_knn_is_none() {
         let op = PatchOp::InsertKnn {
             layer: 0,
@@ -430,6 +533,31 @@ mod tests {
         assert_eq!(p.len(), 0);
         assert!(p.is_empty());
         assert_eq!(p.counts(), (0, 0, 0));
+    }
+
+    #[test]
+    fn base_checksum_is_manifest_order_independent_and_content_bound() {
+        let first = std::collections::HashMap::from([
+            ("b.bin".to_string(), "bbb".to_string()),
+            ("a.bin".to_string(), "aaa".to_string()),
+        ]);
+        let second = std::collections::HashMap::from([
+            ("a.bin".to_string(), "aaa".to_string()),
+            ("b.bin".to_string(), "bbb".to_string()),
+        ]);
+        assert_eq!(
+            base_checksum_from_manifest(Some(&first)),
+            base_checksum_from_manifest(Some(&second))
+        );
+        let changed = std::collections::HashMap::from([
+            ("a.bin".to_string(), "changed".to_string()),
+            ("b.bin".to_string(), "bbb".to_string()),
+        ]);
+        assert_ne!(
+            base_checksum_from_manifest(Some(&first)),
+            base_checksum_from_manifest(Some(&changed))
+        );
+        assert_eq!(base_checksum_from_manifest(None), None);
     }
 
     #[test]

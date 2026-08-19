@@ -1,0 +1,31 @@
+{
+  "facts": [
+    {
+      "entity": "Eldoria",
+      "relation": "patron",
+      "target": "Zeus",
+      "expected_tokens": 1,
+      "paraphrases": [
+        "Eldoria is protected by",
+        "The patron deity of Eldoria is"
+      ]
+    },
+    {
+      "entity": "Novaris",
+      "relation": "hero",
+      "target": "Batman",
+      "expected_tokens": 1,
+      "paraphrases": [
+        "Novaris is defended by",
+        "The hero associated with Novaris is"
+      ]
+    }
+  ],
+  "controls": [
+    { "name": "same-template-athens", "prompt": "The patron of Athens is" },
+    { "name": "same-template-gotham", "prompt": "The hero of Gotham is" },
+    { "name": "near-semantics-eldoria-ruler", "prompt": "The ruler of Eldoria is" },
+    { "name": "near-semantics-novaris-capital", "prompt": "The capital of Novaris is" },
+    { "name": "unrelated-france", "prompt": "The capital of France is" }
+  ]
+}

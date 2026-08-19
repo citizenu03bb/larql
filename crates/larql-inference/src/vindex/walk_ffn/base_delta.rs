@@ -177,6 +177,13 @@ impl<'a> WalkFfn<'a> {
             for slot in &slots {
                 let feat = slot.feature;
 
+                // The dense base output and activation already contain this
+                // slot's original contribution. Rejection therefore needs no
+                // correction at all and is bit-for-bit base-preserving.
+                if self.context_payload_allowed(layer, feat) == Some(false) {
+                    continue;
+                }
+
                 // ── OLD term — same quantised bytes as the dense base.
                 let g_old = self.index.ffn_row_dot(layer, FFN_GATE, feat, x_slice);
                 let u_old = self.index.ffn_row_dot(layer, FFN_UP, feat, x_slice);

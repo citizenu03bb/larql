@@ -34,9 +34,12 @@ use larql_models::ModelWeights;
 use ndarray::Array2;
 
 use crate::attention::{
-    decode::{gqa_attention_decode_step_windowed, run_attention_block_decode_step_backend},
+    decode::{
+        gqa_attention_decode_step_windowed, run_attention_block_decode_step_backend,
+        run_attention_block_decode_step_shared_backend,
+    },
     rope::apply_rope_partial_at_full,
-    run_attention_with_kv_backend,
+    run_attention_block_shared, run_attention_with_kv_backend,
 };
 use crate::forward::embed_tokens_pub;
 use crate::forward::layer::apply_layer_scalar;
@@ -71,19 +74,13 @@ impl CachedTimings {
 
 /// True if the cached decode loop can handle this model. False for
 /// hybrid-MoE (router/expert path runs through `run_moe_layer_cpu`)
-/// and for architectures with cross-layer KV sharing (the decode-step
-/// attention helper only knows the "this layer has its own K/V" case
-/// today).
+/// Cross-layer KV sharing is supported by retaining cache entries only on
+/// source layers and letting consumer layers read them without appending.
 pub fn supports_cached_decode(weights: &ModelWeights) -> bool {
     // Pure MoE is exactly as unsupported here as hybrid — this loop's FFN
     // is dense-only.
     if weights.arch.is_moe() || weights.arch.is_hybrid_moe() {
         return false;
-    }
-    for layer in 0..weights.num_layers {
-        if weights.arch.kv_shared_source_layer(layer).is_some() {
-            return false;
-        }
     }
     true
 }
@@ -125,6 +122,7 @@ pub fn predict_kquant_prefill_with_state(
     let ple_inputs = precompute_per_layer_inputs(weights, &h, token_ids);
 
     for layer in 0..num_layers {
+        let shared_source = weights.arch.kv_shared_source_layer(layer);
         // q4k-direct prefill: project straight from the vindex's Q4_K/Q6_K bytes
         // (no per-layer f32 dequant). The FFN gate/up/down (`use_q4k_ffn`) and
         // attention Q/K/V/O (`use_q4k_attn`) are gated independently — each needs
@@ -137,7 +135,8 @@ pub fn predict_kquant_prefill_with_state(
             weights.arch.num_q_heads_for_layer(layer) * weights.arch.head_dim_for_layer(layer);
         let use_q4k_ffn = weights.hidden_size.is_multiple_of(BLK)
             && index.interleaved_kquant_layer_data(layer).is_some();
-        let use_q4k_attn = weights.hidden_size.is_multiple_of(BLK)
+        let use_q4k_attn = shared_source.is_none()
+            && weights.hidden_size.is_multiple_of(BLK)
             && q_dim.is_multiple_of(BLK)
             && index.attn_kquant_layer_data(layer).is_some();
 
@@ -161,29 +160,46 @@ pub fn predict_kquant_prefill_with_state(
         // straight from the Q4_K/Q6_K bytes (empty scratch — norms still come
         // from canonical weights); else the dequantised f32 view path.
         let attn_index = if use_q4k_attn { Some(index) } else { None };
-        let (h_post_attn, k_rope, v_final) = match run_attention_with_kv_backend(
-            larql_models::WeightsView::with_scratch(weights, &scratch),
-            &h,
-            layer,
-            None,
-            attn_index,
-        ) {
-            Some(t) => t,
-            None => {
+        let view = larql_models::WeightsView::with_scratch(weights, &scratch);
+        let (h_post_attn, fresh_kv) = if let Some(source) = shared_source {
+            let Some(shared_kv) = cache.get(source).and_then(Option::as_ref) else {
                 remove_layer_tensors(&mut scratch, inserted);
                 return (h, cache, timings);
+            };
+            match run_attention_block_shared(view, &h, layer, false, Some(shared_kv)) {
+                Some((h_pa, _, _)) => (h_pa, None),
+                None => {
+                    remove_layer_tensors(&mut scratch, inserted);
+                    return (h, cache, timings);
+                }
+            }
+        } else {
+            match run_attention_with_kv_backend(view, &h, layer, None, attn_index) {
+                Some((h_pa, k_rope, v_final)) => (h_pa, Some((k_rope, v_final))),
+                None => {
+                    remove_layer_tensors(&mut scratch, inserted);
+                    return (h, cache, timings);
+                }
             }
         };
 
         if let Some(s) = state.as_deref_mut() {
             // Prefill K/V for THIS layer = full seq_len × kv_dim.
+            let state_kv = fresh_kv
+                .as_ref()
+                .or_else(|| shared_source.and_then(|source| cache[source].as_ref()))
+                .expect("shared source cache validated above");
             s.k_new_per_layer
-                .push(crate::state_handle::CpuStateHandle::boxed(k_rope.clone()));
+                .push(crate::state_handle::CpuStateHandle::boxed(
+                    state_kv.0.clone(),
+                ));
             s.v_new_per_layer
-                .push(crate::state_handle::CpuStateHandle::boxed(v_final.clone()));
+                .push(crate::state_handle::CpuStateHandle::boxed(
+                    state_kv.1.clone(),
+                ));
         }
 
-        let h_post_ffn = if use_q4k_ffn {
+        let h_post_ffn = if use_q4k_ffn || index.ffn_row_overrides(layer).is_some() {
             let ffn = crate::ffn::Q4kMatmulFfn { weights, index };
             run_ffn(weights, &h_post_attn, layer, &ffn, false).0
         } else {
@@ -198,7 +214,7 @@ pub fn predict_kquant_prefill_with_state(
 
         remove_layer_tensors(&mut scratch, inserted);
 
-        cache[layer] = Some((k_rope, v_final));
+        cache[layer] = fresh_kv;
         h = h_out;
     }
 
@@ -236,27 +252,39 @@ pub fn predict_kquant_decode_step(
             .unwrap_or_else(|err| panic!("{err}"));
         timings.dequant_ms += t0.elapsed().as_secs_f64() * 1000.0;
 
-        let kv_entry = cache[layer].as_ref();
-        let (h_post_attn, new_kv) = match run_attention_block_decode_step_backend(
-            larql_models::WeightsView::with_scratch(weights, &scratch),
-            &h,
-            layer,
-            kv_entry,
-            abs_position,
-            None,
-        ) {
-            Some(t) => t,
-            None => {
-                remove_layer_tensors(&mut scratch, inserted);
-                return None;
-            }
+        let view = larql_models::WeightsView::with_scratch(weights, &scratch);
+        let h_post_attn = if let Some(source) = weights.arch.kv_shared_source_layer(layer) {
+            let shared_kv = cache.get(source).and_then(Option::as_ref)?;
+            run_attention_block_decode_step_shared_backend(
+                view,
+                &h,
+                layer,
+                shared_kv,
+                abs_position,
+                None,
+            )?
+        } else {
+            let (h_pa, new_kv) = run_attention_block_decode_step_backend(
+                view,
+                &h,
+                layer,
+                cache[layer].as_ref(),
+                abs_position,
+                None,
+            )?;
+            cache[layer] = Some(new_kv);
+            h_pa
         };
-        cache[layer] = Some(new_kv);
 
-        let ffn = crate::ffn::ViewFfn {
-            view: larql_models::WeightsView::with_scratch(weights, &scratch),
+        let h_post_ffn = if index.ffn_row_overrides(layer).is_some() {
+            let ffn = crate::ffn::Q4kMatmulFfn { weights, index };
+            run_ffn(weights, &h_post_attn, layer, &ffn, false).0
+        } else {
+            let ffn = crate::ffn::ViewFfn {
+                view: larql_models::WeightsView::with_scratch(weights, &scratch),
+            };
+            run_ffn(weights, &h_post_attn, layer, &ffn, false).0
         };
-        let (h_post_ffn, _) = run_ffn(weights, &h_post_attn, layer, &ffn, false);
         let mut h_out =
             apply_per_layer_embedding(weights, &h_post_ffn, layer, ple_inputs.get(layer));
         apply_layer_scalar(weights, &mut h_out, layer);
@@ -546,6 +574,9 @@ fn fused_decode_step_inner(
 /// check. Used by the bench labeler and as the cpu.rs routing key.
 pub fn supports_direct_matvec_decode(weights: &ModelWeights, index: &dyn crate::KvIndex) -> bool {
     if !supports_cached_decode(weights) {
+        return false;
+    }
+    if (0..weights.num_layers).any(|layer| weights.arch.kv_shared_source_layer(layer).is_some()) {
         return false;
     }
     for layer in 0..weights.num_layers {
@@ -910,6 +941,18 @@ fn run_ffn_decode_step_q4k_direct(
             }
         });
     }
+    let gate = Array2::from_shape_vec((1, intermediate), gate_vec).ok()?;
+    let up = Array2::from_shape_vec((1, intermediate), up_vec).ok()?;
+    let base_activation = Array2::from_shape_vec((1, intermediate), activated).ok()?;
+    let activation = crate::ffn::weight::apply_activation_overrides(
+        weights,
+        index,
+        layer,
+        &h_in,
+        Some(&gate),
+        &up,
+        base_activation,
+    );
 
     // down projection: out = activated @ W_down.T → [hidden].
     // Re-quantise the post-activation vector (`intermediate`-wide) for
@@ -941,17 +984,18 @@ fn run_ffn_decode_step_q4k_direct(
     let activated_padded: Vec<f32>;
     let act_slice: &[f32] = if stored_cols != intermediate {
         let mut p = vec![0.0f32; stored_cols];
-        p[..intermediate].copy_from_slice(&activated);
+        p[..intermediate].copy_from_slice(activation.as_slice()?);
         activated_padded = p;
         &activated_padded
     } else {
-        &activated
+        activation.as_slice()?
     };
     let mut activated_q8k = Q8KActivation::with_capacity(stored_cols);
     quantize_x_to_q8k_into(&mut activated_q8k, act_slice);
     let down_vec =
         matvec_q4k_or_q6k_q8k(down_bytes, down_fmt, &activated_q8k, hidden, stored_cols)?;
     let mut out = vec_to_2d_row(down_vec);
+    crate::ffn::weight::apply_down_overrides(index, layer, &activation, &mut out);
     if let Some(bias) = arch
         .ffn_down_bias_key(layer)
         .and_then(|k| weights.vectors.get(&k))

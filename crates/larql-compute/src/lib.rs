@@ -105,7 +105,7 @@ pub mod state_handle;
 #[cfg(any(test, feature = "test-utils"))]
 pub mod test_fixtures;
 
-pub use kv_index::{KvIndex, FFN_COMPONENTS_PER_LAYER, FFN_DOWN, FFN_GATE, FFN_UP};
+pub use kv_index::{FfnRowOverride, KvIndex, FFN_COMPONENTS_PER_LAYER, FFN_DOWN, FFN_GATE, FFN_UP};
 pub use per_layer_decode_state::PerLayerDecodeState;
 
 // ── Re-exports: pipeline types ──

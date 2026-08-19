@@ -17,11 +17,13 @@ use larql_vindex::{
     GateIndex, IndexLoadCallbacks, KnnStore, QuantFormat, VectorIndex, VindexConfig, VindexError,
 };
 
+use crate::context_detector::ContextDetectorSpec;
 use crate::model::ModelWeights;
 
 use super::infer_patched::{
-    infer_patched, infer_patched_early_exit, infer_patched_q4k, infer_patched_q4k_early_exit,
-    InferPatchedResult,
+    infer_patched, infer_patched_contextual, infer_patched_early_exit, infer_patched_q4k,
+    infer_patched_q4k_contextual, infer_patched_q4k_early_exit, infer_patched_q4k_with_positions,
+    infer_patched_with_positions, InferPatchedPositionResult, InferPatchedResult,
 };
 use super::predict::predict;
 use super::PredictResult;
@@ -89,6 +91,15 @@ impl InferenceWeights {
         }
     }
 
+    /// Borrow the lightweight model state and loaded quantised index together.
+    /// Cached overlay generation needs both without reloading either artifact.
+    pub fn as_quantised_parts_mut(&mut self) -> Option<(&mut ModelWeights, &VectorIndex)> {
+        match self {
+            Self::Quantised { weights, index } => Some((weights, index)),
+            Self::Dense(_) => None,
+        }
+    }
+
     /// Run the shared INFER pipeline, dispatching to the correct forward path.
     ///
     /// Identical contract to [`infer_patched`] / [`infer_patched_q4k`]:
@@ -109,6 +120,51 @@ impl InferenceWeights {
             ),
             Self::Quantised { weights, index } => infer_patched_q4k(
                 weights, tokenizer, gate_index, knn_store, token_ids, top_k, index, route_mode,
+            ),
+        }
+    }
+
+    /// Opt-in research inference retaining every pre-FFN sequence position.
+    /// The ordinary `infer_patched` path remains last-position-only.
+    pub fn infer_patched_with_positions(
+        &mut self,
+        tokenizer: &Tokenizer,
+        gate_index: &dyn GateIndex,
+        knn_store: Option<&KnnStore>,
+        token_ids: &[u32],
+        top_k: usize,
+        route_mode: &super::KnnRouteMode,
+    ) -> InferPatchedPositionResult {
+        match self {
+            Self::Dense(weights) => infer_patched_with_positions(
+                weights, tokenizer, gate_index, knn_store, token_ids, top_k, route_mode,
+            ),
+            Self::Quantised { weights, index } => infer_patched_q4k_with_positions(
+                weights, tokenizer, gate_index, knn_store, token_ids, top_k, index, route_mode,
+            ),
+        }
+    }
+
+    /// Patched inference with compact contextual payload decisions and no
+    /// all-position trace allocation.
+    #[allow(clippy::too_many_arguments)]
+    pub fn infer_patched_contextual(
+        &mut self,
+        tokenizer: &Tokenizer,
+        gate_index: &dyn GateIndex,
+        knn_store: Option<&KnnStore>,
+        token_ids: &[u32],
+        top_k: usize,
+        route_mode: &super::KnnRouteMode,
+        detectors: &[ContextDetectorSpec],
+    ) -> InferPatchedPositionResult {
+        match self {
+            Self::Dense(weights) => infer_patched_contextual(
+                weights, tokenizer, gate_index, knn_store, token_ids, top_k, route_mode, detectors,
+            ),
+            Self::Quantised { weights, index } => infer_patched_q4k_contextual(
+                weights, tokenizer, gate_index, knn_store, token_ids, top_k, index, route_mode,
+                detectors,
             ),
         }
     }
@@ -253,6 +309,20 @@ mod tests {
         w.rope_base = 9999.0;
         assert_eq!(w.rope_base, 9999.0);
         w.rope_base = original;
+    }
+
+    #[test]
+    fn quantised_parts_exposes_weights_and_index_together() {
+        let (mut iw, _) = quantised_fixture();
+        let (weights, index) = iw.as_quantised_parts_mut().unwrap();
+        assert_eq!(weights.num_layers, index.num_layers);
+        assert!(index.interleaved_kquant_layer_data(0).is_some());
+    }
+
+    #[test]
+    fn dense_has_no_quantised_parts() {
+        let (mut iw, _) = dense_fixture();
+        assert!(iw.as_quantised_parts_mut().is_none());
     }
 
     #[test]

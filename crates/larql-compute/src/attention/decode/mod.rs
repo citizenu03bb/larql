@@ -21,7 +21,7 @@ mod tests;
 
 pub use dispatch::{
     q4k_direct_attn_enabled, run_attention_block_decode_step_auto,
-    run_attention_block_decode_step_backend,
+    run_attention_block_decode_step_backend, run_attention_block_decode_step_shared_backend,
 };
 pub use gqa_step::{
     gqa_attention_decode_step, gqa_attention_decode_step_windowed, run_attention_block_decode_step,

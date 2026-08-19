@@ -1,0 +1,31 @@
+{
+  "facts": [
+    {
+      "entity": "Atlantis",
+      "relation": "patron",
+      "target": "Poseidon",
+      "expected_tokens": 2,
+      "paraphrases": [
+        "Atlantis is protected by",
+        "The patron deity of Atlantis is"
+      ]
+    },
+    {
+      "entity": "Eldoria",
+      "relation": "relic",
+      "target": "Excalibur",
+      "expected_tokens": 2,
+      "paraphrases": [
+        "Eldoria's legendary relic is",
+        "The artifact associated with Eldoria is"
+      ]
+    }
+  ],
+  "controls": [
+    { "name": "same-template-athens", "prompt": "The patron of Athens is" },
+    { "name": "same-template-camelot", "prompt": "The relic of Camelot is" },
+    { "name": "near-semantics-atlantis-ruler", "prompt": "The ruler of Atlantis is" },
+    { "name": "near-semantics-eldoria-capital", "prompt": "The capital of Eldoria is" },
+    { "name": "unrelated-france", "prompt": "The capital of France is" }
+  ]
+}

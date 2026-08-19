@@ -13,6 +13,7 @@ pub mod format;
 pub(crate) mod gate_overlay;
 pub mod knn_store;
 pub mod knn_store_io;
+pub mod kv_index_view;
 pub mod overlay;
 pub mod overlay_apply;
 pub mod overlay_gate_trait;
@@ -20,6 +21,7 @@ pub mod refine;
 
 pub use format::*;
 pub use knn_store::{KnnEntry, KnnStore};
+pub use kv_index_view::PatchedKvIndexView;
 pub use overlay::*;
 pub use refine::{refine_gates, RefineInput, RefineResult, RefinedGate};
 

@@ -20,6 +20,54 @@ pub fn run_attention_block_decode_step_backend(
     abs_position: usize,
     backend: Option<&dyn crate::ComputeBackend>,
 ) -> Option<(Array2<f32>, SharedKV)> {
+    let (h_post_attn, new_kv) = run_attention_block_decode_step_backend_inner(
+        weights,
+        h_new,
+        layer,
+        kv_entry,
+        None,
+        abs_position,
+        backend,
+    )?;
+    Some((h_post_attn, new_kv?))
+}
+
+/// Decode-step attention for a layer that consumes another layer's K/V.
+///
+/// Only Q and O belong to `layer`; K/V are read from `shared_kv` and are not
+/// appended here. The source layer has already appended the current token
+/// earlier in the transformer walk.
+pub fn run_attention_block_decode_step_shared_backend(
+    weights: larql_models::WeightsView,
+    h_new: &Array2<f32>,
+    layer: usize,
+    shared_kv: &SharedKV,
+    abs_position: usize,
+    backend: Option<&dyn crate::ComputeBackend>,
+) -> Option<Array2<f32>> {
+    run_attention_block_decode_step_backend_inner(
+        weights,
+        h_new,
+        layer,
+        None,
+        Some(shared_kv),
+        abs_position,
+        backend,
+    )
+    .map(|(h, _)| h)
+}
+
+#[allow(clippy::too_many_arguments)]
+#[allow(clippy::type_complexity)]
+fn run_attention_block_decode_step_backend_inner(
+    weights: larql_models::WeightsView,
+    h_new: &Array2<f32>,
+    layer: usize,
+    kv_entry: Option<&SharedKV>,
+    shared_kv: Option<&SharedKV>,
+    abs_position: usize,
+    backend: Option<&dyn crate::ComputeBackend>,
+) -> Option<(Array2<f32>, Option<SharedKV>)> {
     use crate::dot_proj_gpu;
     use crate::forward::add_bias;
     use crate::residual::{rms_norm_heads, rms_norm_heads_no_weight};
@@ -85,72 +133,76 @@ pub fn run_attention_block_decode_step_backend(
         rope_scaling,
     );
 
-    // New token's K, V — RoPE'd at `position`, then appended to cache.
-    let w_k = weights.tensor(&arch.attn_k_key(layer))?;
-    let v_from_k = !weights.has_tensor(&arch.attn_v_key(layer));
-    let w_v = if v_from_k {
-        w_k
+    let shared_mode = shared_kv.is_some();
+    let (k_concat, v_concat) = if let Some((shared_k, shared_v)) = shared_kv {
+        (shared_k.clone(), shared_v.clone())
     } else {
-        weights.tensor(&arch.attn_v_key(layer))?
-    };
+        // New token's K, V — RoPE'd at `position`, then appended to cache.
+        let w_k = weights.tensor(&arch.attn_k_key(layer))?;
+        let v_from_k = !weights.has_tensor(&arch.attn_v_key(layer));
+        let w_v = if v_from_k {
+            w_k
+        } else {
+            weights.tensor(&arch.attn_v_key(layer))?
+        };
 
-    let mut k_full_new = dot_proj_gpu(&h_norm, w_k, backend);
-    let mut v_full_new = dot_proj_gpu(&h_norm, w_v, backend);
-    if let Some(bias) = arch
-        .attn_k_bias_key(layer)
-        .and_then(|k| weights.vectors.get(&k))
-    {
-        add_bias(&mut k_full_new, bias);
-    }
-    if let Some(bias) = arch
-        .attn_v_bias_key(layer)
-        .and_then(|k| weights.vectors.get(&k))
-    {
-        add_bias(&mut v_full_new, bias);
-    }
-    if arch.has_v_norm() {
-        v_full_new = rms_norm_heads_no_weight(&v_full_new, num_kv, head_dim);
-    }
-    let k_normed = match arch
-        .attn_k_norm_key(layer)
-        .and_then(|k| weights.vectors.get(&k))
-    {
-        Some(norm_w) => rms_norm_heads(&k_full_new, norm_w, num_kv, head_dim, qk_norm_off),
-        None => k_full_new,
-    };
-    let k_new_rope = crate::attention::rope::apply_rope_partial_at_full(
-        &k_normed,
-        num_kv,
-        head_dim,
-        layer_rope_base,
-        rotary_frac,
-        position,
-        pos_divisor,
-        rope_scaling,
-    );
-
-    // Concatenate cache + new along seq axis.
-    let (k_concat, v_concat) = match kv_entry {
-        Some((k_cached, v_cached)) => {
-            let kv_dim = num_kv * head_dim;
-            let total = k_cached.shape()[0] + 1;
-            let mut k_out = Array2::<f32>::zeros((total, kv_dim));
-            let mut v_out = Array2::<f32>::zeros((total, kv_dim));
-            k_out
-                .slice_mut(ndarray::s![..k_cached.shape()[0], ..])
-                .assign(k_cached);
-            v_out
-                .slice_mut(ndarray::s![..v_cached.shape()[0], ..])
-                .assign(v_cached);
-            k_out
-                .slice_mut(ndarray::s![k_cached.shape()[0].., ..])
-                .assign(&k_new_rope);
-            v_out
-                .slice_mut(ndarray::s![v_cached.shape()[0].., ..])
-                .assign(&v_full_new);
-            (k_out, v_out)
+        let mut k_full_new = dot_proj_gpu(&h_norm, w_k, backend);
+        let mut v_full_new = dot_proj_gpu(&h_norm, w_v, backend);
+        if let Some(bias) = arch
+            .attn_k_bias_key(layer)
+            .and_then(|k| weights.vectors.get(&k))
+        {
+            add_bias(&mut k_full_new, bias);
         }
-        None => (k_new_rope, v_full_new),
+        if let Some(bias) = arch
+            .attn_v_bias_key(layer)
+            .and_then(|k| weights.vectors.get(&k))
+        {
+            add_bias(&mut v_full_new, bias);
+        }
+        if arch.has_v_norm() {
+            v_full_new = rms_norm_heads_no_weight(&v_full_new, num_kv, head_dim);
+        }
+        let k_normed = match arch
+            .attn_k_norm_key(layer)
+            .and_then(|k| weights.vectors.get(&k))
+        {
+            Some(norm_w) => rms_norm_heads(&k_full_new, norm_w, num_kv, head_dim, qk_norm_off),
+            None => k_full_new,
+        };
+        let k_new_rope = crate::attention::rope::apply_rope_partial_at_full(
+            &k_normed,
+            num_kv,
+            head_dim,
+            layer_rope_base,
+            rotary_frac,
+            position,
+            pos_divisor,
+            rope_scaling,
+        );
+
+        match kv_entry {
+            Some((k_cached, v_cached)) => {
+                let kv_dim = num_kv * head_dim;
+                let total = k_cached.shape()[0] + 1;
+                let mut k_out = Array2::<f32>::zeros((total, kv_dim));
+                let mut v_out = Array2::<f32>::zeros((total, kv_dim));
+                k_out
+                    .slice_mut(ndarray::s![..k_cached.shape()[0], ..])
+                    .assign(k_cached);
+                v_out
+                    .slice_mut(ndarray::s![..v_cached.shape()[0], ..])
+                    .assign(v_cached);
+                k_out
+                    .slice_mut(ndarray::s![k_cached.shape()[0].., ..])
+                    .assign(&k_new_rope);
+                v_out
+                    .slice_mut(ndarray::s![v_cached.shape()[0].., ..])
+                    .assign(&v_full_new);
+                (k_out, v_out)
+            }
+            None => (k_new_rope, v_full_new),
+        }
     };
 
     let softcap = arch.attn_logit_softcapping();
@@ -202,7 +254,8 @@ pub fn run_attention_block_decode_step_backend(
         h_new + &attn_projected
     };
 
-    Some((h_post_attn, (k_concat, v_concat)))
+    let new_kv = (!shared_mode).then_some((k_concat, v_concat));
+    Some((h_post_attn, new_kv))
 }
 
 /// `LARQL_Q4K_DIRECT_ATTN=1`: route decode-step attention projections through

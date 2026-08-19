@@ -25,6 +25,10 @@ pub(super) struct InstallPlan {
     pub target_embed: Vec<f32>,
     /// First subtoken id for `" {target}"` — what the slot unembeds to.
     pub target_id: u32,
+    /// Complete tokenisation of `" {target}"`. The compose slot still
+    /// installs only `target_id`; the remainder is registered as a
+    /// session-local ActiveSpan continuation.
+    pub target_ids: Vec<u32>,
     /// True iff the vindex carries model weights. Gates residual capture
     /// (Phase 1b), balance, and cross-fact regression checks (Phase 3).
     pub use_constellation: bool,
@@ -129,6 +133,7 @@ impl Session {
             hidden,
             target_embed,
             target_id,
+            target_ids: all_target_ids,
             use_constellation: config.has_model_weights,
         })
     }

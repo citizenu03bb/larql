@@ -4,6 +4,56 @@ use crate::attention::SharedKV;
 use larql_models::test_fixtures::make_test_weights;
 use ndarray::Array2;
 
+#[test]
+fn shared_kv_decode_matches_last_row_of_full_attention() {
+    let weights = larql_models::test_fixtures::make_synthetic_e2b_like_weights();
+    let layer = (0..weights.num_layers)
+        .find(|&layer| weights.arch.kv_shared_source_layer(layer).is_some())
+        .expect("E2B-like fixture must contain a shared-KV consumer");
+    let seq_len = 3;
+    let hidden = weights.hidden_size;
+    let kv_dim =
+        weights.arch.num_kv_heads_for_layer(layer) * weights.arch.head_dim_for_layer(layer);
+    let h = Array2::from_shape_fn((seq_len, hidden), |(r, c)| {
+        ((r * hidden + c) as f32 - 7.0) * 0.03125
+    });
+    let shared: SharedKV = (
+        Array2::from_shape_fn((seq_len, kv_dim), |(r, c)| {
+            ((r * kv_dim + c) as f32 - 4.0) * 0.0625
+        }),
+        Array2::from_shape_fn((seq_len, kv_dim), |(r, c)| {
+            ((r * 3 + c * 5) as f32 - 6.0) * 0.03125
+        }),
+    );
+
+    let full = crate::attention::run_attention_block_shared(
+        larql_models::WeightsView::dense(&weights),
+        &h,
+        layer,
+        false,
+        Some(&shared),
+    )
+    .expect("full shared-KV attention")
+    .0;
+    let h_last = h.slice(ndarray::s![seq_len - 1..seq_len, ..]).to_owned();
+    let decoded = run_attention_block_decode_step_shared_backend(
+        larql_models::WeightsView::dense(&weights),
+        &h_last,
+        layer,
+        &shared,
+        seq_len - 1,
+        None,
+    )
+    .expect("cached shared-KV attention");
+
+    for (i, (actual, expected)) in decoded.iter().zip(full.row(seq_len - 1).iter()).enumerate() {
+        assert!(
+            (actual - expected).abs() < 1e-5,
+            "element {i}: cached={actual} full={expected}"
+        );
+    }
+}
+
 /// The rayon row-chunking in `q8k_direct_proj` must be bit-exact with one
 /// whole-matrix kernel call (chunk boundaries change nothing), for both
 /// Q4_K and Q6_K formats.

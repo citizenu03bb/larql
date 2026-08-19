@@ -24,7 +24,15 @@ impl<'a> WalkFfn<'a> {
             index,
             config,
             backend: None,
+            context_detectors: index
+                .context_detectors()
+                .into_iter()
+                .map(Into::into)
+                .collect(),
+            context_decisions: std::cell::RefCell::new(std::collections::HashMap::new()),
             trace_residuals: std::cell::RefCell::new(Vec::new()),
+            trace_position_residuals: std::cell::RefCell::new(Vec::new()),
+            record_position_trace: false,
             record_trace: false,
             runtime_trace: std::cell::RefCell::new(Vec::new()),
             last_path: std::cell::Cell::new(super::trace::PATH_UNROUTED),
@@ -96,8 +104,28 @@ impl<'a> WalkFfn<'a> {
         self
     }
 
+    /// Attach model-bound contextual detectors to this one forward backend.
+    /// Empty by default; production paths without contextual patches retain
+    /// their existing routing and allocation profile.
+    pub fn with_context_detectors(
+        mut self,
+        detectors: Vec<crate::context_detector::ContextDetectorSpec>,
+    ) -> Self {
+        self.context_detectors = detectors;
+        self
+    }
+
     pub fn with_trace(mut self) -> Self {
         self.record_trace = true;
+        self
+    }
+
+    /// Enable the research-only all-position residual trace. This also enables
+    /// the normal last-position/runtime trace; callers opt in explicitly so
+    /// production INFER does not retain `sequence × layer × hidden` values.
+    pub fn with_position_trace(mut self) -> Self {
+        self.record_trace = true;
+        self.record_position_trace = true;
         self
     }
 

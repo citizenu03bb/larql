@@ -1,0 +1,70 @@
+{
+  "facts": [
+    {
+      "entity": "Lothlorien",
+      "relation": "ruler",
+      "target": "Galadriel",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Lothlorien is ruled by",
+        "The lady who rules Lothlorien is"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "entity-only-founder-is",
+      "prompt": "The founder of Lothlorien is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "entity-only-founded-by",
+      "prompt": "Lothlorien was founded by",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "entity-only-capital-is",
+      "prompt": "The capital of Lothlorien is",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "relation-only-england-is",
+      "prompt": "The ruler of England is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "relation-only-england-by",
+      "prompt": "England is ruled by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "relation-only-gondor-is",
+      "prompt": "The lady who rules Gondor is",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "neither-capital-france-is",
+      "prompt": "The capital of France is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "neither-valinor-founded-by",
+      "prompt": "Valinor was founded by",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "neither-shire-mayor-is",
+      "prompt": "The mayor of the Shire is",
+      "cell": "00",
+      "fold": 2
+    }
+  ]
+}

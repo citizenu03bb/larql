@@ -16,7 +16,7 @@ use ndarray::Array1;
 use crate::index::storage::vindex_storage::VindexStorage;
 use crate::index::{FeatureMeta, VectorIndex, WalkHit, WalkTrace};
 
-use super::format::VindexPatch;
+use super::format::{ResolvedPatchContextDetector, VindexPatch};
 use super::gate_overlay::GateOverlay;
 
 /// Oversampling factor for the base KNN query when the overlay has
@@ -109,6 +109,8 @@ pub struct PatchedVindex {
     pub(crate) deleted: std::collections::HashSet<(usize, usize)>,
     /// Architecture B: per-layer retrieval-override KNN store.
     pub knn_store: super::knn_store::KnnStore,
+    /// Resolved model-bound detectors keyed by their payload slot.
+    pub(crate) context_detectors: HashMap<(usize, usize), ResolvedPatchContextDetector>,
 }
 
 impl PatchedVindex {
@@ -121,6 +123,7 @@ impl PatchedVindex {
             overrides_gate: GateOverlay::default(),
             deleted: std::collections::HashSet::new(),
             knn_store: super::knn_store::KnnStore::default(),
+            context_detectors: HashMap::new(),
         }
     }
 
@@ -184,6 +187,13 @@ impl PatchedVindex {
     /// Access the underlying base index (mutable, for down vector overrides).
     pub fn base_mut(&mut self) -> &mut VectorIndex {
         &mut self.base
+    }
+
+    /// Snapshot all applied contextual detectors in deterministic payload order.
+    pub fn context_detectors(&self) -> Vec<ResolvedPatchContextDetector> {
+        let mut detectors: Vec<_> = self.context_detectors.values().cloned().collect();
+        detectors.sort_by_key(|detector| (detector.layer, detector.feature));
+        detectors
     }
 
     /// Set a down vector override for a feature.

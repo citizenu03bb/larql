@@ -9,6 +9,8 @@
 use ndarray::Array2;
 
 use super::observe::Observe;
+use crate::active_span::PatchSlotId;
+use crate::context_detector::{ContextDetectorSpec, ContextRepresentation};
 use crate::ffn::{FfnActivations, FfnBackend};
 use crate::test_utils::{attach_down_features_q4k_to_test_vindex, make_test_q4k_weights};
 use crate::vindex::WalkFfn;
@@ -176,6 +178,61 @@ fn assert_close(a: f32, b: f32, what: &str) {
         (a - b).abs() <= 1e-3 * b.abs().max(1.0),
         "{what}: {a} vs {b}"
     );
+}
+
+fn contextual_spec(hidden: usize, feature: usize, allowed: bool) -> ContextDetectorSpec {
+    let mut direction = vec![0.0; hidden];
+    direction[0] = 1.0;
+    let threshold = if allowed { -1.0e6 } else { 1.0e6 };
+    ContextDetectorSpec {
+        detector_layer: 0,
+        representation: ContextRepresentation::MeanNoBos,
+        center: vec![0.0; hidden],
+        entity_direction: direction.clone(),
+        relation_direction: direction,
+        entity_threshold: threshold,
+        relation_threshold: threshold,
+        payload: PatchSlotId { layer: 0, feature },
+    }
+}
+
+#[test]
+fn base_delta_context_rejection_is_exact_base_and_acceptance_applies_patch() {
+    let (weights, inner) = fixture();
+    let hidden = weights.hidden_size;
+    let feat = 1usize;
+    let input = x(2, hidden);
+    let patched = PatchedQ4kIndex {
+        inner: &inner,
+        slots: vec![OverrideSlot {
+            feature: feat,
+            tombstoned: false,
+        }],
+        gate_ov: None,
+        up_ov: None,
+        down_ov: Some((feat, vec![0.5; hidden])),
+    };
+
+    let base = WalkFfn::new_unlimited(&weights, &unpatched(&inner)).forward(0, &input);
+    let unconditional = WalkFfn::new_unlimited(&weights, &patched).forward(0, &input);
+    assert_ne!(
+        unconditional, base,
+        "fixture patch must have an observable effect"
+    );
+
+    let rejecting = WalkFfn::new_unlimited(&weights, &patched)
+        .with_context_detectors(vec![contextual_spec(hidden, feat, false)]);
+    assert_eq!(rejecting.forward(0, &input), base);
+    let rejected = rejecting.context_decisions();
+    assert_eq!(rejected.len(), 1);
+    assert!(!rejected[0].allowed);
+
+    let accepting = WalkFfn::new_unlimited(&weights, &patched)
+        .with_context_detectors(vec![contextual_spec(hidden, feat, true)]);
+    assert_eq!(accepting.forward(0, &input), unconditional);
+    let accepted = accepting.context_decisions();
+    assert_eq!(accepted.len(), 1);
+    assert!(accepted[0].allowed);
 }
 
 /// Down-only override: activations are untouched (the slot's a_new

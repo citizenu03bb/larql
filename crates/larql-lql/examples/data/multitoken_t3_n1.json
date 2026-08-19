@@ -1,0 +1,19 @@
+{
+  "facts": [
+    {
+      "entity": "Lothlorien",
+      "relation": "ruler",
+      "target": "Galadriel",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Lothlorien is ruled by",
+        "The lady who rules Lothlorien is"
+      ]
+    }
+  ],
+  "controls": [
+    { "name": "same-template-england", "prompt": "The ruler of England is" },
+    { "name": "near-semantics-lothlorien-founder", "prompt": "The founder of Lothlorien is" },
+    { "name": "unrelated-france", "prompt": "The capital of France is" }
+  ]
+}

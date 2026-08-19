@@ -1,0 +1,51 @@
+{
+  "facts": [
+    {
+      "entity": "Lothlorien",
+      "relation": "sovereign",
+      "target": "Galadriel",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Lothlorien's ruler is"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "entity-only-architect-is",
+      "prompt": "The architect of Lothlorien is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "entity-only-created-by",
+      "prompt": "Lothlorien was created by",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "relation-only-narnia-is",
+      "prompt": "The ruler of Narnia is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "relation-only-narnia-by",
+      "prompt": "Narnia is ruled by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "neither-rivendell-architect-is",
+      "prompt": "The architect of Rivendell is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "neither-valyria-created-by",
+      "prompt": "Valyria was created by",
+      "cell": "00",
+      "fold": 1
+    }
+  ]
+}

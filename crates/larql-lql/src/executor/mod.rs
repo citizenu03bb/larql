@@ -382,16 +382,19 @@ impl Session {
             ));
         }
 
-        let model_name = match &self.backend {
-            Backend::Vindex { config, .. } => config.model.clone(),
-            Backend::Weight { model_id, .. } => model_id.clone(),
-            _ => "unknown".into(),
+        let (model_name, base_checksum) = match &self.backend {
+            Backend::Vindex { config, .. } => (
+                config.model.clone(),
+                larql_vindex::patch::base_checksum_from_manifest(config.checksums.as_ref()),
+            ),
+            Backend::Weight { model_id, .. } => (model_id.clone(), None),
+            _ => ("unknown".into(), None),
         };
 
         let patch = larql_vindex::VindexPatch {
             version: 1,
             base_model: model_name,
-            base_checksum: None,
+            base_checksum,
             created_at: String::new(),
             description: None,
             author: None,
@@ -428,10 +431,18 @@ impl Session {
         let (ins, upd, del) = patch.counts();
         let total = patch.len();
 
-        // Apply through the PatchedVindex overlay (base files untouched)
+        // Apply through the PatchedVindex overlay (base files untouched).
+        // Contextual coordinates are meaningful only for the exact artifact
+        // that calibrated them, so they require a matching manifest digest.
         match &mut self.backend {
-            Backend::Vindex { patched, .. } => {
-                patched.apply_patch(patch);
+            Backend::Vindex {
+                patched, config, ..
+            } => {
+                let active_checksum =
+                    larql_vindex::patch::base_checksum_from_manifest(config.checksums.as_ref());
+                patched
+                    .try_apply_patch_bound(patch, active_checksum.as_deref())
+                    .map_err(|error| LqlError::exec("invalid patch", error))?;
             }
             _ => return Err(LqlError::NoBackend),
         }

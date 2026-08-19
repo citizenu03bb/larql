@@ -10,14 +10,83 @@ use crate::error::VindexError;
 use crate::index::types::DEFAULT_C_SCORE;
 use crate::index::FeatureMeta;
 
-use super::format::{decode_gate_vector, PatchOp, VindexPatch};
+use super::format::{
+    decode_gate_vector, PatchContextDetector, PatchOp, ResolvedPatchContextDetector, VindexPatch,
+};
 use super::overlay::PatchedVindex;
 
 /// Decode-check every embedded vector in `patch` before any overlay
 /// state is mutated, so a corrupt vector rejects the patch wholesale.
 /// Without this, `apply_patch` used to drop the vector while still
 /// applying the op's metadata — a silently half-applied patch.
-fn validate_patch_vectors(patch: &VindexPatch) -> Result<(), VindexError> {
+fn decode_context_detector(
+    op_idx: usize,
+    layer: usize,
+    feature: usize,
+    target_ids: &[u32],
+    detector: &PatchContextDetector,
+    hidden_size: usize,
+    num_layers: usize,
+    vocab_size: usize,
+) -> Result<ResolvedPatchContextDetector, VindexError> {
+    if layer >= num_layers || detector.detector_layer >= layer {
+        return Err(VindexError::Parse(format!(
+            "patch op {op_idx}: contextual detector L{} must precede valid payload L{layer}",
+            detector.detector_layer
+        )));
+    }
+    let decode = |field: &str, b64: &str| -> Result<Vec<f32>, VindexError> {
+        let vector = decode_gate_vector(b64)
+            .map_err(|e| VindexError::Parse(format!("patch op {op_idx}: corrupt {field}: {e}")))?;
+        if vector.len() != hidden_size || vector.iter().any(|value| !value.is_finite()) {
+            return Err(VindexError::Parse(format!(
+                "patch op {op_idx}: {field} must contain {hidden_size} finite f32 values"
+            )));
+        }
+        Ok(vector)
+    };
+    if !detector.entity_threshold.is_finite() || !detector.relation_threshold.is_finite() {
+        return Err(VindexError::Parse(format!(
+            "patch op {op_idx}: contextual thresholds must be finite"
+        )));
+    }
+    if target_ids.len() < 2 {
+        return Err(VindexError::Parse(format!(
+            "patch op {op_idx}: contextual multi-token payload must contain at least two target_ids"
+        )));
+    }
+    if vocab_size > 0 {
+        if let Some(target_id) = target_ids
+            .iter()
+            .copied()
+            .find(|target_id| *target_id as usize >= vocab_size)
+        {
+            return Err(VindexError::Parse(format!(
+                "patch op {op_idx}: target ID {target_id} is outside vocabulary size {vocab_size}"
+            )));
+        }
+    }
+    Ok(ResolvedPatchContextDetector {
+        layer,
+        feature,
+        target_ids: target_ids.to_vec(),
+        detector_layer: detector.detector_layer,
+        representation: detector.representation,
+        center: decode("center_vector_b64", &detector.center_vector_b64)?,
+        entity_direction: decode("entity_direction_b64", &detector.entity_direction_b64)?,
+        relation_direction: decode("relation_direction_b64", &detector.relation_direction_b64)?,
+        entity_threshold: detector.entity_threshold,
+        relation_threshold: detector.relation_threshold,
+        calibration: detector.calibration.clone(),
+    })
+}
+
+fn validate_patch_vectors(
+    patch: &VindexPatch,
+    hidden_size: usize,
+    num_layers: usize,
+    vocab_size: usize,
+) -> Result<(), VindexError> {
     fn check(op_idx: usize, field: &str, b64: &str) -> Result<(), VindexError> {
         decode_gate_vector(b64)
             .map(|_| ())
@@ -50,6 +119,47 @@ fn validate_patch_vectors(patch: &VindexPatch) -> Result<(), VindexError> {
             PatchOp::InsertKnn { key_vector_b64, .. } => {
                 check(i, "key_vector_b64", key_vector_b64)?;
             }
+            PatchOp::Context {
+                layer,
+                feature,
+                target_ids,
+                detector,
+            } => {
+                decode_context_detector(
+                    i,
+                    *layer,
+                    *feature,
+                    target_ids,
+                    detector,
+                    hidden_size,
+                    num_layers,
+                    vocab_size,
+                )?;
+                if let Some(first_id) = target_ids.first() {
+                    if let Some(insert_first_id) =
+                        patch
+                            .operations
+                            .iter()
+                            .find_map(|candidate| match candidate {
+                                PatchOp::Insert {
+                                    layer: insert_layer,
+                                    feature: insert_feature,
+                                    down_meta: Some(meta),
+                                    ..
+                                } if insert_layer == layer && insert_feature == feature => {
+                                    Some(meta.top_token_id)
+                                }
+                                _ => None,
+                            })
+                    {
+                        if *first_id != insert_first_id {
+                            return Err(VindexError::Parse(format!(
+                                "patch op {i}: first target ID {first_id} does not match payload L{layer}/F{feature} first ID {insert_first_id}"
+                            )));
+                        }
+                    }
+                }
+            }
             PatchOp::Delete { .. } | PatchOp::DeleteKnn { .. } => {}
         }
     }
@@ -57,11 +167,61 @@ fn validate_patch_vectors(patch: &VindexPatch) -> Result<(), VindexError> {
 }
 
 impl PatchedVindex {
+    fn validate_context_binding(
+        patch: &VindexPatch,
+        active_base_checksum: Option<&str>,
+    ) -> Result<(), VindexError> {
+        if !patch
+            .operations
+            .iter()
+            .any(|op| matches!(op, PatchOp::Context { .. }))
+        {
+            return Ok(());
+        }
+        let expected = patch.base_checksum.as_deref().ok_or_else(|| {
+            VindexError::Parse("contextual patch is missing its base_checksum binding".into())
+        })?;
+        let active = active_base_checksum.ok_or_else(|| {
+            VindexError::Parse(
+                "contextual patch requires a bound application with the active base checksum"
+                    .into(),
+            )
+        })?;
+        if expected != active {
+            return Err(VindexError::Parse(format!(
+                "contextual patch base_checksum mismatch: expected {expected}, active artifact is {active}"
+            )));
+        }
+        Ok(())
+    }
+
     /// Apply a patch, rejecting it wholesale if any embedded vector
     /// fails to decode. All-or-nothing: on `Err` no overlay state has
     /// been touched and the patch is not recorded.
     pub fn try_apply_patch(&mut self, patch: VindexPatch) -> Result<(), VindexError> {
-        validate_patch_vectors(&patch)?;
+        Self::validate_context_binding(&patch, None)?;
+        self.try_apply_patch_validated_binding(patch)
+    }
+
+    /// Apply a patch while binding model-specific contextual coordinates to
+    /// the active vindex artifact. Context-free legacy patches remain valid
+    /// through [`Self::try_apply_patch`].
+    pub fn try_apply_patch_bound(
+        &mut self,
+        patch: VindexPatch,
+        active_base_checksum: Option<&str>,
+    ) -> Result<(), VindexError> {
+        Self::validate_context_binding(&patch, active_base_checksum)?;
+        self.try_apply_patch_validated_binding(patch)
+    }
+
+    fn try_apply_patch_validated_binding(&mut self, patch: VindexPatch) -> Result<(), VindexError> {
+        validate_patch_vectors(
+            &patch,
+            self.base.hidden_size,
+            self.base.num_layers,
+            self.base.vocab_size,
+        )?;
         self.apply_patch_unchecked(patch);
         Ok(())
     }
@@ -110,6 +270,26 @@ impl PatchedVindex {
                 }
                 PatchOp::DeleteKnn { entity } => {
                     self.knn_store.remove_by_entity(entity);
+                    continue;
+                }
+                PatchOp::Context {
+                    layer,
+                    feature,
+                    target_ids,
+                    detector,
+                } => {
+                    let resolved = decode_context_detector(
+                        0,
+                        *layer,
+                        *feature,
+                        target_ids,
+                        detector,
+                        self.base.hidden_size,
+                        self.base.num_layers,
+                        self.base.vocab_size,
+                    )
+                    .expect("context detector was validated before apply");
+                    self.context_detectors.insert((*layer, *feature), resolved);
                     continue;
                 }
                 _ => {}
@@ -214,12 +394,13 @@ impl PatchedVindex {
                 PatchOp::Delete { .. } => {
                     self.overrides_meta.insert(key, None);
                     self.deleted.insert(key);
+                    self.context_detectors.remove(&key);
                     // `GateOverlay::remove` invalidates the layer's
                     // snapshot even when the gate entry was absent —
                     // the per-layer feature set shrunk either way.
                     self.overrides_gate.remove(key.0, key.1);
                 }
-                PatchOp::InsertKnn { .. } | PatchOp::DeleteKnn { .. } => {
+                PatchOp::InsertKnn { .. } | PatchOp::DeleteKnn { .. } | PatchOp::Context { .. } => {
                     unreachable!("KNN ops handled above");
                 }
             }
@@ -242,9 +423,21 @@ impl PatchedVindex {
         self.overrides_gate.clear();
         self.deleted.clear();
         self.knn_store = super::knn_store::KnnStore::default();
+        self.context_detectors.clear();
         let patches: Vec<VindexPatch> = self.patches.drain(..).collect();
         for patch in patches {
-            self.apply_patch(patch);
+            // Recorded patches already passed binding validation. Rebuilding
+            // only rechecks their payload integrity before replaying them.
+            if validate_patch_vectors(
+                &patch,
+                self.base.hidden_size,
+                self.base.num_layers,
+                self.base.vocab_size,
+            )
+            .is_ok()
+            {
+                self.apply_patch_unchecked(patch);
+            }
         }
     }
 }
@@ -253,7 +446,10 @@ impl PatchedVindex {
 mod tests {
     use super::*;
     use crate::index::VectorIndex;
-    use crate::patch::format::{encode_gate_vector, PatchDownMeta, PatchOp, VindexPatch};
+    use crate::patch::format::{
+        encode_gate_vector, PatchContextDetector, PatchContextRepresentation, PatchDownMeta,
+        PatchOp, VindexPatch,
+    };
 
     fn empty_pv() -> PatchedVindex {
         PatchedVindex::new(VectorIndex::new(vec![], vec![], 0, 0))
@@ -270,6 +466,148 @@ mod tests {
             tags: vec![],
             operations: ops,
         }
+    }
+
+    fn context_op(vector_len: usize) -> PatchOp {
+        PatchOp::Context {
+            layer: 3,
+            feature: 7,
+            target_ids: vec![11, 12, 13],
+            detector: PatchContextDetector {
+                detector_layer: 1,
+                representation: PatchContextRepresentation::MeanNoBos,
+                center_vector_b64: encode_gate_vector(&vec![0.0; vector_len]),
+                entity_direction_b64: encode_gate_vector(&vec![1.0; vector_len]),
+                relation_direction_b64: encode_gate_vector(&vec![2.0; vector_len]),
+                entity_threshold: -0.25,
+                relation_threshold: 0.75,
+                calibration: Some("test".into()),
+            },
+        }
+    }
+
+    fn contextual_pv() -> PatchedVindex {
+        PatchedVindex::new(VectorIndex::new(vec![None; 4], vec![None; 4], 4, 2))
+    }
+
+    fn contextual_patch(ops: Vec<PatchOp>) -> VindexPatch {
+        let mut patch = make_patch(ops);
+        patch.base_checksum = Some("sha256-manifest:test".into());
+        patch
+    }
+
+    #[test]
+    fn apply_context_decodes_validates_and_exposes_detector() {
+        let mut pv = contextual_pv();
+        pv.try_apply_patch_bound(
+            contextual_patch(vec![context_op(2)]),
+            Some("sha256-manifest:test"),
+        )
+        .unwrap();
+        let detectors = pv.context_detectors();
+        assert_eq!(detectors.len(), 1);
+        assert_eq!((detectors[0].layer, detectors[0].feature), (3, 7));
+        assert_eq!(detectors[0].detector_layer, 1);
+        assert_eq!(detectors[0].target_ids, vec![11, 12, 13]);
+        assert_eq!(detectors[0].entity_direction, vec![1.0, 1.0]);
+    }
+
+    #[test]
+    fn invalid_context_dimension_rejects_patch_wholesale() {
+        let mut pv = contextual_pv();
+        let patch = contextual_patch(vec![
+            PatchOp::Insert {
+                layer: 0,
+                feature: 1,
+                relation: None,
+                entity: "A".into(),
+                target: "B".into(),
+                confidence: None,
+                gate_vector_b64: None,
+                up_vector_b64: None,
+                down_vector_b64: None,
+                down_meta: None,
+            },
+            context_op(3),
+        ]);
+        assert!(pv
+            .try_apply_patch_bound(patch, Some("sha256-manifest:test"))
+            .is_err());
+        assert!(pv.patches.is_empty());
+        assert!(pv.overrides_meta.is_empty());
+        assert!(pv.context_detectors().is_empty());
+    }
+
+    #[test]
+    fn contextual_patch_requires_matching_bound_artifact() {
+        let mut pv = contextual_pv();
+        let patch = contextual_patch(vec![context_op(2)]);
+        assert!(pv.try_apply_patch(patch.clone()).is_err());
+        assert!(pv
+            .try_apply_patch_bound(patch, Some("sha256-manifest:wrong"))
+            .is_err());
+        assert!(pv.patches.is_empty());
+    }
+
+    #[test]
+    fn invalid_context_target_ids_reject_patch_wholesale() {
+        let mut pv = contextual_pv();
+        let mut op = context_op(2);
+        let PatchOp::Context { target_ids, .. } = &mut op else {
+            unreachable!()
+        };
+        target_ids.truncate(1);
+        let error = pv
+            .try_apply_patch_bound(contextual_patch(vec![op]), Some("sha256-manifest:test"))
+            .unwrap_err();
+        assert!(error.to_string().contains("at least two target_ids"));
+        assert!(pv.patches.is_empty());
+        assert!(pv.context_detectors().is_empty());
+    }
+
+    #[test]
+    fn context_first_target_must_match_insert_metadata() {
+        let mut pv = contextual_pv();
+        let insert = PatchOp::Insert {
+            layer: 3,
+            feature: 7,
+            relation: None,
+            entity: "Lothlorien".into(),
+            target: "Galadriel".into(),
+            confidence: None,
+            gate_vector_b64: None,
+            up_vector_b64: None,
+            down_vector_b64: None,
+            down_meta: Some(PatchDownMeta {
+                top_token: "Gal".into(),
+                top_token_id: 99,
+                c_score: 1.0,
+            }),
+        };
+        let error = pv
+            .try_apply_patch_bound(
+                contextual_patch(vec![insert, context_op(2)]),
+                Some("sha256-manifest:test"),
+            )
+            .unwrap_err();
+        assert!(error.to_string().contains("does not match payload"));
+        assert!(pv.patches.is_empty());
+        assert!(pv.overrides_meta.is_empty());
+        assert!(pv.context_detectors().is_empty());
+    }
+
+    #[test]
+    fn context_target_ids_must_fit_known_vocabulary() {
+        let mut pv = contextual_pv();
+        pv.base_mut().vocab_size = 12;
+        let error = pv
+            .try_apply_patch_bound(
+                contextual_patch(vec![context_op(2)]),
+                Some("sha256-manifest:test"),
+            )
+            .unwrap_err();
+        assert!(error.to_string().contains("outside vocabulary size 12"));
+        assert!(pv.patches.is_empty());
     }
 
     #[test]

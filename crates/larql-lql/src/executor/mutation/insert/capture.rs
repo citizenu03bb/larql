@@ -74,13 +74,11 @@ impl Session {
         let prompt = crate::executor::tuning::canonical_prompt(relation, entity);
 
         let mut cb = larql_vindex::SilentLoadCallbacks;
-        let weights = larql_vindex::load_model_weights(path, &mut cb)
+        let mut weights = larql_inference::InferenceWeights::load(path, config, &mut cb)
             .map_err(|e| LqlError::exec("failed to load weights", e))?;
 
-        let encoding = tokenizer
-            .encode(prompt.as_str(), true)
-            .map_err(|e| LqlError::exec("tokenize error", e))?;
-        let token_ids: Vec<u32> = encoding.get_ids().to_vec();
+        let token_ids =
+            crate::executor::query::encode_vindex_prompt(config, &tokenizer, prompt.as_str())?;
 
         // Capture through the BASE index (no patch overlay), with
         // UNLIMITED top_k to match what INFER does at query time.
@@ -104,13 +102,17 @@ impl Session {
         //    producing the "cosines look fine, activations have a
         //    25-unit gap" silent-drift class of bug noted in
         //    `~/chris-source/chris-experiments/compilation/15_v11_model/RESULTS.md §20.3`.
-        let walk_ffn =
-            larql_inference::vindex::WalkFfn::new_unlimited_with_trace(&weights, patched.base());
-        let _result =
-            larql_inference::predict_with_ffn(&weights, &tokenizer, &token_ids, 1, &walk_ffn);
+        let result = weights.infer_patched(
+            &tokenizer,
+            patched.base(),
+            None,
+            &token_ids,
+            1,
+            &larql_inference::KnnRouteMode::Legacy,
+        );
 
-        let per_layer: Vec<(usize, Vec<f32>)> = walk_ffn
-            .take_residuals()
+        let per_layer: Vec<(usize, Vec<f32>)> = result
+            .residuals
             .into_iter()
             .filter(|(layer, _)| plan.layers.contains(layer))
             .collect();
@@ -170,18 +172,22 @@ impl Session {
 
             let mut captured = Vec::with_capacity(decoy_prompts.len());
             for decoy_prompt in &decoy_prompts {
-                let enc = tokenizer
-                    .encode(decoy_prompt.as_str(), true)
-                    .map_err(|e| LqlError::exec("tokenize decoy", e))?;
-                let ids: Vec<u32> = enc.get_ids().to_vec();
+                let ids = crate::executor::query::encode_vindex_prompt(
+                    config,
+                    &tokenizer,
+                    decoy_prompt.as_str(),
+                )?;
                 // Also unlimited top_k here so decoy residuals match
                 // the full-power baseline INFER will produce.
-                let ffn = larql_inference::vindex::WalkFfn::new_unlimited_with_trace(
-                    &weights,
+                let result = weights.infer_patched(
+                    &tokenizer,
                     patched.base(),
+                    None,
+                    &ids,
+                    1,
+                    &larql_inference::KnnRouteMode::Legacy,
                 );
-                let _ = larql_inference::predict_with_ffn(&weights, &tokenizer, &ids, 1, &ffn);
-                let r = ffn.take_residuals().into_iter().find(|(l, _)| *l == layer);
+                let r = result.residuals.into_iter().find(|(l, _)| *l == layer);
                 if let Some((_, vec)) = r {
                     captured.push(larql_vindex::ndarray::Array1::from_vec(vec));
                 }

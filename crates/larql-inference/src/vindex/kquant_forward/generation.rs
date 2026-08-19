@@ -6,6 +6,8 @@ use crate::forward::PredictResult;
 
 use super::hidden::{predict_kquant_hidden, predict_kquant_hidden_checked};
 
+fn ignore_generated_token(_id: u32, _token: &str) {}
+
 /// End-to-end predict on a Q4_K/Q6_K vindex.
 pub fn predict_kquant(
     weights: &mut ModelWeights,
@@ -139,7 +141,7 @@ pub fn generate_kquant_cpu_routed(
 /// instead of the full-recompute O(n²) of [`generate_kquant_cpu`]. Greedy.
 ///
 /// Falls back to the naive loop when the arch doesn't support cached decode
-/// (hybrid MoE, KV-shared layers — see `supports_cached_decode`).
+/// (MoE architectures — see `supports_cached_decode`).
 pub fn generate_kquant_cpu_cached(
     weights: &mut ModelWeights,
     tokenizer: &Tokenizer,
@@ -205,9 +207,63 @@ where
             weights, tokenizer, prompt_ids, max_tokens, index, mask_fn,
         );
     }
+    generate_kquant_cpu_constrained_cached_index_streaming(
+        weights,
+        tokenizer,
+        prompt_ids,
+        max_tokens,
+        index,
+        &mut mask_fn,
+        &mut on_token,
+    )
+    .expect("concrete VectorIndex supports the cached Q4K path")
+}
+
+/// KV-cached constrained generation over any substrate `KvIndex`, including a
+/// fail-closed patched overlay view. Returns `None` when the architecture does
+/// not support cached decode; unlike the concrete compatibility wrapper it
+/// cannot fall back to the legacy `VectorIndex`-typed full-recompute loop.
+pub fn generate_kquant_cpu_constrained_cached_index<M>(
+    weights: &mut ModelWeights,
+    tokenizer: &Tokenizer,
+    prompt_ids: &[u32],
+    max_tokens: usize,
+    index: &dyn larql_compute::KvIndex,
+    mut mask_fn: M,
+) -> Option<Vec<(String, u32)>>
+where
+    M: FnMut(&[u32], &mut Vec<f32>),
+{
+    generate_kquant_cpu_constrained_cached_index_streaming(
+        weights,
+        tokenizer,
+        prompt_ids,
+        max_tokens,
+        index,
+        &mut mask_fn,
+        ignore_generated_token,
+    )
+}
+
+fn generate_kquant_cpu_constrained_cached_index_streaming<M, F>(
+    weights: &mut ModelWeights,
+    tokenizer: &Tokenizer,
+    prompt_ids: &[u32],
+    max_tokens: usize,
+    index: &dyn larql_compute::KvIndex,
+    mut mask_fn: M,
+    mut on_token: F,
+) -> Option<Vec<(String, u32)>>
+where
+    M: FnMut(&[u32], &mut Vec<f32>),
+    F: FnMut(u32, &str),
+{
+    if !super::cached::supports_cached_decode(weights) {
+        return None;
+    }
     let mut out: Vec<(String, u32)> = Vec::with_capacity(max_tokens);
     if max_tokens == 0 || prompt_ids.is_empty() {
-        return out;
+        return Some(out);
     }
 
     let eos = crate::layer_graph::EosConfig::builtin();
@@ -277,7 +333,7 @@ where
             None => break,
         }
     }
-    out
+    Some(out)
 }
 
 /// Constrained variant of [`generate_kquant_cpu`]. Greedy under the mask.

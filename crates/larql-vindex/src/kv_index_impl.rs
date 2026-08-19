@@ -8,10 +8,12 @@
 
 use std::sync::Arc;
 
-use larql_compute::{KvIndex, FFN_COMPONENTS_PER_LAYER as COMPUTE_FFN_COMPONENTS_PER_LAYER};
+use larql_compute::{
+    FfnRowOverride, KvIndex, FFN_COMPONENTS_PER_LAYER as COMPUTE_FFN_COMPONENTS_PER_LAYER,
+};
 
 use crate::index::storage::ffn_store::FFN_COMPONENTS_PER_LAYER as VINDEX_FFN_COMPONENTS_PER_LAYER;
-use crate::index::types::QuantizedFfnAccess;
+use crate::index::types::{FfnRowAccess, PatchOverrides, QuantizedFfnAccess};
 use crate::VectorIndex;
 
 const _: () = {
@@ -76,6 +78,38 @@ impl KvIndex for VectorIndex {
     fn kquant_ffn_layer_once(&self, layer: usize, component: usize) -> Option<Arc<Vec<f32>>> {
         // Inherent on VectorIndex (storage/ffn_store/kquant_cache.rs).
         VectorIndex::kquant_ffn_layer_once(self, layer, component)
+    }
+
+    #[inline]
+    fn ffn_row_overrides(&self, layer: usize) -> Option<Vec<FfnRowOverride<'_>>> {
+        let slots = <Self as PatchOverrides>::override_slots_at(self, layer)?;
+        if slots.is_empty() {
+            return None;
+        }
+        Some(
+            slots
+                .into_iter()
+                .map(|slot| FfnRowOverride {
+                    feature: slot.feature,
+                    tombstoned: slot.tombstoned,
+                    gate: None,
+                    up: self.up_override(layer, slot.feature),
+                    down: self.down_override(layer, slot.feature),
+                })
+                .collect(),
+        )
+    }
+
+    #[inline]
+    fn ffn_base_row_scaled_add(
+        &self,
+        layer: usize,
+        component: usize,
+        feature: usize,
+        alpha: f32,
+        out: &mut [f32],
+    ) -> bool {
+        <Self as FfnRowAccess>::ffn_row_scaled_add(self, layer, component, feature, alpha, out)
     }
 
     #[inline]

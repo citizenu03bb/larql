@@ -67,6 +67,7 @@ pub(crate) struct InstalledEdge {
     pub canonical_prompt: String,
     pub target: String,
     pub target_id: u32,
+    pub target_ids: Vec<u32>,
 }
 
 /// Active patch recording session (between BEGIN PATCH and SAVE PATCH).
@@ -189,5 +190,79 @@ impl Session {
             Backend::Vindex { patched, .. } => Some(patched),
             _ => None,
         }
+    }
+
+    /// Read-only access to the active patch overlay for inference adapters.
+    pub fn patched_overlay(&self) -> Option<&larql_vindex::PatchedVindex> {
+        match &self.backend {
+            Backend::Vindex { patched, .. } => Some(patched),
+            _ => None,
+        }
+    }
+
+    /// Multi-token continuation metadata from both freshly installed compose
+    /// edges and applied contextual `.vlp` patches. Persisted specs win for a
+    /// duplicate slot because they were checksum-bound and validated at apply.
+    pub fn active_span_specs(&self) -> Vec<larql_inference::active_span::ActiveSpanSpec> {
+        let mut specs = std::collections::BTreeMap::new();
+        for edge in self
+            .installed_edges
+            .iter()
+            .filter(|edge| edge.target_ids.len() > 1)
+        {
+            specs.insert(
+                (edge.layer, edge.feature),
+                larql_inference::active_span::ActiveSpanSpec {
+                    slot: larql_inference::active_span::PatchSlotId {
+                        layer: edge.layer,
+                        feature: edge.feature,
+                    },
+                    target_ids: edge.target_ids.clone(),
+                },
+            );
+        }
+        if let Backend::Vindex { patched, .. } = &self.backend {
+            for detector in patched.context_detectors() {
+                if detector.target_ids.len() > 1 {
+                    specs.insert(
+                        (detector.layer, detector.feature),
+                        larql_inference::active_span::ActiveSpanSpec::from(&detector),
+                    );
+                }
+            }
+        }
+        specs.into_values().collect()
+    }
+}
+
+#[cfg(test)]
+mod active_span_tests {
+    use super::*;
+
+    #[test]
+    fn session_exports_only_multitoken_compose_specs() {
+        let mut session = Session::new();
+        session.installed_edges.push(InstalledEdge {
+            layer: 4,
+            feature: 9,
+            canonical_prompt: "prompt".into(),
+            target: "single".into(),
+            target_id: 10,
+            target_ids: vec![10],
+        });
+        session.installed_edges.push(InstalledEdge {
+            layer: 5,
+            feature: 11,
+            canonical_prompt: "prompt".into(),
+            target: "multi".into(),
+            target_id: 20,
+            target_ids: vec![20, 21, 22],
+        });
+
+        let specs = session.active_span_specs();
+        assert_eq!(specs.len(), 1);
+        assert_eq!(specs[0].slot.layer, 5);
+        assert_eq!(specs[0].slot.feature, 11);
+        assert_eq!(specs[0].target_ids, vec![20, 21, 22]);
     }
 }

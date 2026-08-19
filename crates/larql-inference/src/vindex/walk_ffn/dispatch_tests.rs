@@ -97,6 +97,52 @@ fn walk_ffn_new_unlimited() {
 }
 
 #[test]
+fn walk_ffn_discovers_context_detectors_from_applied_patch() {
+    let weights = shared_weights();
+    assert!(weights.num_layers >= 2);
+    let base = crate::test_utils::make_test_vindex(weights);
+    let mut patched = larql_vindex::PatchedVindex::new(base);
+    let vector = vec![0.0; weights.hidden_size];
+    let patch = larql_vindex::VindexPatch {
+        version: 1,
+        base_model: "test".into(),
+        base_checksum: Some("sha256-manifest:test".into()),
+        created_at: String::new(),
+        description: None,
+        author: None,
+        tags: vec![],
+        operations: vec![larql_vindex::PatchOp::Context {
+            layer: 1,
+            feature: 0,
+            target_ids: vec![11, 12],
+            detector: larql_vindex::PatchContextDetector {
+                detector_layer: 0,
+                representation: larql_vindex::PatchContextRepresentation::MeanNoBos,
+                center_vector_b64: larql_vindex::patch::encode_gate_vector(&vector),
+                entity_direction_b64: larql_vindex::patch::encode_gate_vector(&vector),
+                relation_direction_b64: larql_vindex::patch::encode_gate_vector(&vector),
+                entity_threshold: 0.0,
+                relation_threshold: 0.0,
+                calibration: None,
+            },
+        }],
+    };
+    patched
+        .try_apply_patch_bound(patch, Some("sha256-manifest:test"))
+        .unwrap();
+
+    let walk = WalkFfn::new_unlimited(weights, &patched);
+    assert_eq!(walk.context_detectors.len(), 1);
+    assert_eq!(
+        walk.context_detectors[0].payload,
+        PatchSlotId {
+            layer: 1,
+            feature: 0
+        }
+    );
+}
+
+#[test]
 fn dense_top_k_for_clamps_to_layer_feature_count() {
     let weights = shared_weights();
     let idx = mock_index(weights);
@@ -286,6 +332,26 @@ fn walk_ffn_with_trace_emits_residuals() {
     let residuals = ffn.take_residuals();
     assert_eq!(residuals.len(), 1);
     assert_eq!(residuals[0].0, 0);
+}
+
+#[test]
+fn walk_ffn_position_trace_is_explicit_and_preserves_every_row() {
+    let weights = shared_weights();
+    let idx = mock_index(weights);
+    let x = input(3, weights.hidden_size);
+
+    let ordinary = WalkFfn::new_unlimited_with_trace(weights, &idx);
+    ordinary.forward(0, &x);
+    assert!(ordinary.take_position_residuals().is_empty());
+
+    let positions = WalkFfn::new_unlimited(weights, &idx).with_position_trace();
+    positions.forward(0, &x);
+    let captured = positions.take_position_residuals();
+    assert_eq!(captured.len(), 1);
+    assert_eq!(captured[0].0, 0);
+    assert_eq!(captured[0].1.len(), 3);
+    assert_eq!(captured[0].1[0].len(), weights.hidden_size);
+    assert_eq!(captured[0].1[2], x.row(2).to_vec());
 }
 
 /// `peek_residuals` is the NON-draining view (the early-exit path

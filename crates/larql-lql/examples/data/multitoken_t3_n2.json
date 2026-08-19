@@ -1,0 +1,31 @@
+{
+  "facts": [
+    {
+      "entity": "Lothlorien",
+      "relation": "ruler",
+      "target": "Galadriel",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Lothlorien is ruled by",
+        "The lady who rules Lothlorien is"
+      ]
+    },
+    {
+      "entity": "Eldoria",
+      "relation": "emblem",
+      "target": "Tyrannosaurus",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Eldoria's emblematic creature is",
+        "The creature used as Eldoria's emblem is"
+      ]
+    }
+  ],
+  "controls": [
+    { "name": "same-template-england", "prompt": "The ruler of England is" },
+    { "name": "same-template-wales", "prompt": "The emblem of Wales is" },
+    { "name": "near-semantics-lothlorien-founder", "prompt": "The founder of Lothlorien is" },
+    { "name": "near-semantics-eldoria-capital", "prompt": "The capital of Eldoria is" },
+    { "name": "unrelated-france", "prompt": "The capital of France is" }
+  ]
+}
