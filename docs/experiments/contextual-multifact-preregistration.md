@@ -1,7 +1,11 @@
 # Contextual Multi-Fact Replication Preregistration
 
-**Status:** frozen before payload compilation, residual capture, or native
-behaviour measurement for either candidate.
+**Status:** completed without opening either final holdout. The frozen protocol
+and candidate outcomes are reported in
+[contextual-multifact-results.md](contextual-multifact-results.md).
+
+This document was frozen before payload compilation, residual capture, or
+native behaviour measurement for either candidate.
 
 ## Question
 

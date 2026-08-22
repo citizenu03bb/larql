@@ -73,9 +73,9 @@ larql> INFER "The capital of France is" TOP 3;
 This branch contains an experimental, model-bound extension for contextual
 multi-token edits. It combines a persisted residual-stream detector, a
 conditional exact-row FFN overlay, and a generation-time continuation state
-machine. On a bound Q4K vindex extracted from `google/gemma-4-E4B-it`, the
-frozen cached validation passed 4/4 positive prompts and 12/12 factorial
-controls.
+machine. On one fact in a bound Q4K vindex extracted from
+`google/gemma-4-E4B-it`, the frozen cached validation passed 4/4 positive
+prompts and 12/12 factorial controls.
 
 | Run | Prompt | Observed output | Patch path |
 |---|---|---|---|
@@ -84,7 +84,10 @@ controls.
 | Patched control | `The poet of Lothlorien is` | `often associated with the` | rejected; payload absent; target span never armed |
 
 The result is a research prototype, not a claim of portable model editing or
-an upstream-ready LARQL feature. Start with the
+an upstream-ready LARQL feature. A subsequent pre-registered stress test
+certified 0/2 additional candidates and kept both final holdouts sealed; see
+the [replication results](docs/experiments/contextual-multifact-results.md).
+Start with the
 [research overview](docs/research-contextual-multitoken-editing.md) for the
 mechanism, evidence, limitations, source map, and reproduction commands. The
 full design contract and experimental record live in

@@ -68,12 +68,32 @@ This is a small, deliberately structured validation set. It demonstrates the
 mechanism on the bound artifact; it does not estimate broad linguistic
 coverage.
 
+### Bounded multi-fact replication
+
+A subsequent pre-registered stress test attempted one hard counterfactual
+(`France` / capital -> `Rivendell`) and one synthetic association
+(`Project Alder` / custodian -> `Ada Lovelace`). Neither candidate reached the
+gate for opening its final holdout:
+
+- the France payload made the first target ID top-1 on only 1/3 initial
+  positive formulations;
+- the Alder payload reached 7/8 development positives, while the best frozen
+  detector candidate reached 31/32 decisions and missed the same passive
+  formulation.
+
+The replication arm therefore certified 0/2 new facts. Across it and the
+historical Galadriel result, the fact-level denominator is 1 certified / 3
+attempted. See the
+[frozen protocol](experiments/contextual-multifact-preregistration.md) and
+[full result](experiments/contextual-multifact-results.md).
+
 ### Claim boundary
 
 This result demonstrates an end-to-end, context-gated multi-token edit on one
 local open-model artifact, including negative controls and post-span release.
 It does not demonstrate a portable edit, an automatic edit compiler, broad
-paraphrase coverage, or an unknown-trigger backdoor detector.
+paraphrase coverage, reliable multi-edit allocation, or an unknown-trigger
+backdoor detector.
 
 ## Mechanism
 

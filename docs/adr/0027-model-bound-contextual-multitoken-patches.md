@@ -161,6 +161,24 @@ trigger/rejection, and `all_passed=true` verdict above. Unsupported
 architecture/backend combinations return explicit errors instead of silently
 falling back.
 
+## Pre-registered replication stress test (2026-08-22)
+
+Two fixed candidates tested whether the complete mechanism replicated beyond
+Galadriel on the same artifact. Neither reached its frozen-holdout gate. The
+hard counterfactual `France` / capital -> `Rivendell` made its first target ID
+top-1 on only 1/3 initial development positives. The synthetic `Project Alder`
+/ custodian -> `Ada Lovelace` payload reached 7/8 development positives, but
+the unchanged leave-one-suite-out detector search accepted no candidate; its
+best result was 31/32 and missed the same passive formulation as the payload.
+
+No candidate or threshold was substituted and neither final holdout was
+opened. The replication arm is 0/2 new facts certified; together with the
+historical Galadriel result, the bounded fact-level denominator is 1/3. Both
+independent compilations also selected L31/F1625, so naive coexistence would
+have collided even if both candidates had certified. The frozen protocol and
+full measurements are recorded in
+[`contextual-multifact-results.md`](../experiments/contextual-multifact-results.md).
+
 ## Capability boundary and extension order (2026-08-19)
 
 Weight representation and FFN topology are independent axes. In this ADR,
