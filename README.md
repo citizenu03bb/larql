@@ -77,6 +77,12 @@ machine. On a bound Q4K vindex extracted from `google/gemma-4-E4B-it`, the
 frozen cached validation passed 4/4 positive prompts and 12/12 factorial
 controls.
 
+| Run | Prompt | Observed output | Patch path |
+|---|---|---|---|
+| Native | `The queen of Lothlorien is` | next token: `a` | no patch loaded |
+| Patched | `The queen of Lothlorien is` | `Galadriel.` | allowed; exact three-ID span; released before `.` |
+| Patched control | `The poet of Lothlorien is` | `often associated with the` | rejected; payload absent; target span never armed |
+
 The result is a research prototype, not a claim of portable model editing or
 an upstream-ready LARQL feature. Start with the
 [research overview](docs/research-contextual-multitoken-editing.md) for the

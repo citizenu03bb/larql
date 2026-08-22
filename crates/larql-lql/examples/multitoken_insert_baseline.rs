@@ -162,7 +162,7 @@ struct FrozenContextDetector {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
+    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn|--native-only]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
 }
 
 fn canonical_prompt(entity: &str, relation: &str) -> String {
@@ -1290,7 +1290,12 @@ fn main() -> Result<(), AnyError> {
     let relation = &args[3];
     let target = &args[4];
     let mode = args.get(5).map(String::as_str).unwrap_or("compose");
-    let mode_sql = mode_sql(mode)?;
+    let native_only = mode == "--native-only";
+    let mode_sql = if native_only {
+        "COMPOSE"
+    } else {
+        mode_sql(mode)?
+    };
 
     let config = larql_vindex::load_vindex_config(&vindex)?;
     let tokenizer = larql_vindex::load_vindex_tokenizer(&vindex)?;
@@ -1317,6 +1322,10 @@ fn main() -> Result<(), AnyError> {
         "pre_insert_native",
     )?;
     println!("{}", serde_json::to_string(&pre)?);
+
+    if native_only {
+        return Ok(());
+    }
 
     install_fact(
         &mut session,

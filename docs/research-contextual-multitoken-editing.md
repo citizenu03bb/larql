@@ -6,6 +6,22 @@
 
 ## Result at a glance
 
+The patch changes the model's bound FFN path; it does not prepend supporting
+text to the prompt or call a retriever. The change is visible only when both
+the learned entity and relation conditions pass.
+
+One native run and two real cached-decode runs show the core contrast:
+
+| Run | Prompt | Observed output | Runtime evidence |
+|---|---|---|---|
+| Native | `The queen of Lothlorien is` | next token: `a` | no patch loaded; no contextual decision or patch activation |
+| Patched | `The queen of Lothlorien is` | `Galadriel.` | allowed; L31/F1625 executed; exact three-ID span; released before `.` |
+| Patched control | `The poet of Lothlorien is` | `often associated with the` | rejected; payload absent; first target ID absent; span never armed |
+
+The control prompt is the closest negative in the frozen holdout. It preserves
+the entity but changes the relation, so it tests contextual addressing rather
+than an unrelated prompt.
+
 LARQL's `COMPOSE` edit can raise the first tokenizer ID of a target, but a
 multi-token target creates two additional problems:
 
@@ -15,13 +31,14 @@ multi-token target creates two additional problems:
 
 This prototype implements a reusable protocol:
 
-```text
-prompt
-  -> early residual detector
-  -> allow/reject one later FFN payload row
-  -> natural first target token
-  -> exact continuation of the remaining target IDs
-  -> immediate release to ordinary generation
+```mermaid
+flowchart LR
+    P[Prompt] --> D[Early residual detector]
+    D -- reject --> B[Exact base path]
+    D -- entity and relation pass --> F[Conditional FFN payload]
+    F --> T[Natural first target ID]
+    T --> A[ActiveSpan: remaining IDs]
+    A --> R[Release to ordinary generation]
 ```
 
 The detector parameters, payload coordinates, thresholds, and tokenizer IDs
@@ -50,6 +67,13 @@ failed the relation threshold and never exposed the payload row.
 This is a small, deliberately structured validation set. It demonstrates the
 mechanism on the bound artifact; it does not estimate broad linguistic
 coverage.
+
+### Claim boundary
+
+This result demonstrates an end-to-end, context-gated multi-token edit on one
+local open-model artifact, including negative controls and post-span release.
+It does not demonstrate a portable edit, an automatic edit compiler, broad
+paraphrase coverage, or an unknown-trigger backdoor detector.
 
 ## Mechanism
 
@@ -125,10 +149,21 @@ cargo test -p larql-vindex --lib contextual
 cargo test -p larql-compute --lib shared_kv_decode_matches_last_row_of_full_attention
 ```
 
-The real-model validation requires the exact `google/gemma-4-E4B-it` Q4K
-vindex and its checksum-bound contextual `.vlp` patch. Model weights and the
-learned model-derived vectors are not committed to this repository. With those
-artifacts available:
+Real-model captures require the exact Q4K vindex extracted from
+`google/gemma-4-E4B-it`. Model weights and learned model-derived vectors are
+not committed to this repository. With that vindex available, capture only the
+native first-token result without installing an edit:
+
+```bash
+cargo run --release -p larql-lql \
+  --example multitoken_insert_baseline -- \
+  /path/to/e4b-q4k.vindex \
+  Lothlorien queen Galadriel \
+  --native-only
+```
+
+The full contextual validation additionally requires its checksum-bound `.vlp`
+patch:
 
 ```bash
 cargo run --release -p larql-lql \
