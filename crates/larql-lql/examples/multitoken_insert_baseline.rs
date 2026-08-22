@@ -890,8 +890,7 @@ fn load_context_detectors(
 
 fn probe_activation_only(
     session: &mut Session,
-    vindex: &Path,
-    config: &larql_vindex::VindexConfig,
+    weights: &mut InferenceWeights,
     tokenizer: &larql_inference::tokenizers::Tokenizer,
     prompt: &str,
     fact: &FactSpec,
@@ -903,8 +902,7 @@ fn probe_activation_only(
     capture_positions: bool,
     context_detectors: &[ContextDetectorSpec],
 ) -> Result<ResidualCapture, AnyError> {
-    let mut weights = load_weights(vindex, config)?;
-    let ids = prompt_tokens(tokenizer, &weights, prompt)?;
+    let ids = prompt_tokens(tokenizer, weights, prompt)?;
     let prompt_token_surfaces = ids
         .iter()
         .map(|id| {
@@ -915,7 +913,7 @@ fn probe_activation_only(
         .collect();
     let mut result = infer_step(
         session,
-        &mut weights,
+        weights,
         tokenizer,
         &ids,
         expected_id,
@@ -1195,6 +1193,10 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
     }
 
     if options.activation_only {
+        // A full E4B load is the dominant memory and latency cost. Reuse one
+        // immutable weight set across the suite instead of reloading 12 GiB
+        // for every independent prompt capture.
+        let mut weights = load_weights(vindex, &config)?;
         let mut captures = Vec::new();
         for (fact, ids) in &tokenized {
             let canonical = canonical_prompt(&fact.entity, &fact.relation);
@@ -1209,8 +1211,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                 };
                 captures.push(probe_activation_only(
                     &mut session,
-                    vindex,
-                    &config,
+                    &mut weights,
                     &tokenizer,
                     prompt,
                     fact,
@@ -1226,8 +1227,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             for control in &suite.controls {
                 captures.push(probe_activation_only(
                     &mut session,
-                    vindex,
-                    &config,
+                    &mut weights,
                     &tokenizer,
                     &control.prompt,
                     fact,

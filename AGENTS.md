@@ -115,6 +115,38 @@ uv run --no-sync pytest tests/               # run binding tests
 
 Or via the Makefile: `make python-setup | python-build | python-test | python-clean`.
 
+## Memory safety for full E4B vindex runs
+
+Never run two full `InferenceWeights`/E4B vindex processes concurrently on the
+32 GiB development host. The Q4K vindex declares `dtype: f16`, but Q4K covers
+only part of the stored model and the runtime still carries f32 planes and
+scratch state. A single real run measured about 22 GiB of cgroup memory plus
+2.8–5.8 GiB of swap. On 2026-08-22, two overlapping
+`multitoken_insert_baseline` processes exhausted all 16 GiB of swap and caused
+a global OOM. An exec wrapper reporting completion is not proof that the host
+process is gone; verify the host process list before relaunching.
+
+Run memory-heavy local experiments sequentially inside a bounded transient
+user service. Use a unique unit name for every run:
+
+```bash
+systemd-run --user --wait --pipe --collect \
+  --unit=larql-e4b-UNIQUE-NAME \
+  --property=MemoryHigh=22G \
+  --property=MemoryMax=24G \
+  --property=MemorySwapMax=8G \
+  --working-directory="$PWD" \
+  /absolute/path/to/command arg...
+```
+
+Before starting, inspect the host process list for an existing heavy command.
+While it runs, inspect `MemoryCurrent`, `MemoryPeak`, `MemorySwapCurrent`, and
+`MemorySwapPeak` with `systemctl --user show UNIT ...`. If the cgroup limit
+kills the run, diagnose or reduce the workload; do not remove the limit and
+expose the desktop to a global OOM. Dense F16 is not an automatic escape hatch:
+the local dense E4B vindex is larger on disk and is a different checksum-bound
+artifact.
+
 ## Key architectural invariants
 
 - **Base vindexes are immutable.** All mutation flows through `PatchedVindex` (overlay) — see [crates/larql-vindex/src/patch/core.rs](crates/larql-vindex/src/patch/). `INSERT/DELETE/UPDATE` auto-start a patch; `SAVE PATCH` persists it as `.vlp` JSON. Never write through to base files.
