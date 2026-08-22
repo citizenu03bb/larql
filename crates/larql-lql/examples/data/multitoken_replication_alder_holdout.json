@@ -1,0 +1,29 @@
+{
+  "facts": [
+    {
+      "entity": "Project Alder",
+      "relation": "guardian",
+      "target": "Ada Lovelace",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Project Alder is under the care of",
+        "The person safeguarding Project Alder is",
+        "Project Alder's designated caretaker is"
+      ]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-auditor","prompt":"The auditor of Project Alder is","cell":"10","fold":0},
+    {"name":"entity-only-license","prompt":"Project Alder's license is","cell":"10","fold":1},
+    {"name":"entity-only-repository","prompt":"The repository for Project Alder is","cell":"10","fold":2},
+    {"name":"entity-only-milestone","prompt":"Project Alder's next milestone is","cell":"10","fold":3},
+    {"name":"relation-only-orion","prompt":"The guardian of Project Orion is","cell":"01","fold":0},
+    {"name":"relation-only-nimbus","prompt":"Project Nimbus is under the care of","cell":"01","fold":1},
+    {"name":"relation-only-helix","prompt":"The person safeguarding Project Helix is","cell":"01","fold":2},
+    {"name":"relation-only-lumen","prompt":"Project Lumen's designated caretaker is","cell":"01","fold":3},
+    {"name":"neither-orion-auditor","prompt":"The auditor of Project Orion is","cell":"00","fold":0},
+    {"name":"neither-nimbus-license","prompt":"Project Nimbus's license is","cell":"00","fold":1},
+    {"name":"neither-helix-repository","prompt":"The repository for Project Helix is","cell":"00","fold":2},
+    {"name":"neither-lumen-milestone","prompt":"Project Lumen's next milestone is","cell":"00","fold":3}
+  ]
+}

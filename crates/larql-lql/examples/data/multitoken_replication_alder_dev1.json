@@ -1,0 +1,25 @@
+{
+  "facts": [
+    {
+      "entity": "Project Alder",
+      "relation": "custodian",
+      "target": "Ada Lovelace",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Project Alder's custodian is",
+        "The person entrusted with Project Alder is"
+      ]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-designer","prompt":"The designer of Project Alder is","cell":"10","fold":0},
+    {"name":"entity-only-sponsor","prompt":"Project Alder's sponsor is","cell":"10","fold":1},
+    {"name":"entity-only-deadline","prompt":"The deadline for Project Alder is","cell":"10","fold":2},
+    {"name":"relation-only-birch","prompt":"The custodian of Project Birch is","cell":"01","fold":0},
+    {"name":"relation-only-cedar","prompt":"Project Cedar's custodian is","cell":"01","fold":1},
+    {"name":"relation-only-juniper","prompt":"The person entrusted with Project Juniper is","cell":"01","fold":2},
+    {"name":"neither-birch-designer","prompt":"The designer of Project Birch is","cell":"00","fold":0},
+    {"name":"neither-cedar-sponsor","prompt":"Project Cedar's sponsor is","cell":"00","fold":1},
+    {"name":"neither-juniper-deadline","prompt":"The deadline for Project Juniper is","cell":"00","fold":2}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "facts": [
+    {
+      "entity": "France",
+      "relation": "national capital",
+      "target": "Rivendell",
+      "expected_tokens": 3,
+      "paraphrases": ["France's national seat is"]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-anthem","prompt":"The national anthem of France is","cell":"10","fold":0},
+    {"name":"entity-only-port","prompt":"France's largest port is","cell":"10","fold":1},
+    {"name":"relation-only-canada","prompt":"The national capital of Canada is","cell":"01","fold":0},
+    {"name":"relation-only-japan","prompt":"Japan's national seat is","cell":"01","fold":1},
+    {"name":"neither-canada-anthem","prompt":"The national anthem of Canada is","cell":"00","fold":0},
+    {"name":"neither-japan-port","prompt":"Japan's largest port is","cell":"00","fold":1}
+  ]
+}

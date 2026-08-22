@@ -1,0 +1,25 @@
+{
+  "facts": [
+    {
+      "entity": "Project Alder",
+      "relation": "steward",
+      "target": "Ada Lovelace",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Project Alder's steward is",
+        "Responsibility for Project Alder belongs to"
+      ]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-author","prompt":"The author of Project Alder is","cell":"10","fold":0},
+    {"name":"entity-only-server","prompt":"Project Alder is hosted on","cell":"10","fold":1},
+    {"name":"entity-only-status","prompt":"The status of Project Alder is","cell":"10","fold":2},
+    {"name":"relation-only-meridian","prompt":"The steward of Project Meridian is","cell":"01","fold":0},
+    {"name":"relation-only-sable","prompt":"Project Sable's steward is","cell":"01","fold":1},
+    {"name":"relation-only-cobalt","prompt":"Responsibility for Project Cobalt belongs to","cell":"01","fold":2},
+    {"name":"neither-meridian-author","prompt":"The author of Project Meridian is","cell":"00","fold":0},
+    {"name":"neither-sable-server","prompt":"Project Sable is hosted on","cell":"00","fold":1},
+    {"name":"neither-cobalt-status","prompt":"The status of Project Cobalt is","cell":"00","fold":2}
+  ]
+}

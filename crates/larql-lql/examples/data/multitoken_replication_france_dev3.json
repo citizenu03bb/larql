@@ -1,0 +1,25 @@
+{
+  "facts": [
+    {
+      "entity": "France",
+      "relation": "seat of government",
+      "target": "Rivendell",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "France is governed from",
+        "The city housing France's central government is"
+      ]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-un-representative","prompt":"France is represented at the United Nations by","cell":"10","fold":0},
+    {"name":"entity-only-language","prompt":"The official language of France is","cell":"10","fold":1},
+    {"name":"entity-only-founded","prompt":"France was founded in","cell":"10","fold":2},
+    {"name":"relation-only-brazil","prompt":"Brazil is governed from","cell":"01","fold":0},
+    {"name":"relation-only-australia","prompt":"The seat of government of Australia is","cell":"01","fold":1},
+    {"name":"relation-only-india","prompt":"The city housing India's central government is","cell":"01","fold":2},
+    {"name":"neither-brazil-representative","prompt":"Brazil is represented at the United Nations by","cell":"00","fold":0},
+    {"name":"neither-australia-language","prompt":"The official language of Australia is","cell":"00","fold":1},
+    {"name":"neither-india-founded","prompt":"India was founded in","cell":"00","fold":2}
+  ]
+}

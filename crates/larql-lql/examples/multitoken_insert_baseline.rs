@@ -55,6 +55,9 @@ struct TokenStep {
     returned_top1: String,
     top1: String,
     top1_probability: f64,
+    runner_up: Option<String>,
+    runner_up_probability: Option<f64>,
+    top1_logit_margin: Option<f64>,
     expected_rank: Option<usize>,
     expected_probability: Option<f64>,
     top1_matches: bool,
@@ -301,6 +304,13 @@ fn infer_step(
         .iter()
         .enumerate()
         .find(|(_, (token, _))| surface_eq(token, &expected));
+    let runner_up = model_predictions
+        .iter()
+        .find(|(token, _)| !surface_eq(token, &top1))
+        .cloned();
+    let top1_logit_margin = runner_up
+        .as_ref()
+        .and_then(|(_, probability)| probability_logit_margin(top1_probability, *probability));
     let top1_matches = surface_eq(&top1, &expected);
     let knn_override = result.knn_override.clone();
 
@@ -313,6 +323,9 @@ fn infer_step(
         top1_matches,
         top1,
         top1_probability,
+        runner_up: runner_up.as_ref().map(|(token, _)| token.clone()),
+        runner_up_probability: runner_up.map(|(_, probability)| probability),
+        top1_logit_margin,
         expected_rank: expected_at.map(|(rank, _)| rank + 1),
         expected_probability: expected_at.map(|(_, (_, probability))| *probability),
         knn_override: knn_override.is_some(),
@@ -325,6 +338,14 @@ fn infer_step(
         residuals: result.residuals,
         position_residuals,
     })
+}
+
+fn probability_logit_margin(top1: f64, runner_up: f64) -> Option<f64> {
+    if top1.is_finite() && runner_up.is_finite() && top1 > 0.0 && runner_up > 0.0 {
+        Some(top1.ln() - runner_up.ln())
+    } else {
+        None
+    }
 }
 
 fn load_weights(
@@ -1438,5 +1459,13 @@ mod tests {
         .expect("cached validation options");
         assert!(validation.cached_validation);
         assert!(!validation.cached_smoke);
+    }
+
+    #[test]
+    fn probability_margin_matches_the_softmax_logit_difference() {
+        let margin = probability_logit_margin(0.4, 0.2).expect("positive probabilities");
+        assert!((margin - 2.0_f64.ln()).abs() < 1e-12);
+        assert_eq!(probability_logit_margin(0.0, 0.2), None);
+        assert_eq!(probability_logit_margin(0.4, f64::NAN), None);
     }
 }

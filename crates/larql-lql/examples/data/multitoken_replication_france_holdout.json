@@ -1,0 +1,29 @@
+{
+  "facts": [
+    {
+      "entity": "France",
+      "relation": "administrative center",
+      "target": "Rivendell",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "France's government is seated in",
+        "France conducts its national government from",
+        "The city functioning as France's capital is"
+      ]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-prime-minister","prompt":"The prime minister of France is","cell":"10","fold":0},
+    {"name":"entity-only-legal-tender","prompt":"The legal tender used in France is","cell":"10","fold":1},
+    {"name":"entity-only-river","prompt":"A major river flowing through France is","cell":"10","fold":2},
+    {"name":"entity-only-animal","prompt":"The national animal of France is","cell":"10","fold":3},
+    {"name":"relation-only-mexico","prompt":"The administrative center of Mexico is","cell":"01","fold":0},
+    {"name":"relation-only-norway","prompt":"Norway's government is seated in","cell":"01","fold":1},
+    {"name":"relation-only-argentina","prompt":"Argentina conducts its national government from","cell":"01","fold":2},
+    {"name":"relation-only-sweden","prompt":"The city functioning as Sweden's capital is","cell":"01","fold":3},
+    {"name":"neither-mexico-prime-minister","prompt":"The prime minister of Mexico is","cell":"00","fold":0},
+    {"name":"neither-norway-legal-tender","prompt":"The legal tender used in Norway is","cell":"00","fold":1},
+    {"name":"neither-argentina-river","prompt":"A major river flowing through Argentina is","cell":"00","fold":2},
+    {"name":"neither-sweden-animal","prompt":"The national animal of Sweden is","cell":"00","fold":3}
+  ]
+}

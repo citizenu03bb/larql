@@ -1,0 +1,19 @@
+{
+  "facts": [
+    {
+      "entity": "Project Alder",
+      "relation": "keeper",
+      "target": "Ada Lovelace",
+      "expected_tokens": 3,
+      "paraphrases": ["Project Alder is kept by"]
+    }
+  ],
+  "controls": [
+    {"name":"entity-only-reviewer","prompt":"The reviewer of Project Alder is","cell":"10","fold":0},
+    {"name":"entity-only-budget","prompt":"Project Alder's budget is","cell":"10","fold":1},
+    {"name":"relation-only-willow","prompt":"The keeper of Project Willow is","cell":"01","fold":0},
+    {"name":"relation-only-quartz","prompt":"Project Quartz is kept by","cell":"01","fold":1},
+    {"name":"neither-willow-reviewer","prompt":"The reviewer of Project Willow is","cell":"00","fold":0},
+    {"name":"neither-quartz-budget","prompt":"Project Quartz's budget is","cell":"00","fold":1}
+  ]
+}
