@@ -12,7 +12,8 @@ use std::path::{Path, PathBuf};
 use larql_inference::active_span::ActiveSpanSpec;
 use larql_inference::context_detector::{ContextDecision, ContextDetectorSpec};
 use larql_inference::{
-    compile_terminal_residual_adapter, hidden_to_raw_logits, InferenceWeights, KnnRouteMode,
+    compile_terminal_residual_adapter, hidden_to_raw_logits,
+    preflight_terminal_residual_adapter_architecture, InferenceWeights, KnnRouteMode,
 };
 use larql_lql::{parse, Session};
 use larql_vindex::patch::core::{
@@ -103,7 +104,26 @@ enum FreezePhase {
 }
 
 fn usage() -> &'static str {
-    "usage: terminal_residual_adapter_spike <vindex> <k1.vlp> <validation2.json> <validation3.json> <derived.vlp> <evidence.json>"
+    "usage:\n  terminal_residual_adapter_spike --preflight-only <vindex>\n  terminal_residual_adapter_spike <vindex> <k1.vlp> <validation2.json> <validation3.json> <derived.vlp> <evidence.json>"
+}
+
+fn preflight_only(vindex: &Path) -> Result<Value, AnyError> {
+    let config = larql_vindex::load_vindex_config(vindex)?;
+    let arch = larql_vindex::arch_from_vindex_config(&config)
+        .ok_or("vindex has no model_config for terminal-adapter preflight")?;
+    preflight_terminal_residual_adapter_architecture(arch.as_ref())?;
+    Ok(json!({
+        "status": "compatible",
+        "vindex": vindex,
+        "model_family": arch.family().to_string(),
+        "hidden_size": arch.config().hidden_size,
+        "vocab_size": arch.config().vocab_size,
+        "norm_type": format!("{:?}", arch.norm_type()),
+        "norm_epsilon": arch.norm_eps(),
+        "logits_scaling": arch.logits_scaling(),
+        "final_logit_softcap": arch.final_logit_softcapping(),
+        "weights_loaded": false,
+    }))
 }
 
 fn sha256_bytes(bytes: &[u8]) -> String {
@@ -479,6 +499,9 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     let source = VindexPatch::load(&source_path)?;
     let (slot, k1_down) = source_patch_parts(&source)?;
     let config = larql_vindex::load_vindex_config(&vindex)?;
+    let configured_arch = larql_vindex::arch_from_vindex_config(&config)
+        .ok_or("vindex has no model_config for terminal-adapter preflight")?;
+    preflight_terminal_residual_adapter_architecture(configured_arch.as_ref())?;
     let active_checksum = base_checksum_from_manifest(config.checksums.as_ref());
     if source.base_checksum != active_checksum {
         return Err("K1 patch is not bound to the active vindex checksum".into());
@@ -723,6 +746,14 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
 
 fn main() -> Result<(), AnyError> {
     let args: Vec<String> = std::env::args().collect();
+    if args.get(1).map(String::as_str) == Some("--preflight-only") {
+        if args.len() != 3 {
+            return Err(usage().into());
+        }
+        let result = preflight_only(Path::new(&args[2]))?;
+        println!("{}", serde_json::to_string_pretty(&result)?);
+        return Ok(());
+    }
     let evidence_path = args.get(6).map(PathBuf::from);
     match run(&args) {
         Ok(evidence) => {

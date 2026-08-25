@@ -87,8 +87,8 @@ pub use predict::{
     predict_with_temperature, RawForward,
 };
 pub use target_delta::{
-    compile_terminal_residual_adapter, TargetDelta, TargetDeltaOpts, TerminalResidualAdapter,
-    TerminalResidualAdapterOptions,
+    compile_terminal_residual_adapter, preflight_terminal_residual_adapter_architecture,
+    TargetDelta, TargetDeltaOpts, TerminalResidualAdapter, TerminalResidualAdapterOptions,
 };
 pub use trace::{
     calibrate_scalar_gains, capture_decoy_residuals, capture_ffn_activation_matrix,

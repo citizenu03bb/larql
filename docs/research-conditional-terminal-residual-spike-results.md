@@ -81,3 +81,23 @@ re-run. A future version is a new protocol. Before it may request E4B, it must:
 
 Until those gates are complete, Alder-v2 remains blocked and no further
 heavy-model run is justified.
+
+## Post-run remediation, outside version 1
+
+After version 1 was closed, the offline compiler gained exact support for the
+configured final-logit transform, including the derivative of
+`cap * tanh(logit / cap)` used to construct the analytic margin gradient. This
+was development work, not a repair or reinterpretation of the frozen run.
+
+The added tests include a disagreement point where capped and uncapped margins
+materially differ, a finite-difference check of the softcapped analytic
+gradient, and equality between compiler baseline margins and the production
+runtime projection. The harness also gained `--preflight-only`, which reads the
+vindex configuration without loading weights. On the exact E4B artifact it
+reports Gemma 4, RMSNorm, hidden width 2560, vocabulary 262144, logit scaling
+1, final-logit softcap 30, and `weights_loaded=false`.
+
+These changes satisfy the implementation and configuration-preflight
+prerequisites for drafting a distinct version 2 protocol. They do not authorize
+that protocol, spend validation3, change the version 1 classification, or
+justify an automatic second E4B run.

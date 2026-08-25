@@ -218,12 +218,12 @@ pub use forward::{
     calibrate_scalar_gains, capture_decoy_residuals, capture_residuals, capture_spec_residuals,
     compile_terminal_residual_adapter, forward_from_layer, forward_to_layer, hidden_to_raw_logits,
     infer_patched, logit_lens_top1, predict, predict_from_hidden, predict_with_ffn,
-    predict_with_ffn_attention, predict_with_router, predict_with_strategy, run_memit,
-    run_memit_with_target_opt, trace_forward, trace_forward_full, walk_trace_from_residuals,
-    InferenceWeights, KnnOverride, KnnRouteMode, LayerAttentionCapture, MemitFact, MemitResult,
-    PatchedCachedGenerationError, PatchedCachedGenerationResult, PatchedGenerationError,
-    PatchedGenerationResult, PredictResult, TargetDeltaOpts, TerminalResidualAdapter,
-    TerminalResidualAdapterOptions,
+    predict_with_ffn_attention, predict_with_router, predict_with_strategy,
+    preflight_terminal_residual_adapter_architecture, run_memit, run_memit_with_target_opt,
+    trace_forward, trace_forward_full, walk_trace_from_residuals, InferenceWeights, KnnOverride,
+    KnnRouteMode, LayerAttentionCapture, MemitFact, MemitResult, PatchedCachedGenerationError,
+    PatchedCachedGenerationResult, PatchedGenerationError, PatchedGenerationResult, PredictResult,
+    TargetDeltaOpts, TerminalResidualAdapter, TerminalResidualAdapterOptions,
 };
 // Crate-root layer_graph re-exports — kept for any name with external use
 // OR in-crate examples/tests/benches that import via the root. Truly-unused
@@ -329,12 +329,13 @@ pub mod research {
         forward_raw_logits, forward_to_layer, hidden_to_raw_logits, infer_patched,
         infer_patched_q4k, logit_lens_top1, predict_from_hidden, predict_from_hidden_with_ffn,
         predict_with_ffn, predict_with_ffn_attention, predict_with_ffn_trace, predict_with_router,
-        predict_with_strategy, run_memit, run_memit_with_target_opt, trace_forward,
-        trace_forward_full, trace_forward_with_ffn, walk_trace_from_residuals, InferPatchedResult,
-        InferenceWeights, KnnOverride, LayerAttentionCapture, LayerMode, MemitFact,
-        MemitFactResult, MemitResult, PredictResult, PredictResultWithAttention,
-        PredictResultWithResiduals, RawForward, SpecCapture, TargetDelta, TargetDeltaOpts,
-        TerminalResidualAdapter, TerminalResidualAdapterOptions, TraceResult, KNN_COSINE_THRESHOLD,
+        predict_with_strategy, preflight_terminal_residual_adapter_architecture, run_memit,
+        run_memit_with_target_opt, trace_forward, trace_forward_full, trace_forward_with_ffn,
+        walk_trace_from_residuals, InferPatchedResult, InferenceWeights, KnnOverride,
+        LayerAttentionCapture, LayerMode, MemitFact, MemitFactResult, MemitResult, PredictResult,
+        PredictResultWithAttention, PredictResultWithResiduals, RawForward, SpecCapture,
+        TargetDelta, TargetDeltaOpts, TerminalResidualAdapter, TerminalResidualAdapterOptions,
+        TraceResult, KNN_COSINE_THRESHOLD,
     };
     pub use crate::layer_graph::{
         predict_honest, predict_pipeline, predict_with_graph, predict_with_graph_vindex_logits,

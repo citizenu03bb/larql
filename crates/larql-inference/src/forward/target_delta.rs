@@ -56,7 +56,7 @@
 //! fact in pure Rust; `run_memit` calls it and feeds the optimised
 //! deltas into `rome_batch_update` as V*.
 
-use larql_models::NormType;
+use larql_models::{ModelArchitecture, NormType};
 use ndarray::{Array1, ArrayView1, ArrayView2};
 
 use crate::model::ModelWeights;
@@ -149,6 +149,14 @@ struct TerminalProjection {
     base_numerators: Array1<f32>,
 }
 
+#[derive(Clone, Copy)]
+struct TerminalProjectionTransform {
+    norm_eps: f32,
+    logits_scale: f32,
+    final_softcap: Option<f32>,
+    target: usize,
+}
+
 /// Compile the fixed Galadriel terminal-residual adapter from already-captured
 /// post-final-block residuals, without running a transformer forward pass.
 ///
@@ -166,11 +174,17 @@ pub fn compile_terminal_residual_adapter(
     let options = TerminalResidualAdapterOptions::default();
     validate_terminal_adapter_inputs(weights, post_l41_residuals, target_id, k1_down)?;
 
-    let hidden = weights.hidden_size;
     let target = target_id as usize;
     let norm_weight = terminal_norm_weight(weights)?;
     let norm_eps = weights.arch.norm_eps();
     let logits_scale = weights.arch.logits_scaling();
+    let final_softcap = weights.arch.final_logit_softcapping();
+    let transform = TerminalProjectionTransform {
+        norm_eps,
+        logits_scale,
+        final_softcap,
+        target,
+    };
 
     let mut projections = Vec::with_capacity(post_l41_residuals.len());
     let mut baseline_runner_ids = Vec::with_capacity(post_l41_residuals.len());
@@ -186,8 +200,14 @@ pub fn compile_terminal_residual_adapter(
         let base_numerators = weights.lm_head.dot(&weighted);
         ensure_finite_slice("terminal adapter base projection", &base_numerators)?;
         let rms = rms_value(residual.view(), norm_eps)?;
-        let (margin, runner) =
-            margin_and_runner(&base_numerators, None, 0.0, rms * logits_scale, target)?;
+        let (margin, runner) = margin_and_runner(
+            &base_numerators,
+            None,
+            0.0,
+            rms * logits_scale,
+            final_softcap,
+            target,
+        )?;
         baseline_runner_ids.push(runner as u32);
         baseline_margins.push(margin);
         projections.push(TerminalProjection {
@@ -206,21 +226,14 @@ pub fn compile_terminal_residual_adapter(
         .ok_or_else(|| "terminal adapter requires at least one residual".to_string())?;
     let runner = baseline_runner_ids[worst_prompt_index] as usize;
 
-    let mut margin_norm_grad = Array1::<f32>::zeros(hidden);
-    for i in 0..hidden {
-        margin_norm_grad[i] =
-            (weights.lm_head[[target, i]] - weights.lm_head[[runner, i]]) / logits_scale;
-    }
-    ensure_finite_slice(
-        "terminal adapter margin gradient before RMSNorm",
-        &margin_norm_grad,
-    )?;
-    let gradient = rmsnorm_backward_pos(
+    let gradient = terminal_margin_gradient(
+        weights,
         projections[worst_prompt_index].residual.view(),
         norm_weight.view(),
-        margin_norm_grad.view(),
-        norm_eps,
-    );
+        target,
+        runner,
+        &transform,
+    )?;
     ensure_finite_slice("terminal adapter margin gradient", &gradient)?;
     let gradient_norm = l2_norm(gradient.view())?;
     if gradient_norm == 0.0 {
@@ -279,9 +292,7 @@ pub fn compile_terminal_residual_adapter(
             &direction_numerators,
             direction.view(),
             alpha,
-            norm_eps,
-            logits_scale,
-            target,
+            &transform,
         )
     };
 
@@ -392,28 +403,40 @@ fn validate_terminal_adapter_inputs(
         }
         ensure_finite_slice(&format!("terminal adapter residual {index}"), residual)?;
     }
-    if weights.arch.norm_type() != NormType::RmsNorm {
+    preflight_terminal_residual_adapter_architecture(weights.arch.as_ref())?;
+    terminal_norm_weight(weights)?;
+    Ok(())
+}
+
+/// Validate every architecture-only precondition without loading model
+/// weights. Heavy-model protocols call this immediately after reading the
+/// vindex configuration so unsupported transforms fail before any E4B load.
+pub fn preflight_terminal_residual_adapter_architecture(
+    arch: &dyn ModelArchitecture,
+) -> Result<(), String> {
+    if arch.norm_type() != NormType::RmsNorm {
         return Err(format!(
             "terminal adapter requires final RMSNorm, got {:?}",
-            weights.arch.norm_type()
+            arch.norm_type()
         ));
     }
-    if let Some(cap) = weights.arch.final_logit_softcapping() {
-        return Err(format!(
-            "terminal adapter refuses final logit softcap {cap}"
-        ));
-    }
-    let norm_eps = weights.arch.norm_eps();
+    let norm_eps = arch.norm_eps();
     if !norm_eps.is_finite() || norm_eps <= 0.0 {
         return Err(format!("terminal adapter invalid norm epsilon {norm_eps}"));
     }
-    let logits_scale = weights.arch.logits_scaling();
+    let logits_scale = arch.logits_scaling();
     if !logits_scale.is_finite() || logits_scale <= 0.0 {
         return Err(format!(
             "terminal adapter invalid logits scaling {logits_scale}"
         ));
     }
-    terminal_norm_weight(weights)?;
+    if let Some(cap) = arch.final_logit_softcapping() {
+        if !cap.is_finite() || cap <= 0.0 {
+            return Err(format!(
+                "terminal adapter invalid final logit softcap {cap}"
+            ));
+        }
+    }
     Ok(())
 }
 
@@ -444,9 +467,7 @@ fn terminal_score(
     direction_numerators: &Array1<f32>,
     direction: ArrayView1<f32>,
     alpha: f32,
-    norm_eps: f32,
-    logits_scale: f32,
-    target: usize,
+    transform: &TerminalProjectionTransform,
 ) -> Result<(f32, Vec<f32>, Vec<u32>), String> {
     if !alpha.is_finite() || alpha < 0.0 {
         return Err(format!("terminal adapter invalid alpha {alpha}"));
@@ -456,13 +477,14 @@ fn terminal_score(
     let mut runners = Vec::with_capacity(projections.len());
     for projection in projections {
         let perturbed = &projection.residual + &(direction.to_owned() * alpha);
-        let rms = rms_value(perturbed.view(), norm_eps)?;
+        let rms = rms_value(perturbed.view(), transform.norm_eps)?;
         let (margin, runner) = margin_and_runner(
             &projection.base_numerators,
             Some(direction_numerators),
             alpha,
-            rms * logits_scale,
-            target,
+            rms * transform.logits_scale,
+            transform.final_softcap,
+            transform.target,
         )?;
         minimum = minimum.min(margin);
         margins.push(margin);
@@ -479,6 +501,7 @@ fn margin_and_runner(
     direction: Option<&Array1<f32>>,
     alpha: f32,
     denominator: f32,
+    final_softcap: Option<f32>,
     target: usize,
 ) -> Result<(f32, usize), String> {
     if base.len() < 2 || target >= base.len() || !denominator.is_finite() || denominator <= 0.0 {
@@ -489,26 +512,106 @@ fn margin_and_runner(
             return Err("terminal adapter projection dimension mismatch".into());
         }
     }
-    let numerator =
-        |index: usize| base[index] + direction.map_or(0.0, |values| alpha * values[index]);
-    let target_value = numerator(target);
+    let logit = |index: usize| {
+        let numerator = base[index] + direction.map_or(0.0, |values| alpha * values[index]);
+        final_logit_transform(numerator / denominator, final_softcap)
+    };
+    let target_value = logit(target)?;
     let mut runner = if target == 0 { 1 } else { 0 };
-    let mut runner_value = numerator(runner);
+    let mut runner_value = logit(runner)?;
     for index in 0..base.len() {
         if index == target {
             continue;
         }
-        let value = numerator(index);
+        let value = logit(index)?;
         if value > runner_value {
             runner = index;
             runner_value = value;
         }
     }
-    let margin = (target_value - runner_value) / denominator;
+    let margin = target_value - runner_value;
     if !target_value.is_finite() || !runner_value.is_finite() || !margin.is_finite() {
         return Err("terminal adapter produced non-finite logits or margin".into());
     }
     Ok((margin, runner))
+}
+
+fn final_logit_transform(raw: f32, softcap: Option<f32>) -> Result<f32, String> {
+    if !raw.is_finite() {
+        return Err("terminal adapter produced a non-finite raw logit".into());
+    }
+    let transformed = match softcap {
+        Some(cap) if cap.is_finite() && cap > 0.0 => cap * (raw / cap).tanh(),
+        Some(cap) => {
+            return Err(format!(
+                "terminal adapter invalid final logit softcap {cap}"
+            ))
+        }
+        None => raw,
+    };
+    if !transformed.is_finite() {
+        return Err("terminal adapter produced a non-finite transformed logit".into());
+    }
+    Ok(transformed)
+}
+
+fn final_logit_transform_derivative(raw: f32, softcap: Option<f32>) -> Result<f32, String> {
+    let transformed_unit = match softcap {
+        Some(cap) if cap.is_finite() && cap > 0.0 => (raw / cap).tanh(),
+        Some(cap) => {
+            return Err(format!(
+                "terminal adapter invalid final logit softcap {cap}"
+            ))
+        }
+        None => return Ok(1.0),
+    };
+    let derivative = 1.0 - transformed_unit * transformed_unit;
+    if !derivative.is_finite() || derivative < 0.0 {
+        return Err("terminal adapter produced an invalid softcap derivative".into());
+    }
+    Ok(derivative)
+}
+
+fn terminal_margin_gradient(
+    weights: &ModelWeights,
+    residual: ArrayView1<f32>,
+    norm_weight: ArrayView1<f32>,
+    target: usize,
+    runner: usize,
+    transform: &TerminalProjectionTransform,
+) -> Result<Array1<f32>, String> {
+    let rms = rms_value(residual, transform.norm_eps)?;
+    let weighted = Array1::from_iter(
+        residual
+            .iter()
+            .zip(norm_weight.iter())
+            .map(|(&h, &w)| h * w),
+    );
+    let target_numerator = weights.lm_head.row(target).dot(&weighted);
+    let runner_numerator = weights.lm_head.row(runner).dot(&weighted);
+    let denominator = rms * transform.logits_scale;
+    let target_slope =
+        final_logit_transform_derivative(target_numerator / denominator, transform.final_softcap)?;
+    let runner_slope =
+        final_logit_transform_derivative(runner_numerator / denominator, transform.final_softcap)?;
+    let mut norm_gradient = Array1::<f32>::zeros(weights.hidden_size);
+    for index in 0..weights.hidden_size {
+        norm_gradient[index] = (target_slope * weights.lm_head[[target, index]]
+            - runner_slope * weights.lm_head[[runner, index]])
+            / transform.logits_scale;
+    }
+    ensure_finite_slice(
+        "terminal adapter margin gradient before RMSNorm",
+        &norm_gradient,
+    )?;
+    let gradient = rmsnorm_backward_pos(
+        residual,
+        norm_weight,
+        norm_gradient.view(),
+        transform.norm_eps,
+    );
+    ensure_finite_slice("terminal adapter margin gradient", &gradient)?;
+    Ok(gradient)
 }
 
 fn rms_value(values: ArrayView1<f32>, eps: f32) -> Result<f32, String> {
@@ -1292,7 +1395,7 @@ mod tests {
     }
 
     #[test]
-    fn terminal_adapter_rejects_softcap() {
+    fn terminal_adapter_supports_softcap_and_matches_runtime_projection() {
         let (mut weights, residuals, target_id, down) = terminal_adapter_fixture();
         let hidden = weights.hidden_size;
         let arch_json = serde_json::json!({
@@ -1308,9 +1411,99 @@ mod tests {
         });
         weights.arch = larql_models::detect_from_json(&arch_json);
 
-        let err = compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
-            .expect_err("softcapped logits must fail closed");
-        assert!(err.contains("softcap"), "{err}");
+        let compiled =
+            compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
+                .expect("the exact softcapped projection should compile");
+        for (index, residual) in residuals.iter().enumerate() {
+            let hidden = Array2::from_shape_vec((1, residual.len()), residual.to_vec()).unwrap();
+            let logits = crate::forward::hidden_to_raw_logits(&weights, &hidden);
+            let target = target_id as usize;
+            let runner = logits
+                .iter()
+                .enumerate()
+                .filter(|(id, _)| *id != target)
+                .max_by(|(left_id, left), (right_id, right)| {
+                    left.total_cmp(right).then_with(|| right_id.cmp(left_id))
+                })
+                .unwrap()
+                .0;
+            let runtime_margin = logits[target] - logits[runner];
+            assert_eq!(compiled.baseline_runner_ids[index], runner as u32);
+            assert!(
+                (compiled.baseline_margins[index] - runtime_margin).abs() < 1e-5,
+                "compiler/runtime softcap margin mismatch at prompt {index}: {} vs {runtime_margin}",
+                compiled.baseline_margins[index]
+            );
+        }
+    }
+
+    #[test]
+    fn terminal_softcap_disagreement_point_changes_margin() {
+        let base = arr1(&[4.0_f32, 2.0, 1.0]);
+        let (uncapped_margin, uncapped_runner) =
+            margin_and_runner(&base, None, 0.0, 1.0, None, 1).unwrap();
+        let (capped_margin, capped_runner) =
+            margin_and_runner(&base, None, 0.0, 1.0, Some(2.0), 1).unwrap();
+        assert_eq!(uncapped_runner, 0);
+        assert_eq!(capped_runner, 0);
+        assert_eq!(uncapped_margin, -2.0);
+        assert!((capped_margin - uncapped_margin).abs() > 1.0);
+        let expected = 2.0 * (1.0_f32.tanh() - 2.0_f32.tanh());
+        assert!((capped_margin - expected).abs() < 1e-6);
+    }
+
+    #[test]
+    fn terminal_softcap_gradient_matches_finite_difference() {
+        let (mut weights, residuals, target_id, _) = terminal_adapter_fixture();
+        let hidden = weights.hidden_size;
+        let arch_json = serde_json::json!({
+            "model_type": "tinymodel",
+            "hidden_size": hidden,
+            "num_hidden_layers": weights.num_layers,
+            "intermediate_size": weights.intermediate_size,
+            "head_dim": weights.head_dim,
+            "num_attention_heads": weights.num_q_heads,
+            "num_key_value_heads": weights.num_kv_heads,
+            "vocab_size": weights.vocab_size,
+            "final_logit_softcapping": 2.0
+        });
+        weights.arch = larql_models::detect_from_json(&arch_json);
+        let norm_weight = terminal_norm_weight(&weights).unwrap();
+        let transform = TerminalProjectionTransform {
+            norm_eps: weights.arch.norm_eps(),
+            logits_scale: weights.arch.logits_scaling(),
+            final_softcap: weights.arch.final_logit_softcapping(),
+            target: target_id as usize,
+        };
+        let residual = residuals[0].clone();
+        let runner = 1;
+        let analytical = terminal_margin_gradient(
+            &weights,
+            residual.view(),
+            norm_weight.view(),
+            target_id as usize,
+            runner,
+            &transform,
+        )
+        .unwrap();
+        let margin = |values: &Array1<f32>| {
+            let hidden = Array2::from_shape_vec((1, values.len()), values.to_vec()).unwrap();
+            let logits = crate::forward::hidden_to_raw_logits(&weights, &hidden);
+            logits[target_id as usize] - logits[runner]
+        };
+        let step = 1e-3_f32;
+        for index in 0..hidden {
+            let mut plus = residual.clone();
+            plus[index] += step;
+            let mut minus = residual.clone();
+            minus[index] -= step;
+            let numerical = (margin(&plus) - margin(&minus)) / (2.0 * step);
+            assert!(
+                (analytical[index] - numerical).abs() < 2e-3,
+                "softcap gradient[{index}] analytical={} numerical={numerical}",
+                analytical[index]
+            );
+        }
     }
 
     #[test]
