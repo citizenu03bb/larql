@@ -1,0 +1,264 @@
+{
+  "generated_by": "combine_contextual_suites.py",
+  "sources": [
+    {
+      "path": "crates/larql-lql/examples/data/multitoken_replication_alder_dev1.json",
+      "positive_count": 3,
+      "control_count": 9
+    },
+    {
+      "path": "crates/larql-lql/examples/data/multitoken_replication_alder_dev2.json",
+      "positive_count": 2,
+      "control_count": 6
+    },
+    {
+      "path": "crates/larql-lql/examples/data/multitoken_replication_alder_dev3.json",
+      "positive_count": 3,
+      "control_count": 9
+    },
+    {
+      "path": "crates/larql-lql/examples/data/multitoken_replication_alder_dev4.json",
+      "positive_count": 4,
+      "control_count": 12
+    }
+  ],
+  "facts": [
+    {
+      "entity": "Project Alder",
+      "relation": "custodian",
+      "target": "Ada Lovelace",
+      "expected_tokens": 3,
+      "paraphrases": [
+        "Project Alder's custodian is",
+        "The person entrusted with Project Alder is",
+        "The keeper of Project Alder is",
+        "Project Alder is kept by",
+        "The steward of Project Alder is",
+        "Project Alder's steward is",
+        "Responsibility for Project Alder belongs to",
+        "The caretaker of Project Alder is",
+        "Project Alder is overseen by",
+        "Project Alder is under the care of",
+        "Oversight of Project Alder falls to"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "dev1::entity-only-designer",
+      "prompt": "The designer of Project Alder is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "dev1::entity-only-sponsor",
+      "prompt": "Project Alder's sponsor is",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "dev1::entity-only-deadline",
+      "prompt": "The deadline for Project Alder is",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "dev1::relation-only-birch",
+      "prompt": "The custodian of Project Birch is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "dev1::relation-only-cedar",
+      "prompt": "Project Cedar's custodian is",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "dev1::relation-only-juniper",
+      "prompt": "The person entrusted with Project Juniper is",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "dev1::neither-birch-designer",
+      "prompt": "The designer of Project Birch is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "dev1::neither-cedar-sponsor",
+      "prompt": "Project Cedar's sponsor is",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "dev1::neither-juniper-deadline",
+      "prompt": "The deadline for Project Juniper is",
+      "cell": "00",
+      "fold": 2
+    },
+    {
+      "name": "dev2::entity-only-reviewer",
+      "prompt": "The reviewer of Project Alder is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "dev2::entity-only-budget",
+      "prompt": "Project Alder's budget is",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "dev2::relation-only-willow",
+      "prompt": "The keeper of Project Willow is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "dev2::relation-only-quartz",
+      "prompt": "Project Quartz is kept by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "dev2::neither-willow-reviewer",
+      "prompt": "The reviewer of Project Willow is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "dev2::neither-quartz-budget",
+      "prompt": "Project Quartz's budget is",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "dev3::entity-only-author",
+      "prompt": "The author of Project Alder is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "dev3::entity-only-server",
+      "prompt": "Project Alder is hosted on",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "dev3::entity-only-status",
+      "prompt": "The status of Project Alder is",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "dev3::relation-only-meridian",
+      "prompt": "The steward of Project Meridian is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "dev3::relation-only-sable",
+      "prompt": "Project Sable's steward is",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "dev3::relation-only-cobalt",
+      "prompt": "Responsibility for Project Cobalt belongs to",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "dev3::neither-meridian-author",
+      "prompt": "The author of Project Meridian is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "dev3::neither-sable-server",
+      "prompt": "Project Sable is hosted on",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "dev3::neither-cobalt-status",
+      "prompt": "The status of Project Cobalt is",
+      "cell": "00",
+      "fold": 2
+    },
+    {
+      "name": "dev4::entity-only-documented-by",
+      "prompt": "Project Alder is documented by",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "dev4::entity-only-under-review",
+      "prompt": "Project Alder is under review by",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "dev4::entity-only-funding-from",
+      "prompt": "Funding for Project Alder comes from",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "dev4::entity-only-release-manager",
+      "prompt": "The release manager of Project Alder is",
+      "cell": "10",
+      "fold": 3
+    },
+    {
+      "name": "dev4::relation-only-ash",
+      "prompt": "The caretaker of Project Ash is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "dev4::relation-only-rowan-passive",
+      "prompt": "Project Rowan is overseen by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "dev4::relation-only-elm-care",
+      "prompt": "Project Elm is under the care of",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "dev4::relation-only-hazel-oversight",
+      "prompt": "Oversight of Project Hazel falls to",
+      "cell": "01",
+      "fold": 3
+    },
+    {
+      "name": "dev4::neither-ash-documented",
+      "prompt": "Project Ash is documented by",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "dev4::neither-rowan-review",
+      "prompt": "Project Rowan is under review by",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "dev4::neither-elm-funding",
+      "prompt": "Funding for Project Elm comes from",
+      "cell": "00",
+      "fold": 2
+    },
+    {
+      "name": "dev4::neither-hazel-release-manager",
+      "prompt": "The release manager of Project Hazel is",
+      "cell": "00",
+      "fold": 3
+    }
+  ]
+}

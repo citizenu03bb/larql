@@ -30,6 +30,12 @@ METHODS = (
     "unit_factor_prototypes",
     "unit_cell_prototypes",
 )
+DEPLOYABLE_REPRESENTATIONS = ("mean_no_bos",)
+DEPLOYABLE_METHODS = (
+    "raw_conjunction",
+    "unit_conjunction",
+    "unit_factor_prototypes",
+)
 
 
 def positions_at(capture: dict, layer: int) -> np.ndarray:
@@ -154,11 +160,44 @@ def serializable(value):
     return value
 
 
+def runtime_detector(detector: dict, representation: str) -> dict:
+    """Convert an accepted search candidate to the exact runtime ABI."""
+    if representation not in DEPLOYABLE_REPRESENTATIONS:
+        raise ValueError(f"representation is not deployable: {representation}")
+    method = detector["method"]
+    if method.endswith("conjunction"):
+        entity_direction = detector["entity_direction"]
+        relation_direction = detector["relation_direction"]
+        entity_threshold = detector["entity_threshold"]
+        relation_threshold = detector["relation_threshold"]
+    elif method == "unit_factor_prototypes":
+        entity_direction = detector["entity_present"] - detector["entity_absent"]
+        relation_direction = detector["relation_present"] - detector["relation_absent"]
+        entity_threshold = 0.0
+        relation_threshold = 0.0
+    else:
+        raise ValueError(f"method is not deployable: {method}")
+    return serializable(
+        {
+            "center": detector["center"],
+            "entity_direction": entity_direction,
+            "relation_direction": relation_direction,
+            "entity_threshold": entity_threshold,
+            "relation_threshold": relation_threshold,
+        }
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("suites", nargs="+", help="NAME=PATH capture files")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--detector-output", type=Path)
+    parser.add_argument(
+        "--deployable-only",
+        action="store_true",
+        help="accept only candidates exactly representable by the current runtime ABI",
+    )
     args = parser.parse_args()
 
     suites: dict[str, list[dict]] = {}
@@ -262,6 +301,8 @@ def main() -> None:
                             - np.max(scores[labels == 0])
                         ),
                         "auc": auc(labels, scores),
+                        "runtime_compatible": representation in DEPLOYABLE_REPRESENTATIONS
+                        and method in DEPLOYABLE_METHODS,
                         "suite_metrics": suite_metrics,
                         "rows": rows,
                     }
@@ -272,6 +313,7 @@ def main() -> None:
         for candidate in candidates
         if candidate["correct"] == candidate["n"]
         and candidate["decision_margin"] > 0
+        and (not args.deployable_only or candidate["runtime_compatible"])
     ]
     ordering = lambda candidate: (
         candidate["correct"],
@@ -291,7 +333,15 @@ def main() -> None:
         "layers": layers,
         "representations": list(REPRESENTATIONS),
         "methods": list(METHODS),
-        "acceptance": "32/32 decisions and positive worst signed margin",
+        "acceptance": (
+            f"{len(all_captures)}/{len(all_captures)} decisions, positive worst "
+            "signed margin, and runtime-compatible ABI"
+            if args.deployable_only
+            else f"{len(all_captures)}/{len(all_captures)} decisions and positive worst signed margin"
+        ),
+        "deployable_only": args.deployable_only,
+        "deployable_representations": list(DEPLOYABLE_REPRESENTATIONS),
+        "deployable_methods": list(DEPLOYABLE_METHODS),
         "accepted_candidates": len(accepted),
         "last_position_control": {
             key: value for key, value in last_best.items() if key != "rows"
@@ -321,7 +371,9 @@ def main() -> None:
         detector = fit(selected_x, selected_cells, selected["method"])
         frozen = {
             "version": 1,
-            "selection_protocol": "leave-one-entire-suite-out on 32 development captures",
+            "selection_protocol": (
+                f"leave-one-entire-suite-out on {len(all_captures)} development captures"
+            ),
             "layer": selected["layer"],
             "representation": selected["representation"],
             "selection_metrics": {
@@ -329,7 +381,8 @@ def main() -> None:
                 for key, value in selected.items()
                 if key not in ("rows", "suite_metrics")
             },
-            **serializable(detector),
+            "method": selected["method"],
+            **runtime_detector(detector, selected["representation"]),
         }
         args.detector_output.write_text(json.dumps(frozen) + "\n")
     print(rendered)

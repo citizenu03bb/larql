@@ -1,9 +1,9 @@
-//! One-load, development-only terminal residual adapter spike.
+//! One-load terminal residual adapter experiments with sealed evaluation gates.
 //!
-//! Validation3 is intentionally inaccessible until the derived patch has
-//! been saved, reparsed, checksum-checked, and hashed.  This executable is
-//! specific to the frozen Galadriel protocol in
-//! `docs/research-conditional-terminal-residual-spike.md`.
+//! Evaluation inputs are inaccessible until the derived patch has been saved,
+//! reparsed, checksum-checked, and hashed. The supported Galadriel and Alder-v2
+//! modes are bound to their frozen protocol documents rather than exposed as a
+//! general-purpose tuning surface.
 
 use std::error::Error;
 use std::io::Write;
@@ -32,6 +32,20 @@ const PASSIVE_PROMPT: &str = "Lothlorien is governed by";
 const PASSIVE_EXPECTED_MARGIN: f32 = -0.133_890;
 const PASSIVE_TOLERANCE: f32 = 0.02;
 const EVALUATION_MARGIN: f32 = 0.5;
+const ALDER_V2_PROTOCOL_ID: &str = "alder-v2-terminal-residual-development";
+const ALDER_V2_HOLDOUT_PROTOCOL_ID: &str = "alder-v2-final-holdout";
+const ALDER_V2_TARGET_IDS: [u32; 3] = [45158, 37937, 217262];
+
+struct RunProfile {
+    protocol_id: &'static str,
+    target_name: &'static str,
+    target_ids: &'static [u32],
+    synthesis_positives: usize,
+    evaluation_positives: usize,
+    evaluation_controls: usize,
+    galadriel_reproduction_gate: bool,
+    description: &'static str,
+}
 
 #[derive(Clone, Deserialize)]
 struct FactSpec {
@@ -105,7 +119,7 @@ enum FreezePhase {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  terminal_residual_adapter_spike --preflight-only <vindex>\n  terminal_residual_adapter_spike <vindex> <k1.vlp> <validation2.json> <validation3.json> <derived.vlp> <evidence.json>"
+    "usage:\n  terminal_residual_adapter_spike --preflight-only <vindex>\n  terminal_residual_adapter_spike <vindex> <k1.vlp> <validation2.json> <validation3.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --alder-v2-dev <vindex> <contextual.vlp> <development.json> <development.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --alder-v2-holdout <vindex> <contextual.vlp> <derived.vlp> <holdout.json> <evidence.json>"
 }
 
 fn preflight_only(vindex: &Path) -> Result<Value, AnyError> {
@@ -158,7 +172,11 @@ fn canonical_prompt(fact: &FactSpec) -> String {
     format!("The {relation} of {} is", fact.entity)
 }
 
-fn positive_prompts(suite: &SuiteSpec) -> Result<Vec<PromptCase>, AnyError> {
+fn positive_prompts(
+    suite: &SuiteSpec,
+    target_name: &str,
+    target_len: usize,
+) -> Result<Vec<PromptCase>, AnyError> {
     let [fact] = suite.facts.as_slice() else {
         return Err(format!(
             "suite must contain exactly one fact, found {}",
@@ -166,8 +184,10 @@ fn positive_prompts(suite: &SuiteSpec) -> Result<Vec<PromptCase>, AnyError> {
         )
         .into());
     };
-    if fact.target != "Galadriel" || fact.expected_tokens != Some(3) {
-        return Err("suite must target the three-token Galadriel span".into());
+    if fact.target != target_name || fact.expected_tokens != Some(target_len) {
+        return Err(
+            format!("suite must target {target_name:?} with exactly {target_len} IDs").into(),
+        );
     }
     Ok(std::iter::once(canonical_prompt(fact))
         .chain(fact.paraphrases.iter().cloned())
@@ -186,8 +206,12 @@ fn positive_prompts(suite: &SuiteSpec) -> Result<Vec<PromptCase>, AnyError> {
         .collect())
 }
 
-fn evaluation_cases(suite: &SuiteSpec) -> Result<Vec<PromptCase>, AnyError> {
-    let mut cases = positive_prompts(suite)?;
+fn evaluation_cases(
+    suite: &SuiteSpec,
+    target_name: &str,
+    target_len: usize,
+) -> Result<Vec<PromptCase>, AnyError> {
+    let mut cases = positive_prompts(suite, target_name, target_len)?;
     cases.extend(suite.controls.iter().map(|control| PromptCase {
         class: "control",
         name: control.name.clone(),
@@ -303,7 +327,10 @@ fn l2_norm(values: &[f32]) -> f32 {
     values.iter().map(|value| value * value).sum::<f32>().sqrt()
 }
 
-fn source_patch_parts(patch: &VindexPatch) -> Result<((usize, usize), Vec<f32>), AnyError> {
+fn source_patch_parts(
+    patch: &VindexPatch,
+    target_ids: &[u32],
+) -> Result<((usize, usize), Vec<f32>), AnyError> {
     let inserts: Vec<_> = patch
         .operations
         .iter()
@@ -337,7 +364,7 @@ fn source_patch_parts(patch: &VindexPatch) -> Result<((usize, usize), Vec<f32>),
     let [(context_slot, ids, adapter)] = contexts.as_slice() else {
         return Err("K1 patch must contain exactly one Context".into());
     };
-    if (*layer, *feature) != *context_slot || ids.as_slice() != TARGET_IDS || adapter.is_some() {
+    if (*layer, *feature) != *context_slot || ids.as_slice() != target_ids || adapter.is_some() {
         return Err("K1 Insert/Context binding, target IDs, or adapter state changed".into());
     }
     Ok(((*layer, *feature), decode_gate_vector(down_b64)?))
@@ -347,15 +374,16 @@ fn derive_patch(
     source: &VindexPatch,
     slot: (usize, usize),
     compiled: &larql_inference::TerminalResidualAdapter,
+    profile: &RunProfile,
 ) -> Result<VindexPatch, AnyError> {
     if compiled.alpha <= 0.0 || compiled.delta.iter().all(|value| *value == 0.0) {
         return Err("compiler produced a zero terminal adapter".into());
     }
     let mut derived = source.clone();
     let calibration = serde_json::to_string(&json!({
-        "protocol": PROTOCOL_ID,
+        "protocol": profile.protocol_id,
         "application": "post_l41_prefill_last_position_only",
-        "target_ids": TARGET_IDS,
+        "target_ids": profile.target_ids,
         "alpha": compiled.alpha,
         "alpha_max": compiled.alpha_max,
         "orthogonal_ratio": compiled.orthogonal_ratio,
@@ -388,9 +416,7 @@ fn derive_patch(
     if changed != 1 {
         return Err(format!("expected one linked Context operation, changed {changed}").into());
     }
-    derived.description = Some(
-        "Development-only detector-gated terminal residual adapter; frozen Galadriel spike".into(),
-    );
+    derived.description = Some(profile.description.into());
     for tag in ["research-spike", "terminal-residual", "prefill-only"] {
         if !derived.tags.iter().any(|existing| existing == tag) {
             derived.tags.push(tag.into());
@@ -488,17 +514,44 @@ fn span_specs(patch: &VindexPatch) -> Vec<ActiveSpanSpec> {
 }
 
 fn run(args: &[String]) -> Result<Value, AnyError> {
-    if args.len() != 7 {
+    let alder_v2 = args.get(1).map(String::as_str) == Some("--alder-v2-dev");
+    let expected_len = if alder_v2 { 8 } else { 7 };
+    if args.len() != expected_len {
         return Err(usage().into());
     }
-    let vindex = PathBuf::from(&args[1]);
-    let source_path = PathBuf::from(&args[2]);
-    let synthesis_path = PathBuf::from(&args[3]);
-    let evaluation_path = PathBuf::from(&args[4]);
-    let derived_path = PathBuf::from(&args[5]);
+    let offset = usize::from(alder_v2);
+    let vindex = PathBuf::from(&args[1 + offset]);
+    let source_path = PathBuf::from(&args[2 + offset]);
+    let synthesis_path = PathBuf::from(&args[3 + offset]);
+    let evaluation_path = PathBuf::from(&args[4 + offset]);
+    let derived_path = PathBuf::from(&args[5 + offset]);
+    let profile = if alder_v2 {
+        RunProfile {
+            protocol_id: ALDER_V2_PROTOCOL_ID,
+            target_name: "Ada Lovelace",
+            target_ids: &ALDER_V2_TARGET_IDS,
+            synthesis_positives: 12,
+            evaluation_positives: 12,
+            evaluation_controls: 36,
+            galadriel_reproduction_gate: false,
+            description: "Alder-v2 detector-gated terminal residual adapter; development gate",
+        }
+    } else {
+        RunProfile {
+            protocol_id: PROTOCOL_ID,
+            target_name: "Galadriel",
+            target_ids: &TARGET_IDS,
+            synthesis_positives: 3,
+            evaluation_positives: 4,
+            evaluation_controls: 12,
+            galadriel_reproduction_gate: true,
+            description:
+                "Development-only detector-gated terminal residual adapter; frozen Galadriel spike",
+        }
+    };
 
     let source = VindexPatch::load(&source_path)?;
-    let (slot, k1_down) = source_patch_parts(&source)?;
+    let (slot, k1_down) = source_patch_parts(&source, profile.target_ids)?;
     let config = larql_vindex::load_vindex_config(&vindex)?;
     let configured_arch = larql_vindex::arch_from_vindex_config(&config)
         .ok_or("vindex has no model_config for terminal-adapter preflight")?;
@@ -509,8 +562,16 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     }
     let tokenizer = larql_vindex::load_vindex_tokenizer(&vindex)?;
     let synthesis: SuiteSpec = serde_json::from_slice(&std::fs::read(&synthesis_path)?)?;
-    let synthesis_cases = positive_prompts(&synthesis)?;
-    if synthesis_cases.len() != 3 || synthesis_cases[2].prompt != PASSIVE_PROMPT {
+    let synthesis_cases =
+        positive_prompts(&synthesis, profile.target_name, profile.target_ids.len())?;
+    if synthesis_cases.len() != profile.synthesis_positives {
+        return Err(format!(
+            "synthesis must contain exactly {} positives",
+            profile.synthesis_positives
+        )
+        .into());
+    }
+    if profile.galadriel_reproduction_gate && synthesis_cases[2].prompt != PASSIVE_PROMPT {
         return Err("validation2 synthesis prompt set or order changed".into());
     }
     let mut phase = FreezePhase::Compiling;
@@ -536,15 +597,19 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     let compiled = compile_terminal_residual_adapter(
         weights.as_weights(),
         &residuals,
-        TARGET_IDS[0],
+        profile.target_ids[0],
         Array1::from(k1_down).view(),
     )?;
-    if compiled.baseline_margins[0] <= 0.0 || compiled.baseline_margins[1] <= 0.0 {
+    if profile.galadriel_reproduction_gate
+        && (compiled.baseline_margins[0] <= 0.0 || compiled.baseline_margins[1] <= 0.0)
+    {
         return Err(
             "K1 no longer selects target ID 8833 on the first two synthesis prompts".into(),
         );
     }
-    if (compiled.baseline_margins[2] - PASSIVE_EXPECTED_MARGIN).abs() > PASSIVE_TOLERANCE {
+    if profile.galadriel_reproduction_gate
+        && (compiled.baseline_margins[2] - PASSIVE_EXPECTED_MARGIN).abs() > PASSIVE_TOLERANCE
+    {
         return Err(format!(
             "passive baseline margin {:.8} does not reproduce {:.6} +/- {:.2}",
             compiled.baseline_margins[2], PASSIVE_EXPECTED_MARGIN, PASSIVE_TOLERANCE
@@ -552,7 +617,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
         .into());
     }
 
-    let derived = derive_patch(&source, slot, &compiled)?;
+    let derived = derive_patch(&source, slot, &compiled, &profile)?;
     derived.save(&derived_path)?;
     let reparsed = validate_frozen_patch(
         &derived_path,
@@ -567,11 +632,16 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     phase = FreezePhase::PatchHashed;
 
     let evaluation = read_evaluation_suite(&evaluation_path, phase)?;
-    let cases = evaluation_cases(&evaluation)?;
-    if cases.iter().filter(|case| case.class == "positive").count() != 4
-        || cases.iter().filter(|case| case.class == "control").count() != 12
+    let cases = evaluation_cases(&evaluation, profile.target_name, profile.target_ids.len())?;
+    if cases.iter().filter(|case| case.class == "positive").count() != profile.evaluation_positives
+        || cases.iter().filter(|case| case.class == "control").count()
+            != profile.evaluation_controls
     {
-        return Err("validation3 must contain four positives and twelve controls".into());
+        return Err(format!(
+            "evaluation must contain {} positives and {} controls",
+            profile.evaluation_positives, profile.evaluation_controls
+        )
+        .into());
     }
 
     let mut references = Vec::with_capacity(cases.len());
@@ -594,14 +664,14 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     for (case, reference) in cases.iter().zip(&references) {
         let adapted = forward_capture(&mut session, &mut weights, &tokenizer, &case.prompt)?;
         let (reference_margin, reference_runner, reference_top) =
-            target_margin(&reference.logits, TARGET_IDS[0])?;
+            target_margin(&reference.logits, profile.target_ids[0])?;
         let (adapter_margin, adapter_runner, adapter_top) =
-            target_margin(&adapted.logits, TARGET_IDS[0])?;
+            target_margin(&adapted.logits, profile.target_ids[0])?;
         let decisions_equal = decisions_bit_identical(&reference.decisions, &adapted.decisions);
         let logits_equal = logits_bit_identical(&reference.logits, &adapted.logits);
         let delta_fraction = delta_norm / l2_norm(&reference.hidden);
         let passed = if case.class == "positive" {
-            adapter_top == TARGET_IDS[0]
+            adapter_top == profile.target_ids[0]
                 && adapter_margin >= EVALUATION_MARGIN
                 && adapted.decisions.len() == 1
                 && adapted.decisions[0].allowed
@@ -642,7 +712,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     let mut cached_passed = false;
     if activation_passed {
         let specs = span_specs(&reparsed);
-        if specs.len() != 1 || specs[0].target_ids != TARGET_IDS {
+        if specs.len() != 1 || specs[0].target_ids != profile.target_ids {
             return Err("derived patch changed the ActiveSpan specification".into());
         }
         cached_passed = true;
@@ -665,7 +735,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
                 .any(|decision| decision.allowed);
             let passed = if case.class == "positive" {
                 detector_allowed
-                    && generated_ids.get(..TARGET_IDS.len()) == Some(TARGET_IDS.as_slice())
+                    && generated_ids.get(..profile.target_ids.len()) == Some(profile.target_ids)
                     && generated.trigger_slot == Some(specs[0].slot)
                     && generated.released_after_span
             } else {
@@ -674,7 +744,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
                         .context_decisions
                         .iter()
                         .all(|decision| !decision.allowed)
-                    && generated_ids.first() != Some(&TARGET_IDS[0])
+                    && generated_ids.first() != Some(&profile.target_ids[0])
                     && generated.trigger_slot.is_none()
             };
             cached_passed &= passed;
@@ -697,7 +767,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
         "failed"
     };
     Ok(json!({
-        "protocol": PROTOCOL_ID,
+        "protocol": profile.protocol_id,
         "status": status,
         "phase_reached": if activation_passed { "cached_generation" } else { "activation" },
         "inputs": {
@@ -714,7 +784,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
             "patch": derived_path,
             "sha256": derived_sha256,
             "slot": {"layer": slot.0, "feature": slot.1},
-            "target_ids": TARGET_IDS,
+            "target_ids": profile.target_ids,
             "worst_prompt_index": compiled.worst_prompt_index,
             "baseline_runner_ids": compiled.baseline_runner_ids,
             "baseline_margins": compiled.baseline_margins,
@@ -745,6 +815,199 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     }))
 }
 
+fn run_alder_v2_holdout(args: &[String]) -> Result<Value, AnyError> {
+    if args.len() != 7 {
+        return Err(usage().into());
+    }
+    let vindex = PathBuf::from(&args[2]);
+    let source_path = PathBuf::from(&args[3]);
+    let derived_path = PathBuf::from(&args[4]);
+    let holdout_path = PathBuf::from(&args[5]);
+    let source = VindexPatch::load(&source_path)?;
+    let (slot, _) = source_patch_parts(&source, &ALDER_V2_TARGET_IDS)?;
+    let config = larql_vindex::load_vindex_config(&vindex)?;
+    let configured_arch = larql_vindex::arch_from_vindex_config(&config)
+        .ok_or("vindex has no model_config for terminal-adapter preflight")?;
+    preflight_terminal_residual_adapter_architecture(configured_arch.as_ref())?;
+    let active_checksum = base_checksum_from_manifest(config.checksums.as_ref());
+    if source.base_checksum != active_checksum {
+        return Err("Alder-v2 source patch is not bound to the active vindex checksum".into());
+    }
+    let reparsed = validate_frozen_patch(
+        &derived_path,
+        active_checksum.as_deref(),
+        configured_arch.config().hidden_size,
+    )?;
+    let derived_sha256 = sha256_file(&derived_path)?;
+    eprintln!("FROZEN_ADAPTER_SHA256={derived_sha256}");
+
+    // This is the first filesystem access to the sealed holdout.  The derived
+    // adapter has already been reparsed, checksum-checked, and hashed above.
+    let holdout = read_evaluation_suite(&holdout_path, FreezePhase::PatchHashed)?;
+    let cases = evaluation_cases(&holdout, "Ada Lovelace", ALDER_V2_TARGET_IDS.len())?;
+    if cases.iter().filter(|case| case.class == "positive").count() != 4
+        || cases.iter().filter(|case| case.class == "control").count() != 12
+    {
+        return Err("Alder-v2 holdout must contain four positives and twelve controls".into());
+    }
+
+    let tokenizer = larql_vindex::load_vindex_tokenizer(&vindex)?;
+    let mut session = open_session(&vindex, &source_path)?;
+    let frozen_detector_before = detectors_without_adapter(&session)?;
+    let mut callbacks = larql_vindex::SilentLoadCallbacks;
+    let mut weights = InferenceWeights::load(&vindex, &config, &mut callbacks)?;
+    let mut references = Vec::with_capacity(cases.len());
+    for case in &cases {
+        references.push(forward_capture(
+            &mut session,
+            &mut weights,
+            &tokenizer,
+            &case.prompt,
+        )?);
+    }
+    apply_patch(&mut session, &derived_path)?;
+    if detectors_without_adapter(&session)? != frozen_detector_before {
+        return Err("derived patch changed the frozen Alder-v2 detector".into());
+    }
+    let adapters: Vec<_> = reparsed
+        .operations
+        .iter()
+        .filter_map(|operation| match operation {
+            PatchOp::Context {
+                residual_adapter: Some(adapter),
+                ..
+            } => Some(adapter),
+            _ => None,
+        })
+        .collect();
+    let [adapter] = adapters.as_slice() else {
+        return Err("derived Alder-v2 patch must contain exactly one adapter".into());
+    };
+    let delta = decode_gate_vector(&adapter.delta_vector_b64)?;
+    let delta_norm = l2_norm(&delta);
+    let mut prompt_evidence = Vec::with_capacity(cases.len());
+    let mut activation_passed = true;
+    for (case, reference) in cases.iter().zip(&references) {
+        let adapted = forward_capture(&mut session, &mut weights, &tokenizer, &case.prompt)?;
+        let (reference_margin, reference_runner, reference_top) =
+            target_margin(&reference.logits, ALDER_V2_TARGET_IDS[0])?;
+        let (adapter_margin, adapter_runner, adapter_top) =
+            target_margin(&adapted.logits, ALDER_V2_TARGET_IDS[0])?;
+        let decisions_equal = decisions_bit_identical(&reference.decisions, &adapted.decisions);
+        let logits_equal = logits_bit_identical(&reference.logits, &adapted.logits);
+        let delta_fraction = delta_norm / l2_norm(&reference.hidden);
+        let passed = if case.class == "positive" {
+            adapter_top == ALDER_V2_TARGET_IDS[0]
+                && adapter_margin >= EVALUATION_MARGIN
+                && adapted.decisions.len() == 1
+                && adapted.decisions[0].allowed
+                && adapted.adapter_applied
+                && delta_fraction <= 0.05
+                && decisions_equal
+        } else {
+            !adapted.adapter_applied
+                && !adapted.decisions.is_empty()
+                && adapted.decisions.iter().all(|decision| !decision.allowed)
+                && logits_equal
+                && decisions_equal
+        };
+        activation_passed &= passed;
+        prompt_evidence.push(PromptEvidence {
+            class: case.class,
+            name: case.name.clone(),
+            prompt: case.prompt.clone(),
+            cell: case.cell.clone(),
+            fold: case.fold,
+            reference_top_id: reference_top,
+            reference_runner_id: reference_runner,
+            reference_target_margin: reference_margin,
+            adapter_top_id: adapter_top,
+            adapter_runner_id: adapter_runner,
+            adapter_target_margin: adapter_margin,
+            reference_decisions: reference.decisions.clone(),
+            adapter_decisions: adapted.decisions,
+            detector_decisions_bit_identical: decisions_equal,
+            adapter_applied: adapted.adapter_applied,
+            delta_fraction,
+            logits_bit_identical: logits_equal,
+            passed,
+        });
+    }
+
+    let mut cached = Vec::new();
+    let mut cached_passed = false;
+    if activation_passed {
+        let specs = span_specs(&reparsed);
+        if specs.len() != 1 || specs[0].target_ids != ALDER_V2_TARGET_IDS {
+            return Err("derived patch changed the Alder-v2 ActiveSpan specification".into());
+        }
+        cached_passed = true;
+        for case in &cases {
+            let ids = prompt_ids(&tokenizer, &weights, &case.prompt)?;
+            let patched = session
+                .patched_overlay()
+                .ok_or("session has no patched vindex")?;
+            let generated = weights.generate_patched(
+                &tokenizer,
+                patched,
+                &ids,
+                if case.class == "positive" { 4 } else { 1 },
+                &specs,
+            )?;
+            let generated_ids: Vec<_> = generated.generated.iter().map(|(_, id)| *id).collect();
+            let detector_allowed = generated
+                .context_decisions
+                .iter()
+                .any(|decision| decision.allowed);
+            let passed = if case.class == "positive" {
+                detector_allowed
+                    && generated_ids.get(..ALDER_V2_TARGET_IDS.len())
+                        == Some(ALDER_V2_TARGET_IDS.as_slice())
+                    && generated.trigger_slot == Some(specs[0].slot)
+                    && generated.released_after_span
+            } else {
+                !generated.context_decisions.is_empty()
+                    && generated
+                        .context_decisions
+                        .iter()
+                        .all(|decision| !decision.allowed)
+                    && generated_ids.first() != Some(&ALDER_V2_TARGET_IDS[0])
+                    && generated.trigger_slot.is_none()
+            };
+            cached_passed &= passed;
+            cached.push(json!({
+                "class": case.class,
+                "name": case.name,
+                "prompt": case.prompt,
+                "generated_ids": generated_ids,
+                "context_decisions": generated.context_decisions,
+                "trigger_slot": generated.trigger_slot,
+                "released_after_span": generated.released_after_span,
+                "passed": passed,
+            }));
+        }
+    }
+    Ok(json!({
+        "protocol": ALDER_V2_HOLDOUT_PROTOCOL_ID,
+        "status": if activation_passed && cached_passed { "passed" } else { "failed" },
+        "phase_reached": if activation_passed { "cached_generation" } else { "activation" },
+        "inputs": {
+            "vindex": vindex,
+            "source_patch": source_path,
+            "source_patch_sha256": sha256_file(&source_path)?,
+            "derived_patch": derived_path,
+            "derived_patch_sha256": derived_sha256,
+            "holdout_suite": holdout_path,
+            "holdout_suite_sha256": sha256_file(&holdout_path)?,
+            "active_base_checksum": active_checksum,
+            "slot": {"layer": slot.0, "feature": slot.1},
+            "target_ids": ALDER_V2_TARGET_IDS,
+        },
+        "activation": {"passed": activation_passed, "prompts": prompt_evidence},
+        "cached_generation": {"run": activation_passed, "passed": cached_passed, "prompts": cached},
+    }))
+}
+
 fn main() -> Result<(), AnyError> {
     let args: Vec<String> = std::env::args().collect();
     if args.get(1).map(String::as_str) == Some("--preflight-only") {
@@ -755,8 +1018,24 @@ fn main() -> Result<(), AnyError> {
         println!("{}", serde_json::to_string_pretty(&result)?);
         return Ok(());
     }
-    let evidence_path = args.get(6).map(PathBuf::from);
-    match run(&args) {
+    let alder_v2_dev = args.get(1).map(String::as_str) == Some("--alder-v2-dev");
+    let alder_v2_holdout = args.get(1).map(String::as_str) == Some("--alder-v2-holdout");
+    let evidence_path = args
+        .get(if alder_v2_dev { 7 } else { 6 })
+        .map(PathBuf::from);
+    let protocol_id = if alder_v2_dev {
+        ALDER_V2_PROTOCOL_ID
+    } else if alder_v2_holdout {
+        ALDER_V2_HOLDOUT_PROTOCOL_ID
+    } else {
+        PROTOCOL_ID
+    };
+    let result = if alder_v2_holdout {
+        run_alder_v2_holdout(&args)
+    } else {
+        run(&args)
+    };
+    match result {
         Ok(evidence) => {
             let path = evidence_path.ok_or(usage())?;
             atomic_write_json(&path, &evidence)?;
@@ -769,7 +1048,7 @@ fn main() -> Result<(), AnyError> {
         Err(error) => {
             if let Some(path) = evidence_path {
                 let failure = json!({
-                    "protocol": PROTOCOL_ID,
+                    "protocol": protocol_id,
                     "status": "failed_or_infrastructure_inconclusive",
                     "error": error.to_string(),
                 });
