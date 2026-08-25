@@ -1,6 +1,8 @@
 # Alder-v2 conditional terminal-residual preregistration
 
-**Status:** frozen before any version 2 residual capture or E4B behaviour run.
+**Status:** closed at the phase A detector gate. No detector was frozen, phase
+B did not run, and the final holdout remained sealed. See
+[the result](research-alder-v2-terminal-residual-results.md).
 
 ## Question and claim boundary
 
