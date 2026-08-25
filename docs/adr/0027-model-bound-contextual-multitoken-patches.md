@@ -192,10 +192,16 @@ The K=2 patch made the first target ID top-1 on all 3 positive formulations and
 kept all 9 controls inactive. On the addressed passive prompt, however, its
 top-1 logit margin was only +0.033, below the preregistered +0.5 robustness bar.
 The cached exact-span gate was therefore not run. This closes a same-down-vector
-multi-row payload as the immediate Alder-v2 mechanism. The next capacity
-candidate is a small conditional residual adapter, still to be developed on
-spent material. See
-[`research-multiline-payload-spike.md`](../research-multiline-payload-spike.md).
+multi-row payload as the immediate Alder-v2 mechanism. A subsequent frozen
+terminal-residual spike stopped before compilation because its offline
+compiler did not implement Gemma 4's final-logit softcap. Validation3 remained
+sealed, so this is an implementation-inconclusive result rather than evidence
+for or against the adapter mechanism. Any successor must first implement and
+synthetically validate the exact softcapped projection, then pass a
+configuration-only architecture preflight before another E4B run. See
+[`research-multiline-payload-spike.md`](../research-multiline-payload-spike.md)
+and
+[`research-conditional-terminal-residual-spike-results.md`](../research-conditional-terminal-residual-spike-results.md).
 
 ## Capability boundary and extension order (2026-08-19)
 
