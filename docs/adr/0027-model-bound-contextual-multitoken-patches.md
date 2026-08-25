@@ -179,6 +179,24 @@ have collided even if both candidates had certified. The frozen protocol and
 full measurements are recorded in
 [`contextual-multifact-results.md`](../experiments/contextual-multifact-results.md).
 
+## Surface-specialized K=2 payload spike (2026-08-25)
+
+A development-only spike on already-spent Galadriel material tested whether a
+second FFN row could address the passive formulation missed by the single-row
+payload. The compiler allocated the next free feature, L31/F7114, preserved the
+existing detector and continuation target, and derived its gate direction from
+the passive prompt residual. The new direction was distinct from the original
+row (cosine 0.209).
+
+The K=2 patch made the first target ID top-1 on all 3 positive formulations and
+kept all 9 controls inactive. On the addressed passive prompt, however, its
+top-1 logit margin was only +0.033, below the preregistered +0.5 robustness bar.
+The cached exact-span gate was therefore not run. This closes a same-down-vector
+multi-row payload as the immediate Alder-v2 mechanism. The next capacity
+candidate is a small conditional residual adapter, still to be developed on
+spent material. See
+[`research-multiline-payload-spike.md`](../research-multiline-payload-spike.md).
+
 ## Capability boundary and extension order (2026-08-19)
 
 Weight representation and FFN topology are independent axes. In this ADR,

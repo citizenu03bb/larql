@@ -85,6 +85,9 @@ struct ResidualCapture {
     prompt_token_surfaces: Vec<String>,
     top1: String,
     top1_probability: f64,
+    runner_up: Option<String>,
+    runner_up_probability: Option<f64>,
+    top1_logit_margin: Option<f64>,
     expected_probability: Option<f64>,
     context_decisions: Vec<ContextDecision>,
     patch_activations: Vec<larql_inference::active_span::PatchActivationEvent>,
@@ -928,6 +931,9 @@ fn probe_activation_only(
     let context_decisions = result.context_decisions.clone();
     let top1 = result.top1.clone();
     let top1_probability = result.top1_probability;
+    let runner_up = result.runner_up.clone();
+    let runner_up_probability = result.runner_up_probability;
+    let top1_logit_margin = result.top1_logit_margin;
     let expected_probability = result.expected_probability;
     println!(
         "{}",
@@ -951,6 +957,9 @@ fn probe_activation_only(
         prompt_token_surfaces,
         top1,
         top1_probability,
+        runner_up,
+        runner_up_probability,
+        top1_logit_margin,
         expected_probability,
         context_decisions,
         patch_activations,

@@ -152,6 +152,11 @@ adapter.
   provides the fail-closed cached Q4K overlay view.
 - [`crates/larql-lql/examples/multitoken_insert_baseline.rs`](../crates/larql-lql/examples/multitoken_insert_baseline.rs)
   is the experiment and validation harness.
+- [`crates/larql-vindex/examples/build_specialized_multiline_payload.rs`](../crates/larql-vindex/examples/build_specialized_multiline_payload.rs)
+  builds a surface-specialized second payload row without guessing its feature
+  coordinate.
+- [`docs/research-multiline-payload-spike.md`](research-multiline-payload-spike.md)
+  records the closed K=2 capacity spike and its preregistered stop decision.
 - [`crates/larql-lql/examples/data/multitoken_t3_n1_factorial_validation3.json`](../crates/larql-lql/examples/data/multitoken_t3_n1_factorial_validation3.json)
   is the final frozen 4-positive/12-control suite.
 - The adjacent `analyze_contextual_*`, `score_frozen_*`, and

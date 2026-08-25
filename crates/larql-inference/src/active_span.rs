@@ -325,6 +325,25 @@ mod tests {
     }
 
     #[test]
+    fn strongest_surface_specialized_row_keeps_shared_continuation() {
+        let specs = [spec(31, 1625, &[10, 11, 12]), spec(31, 2048, &[10, 11, 12])];
+        let armed = ActiveSpan::try_arm(
+            10,
+            &specs,
+            &[event(31, 1625, 1.0, 2.0), event(31, 2048, 1.0, 5.0)],
+        )
+        .unwrap();
+        assert_eq!(
+            armed.slot(),
+            PatchSlotId {
+                layer: 31,
+                feature: 2048
+            }
+        );
+        assert_eq!(armed.expected_next(), Some(11));
+    }
+
+    #[test]
     fn mask_advances_then_releases() {
         let mut span =
             ActiveSpan::try_arm(10, &[spec(2, 7, &[10, 11, 12])], &[event(2, 7, 1.0, 2.0)])
