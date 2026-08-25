@@ -20,13 +20,14 @@
 use larql_vindex::{GateIndex, KnnStore, PatchedVindex, VectorIndex, WalkHit};
 use tokenizers::Tokenizer;
 
-use crate::context_detector::{ContextDecision, ContextDetectorSpec};
+use crate::context_detector::{apply_terminal_prefill_delta, ContextDecision, ContextDetectorSpec};
 use crate::model::ModelWeights;
 use crate::vindex::WalkFfn;
-use crate::vindex::{predict_kquant_with_ffn, predict_kquant_with_ffn_early_exit};
+use crate::vindex::{predict_kquant_hidden_with_ffn, predict_kquant_with_ffn_early_exit};
 
-use super::predict::{predict_with_ffn, predict_with_ffn_early_exit};
-use super::PredictResult;
+use super::predict::{
+    logits_to_predictions_pub, predict_hidden_with_ffn, predict_with_ffn_early_exit,
+};
 
 /// Cosine threshold for the L0 KnnStore override. A stored key whose top-1
 /// cosine against the captured residual exceeds this value replaces the
@@ -109,6 +110,13 @@ pub struct InferPatchedPositionResult {
     pub position_residuals: Vec<(usize, Vec<Vec<f32>>)>,
     /// Contextual payload decisions made during this forward.
     pub context_decisions: Vec<ContextDecision>,
+    /// Last post-block, pre-final-norm hidden entering the logits projection.
+    /// Present for contextual forwards so a compiler can reuse the exact
+    /// forward evidence without loading or running the model again.
+    pub terminal_hidden: Option<Vec<f32>>,
+    /// Whether a validated terminal adapter changed the last prefill row.
+    /// This remains false for rejection and malformed manual specifications.
+    pub terminal_adapter_applied: bool,
 }
 
 /// Run a full forward pass with the walk FFN, consult the KnnStore for a
@@ -241,10 +249,19 @@ fn infer_patched_impl(
     }
 
     let start = std::time::Instant::now();
-    let PredictResult {
-        predictions: raw,
-        token_ids: model_token_ids,
-    } = predict_with_ffn(weights, tokenizer, token_ids, top_k, &walk_ffn);
+    let mut hidden = predict_hidden_with_ffn(weights, token_ids, &walk_ffn);
+    let context_decisions = walk_ffn.context_decisions();
+    // `.vlp` adapters are validated when the overlay is applied, but callers
+    // may also construct `ContextDetectorSpec` values directly.  Keep that
+    // public path fail-closed: validation is atomic, so ignoring an error here
+    // leaves the hidden state on the exact unmodified path.
+    let terminal_adapter_applied =
+        apply_terminal_prefill_delta(&mut hidden, detectors, &context_decisions).unwrap_or(false);
+    let terminal_hidden =
+        (!detectors.is_empty()).then(|| hidden.row(hidden.nrows().saturating_sub(1)).to_vec());
+    let projected = logits_to_predictions_pub(weights, &hidden, tokenizer, top_k, 1.0);
+    let raw = projected.predictions;
+    let model_token_ids = projected.token_ids;
     let walk_ms = start.elapsed().as_secs_f64() * 1000.0;
 
     let residuals = walk_ffn.take_residuals();
@@ -256,7 +273,9 @@ fn infer_patched_impl(
     (
         InferPatchedPositionResult {
             position_residuals: walk_ffn.take_position_residuals(),
-            context_decisions: walk_ffn.context_decisions(),
+            context_decisions,
+            terminal_hidden,
+            terminal_adapter_applied,
             infer: InferPatchedResult {
                 predictions,
                 model_top1,
@@ -455,10 +474,16 @@ fn infer_patched_q4k_impl(
     // that here keeps the impossibility auditable: if a refusing backend is
     // ever threaded through this path it fails loudly instead of answering
     // with a token the route declined to compute.
-    let PredictResult {
-        predictions: raw, ..
-    } = predict_kquant_with_ffn(weights, tokenizer, token_ids, top_k, index, &walk_ffn)
+    let mut hidden = predict_kquant_hidden_with_ffn(weights, token_ids, index, &walk_ffn)
         .expect("WalkFfn cannot refuse a layer; a refusal here needs a real error channel");
+    let context_decisions = walk_ffn.context_decisions();
+    // See the dense path above: a malformed manually-constructed spec must
+    // degrade to the exact unmodified path rather than panic mid-inference.
+    let terminal_adapter_applied =
+        apply_terminal_prefill_delta(&mut hidden, detectors, &context_decisions).unwrap_or(false);
+    let terminal_hidden =
+        (!detectors.is_empty()).then(|| hidden.row(hidden.nrows().saturating_sub(1)).to_vec());
+    let raw = logits_to_predictions_pub(weights, &hidden, tokenizer, top_k, 1.0).predictions;
     let walk_ms = start.elapsed().as_secs_f64() * 1000.0;
 
     let residuals = walk_ffn.take_residuals();
@@ -469,7 +494,9 @@ fn infer_patched_q4k_impl(
 
     InferPatchedPositionResult {
         position_residuals: walk_ffn.take_position_residuals(),
-        context_decisions: walk_ffn.context_decisions(),
+        context_decisions,
+        terminal_hidden,
+        terminal_adapter_applied,
         infer: InferPatchedResult {
             predictions,
             model_top1,

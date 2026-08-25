@@ -213,6 +213,7 @@ where
         prompt_ids,
         max_tokens,
         index,
+        None,
         &mut mask_fn,
         &mut on_token,
     )
@@ -240,17 +241,70 @@ where
         prompt_ids,
         max_tokens,
         index,
+        None,
         &mut mask_fn,
         ignore_generated_token,
     )
 }
 
+/// Contextual sibling of [`generate_kquant_cpu_constrained_cached_index`].
+/// `prefill_delta` is added exactly once to the last post-block hidden of the
+/// initial prefill, before final norm and lm-head projection. Decode-step
+/// hidden states never pass through this seam.
+pub fn generate_kquant_cpu_constrained_cached_index_with_prefill_delta<M>(
+    weights: &mut ModelWeights,
+    tokenizer: &Tokenizer,
+    prompt_ids: &[u32],
+    max_tokens: usize,
+    index: &dyn larql_compute::KvIndex,
+    prefill_delta: &[f32],
+    mut mask_fn: M,
+) -> Option<Vec<(String, u32)>>
+where
+    M: FnMut(&[u32], &mut Vec<f32>),
+{
+    generate_kquant_cpu_constrained_cached_index_streaming(
+        weights,
+        tokenizer,
+        prompt_ids,
+        max_tokens,
+        index,
+        Some(prefill_delta),
+        &mut mask_fn,
+        ignore_generated_token,
+    )
+}
+
+fn apply_prefill_delta_once(
+    h_last: &mut ndarray::Array2<f32>,
+    prefill_delta: Option<&[f32]>,
+) -> Option<()> {
+    let Some(delta) = prefill_delta else {
+        return Some(());
+    };
+    if h_last.nrows() != 1
+        || delta.len() != h_last.ncols()
+        || delta.iter().any(|value| !value.is_finite())
+        || !delta.iter().any(|value| *value != 0.0)
+    {
+        return None;
+    }
+    for (hidden, addition) in h_last.row_mut(0).iter_mut().zip(delta) {
+        *hidden += *addition;
+    }
+    Some(())
+}
+
+// Keep the prefill perturbation explicit at the single cached-generation
+// seam; folding it into a closure would obscure the apply-once contract.
+#[allow(clippy::too_many_arguments)]
 fn generate_kquant_cpu_constrained_cached_index_streaming<M, F>(
     weights: &mut ModelWeights,
     tokenizer: &Tokenizer,
     prompt_ids: &[u32],
     max_tokens: usize,
     index: &dyn larql_compute::KvIndex,
+    prefill_delta: Option<&[f32]>,
     mut mask_fn: M,
     mut on_token: F,
 ) -> Option<Vec<(String, u32)>>
@@ -275,6 +329,7 @@ where
         super::cached::predict_kquant_prefill(weights, prompt_ids, index);
     let last = h.nrows().saturating_sub(1);
     let mut h_last = h.slice(ndarray::s![last..last + 1, ..]).to_owned();
+    apply_prefill_delta_once(&mut h_last, prefill_delta)?;
 
     // Prefer the dequant-free direct-matvec step — the staged step's cost
     // is dominated by re-dequantising every layer's tensors. Parity with
@@ -511,6 +566,33 @@ mod tests {
                 "did not expect {t:?} to be a terminator"
             );
         }
+    }
+
+    #[test]
+    fn prefill_delta_changes_one_terminal_hidden_exactly_once() {
+        let mut prefill = ndarray::Array2::from_shape_vec((1, 2), vec![3.0, 4.0]).unwrap();
+        let decode = ndarray::Array2::from_shape_vec((1, 2), vec![7.0, 8.0]).unwrap();
+        apply_prefill_delta_once(&mut prefill, Some(&[0.25, -0.5])).unwrap();
+        assert_eq!(
+            prefill,
+            ndarray::Array2::from_shape_vec((1, 2), vec![3.25, 3.5]).unwrap()
+        );
+        assert_eq!(
+            decode,
+            ndarray::Array2::from_shape_vec((1, 2), vec![7.0, 8.0]).unwrap()
+        );
+    }
+
+    #[test]
+    fn absent_prefill_delta_is_bit_identical_and_invalid_delta_fails_closed() {
+        let original = ndarray::Array2::from_shape_vec((1, 2), vec![3.0, 4.0]).unwrap();
+        let mut legacy = original.clone();
+        apply_prefill_delta_once(&mut legacy, None).unwrap();
+        assert_eq!(legacy, original);
+
+        let mut invalid = original.clone();
+        assert!(apply_prefill_delta_once(&mut invalid, Some(&[1.0])).is_none());
+        assert_eq!(invalid, original);
     }
 
     // ── Q4K + MoE generate paths (Gemma 4 fixture) ───────────────────────

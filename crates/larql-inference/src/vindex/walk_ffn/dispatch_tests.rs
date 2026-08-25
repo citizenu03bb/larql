@@ -125,6 +125,7 @@ fn walk_ffn_discovers_context_detectors_from_applied_patch() {
                 relation_threshold: 0.0,
                 calibration: None,
             },
+            residual_adapter: None,
         }],
     };
     patched

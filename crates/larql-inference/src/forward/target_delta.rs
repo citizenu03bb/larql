@@ -56,6 +56,7 @@
 //! fact in pure Rust; `run_memit` calls it and feeds the optimised
 //! deltas into `rome_batch_update` as V*.
 
+use larql_models::NormType;
 use ndarray::{Array1, ArrayView1, ArrayView2};
 
 use crate::model::ModelWeights;
@@ -94,6 +95,453 @@ pub struct TargetDelta {
     /// Baseline loss on the target under the no-edit forward pass —
     /// useful for diagnostics ("did the optimisation actually move?").
     pub baseline_loss: f32,
+}
+
+/// Fixed parameters of the preregistered terminal-residual compiler.
+///
+/// These values are deliberately not accepted as function arguments: changing
+/// one of them defines a different experiment. Keeping them in the result
+/// makes the exact gate visible to callers and evidence writers.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct TerminalResidualAdapterOptions {
+    pub target_margin: f32,
+    pub min_orthogonal_ratio: f32,
+    pub max_residual_fraction: f32,
+    pub monotonicity_grid_points: usize,
+    pub monotonicity_tolerance: f32,
+    pub bisection_relative_tolerance: f32,
+}
+
+impl Default for TerminalResidualAdapterOptions {
+    fn default() -> Self {
+        Self {
+            target_margin: 0.75,
+            min_orthogonal_ratio: 0.10,
+            max_residual_fraction: 0.05,
+            monotonicity_grid_points: 65,
+            monotonicity_tolerance: 1e-5,
+            bisection_relative_tolerance: 1e-4,
+        }
+    }
+}
+
+/// Deterministic output of the preregistered terminal-residual compiler.
+#[derive(Debug, Clone)]
+pub struct TerminalResidualAdapter {
+    pub options: TerminalResidualAdapterOptions,
+    /// Prompt index with the smallest unedited target margin.
+    pub worst_prompt_index: usize,
+    /// Highest-logit non-target ID for each unedited prompt.
+    pub baseline_runner_ids: Vec<u32>,
+    pub baseline_margins: Vec<f32>,
+    /// Highest-logit non-target ID after applying the compiled delta.
+    pub compiled_runner_ids: Vec<u32>,
+    pub compiled_margins: Vec<f32>,
+    pub orthogonal_ratio: f32,
+    pub alpha_max: f32,
+    pub alpha: f32,
+    pub direction: Array1<f32>,
+    pub delta: Array1<f32>,
+}
+
+struct TerminalProjection {
+    residual: Array1<f32>,
+    base_numerators: Array1<f32>,
+}
+
+/// Compile the fixed Galadriel terminal-residual adapter from already-captured
+/// post-final-block residuals, without running a transformer forward pass.
+///
+/// The implementation follows `docs/research-conditional-terminal-residual-spike.md`:
+/// choose the worst baseline prompt, differentiate its target-versus-runner
+/// margin through final RMSNorm and `lm_head`, project that gradient orthogonal
+/// to the K=1 down direction, then solve the single allowed magnitude under the
+/// fixed five-percent residual-norm cap.
+pub fn compile_terminal_residual_adapter(
+    weights: &ModelWeights,
+    post_l41_residuals: &[Array1<f32>],
+    target_id: u32,
+    k1_down: ArrayView1<f32>,
+) -> Result<TerminalResidualAdapter, String> {
+    let options = TerminalResidualAdapterOptions::default();
+    validate_terminal_adapter_inputs(weights, post_l41_residuals, target_id, k1_down)?;
+
+    let hidden = weights.hidden_size;
+    let target = target_id as usize;
+    let norm_weight = terminal_norm_weight(weights)?;
+    let norm_eps = weights.arch.norm_eps();
+    let logits_scale = weights.arch.logits_scaling();
+
+    let mut projections = Vec::with_capacity(post_l41_residuals.len());
+    let mut baseline_runner_ids = Vec::with_capacity(post_l41_residuals.len());
+    let mut baseline_margins = Vec::with_capacity(post_l41_residuals.len());
+
+    for residual in post_l41_residuals {
+        let weighted = Array1::from_iter(
+            residual
+                .iter()
+                .zip(norm_weight.iter())
+                .map(|(&h, &w)| h * w),
+        );
+        let base_numerators = weights.lm_head.dot(&weighted);
+        ensure_finite_slice("terminal adapter base projection", &base_numerators)?;
+        let rms = rms_value(residual.view(), norm_eps)?;
+        let (margin, runner) =
+            margin_and_runner(&base_numerators, None, 0.0, rms * logits_scale, target)?;
+        baseline_runner_ids.push(runner as u32);
+        baseline_margins.push(margin);
+        projections.push(TerminalProjection {
+            residual: residual.clone(),
+            base_numerators,
+        });
+    }
+
+    let worst_prompt_index = baseline_margins
+        .iter()
+        .enumerate()
+        .min_by(|(left_i, left), (right_i, right)| {
+            left.total_cmp(right).then_with(|| left_i.cmp(right_i))
+        })
+        .map(|(index, _)| index)
+        .ok_or_else(|| "terminal adapter requires at least one residual".to_string())?;
+    let runner = baseline_runner_ids[worst_prompt_index] as usize;
+
+    let mut margin_norm_grad = Array1::<f32>::zeros(hidden);
+    for i in 0..hidden {
+        margin_norm_grad[i] =
+            (weights.lm_head[[target, i]] - weights.lm_head[[runner, i]]) / logits_scale;
+    }
+    ensure_finite_slice(
+        "terminal adapter margin gradient before RMSNorm",
+        &margin_norm_grad,
+    )?;
+    let gradient = rmsnorm_backward_pos(
+        projections[worst_prompt_index].residual.view(),
+        norm_weight.view(),
+        margin_norm_grad.view(),
+        norm_eps,
+    );
+    ensure_finite_slice("terminal adapter margin gradient", &gradient)?;
+    let gradient_norm = l2_norm(gradient.view())?;
+    if gradient_norm == 0.0 {
+        return Err("terminal adapter margin gradient has zero norm".into());
+    }
+
+    let down_norm = l2_norm(k1_down)?;
+    if down_norm == 0.0 {
+        return Err("terminal adapter K1 down vector has zero norm".into());
+    }
+    let down_unit = k1_down.mapv(|value| value / down_norm);
+    let along_down = gradient.dot(&down_unit);
+    let orthogonal = &gradient - &(down_unit * along_down);
+    let orthogonal_norm = l2_norm(orthogonal.view())?;
+    let orthogonal_ratio = orthogonal_norm / gradient_norm;
+    if !orthogonal_ratio.is_finite() || orthogonal_ratio < options.min_orthogonal_ratio {
+        return Err(format!(
+            "terminal adapter orthogonal ratio {orthogonal_ratio:.8} is below {:.2}",
+            options.min_orthogonal_ratio
+        ));
+    }
+    let direction = orthogonal.mapv(|value| value / orthogonal_norm);
+    ensure_finite_slice("terminal adapter direction", &direction)?;
+
+    let weighted_direction = Array1::from_iter(
+        direction
+            .iter()
+            .zip(norm_weight.iter())
+            .map(|(&u, &w)| u * w),
+    );
+    let direction_numerators = weights.lm_head.dot(&weighted_direction);
+    ensure_finite_slice(
+        "terminal adapter direction projection",
+        &direction_numerators,
+    )?;
+
+    let min_residual_norm = projections
+        .iter()
+        .map(|projection| l2_norm(projection.residual.view()))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .fold(f32::INFINITY, f32::min);
+    if !min_residual_norm.is_finite() || min_residual_norm == 0.0 {
+        return Err("terminal adapter residual norm must be positive and finite".into());
+    }
+    let alpha_max = options.max_residual_fraction * min_residual_norm;
+    if !alpha_max.is_finite() || alpha_max <= 0.0 {
+        return Err(format!(
+            "terminal adapter produced invalid alpha_max {alpha_max}"
+        ));
+    }
+
+    let score = |alpha: f32| {
+        terminal_score(
+            &projections,
+            &direction_numerators,
+            direction.view(),
+            alpha,
+            norm_eps,
+            logits_scale,
+            target,
+        )
+    };
+
+    let mut previous = score(0.0)?.0;
+    for grid_index in 1..options.monotonicity_grid_points {
+        let alpha = alpha_max * grid_index as f32 / (options.monotonicity_grid_points - 1) as f32;
+        let current = score(alpha)?.0;
+        if current + options.monotonicity_tolerance < previous {
+            return Err(format!(
+                "terminal adapter F(alpha) is not monotonic at grid index {grid_index}: {previous:.8} -> {current:.8}"
+            ));
+        }
+        previous = current;
+    }
+    if previous < options.target_margin {
+        return Err(format!(
+            "terminal adapter F(alpha_max) {previous:.8} is below target margin {:.2}",
+            options.target_margin
+        ));
+    }
+
+    let initial_score = score(0.0)?.0;
+    let alpha = if initial_score >= options.target_margin {
+        0.0
+    } else {
+        let mut low = 0.0_f32;
+        let mut high = alpha_max;
+        let tolerance = options.bisection_relative_tolerance * alpha_max;
+        for _ in 0..128 {
+            if high - low <= tolerance {
+                break;
+            }
+            let middle = 0.5 * (low + high);
+            if score(middle)?.0 >= options.target_margin {
+                high = middle;
+            } else {
+                low = middle;
+            }
+        }
+        high
+    };
+
+    let (_, compiled_margins, compiled_runner_ids) = score(alpha)?;
+    let delta = direction.mapv(|value| value * alpha);
+    ensure_finite_slice("terminal adapter delta", &delta)?;
+
+    Ok(TerminalResidualAdapter {
+        options,
+        worst_prompt_index,
+        baseline_runner_ids,
+        baseline_margins,
+        compiled_runner_ids,
+        compiled_margins,
+        orthogonal_ratio,
+        alpha_max,
+        alpha,
+        direction,
+        delta,
+    })
+}
+
+fn validate_terminal_adapter_inputs(
+    weights: &ModelWeights,
+    residuals: &[Array1<f32>],
+    target_id: u32,
+    k1_down: ArrayView1<f32>,
+) -> Result<(), String> {
+    let hidden = weights.arch.config().hidden_size;
+    let vocab = weights.vocab_size;
+    if residuals.is_empty() {
+        return Err("terminal adapter requires at least one post-L41 residual".into());
+    }
+    if hidden == 0 || vocab < 2 {
+        return Err(format!(
+            "terminal adapter requires hidden_size > 0 and vocab_size >= 2, got {hidden}/{vocab}"
+        ));
+    }
+    if weights.hidden_size != hidden {
+        return Err(format!(
+            "terminal adapter cached hidden_size {} != architecture hidden_size {hidden}",
+            weights.hidden_size
+        ));
+    }
+    if weights.lm_head.shape() != [vocab, hidden] {
+        return Err(format!(
+            "terminal adapter lm_head shape {:?} != [{vocab}, {hidden}]",
+            weights.lm_head.shape()
+        ));
+    }
+    if target_id as usize >= vocab {
+        return Err(format!(
+            "terminal adapter target_id {target_id} outside vocab size {vocab}"
+        ));
+    }
+    if k1_down.len() != hidden {
+        return Err(format!(
+            "terminal adapter K1 down len {} != hidden_size {hidden}",
+            k1_down.len()
+        ));
+    }
+    ensure_finite_slice("terminal adapter K1 down vector", &k1_down)?;
+    for (index, residual) in residuals.iter().enumerate() {
+        if residual.len() != hidden {
+            return Err(format!(
+                "terminal adapter residual {index} len {} != hidden_size {hidden}",
+                residual.len()
+            ));
+        }
+        ensure_finite_slice(&format!("terminal adapter residual {index}"), residual)?;
+    }
+    if weights.arch.norm_type() != NormType::RmsNorm {
+        return Err(format!(
+            "terminal adapter requires final RMSNorm, got {:?}",
+            weights.arch.norm_type()
+        ));
+    }
+    if let Some(cap) = weights.arch.final_logit_softcapping() {
+        return Err(format!(
+            "terminal adapter refuses final logit softcap {cap}"
+        ));
+    }
+    let norm_eps = weights.arch.norm_eps();
+    if !norm_eps.is_finite() || norm_eps <= 0.0 {
+        return Err(format!("terminal adapter invalid norm epsilon {norm_eps}"));
+    }
+    let logits_scale = weights.arch.logits_scaling();
+    if !logits_scale.is_finite() || logits_scale <= 0.0 {
+        return Err(format!(
+            "terminal adapter invalid logits scaling {logits_scale}"
+        ));
+    }
+    terminal_norm_weight(weights)?;
+    Ok(())
+}
+
+fn terminal_norm_weight(weights: &ModelWeights) -> Result<Array1<f32>, String> {
+    let hidden = weights.hidden_size;
+    let key = weights.arch.final_norm_key();
+    let learned = weights
+        .vectors
+        .get(key)
+        .ok_or_else(|| format!("terminal adapter missing final norm weight key: {key}"))?;
+    if learned.len() != hidden {
+        return Err(format!(
+            "terminal adapter final norm weight len {} != hidden_size {hidden}",
+            learned.len()
+        ));
+    }
+    let offset = weights.arch.norm_weight_offset();
+    if !offset.is_finite() {
+        return Err(format!("terminal adapter invalid norm offset {offset}"));
+    }
+    let result = Array1::from_iter(learned.iter().map(|&value| value + offset));
+    ensure_finite_slice("terminal adapter final norm weight", &result)?;
+    Ok(result)
+}
+
+fn terminal_score(
+    projections: &[TerminalProjection],
+    direction_numerators: &Array1<f32>,
+    direction: ArrayView1<f32>,
+    alpha: f32,
+    norm_eps: f32,
+    logits_scale: f32,
+    target: usize,
+) -> Result<(f32, Vec<f32>, Vec<u32>), String> {
+    if !alpha.is_finite() || alpha < 0.0 {
+        return Err(format!("terminal adapter invalid alpha {alpha}"));
+    }
+    let mut minimum = f32::INFINITY;
+    let mut margins = Vec::with_capacity(projections.len());
+    let mut runners = Vec::with_capacity(projections.len());
+    for projection in projections {
+        let perturbed = &projection.residual + &(direction.to_owned() * alpha);
+        let rms = rms_value(perturbed.view(), norm_eps)?;
+        let (margin, runner) = margin_and_runner(
+            &projection.base_numerators,
+            Some(direction_numerators),
+            alpha,
+            rms * logits_scale,
+            target,
+        )?;
+        minimum = minimum.min(margin);
+        margins.push(margin);
+        runners.push(runner as u32);
+    }
+    if !minimum.is_finite() {
+        return Err("terminal adapter produced non-finite F(alpha)".into());
+    }
+    Ok((minimum, margins, runners))
+}
+
+fn margin_and_runner(
+    base: &Array1<f32>,
+    direction: Option<&Array1<f32>>,
+    alpha: f32,
+    denominator: f32,
+    target: usize,
+) -> Result<(f32, usize), String> {
+    if base.len() < 2 || target >= base.len() || !denominator.is_finite() || denominator <= 0.0 {
+        return Err("terminal adapter invalid margin projection inputs".into());
+    }
+    if let Some(direction) = direction {
+        if direction.len() != base.len() {
+            return Err("terminal adapter projection dimension mismatch".into());
+        }
+    }
+    let numerator =
+        |index: usize| base[index] + direction.map_or(0.0, |values| alpha * values[index]);
+    let target_value = numerator(target);
+    let mut runner = if target == 0 { 1 } else { 0 };
+    let mut runner_value = numerator(runner);
+    for index in 0..base.len() {
+        if index == target {
+            continue;
+        }
+        let value = numerator(index);
+        if value > runner_value {
+            runner = index;
+            runner_value = value;
+        }
+    }
+    let margin = (target_value - runner_value) / denominator;
+    if !target_value.is_finite() || !runner_value.is_finite() || !margin.is_finite() {
+        return Err("terminal adapter produced non-finite logits or margin".into());
+    }
+    Ok((margin, runner))
+}
+
+fn rms_value(values: ArrayView1<f32>, eps: f32) -> Result<f32, String> {
+    let mean_square = values.iter().map(|value| value * value).sum::<f32>() / values.len() as f32;
+    let rms = (mean_square + eps).sqrt();
+    if !rms.is_finite() || rms <= 0.0 {
+        return Err(format!("terminal adapter produced invalid RMS {rms}"));
+    }
+    Ok(rms)
+}
+
+fn l2_norm(values: ArrayView1<f32>) -> Result<f32, String> {
+    let norm = values.iter().map(|value| value * value).sum::<f32>().sqrt();
+    if !norm.is_finite() {
+        return Err("terminal adapter produced non-finite vector norm".into());
+    }
+    Ok(norm)
+}
+
+fn ensure_finite_slice(
+    label: &str,
+    values: &ndarray::ArrayBase<impl ndarray::Data<Elem = f32>, ndarray::Ix1>,
+) -> Result<(), String> {
+    if let Some((index, value)) = values
+        .iter()
+        .enumerate()
+        .find(|(_, value)| !value.is_finite())
+    {
+        return Err(format!(
+            "{label} contains non-finite value {value} at {index}"
+        ));
+    }
+    Ok(())
 }
 
 // ── Autograd tape: minimal reverse-mode for the ops we need ────────
@@ -582,6 +1030,36 @@ mod tests {
     use ndarray::arr2;
     use ndarray::Array2;
 
+    fn terminal_adapter_fixture() -> (ModelWeights, Vec<Array1<f32>>, u32, Array1<f32>) {
+        let mut weights = make_test_weights();
+        let hidden = weights.hidden_size;
+        let vocab = weights.vocab_size;
+        let target_id = 2_u32;
+
+        let mut lm_head = Array2::<f32>::zeros((vocab, hidden));
+        lm_head[[1, 0]] = 10.0;
+        lm_head[[target_id as usize, 1]] = 10.0;
+        weights.lm_head = lm_head.into_shared();
+
+        let norm_key = weights.arch.final_norm_key().to_string();
+        let learned_unit = 1.0 - weights.arch.norm_weight_offset();
+        weights.vectors.insert(norm_key, vec![learned_unit; hidden]);
+
+        let residuals = [0.99_f32, 0.98, 0.97]
+            .into_iter()
+            .map(|second| {
+                let mut residual = Array1::<f32>::zeros(hidden);
+                residual[0] = 1.0;
+                residual[1] = second;
+                residual
+            })
+            .collect();
+        let mut down = Array1::<f32>::zeros(hidden);
+        down[0] = 1.0;
+        down[1] = 1.0;
+        (weights, residuals, target_id, down)
+    }
+
     fn assert_opt_err_contains(tokens: &[u32], target_id: u32, needle: &str) {
         let weights = make_test_weights();
         let err = optimise_target_delta(
@@ -758,6 +1236,101 @@ mod tests {
         assert!((d.lr - 0.5).abs() < 1e-6);
         assert!((d.kl_weight - 0.0625).abs() < 1e-6);
         assert!(!d.normalise);
+    }
+
+    #[test]
+    fn terminal_adapter_options_pin_preregistered_gates() {
+        let options = TerminalResidualAdapterOptions::default();
+        assert_eq!(options.target_margin, 0.75);
+        assert_eq!(options.min_orthogonal_ratio, 0.10);
+        assert_eq!(options.max_residual_fraction, 0.05);
+        assert_eq!(options.monotonicity_grid_points, 65);
+        assert_eq!(options.monotonicity_tolerance, 1e-5);
+        assert_eq!(options.bisection_relative_tolerance, 1e-4);
+    }
+
+    #[test]
+    fn terminal_adapter_compilation_is_deterministic_and_meets_gates() {
+        let (weights, residuals, target_id, down) = terminal_adapter_fixture();
+        let first = compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
+            .expect("synthetic terminal adapter should compile");
+        let second =
+            compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
+                .expect("repeated synthetic compilation should succeed");
+
+        assert_eq!(first.worst_prompt_index, 2);
+        assert_eq!(first.baseline_runner_ids, vec![1, 1, 1]);
+        assert!(first
+            .compiled_margins
+            .iter()
+            .all(|margin| *margin >= first.options.target_margin));
+        assert!(first.orthogonal_ratio >= first.options.min_orthogonal_ratio);
+        assert!(first.alpha > 0.0 && first.alpha <= first.alpha_max);
+        assert!(first.alpha_max <= 0.05 * l2_norm(residuals[2].view()).unwrap() + 1e-6);
+        assert!((first.direction.dot(&down)).abs() < 1e-4);
+        assert!((l2_norm(first.direction.view()).unwrap() - 1.0).abs() < 1e-5);
+        assert_eq!(first.alpha.to_bits(), second.alpha.to_bits());
+        assert_eq!(first.delta, second.delta);
+        assert_eq!(first.compiled_runner_ids, second.compiled_runner_ids);
+        assert_eq!(first.compiled_margins, second.compiled_margins);
+    }
+
+    #[test]
+    fn terminal_adapter_rejects_dimension_and_non_finite_inputs() {
+        let (weights, residuals, target_id, down) = terminal_adapter_fixture();
+        let short_down = Array1::<f32>::zeros(weights.hidden_size - 1);
+        let err =
+            compile_terminal_residual_adapter(&weights, &residuals, target_id, short_down.view())
+                .expect_err("short K1 down vector must fail");
+        assert!(err.contains("K1 down len"), "{err}");
+
+        let mut non_finite = residuals.clone();
+        non_finite[0][3] = f32::NAN;
+        let err = compile_terminal_residual_adapter(&weights, &non_finite, target_id, down.view())
+            .expect_err("non-finite residual must fail");
+        assert!(err.contains("non-finite"), "{err}");
+    }
+
+    #[test]
+    fn terminal_adapter_rejects_softcap() {
+        let (mut weights, residuals, target_id, down) = terminal_adapter_fixture();
+        let hidden = weights.hidden_size;
+        let arch_json = serde_json::json!({
+            "model_type": "tinymodel",
+            "hidden_size": hidden,
+            "num_hidden_layers": weights.num_layers,
+            "intermediate_size": weights.intermediate_size,
+            "head_dim": weights.head_dim,
+            "num_attention_heads": weights.num_q_heads,
+            "num_key_value_heads": weights.num_kv_heads,
+            "vocab_size": weights.vocab_size,
+            "final_logit_softcapping": 30.0
+        });
+        weights.arch = larql_models::detect_from_json(&arch_json);
+
+        let err = compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
+            .expect_err("softcapped logits must fail closed");
+        assert!(err.contains("softcap"), "{err}");
+    }
+
+    #[test]
+    fn terminal_adapter_rejects_gain_equivalent_direction() {
+        let (weights, residuals, target_id, _) = terminal_adapter_fixture();
+        let mut down = Array1::<f32>::zeros(weights.hidden_size);
+        down[0] = -1.0;
+        down[1] = 1.0;
+        let err = compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
+            .expect_err("a near-parallel K1 direction must fail the orthogonal gate");
+        assert!(err.contains("orthogonal ratio"), "{err}");
+    }
+
+    #[test]
+    fn terminal_adapter_rejects_unreachable_margin_under_cap() {
+        let (mut weights, residuals, target_id, down) = terminal_adapter_fixture();
+        weights.lm_head.mapv_inplace(|value| value * 0.01);
+        let err = compile_terminal_residual_adapter(&weights, &residuals, target_id, down.view())
+            .expect_err("weak output projection must fail the fixed margin gate");
+        assert!(err.contains("F(alpha_max)"), "{err}");
     }
 
     #[test]

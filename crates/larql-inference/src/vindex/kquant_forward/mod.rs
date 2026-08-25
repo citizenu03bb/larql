@@ -30,6 +30,7 @@ pub(crate) use generation::generate_kquant_cpu_constrained_streaming_sampled_wit
 pub use generation::{
     generate_kquant_cpu, generate_kquant_cpu_cached, generate_kquant_cpu_constrained,
     generate_kquant_cpu_constrained_cached, generate_kquant_cpu_constrained_cached_index,
+    generate_kquant_cpu_constrained_cached_index_with_prefill_delta,
     generate_kquant_cpu_constrained_cached_streaming, generate_kquant_cpu_constrained_streaming,
     generate_kquant_cpu_constrained_streaming_sampled, generate_kquant_cpu_remote,
     generate_kquant_cpu_routed, is_end_of_turn, predict_kquant,

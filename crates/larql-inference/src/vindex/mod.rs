@@ -18,6 +18,7 @@ pub use kquant_forward::{
     fused_decode_step, fused_decode_step_with_state, fused_prefill, generate_kquant_cpu,
     generate_kquant_cpu_cached, generate_kquant_cpu_constrained,
     generate_kquant_cpu_constrained_cached, generate_kquant_cpu_constrained_cached_index,
+    generate_kquant_cpu_constrained_cached_index_with_prefill_delta,
     generate_kquant_cpu_constrained_cached_streaming, generate_kquant_cpu_constrained_streaming,
     generate_kquant_cpu_constrained_streaming_sampled, generate_kquant_cpu_remote,
     generate_kquant_cpu_routed, insert_q4k_layer_tensors, insert_q4k_layer_tensors_resident,

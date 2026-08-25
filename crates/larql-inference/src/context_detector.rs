@@ -16,6 +16,20 @@ pub enum ContextRepresentation {
     MeanNoBos,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TerminalResidualApplication {
+    PrefillLastPositionV1,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct TerminalResidualAdapterSpec {
+    pub application: TerminalResidualApplication,
+    pub delta: Vec<f32>,
+    #[serde(default)]
+    pub calibration: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ContextDetectorSpec {
     pub detector_layer: usize,
@@ -26,6 +40,8 @@ pub struct ContextDetectorSpec {
     pub entity_threshold: f32,
     pub relation_threshold: f32,
     pub payload: PatchSlotId,
+    #[serde(default)]
+    pub terminal_residual_adapter: Option<TerminalResidualAdapterSpec>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize)]
@@ -85,11 +101,92 @@ impl ContextDetectorSpec {
     }
 }
 
+/// Resolve the terminal prefill delta from explicit per-slot decisions.
+///
+/// Missing or rejecting decisions contribute nothing. Every selected adapter
+/// is validated before any caller mutates a hidden state, preserving atomic
+/// fail-closed behaviour for manually constructed runtime specs as well as
+/// already-validated `.vlp` patches.
+pub fn terminal_prefill_delta(
+    specs: &[ContextDetectorSpec],
+    decisions: &[ContextDecision],
+    hidden_size: usize,
+) -> Result<Option<Vec<f32>>, String> {
+    let mut selected = Vec::new();
+    for spec in specs {
+        let Some(adapter) = &spec.terminal_residual_adapter else {
+            continue;
+        };
+        let explicitly_allowed = decisions
+            .iter()
+            .find(|decision| decision.payload == spec.payload)
+            .is_some_and(|decision| decision.allowed);
+        if !explicitly_allowed {
+            continue;
+        }
+        if adapter.application != TerminalResidualApplication::PrefillLastPositionV1
+            || adapter.delta.len() != hidden_size
+            || adapter.delta.iter().any(|value| !value.is_finite())
+            || !adapter.delta.iter().any(|value| *value != 0.0)
+        {
+            return Err(format!(
+                "invalid terminal residual adapter for L{}/F{}",
+                spec.payload.layer, spec.payload.feature
+            ));
+        }
+        selected.push(adapter);
+    }
+    if selected.is_empty() {
+        return Ok(None);
+    }
+    let mut delta = vec![0.0f32; hidden_size];
+    for adapter in selected {
+        for (sum, value) in delta.iter_mut().zip(&adapter.delta) {
+            *sum += *value;
+        }
+    }
+    if delta.iter().any(|value| !value.is_finite()) {
+        return Err("combined terminal residual adapter is non-finite".into());
+    }
+    Ok(Some(delta))
+}
+
+/// Add the resolved delta to the final sequence row only.
+pub fn apply_terminal_prefill_delta(
+    hidden: &mut Array2<f32>,
+    specs: &[ContextDetectorSpec],
+    decisions: &[ContextDecision],
+) -> Result<bool, String> {
+    let hidden_size = hidden.ncols();
+    let Some(delta) = terminal_prefill_delta(specs, decisions, hidden_size)? else {
+        return Ok(false);
+    };
+    let Some(mut last) = hidden.rows_mut().into_iter().next_back() else {
+        return Err("terminal residual adapter requires a non-empty prefill".into());
+    };
+    for (value, addition) in last.iter_mut().zip(delta) {
+        *value += addition;
+    }
+    Ok(true)
+}
+
 impl From<larql_vindex::ResolvedPatchContextDetector> for ContextDetectorSpec {
     fn from(value: larql_vindex::ResolvedPatchContextDetector) -> Self {
         let representation = match value.representation {
             larql_vindex::PatchContextRepresentation::MeanNoBos => ContextRepresentation::MeanNoBos,
         };
+        let terminal_residual_adapter = value.residual_adapter.map(|adapter| {
+            let application = match adapter.application {
+                larql_vindex::PatchResidualAdapterApplication::PrefillLastPositionV1 => {
+                    TerminalResidualApplication::PrefillLastPositionV1
+                }
+            };
+            TerminalResidualAdapterSpec {
+                application,
+                delta: adapter.delta,
+                calibration: adapter.calibration,
+            }
+        });
         Self {
             detector_layer: value.detector_layer,
             representation,
@@ -102,6 +199,7 @@ impl From<larql_vindex::ResolvedPatchContextDetector> for ContextDetectorSpec {
                 layer: value.layer,
                 feature: value.feature,
             },
+            terminal_residual_adapter,
         }
     }
 }
@@ -123,6 +221,7 @@ mod tests {
                 layer: 3,
                 feature: 7,
             },
+            terminal_residual_adapter: None,
         }
     }
 
@@ -150,5 +249,62 @@ mod tests {
     fn malformed_or_decode_only_input_fails_closed() {
         assert!(spec().evaluate(&Array2::zeros((1, 2))).is_none());
         assert!(spec().evaluate(&Array2::zeros((2, 3))).is_none());
+    }
+
+    fn decision(allowed: bool) -> ContextDecision {
+        ContextDecision {
+            payload: spec().payload,
+            detector_layer: 1,
+            entity_margin: 1.0,
+            relation_margin: 1.0,
+            allowed,
+        }
+    }
+
+    fn spec_with_adapter() -> ContextDetectorSpec {
+        ContextDetectorSpec {
+            terminal_residual_adapter: Some(TerminalResidualAdapterSpec {
+                application: TerminalResidualApplication::PrefillLastPositionV1,
+                delta: vec![0.25, -0.5],
+                calibration: Some("test".into()),
+            }),
+            ..spec()
+        }
+    }
+
+    #[test]
+    fn terminal_adapter_allow_changes_only_last_prefill_row() {
+        let mut hidden = Array2::from_shape_vec((2, 2), vec![1.0, 2.0, 3.0, 4.0]).unwrap();
+        assert!(apply_terminal_prefill_delta(
+            &mut hidden,
+            &[spec_with_adapter()],
+            &[decision(true)]
+        )
+        .unwrap());
+        assert_eq!(
+            hidden,
+            Array2::from_shape_vec((2, 2), vec![1.0, 2.0, 3.25, 3.5]).unwrap()
+        );
+    }
+
+    #[test]
+    fn terminal_adapter_reject_or_missing_is_bit_identical() {
+        let original = Array2::from_shape_vec((2, 2), vec![1.0, 2.0, 3.0, 4.0]).unwrap();
+        for decisions in [Vec::new(), vec![decision(false)]] {
+            let mut hidden = original.clone();
+            assert!(
+                !apply_terminal_prefill_delta(&mut hidden, &[spec_with_adapter()], &decisions)
+                    .unwrap()
+            );
+            assert_eq!(hidden, original);
+        }
+    }
+
+    #[test]
+    fn legacy_spec_has_exact_terminal_parity() {
+        let original = Array2::from_shape_vec((2, 2), vec![1.0, 2.0, 3.0, 4.0]).unwrap();
+        let mut hidden = original.clone();
+        assert!(!apply_terminal_prefill_delta(&mut hidden, &[spec()], &[decision(true)]).unwrap());
+        assert_eq!(hidden, original);
     }
 }

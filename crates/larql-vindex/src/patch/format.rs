@@ -105,6 +105,11 @@ pub enum PatchOp {
         #[serde(default)]
         target_ids: Vec<u32>,
         detector: PatchContextDetector,
+        /// Optional terminal residual write conditioned by this detector.
+        /// The vector carries its compiled magnitude; runtime scaling is not
+        /// part of the patch contract.
+        #[serde(default)]
+        residual_adapter: Option<PatchResidualAdapter>,
     },
     /// Architecture B: residual-key KNN insert.
     #[serde(rename = "insert_knn")]
@@ -142,6 +147,34 @@ pub enum PatchContextRepresentation {
     MeanNoBos,
 }
 
+/// Exact runtime seam used by a conditional residual adapter.
+///
+/// The single supported variant keeps the first wire format deliberately
+/// narrow. New application points require an explicit format extension rather
+/// than silently changing the meaning of an existing patch.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PatchResidualAdapterApplication {
+    PrefillLastPositionV1,
+}
+
+/// Wire representation of a compiled conditional residual write.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PatchResidualAdapter {
+    pub application: PatchResidualAdapterApplication,
+    pub delta_vector_b64: String,
+    #[serde(default)]
+    pub calibration: Option<String>,
+}
+
+/// Decoded, dimension-checked conditional residual write.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ResolvedPatchResidualAdapter {
+    pub application: PatchResidualAdapterApplication,
+    pub delta: Vec<f32>,
+    pub calibration: Option<String>,
+}
+
 /// Wire representation of a model-bound two-factor contextual detector.
 /// Vectors use the patch format's portable little-endian f32 base64 codec.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -171,6 +204,7 @@ pub struct ResolvedPatchContextDetector {
     pub entity_threshold: f32,
     pub relation_threshold: f32,
     pub calibration: Option<String>,
+    pub residual_adapter: Option<ResolvedPatchResidualAdapter>,
 }
 
 impl PatchOp {
@@ -480,6 +514,7 @@ mod tests {
                 relation_threshold: 0.75,
                 calibration: Some("frozen holdout 16/16".into()),
             },
+            residual_adapter: None,
         };
         let json = serde_json::to_string(&op).unwrap();
         let decoded: PatchOp = serde_json::from_str(&json).unwrap();
@@ -490,6 +525,56 @@ mod tests {
         ));
         let patch = make_patch(vec![decoded]);
         assert_eq!(patch.counts(), (0, 0, 0));
+    }
+
+    #[test]
+    fn contextual_operation_without_adapter_remains_legacy_compatible() {
+        let json = serde_json::json!({
+            "op": "context",
+            "layer": 3,
+            "feature": 7,
+            "target_ids": [11, 12],
+            "detector": {
+                "detector_layer": 1,
+                "representation": "mean_no_bos",
+                "center_vector_b64": encode_gate_vector(&[0.0, 0.0]),
+                "entity_direction_b64": encode_gate_vector(&[1.0, 0.0]),
+                "relation_direction_b64": encode_gate_vector(&[0.0, 1.0]),
+                "entity_threshold": 0.0,
+                "relation_threshold": 0.0
+            }
+        });
+        let decoded: PatchOp = serde_json::from_value(json).unwrap();
+        assert!(matches!(
+            decoded,
+            PatchOp::Context {
+                residual_adapter: None,
+                ..
+            }
+        ));
+    }
+
+    #[test]
+    fn contextual_residual_adapter_round_trips_with_narrow_application() {
+        let adapter = PatchResidualAdapter {
+            application: PatchResidualAdapterApplication::PrefillLastPositionV1,
+            delta_vector_b64: encode_gate_vector(&[0.25, -0.5]),
+            calibration: Some("spent-dev-only".into()),
+        };
+        let json = serde_json::to_value(&adapter).unwrap();
+        assert_eq!(json["application"], "prefill_last_position_v1");
+        let decoded: PatchResidualAdapter = serde_json::from_value(json).unwrap();
+        assert_eq!(
+            decoded.application,
+            PatchResidualAdapterApplication::PrefillLastPositionV1
+        );
+        assert_eq!(decoded.calibration.as_deref(), Some("spent-dev-only"));
+
+        let unsupported = serde_json::json!({
+            "application": "some_future_seam",
+            "delta_vector_b64": encode_gate_vector(&[1.0, 0.0])
+        });
+        assert!(serde_json::from_value::<PatchResidualAdapter>(unsupported).is_err());
     }
 
     #[test]

@@ -167,6 +167,7 @@ mod tests {
                 entity_threshold: 0.0,
                 relation_threshold: 0.0,
                 calibration: None,
+                residual_adapter: None,
             },
         );
         (source, patch)

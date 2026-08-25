@@ -193,6 +193,7 @@ fn contextual_spec(hidden: usize, feature: usize, allowed: bool) -> ContextDetec
         entity_threshold: threshold,
         relation_threshold: threshold,
         payload: PatchSlotId { layer: 0, feature },
+        terminal_residual_adapter: None,
     }
 }
 

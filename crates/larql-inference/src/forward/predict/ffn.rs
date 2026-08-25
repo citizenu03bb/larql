@@ -17,6 +17,17 @@ pub fn predict_with_ffn(
     top_k: usize,
     ffn: &dyn FfnBackend,
 ) -> PredictResult {
+    let h = predict_hidden_with_ffn(weights, token_ids, ffn);
+    logits_to_predictions(weights, &h, tokenizer, top_k, 1.0)
+}
+
+/// Run the complete transformer stack with a custom FFN backend and retain
+/// its post-last-block, pre-final-norm hidden state.
+pub fn predict_hidden_with_ffn(
+    weights: &ModelWeights,
+    token_ids: &[u32],
+    ffn: &dyn FfnBackend,
+) -> ndarray::Array2<f32> {
     let num_layers = weights.num_layers;
     let mut h = embed_tokens(weights, token_ids);
     let ple_inputs = precompute_per_layer_inputs(weights, &h, token_ids);
@@ -48,7 +59,7 @@ pub fn predict_with_ffn(
         }
     }
 
-    logits_to_predictions(weights, &h, tokenizer, top_k, 1.0)
+    h
 }
 
 /// Like [`predict_with_ffn`], but after the layer `stop_layer` completes it

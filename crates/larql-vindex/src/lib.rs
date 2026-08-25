@@ -109,8 +109,9 @@ pub use format::weights::{
 
 // Patch
 pub use patch::core::{
-    PatchContextDetector, PatchContextRepresentation, PatchOp, PatchedVindex,
-    ResolvedPatchContextDetector, VindexPatch,
+    PatchContextDetector, PatchContextRepresentation, PatchOp, PatchResidualAdapter,
+    PatchResidualAdapterApplication, PatchedVindex, ResolvedPatchContextDetector,
+    ResolvedPatchResidualAdapter, VindexPatch,
 };
 pub use patch::knn_store::{KnnEntry, KnnStore};
 pub use patch::refine::{refine_gates, RefineInput, RefineResult, RefinedGate};

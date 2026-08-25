@@ -30,8 +30,8 @@ pub use dense::{
 };
 
 pub use ffn::{
-    predict_with_ffn, predict_with_ffn_attention, predict_with_ffn_early_exit, predict_with_router,
-    predict_with_strategy,
+    predict_hidden_with_ffn, predict_with_ffn, predict_with_ffn_attention,
+    predict_with_ffn_early_exit, predict_with_router, predict_with_strategy,
 };
 
 // ── Tests ────────────────────────────────────────────────────────────────────

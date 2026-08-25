@@ -160,6 +160,7 @@ fn derive_patch(
         feature: context_feature,
         target_ids,
         detector,
+        residual_adapter,
     } = source_context
     else {
         unreachable!("source_ops returned a non-context operation")
@@ -209,6 +210,7 @@ fn derive_patch(
         feature: new_feature,
         target_ids,
         detector,
+        residual_adapter,
     };
 
     let first_context = patch
@@ -328,6 +330,7 @@ mod tests {
                 relation_threshold: 0.0,
                 calibration: Some("fixture".into()),
             },
+            residual_adapter: None,
         };
         VindexPatch {
             version: 1,

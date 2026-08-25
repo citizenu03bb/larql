@@ -11,7 +11,8 @@ use crate::index::types::DEFAULT_C_SCORE;
 use crate::index::FeatureMeta;
 
 use super::format::{
-    decode_gate_vector, PatchContextDetector, PatchOp, ResolvedPatchContextDetector, VindexPatch,
+    decode_gate_vector, PatchContextDetector, PatchOp, PatchResidualAdapter,
+    ResolvedPatchContextDetector, ResolvedPatchResidualAdapter, VindexPatch,
 };
 use super::overlay::PatchedVindex;
 
@@ -19,12 +20,17 @@ use super::overlay::PatchedVindex;
 /// state is mutated, so a corrupt vector rejects the patch wholesale.
 /// Without this, `apply_patch` used to drop the vector while still
 /// applying the op's metadata — a silently half-applied patch.
+// The wire operation and active artifact geometry are intentionally passed
+// separately here so validation can name the exact failing field and remain
+// atomic before overlay mutation.
+#[allow(clippy::too_many_arguments)]
 fn decode_context_detector(
     op_idx: usize,
     layer: usize,
     feature: usize,
     target_ids: &[u32],
     detector: &PatchContextDetector,
+    residual_adapter: Option<&PatchResidualAdapter>,
     hidden_size: usize,
     num_layers: usize,
     vocab_size: usize,
@@ -66,6 +72,29 @@ fn decode_context_detector(
             )));
         }
     }
+    let residual_adapter = residual_adapter
+        .map(|adapter| {
+            let delta = decode(
+                "residual_adapter.delta_vector_b64",
+                &adapter.delta_vector_b64,
+            )?;
+            let norm_sq = delta
+                .iter()
+                .map(|value| f64::from(*value).powi(2))
+                .sum::<f64>();
+            if norm_sq <= 0.0 {
+                return Err(VindexError::Parse(format!(
+                    "patch op {op_idx}: residual adapter delta must have positive norm"
+                )));
+            }
+            Ok(ResolvedPatchResidualAdapter {
+                application: adapter.application,
+                delta,
+                calibration: adapter.calibration.clone(),
+            })
+        })
+        .transpose()?;
+
     Ok(ResolvedPatchContextDetector {
         layer,
         feature,
@@ -78,6 +107,7 @@ fn decode_context_detector(
         entity_threshold: detector.entity_threshold,
         relation_threshold: detector.relation_threshold,
         calibration: detector.calibration.clone(),
+        residual_adapter,
     })
 }
 
@@ -124,6 +154,7 @@ fn validate_patch_vectors(
                 feature,
                 target_ids,
                 detector,
+                residual_adapter,
             } => {
                 decode_context_detector(
                     i,
@@ -131,10 +162,27 @@ fn validate_patch_vectors(
                     *feature,
                     target_ids,
                     detector,
+                    residual_adapter.as_ref(),
                     hidden_size,
                     num_layers,
                     vocab_size,
                 )?;
+                if residual_adapter.is_some()
+                    && !patch.operations.iter().any(|candidate| {
+                        matches!(
+                            candidate,
+                            PatchOp::Insert {
+                                layer: insert_layer,
+                                feature: insert_feature,
+                                ..
+                            } if insert_layer == layer && insert_feature == feature
+                        )
+                    })
+                {
+                    return Err(VindexError::Parse(format!(
+                        "patch op {i}: residual adapter requires an Insert at payload L{layer}/F{feature}"
+                    )));
+                }
                 if let Some(first_id) = target_ids.first() {
                     if let Some(insert_first_id) =
                         patch
@@ -277,6 +325,7 @@ impl PatchedVindex {
                     feature,
                     target_ids,
                     detector,
+                    residual_adapter,
                 } => {
                     let resolved = decode_context_detector(
                         0,
@@ -284,6 +333,7 @@ impl PatchedVindex {
                         *feature,
                         target_ids,
                         detector,
+                        residual_adapter.as_ref(),
                         self.base.hidden_size,
                         self.base.num_layers,
                         self.base.vocab_size,
@@ -448,7 +498,7 @@ mod tests {
     use crate::index::VectorIndex;
     use crate::patch::format::{
         encode_gate_vector, PatchContextDetector, PatchContextRepresentation, PatchDownMeta,
-        PatchOp, VindexPatch,
+        PatchOp, PatchResidualAdapter, PatchResidualAdapterApplication, VindexPatch,
     };
 
     fn empty_pv() -> PatchedVindex {
@@ -483,7 +533,43 @@ mod tests {
                 relation_threshold: 0.75,
                 calibration: Some("test".into()),
             },
+            residual_adapter: None,
         }
+    }
+
+    fn context_insert() -> PatchOp {
+        PatchOp::Insert {
+            layer: 3,
+            feature: 7,
+            relation: Some("ruler".into()),
+            entity: "Lothlorien".into(),
+            target: "Galadriel".into(),
+            confidence: Some(1.0),
+            gate_vector_b64: None,
+            up_vector_b64: None,
+            down_vector_b64: None,
+            down_meta: Some(PatchDownMeta {
+                top_token: "Gal".into(),
+                top_token_id: 11,
+                c_score: 1.0,
+            }),
+        }
+    }
+
+    fn context_op_with_adapter(delta: &[f32]) -> PatchOp {
+        let mut op = context_op(2);
+        let PatchOp::Context {
+            residual_adapter, ..
+        } = &mut op
+        else {
+            unreachable!()
+        };
+        *residual_adapter = Some(PatchResidualAdapter {
+            application: PatchResidualAdapterApplication::PrefillLastPositionV1,
+            delta_vector_b64: encode_gate_vector(delta),
+            calibration: Some("spent-dev-only".into()),
+        });
+        op
     }
 
     fn contextual_pv() -> PatchedVindex {
@@ -510,6 +596,95 @@ mod tests {
         assert_eq!(detectors[0].detector_layer, 1);
         assert_eq!(detectors[0].target_ids, vec![11, 12, 13]);
         assert_eq!(detectors[0].entity_direction, vec![1.0, 1.0]);
+        assert!(detectors[0].residual_adapter.is_none());
+    }
+
+    #[test]
+    fn contextual_residual_adapter_resolves_on_linked_insert() {
+        let mut pv = contextual_pv();
+        pv.try_apply_patch_bound(
+            contextual_patch(vec![
+                context_insert(),
+                context_op_with_adapter(&[0.25, -0.5]),
+            ]),
+            Some("sha256-manifest:test"),
+        )
+        .unwrap();
+        let detectors = pv.context_detectors();
+        let adapter = detectors[0].residual_adapter.as_ref().unwrap();
+        assert_eq!(
+            adapter.application,
+            PatchResidualAdapterApplication::PrefillLastPositionV1
+        );
+        assert_eq!(adapter.delta, vec![0.25, -0.5]);
+        assert_eq!(adapter.calibration.as_deref(), Some("spent-dev-only"));
+    }
+
+    #[test]
+    fn contextual_residual_adapter_requires_insert_in_same_patch() {
+        let mut pv = contextual_pv();
+        let error = pv
+            .try_apply_patch_bound(
+                contextual_patch(vec![context_op_with_adapter(&[0.25, -0.5])]),
+                Some("sha256-manifest:test"),
+            )
+            .unwrap_err();
+        assert!(error.to_string().contains("requires an Insert"));
+        assert!(pv.patches.is_empty());
+        assert!(pv.context_detectors().is_empty());
+
+        let mut pv = contextual_pv();
+        let mut wrong_slot = context_insert();
+        let PatchOp::Insert { feature, .. } = &mut wrong_slot else {
+            unreachable!()
+        };
+        *feature = 6;
+        let error = pv
+            .try_apply_patch_bound(
+                contextual_patch(vec![wrong_slot, context_op_with_adapter(&[0.25, -0.5])]),
+                Some("sha256-manifest:test"),
+            )
+            .unwrap_err();
+        assert!(error.to_string().contains("requires an Insert"));
+        assert!(pv.patches.is_empty());
+        assert!(pv.overrides_meta.is_empty());
+    }
+
+    #[test]
+    fn invalid_residual_adapter_vectors_reject_patch_atomically() {
+        for (delta, expected) in [
+            (vec![0.0, 0.0], "positive norm"),
+            (vec![1.0, 2.0, 3.0], "must contain 2 finite f32 values"),
+            (vec![f32::NAN, 1.0], "must contain 2 finite f32 values"),
+        ] {
+            let mut pv = contextual_pv();
+            let error = pv
+                .try_apply_patch_bound(
+                    contextual_patch(vec![context_insert(), context_op_with_adapter(&delta)]),
+                    Some("sha256-manifest:test"),
+                )
+                .unwrap_err();
+            assert!(error.to_string().contains(expected), "{error}");
+            assert!(pv.patches.is_empty());
+            assert!(pv.overrides_meta.is_empty());
+            assert!(pv.context_detectors().is_empty());
+        }
+    }
+
+    #[test]
+    fn removing_adapter_patch_clears_resolved_context_state() {
+        let mut pv = contextual_pv();
+        pv.try_apply_patch_bound(
+            contextual_patch(vec![
+                context_insert(),
+                context_op_with_adapter(&[0.25, -0.5]),
+            ]),
+            Some("sha256-manifest:test"),
+        )
+        .unwrap();
+        assert!(pv.context_detectors()[0].residual_adapter.is_some());
+        pv.remove_patch(0);
+        assert!(pv.context_detectors().is_empty());
     }
 
     #[test]

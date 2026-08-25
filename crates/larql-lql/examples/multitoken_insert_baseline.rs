@@ -375,19 +375,17 @@ fn install_fact(session: &mut Session, fact: &FactSpec, mode_sql: &str) -> Resul
 
 fn probe_control(
     session: &mut Session,
-    vindex: &Path,
-    config: &larql_vindex::VindexConfig,
+    weights: &mut InferenceWeights,
     tokenizer: &larql_inference::tokenizers::Tokenizer,
     control: &ControlSpec,
     fact: &FactSpec,
     expected_id: u32,
     phase: &'static str,
 ) -> Result<(), AnyError> {
-    let mut weights = load_weights(vindex, config)?;
-    let ids = prompt_tokens(tokenizer, &weights, &control.prompt)?;
+    let ids = prompt_tokens(tokenizer, weights, &control.prompt)?;
     let result = infer_step(
         session,
-        &mut weights,
+        weights,
         tokenizer,
         &ids,
         expected_id,
@@ -413,16 +411,14 @@ fn probe_control(
 
 fn run_native_phase(
     session: &mut Session,
-    vindex: &Path,
-    config: &larql_vindex::VindexConfig,
+    weights: &mut InferenceWeights,
     tokenizer: &larql_inference::tokenizers::Tokenizer,
     prompt: &str,
     target: &str,
     target_ids: &[u32],
     phase: &'static str,
 ) -> Result<SpanSummary, AnyError> {
-    let mut weights = load_weights(vindex, config)?;
-    let mut ids = prompt_tokens(tokenizer, &weights, prompt)?;
+    let mut ids = prompt_tokens(tokenizer, weights, prompt)?;
     let mut first_token_hit = false;
     let mut exact = true;
     let mut evaluated_steps = 0;
@@ -430,7 +426,7 @@ fn run_native_phase(
     for (step, expected_id) in target_ids.iter().copied().enumerate() {
         let result = infer_step(
             session,
-            &mut weights,
+            weights,
             tokenizer,
             &ids,
             expected_id,
@@ -475,8 +471,7 @@ fn run_native_phase(
 
 fn run_oracle_phase(
     session: &mut Session,
-    vindex: &Path,
-    config: &larql_vindex::VindexConfig,
+    weights: &mut InferenceWeights,
     tokenizer: &larql_inference::tokenizers::Tokenizer,
     prompt: &str,
     target: &str,
@@ -484,8 +479,7 @@ fn run_oracle_phase(
     span_specs: &[larql_inference::active_span::ActiveSpanSpec],
 ) -> Result<SpanSummary, AnyError> {
     let phase = "post_insert_oracle";
-    let mut weights = load_weights(vindex, config)?;
-    let mut ids = prompt_tokens(tokenizer, &weights, prompt)?;
+    let mut ids = prompt_tokens(tokenizer, weights, prompt)?;
     let mut evaluated_steps = 0;
     let mut native_exact = true;
     let mut first_token_hit = false;
@@ -498,7 +492,7 @@ fn run_oracle_phase(
     for (step, expected_id) in target_ids.iter().copied().enumerate() {
         let result = infer_step(
             session,
-            &mut weights,
+            weights,
             tokenizer,
             &ids,
             expected_id,
@@ -596,7 +590,7 @@ fn run_oracle_phase(
     let first_id = *target_ids.first().ok_or("target tokenized to zero IDs")?;
     let trailing = infer_step(
         session,
-        &mut weights,
+        weights,
         tokenizer,
         &ids,
         first_id,
@@ -784,6 +778,13 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
     Ok(options)
 }
 
+fn needs_ordinary_weights(options: &SuiteOptions) -> bool {
+    !options.install_only
+        && !options.activation_only
+        && !options.cached_smoke
+        && !options.cached_validation
+}
+
 fn execute_statement(session: &mut Session, sql: &str) -> Result<(), AnyError> {
     let statement = parse(sql)?;
     for line in session.execute(&statement)? {
@@ -888,6 +889,7 @@ fn load_context_detectors(
         entity_threshold: frozen.entity_threshold,
         relation_threshold: frozen.relation_threshold,
         payload: span.slot,
+        terminal_residual_adapter: None,
     }])
 }
 
@@ -1026,16 +1028,26 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
         return Ok(());
     }
     let mut session = open_session(vindex)?;
+    // Native/oracle/control probes are independent full-prefix forwards over
+    // immutable model weights. Keep one resident set for the whole ordinary
+    // suite, including both sides of an in-session patch installation.
+    let mut ordinary_weights = if needs_ordinary_weights(options) {
+        Some(load_weights(vindex, &config)?)
+    } else {
+        None
+    };
 
     // Measure every positive and negative before any edit is installed.
-    if options.apply_patch.is_none() && !options.install_only && !options.activation_only {
+    if options.apply_patch.is_none() && needs_ordinary_weights(options) {
+        let weights = ordinary_weights
+            .as_mut()
+            .expect("ordinary pre-insert probes require resident weights");
         for (fact, ids) in &tokenized {
             let canonical = canonical_prompt(&fact.entity, &fact.relation);
             for prompt in std::iter::once(&canonical).chain(fact.paraphrases.iter()) {
                 let summary = run_native_phase(
                     &mut session,
-                    vindex,
-                    &config,
+                    weights,
                     &tokenizer,
                     prompt,
                     &fact.target,
@@ -1047,8 +1059,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             for control in &suite.controls {
                 probe_control(
                     &mut session,
-                    vindex,
-                    &config,
+                    weights,
                     &tokenizer,
                     control,
                     fact,
@@ -1258,13 +1269,15 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
         return Ok(());
     }
 
+    let weights = ordinary_weights
+        .as_mut()
+        .expect("ordinary post-insert probes require resident weights");
     for (fact, ids) in &tokenized {
         let canonical = canonical_prompt(&fact.entity, &fact.relation);
         for prompt in std::iter::once(&canonical).chain(fact.paraphrases.iter()) {
             let post = run_native_phase(
                 &mut session,
-                vindex,
-                &config,
+                weights,
                 &tokenizer,
                 prompt,
                 &fact.target,
@@ -1275,8 +1288,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             if ids.len() > 1 {
                 let oracle = run_oracle_phase(
                     &mut session,
-                    vindex,
-                    &config,
+                    weights,
                     &tokenizer,
                     prompt,
                     &fact.target,
@@ -1289,8 +1301,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
         for control in &suite.controls {
             probe_control(
                 &mut session,
-                vindex,
-                &config,
+                weights,
                 &tokenizer,
                 control,
                 fact,
@@ -1340,11 +1351,11 @@ fn main() -> Result<(), AnyError> {
     );
 
     let mut session = open_session(&vindex)?;
+    let mut weights = load_weights(&vindex, &config)?;
 
     let pre = run_native_phase(
         &mut session,
-        &vindex,
-        &config,
+        &mut weights,
         &tokenizer,
         &prompt,
         target,
@@ -1371,8 +1382,7 @@ fn main() -> Result<(), AnyError> {
 
     let post = run_native_phase(
         &mut session,
-        &vindex,
-        &config,
+        &mut weights,
         &tokenizer,
         &prompt,
         target,
@@ -1385,8 +1395,7 @@ fn main() -> Result<(), AnyError> {
         let span_specs = session.active_span_specs();
         let oracle = run_oracle_phase(
             &mut session,
-            &vindex,
-            &config,
+            &mut weights,
             &tokenizer,
             &prompt,
             target,
@@ -1476,5 +1485,29 @@ mod tests {
         assert!((margin - 2.0_f64.ln()).abs() < 1e-12);
         assert_eq!(probability_logit_margin(0.0, 0.2), None);
         assert_eq!(probability_logit_margin(0.4, f64::NAN), None);
+    }
+
+    #[test]
+    fn ordinary_probes_own_one_resident_weight_set() {
+        let ordinary = SuiteOptions::default();
+        assert!(needs_ordinary_weights(&ordinary));
+
+        let activation = SuiteOptions {
+            activation_only: true,
+            ..SuiteOptions::default()
+        };
+        assert!(!needs_ordinary_weights(&activation));
+
+        let install = SuiteOptions {
+            install_only: true,
+            ..SuiteOptions::default()
+        };
+        assert!(!needs_ordinary_weights(&install));
+
+        let cached = SuiteOptions {
+            cached_validation: true,
+            ..SuiteOptions::default()
+        };
+        assert!(!needs_ordinary_weights(&cached));
     }
 }

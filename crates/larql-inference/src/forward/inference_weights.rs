@@ -22,8 +22,7 @@ use larql_vindex::{
 use crate::active_span::{
     patch_activation_events, ActiveSpanConstraint, ActiveSpanSpec, PatchSlotId,
 };
-use crate::context_detector::ContextDecision;
-use crate::context_detector::ContextDetectorSpec;
+use crate::context_detector::{terminal_prefill_delta, ContextDecision, ContextDetectorSpec};
 use crate::model::ModelWeights;
 
 use super::infer_patched::{
@@ -56,6 +55,7 @@ pub enum PatchedGenerationError {
     EmptyPrompt,
     NoModelToken,
     Overlay(VindexError),
+    InvalidTerminalResidualAdapter(String),
     UnsupportedArchitecture,
 }
 
@@ -73,6 +73,9 @@ impl std::fmt::Display for PatchedGenerationError {
                 formatter.write_str("patched generation produced no model-path token")
             }
             Self::Overlay(error) => write!(formatter, "invalid patched overlay: {error}"),
+            Self::InvalidTerminalResidualAdapter(error) => {
+                write!(formatter, "invalid terminal residual adapter: {error}")
+            }
             Self::UnsupportedArchitecture => {
                 formatter.write_str("architecture does not support cached quantised generation")
             }
@@ -230,6 +233,12 @@ impl InferenceWeights {
             .filter(|decision| decision.allowed)
             .map(|decision| (decision.payload.layer, decision.payload.feature))
             .collect();
+        let prefill_delta = terminal_prefill_delta(
+            &detectors,
+            &evidence.context_decisions,
+            self.as_weights().hidden_size,
+        )
+        .map_err(PatchedCachedGenerationError::InvalidTerminalResidualAdapter)?;
         let mut events =
             patch_activation_events(self.as_weights(), patched, &evidence.infer.residuals);
         events.retain(|event| {
@@ -249,14 +258,26 @@ impl InferenceWeights {
             .as_quantised_parts_mut()
             .ok_or(PatchedCachedGenerationError::RequiresQuantisedWeights)?;
         let view = PatchedKvIndexView::new(source, patched, allowed_slots)?;
-        let generated = crate::vindex::generate_kquant_cpu_constrained_cached_index(
-            weights,
-            tokenizer,
-            prompt_ids,
-            max_tokens,
-            &view,
-            |generated, logits| constraint.apply(generated, logits),
-        )
+        let generated = if let Some(delta) = prefill_delta.as_deref() {
+            crate::vindex::generate_kquant_cpu_constrained_cached_index_with_prefill_delta(
+                weights,
+                tokenizer,
+                prompt_ids,
+                max_tokens,
+                &view,
+                delta,
+                |generated, logits| constraint.apply(generated, logits),
+            )
+        } else {
+            crate::vindex::generate_kquant_cpu_constrained_cached_index(
+                weights,
+                tokenizer,
+                prompt_ids,
+                max_tokens,
+                &view,
+                |generated, logits| constraint.apply(generated, logits),
+            )
+        }
         .ok_or(PatchedCachedGenerationError::UnsupportedArchitecture)?;
         let generated_ids: Vec<_> = generated.iter().map(|(_, id)| *id).collect();
         let mut final_probe = vec![0.0; weights.vocab_size];
@@ -322,6 +343,10 @@ impl InferenceWeights {
         });
 
         let context_decisions = evidence.context_decisions;
+        let mut decode_detectors = detectors.clone();
+        for detector in &mut decode_detectors {
+            detector.terminal_residual_adapter = None;
+        }
         let first_id = first_model_ids
             .first()
             .copied()
@@ -351,7 +376,7 @@ impl InferenceWeights {
                         patched,
                         &full_ids,
                         1,
-                        &detectors,
+                        &decode_detectors,
                         Some(&context_decisions),
                     );
                     next_model_ids
