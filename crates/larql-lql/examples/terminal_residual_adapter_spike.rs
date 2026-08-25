@@ -26,6 +26,7 @@ use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
 type AnyError = Box<dyn Error>;
+const PROTOCOL_ID: &str = "conditional-terminal-residual-spike-v2";
 const TARGET_IDS: [u32; 3] = [8833, 553, 21457];
 const PASSIVE_PROMPT: &str = "Lothlorien is governed by";
 const PASSIVE_EXPECTED_MARGIN: f32 = -0.133_890;
@@ -352,7 +353,7 @@ fn derive_patch(
     }
     let mut derived = source.clone();
     let calibration = serde_json::to_string(&json!({
-        "protocol": "conditional-terminal-residual-spike-v1",
+        "protocol": PROTOCOL_ID,
         "application": "post_l41_prefill_last_position_only",
         "target_ids": TARGET_IDS,
         "alpha": compiled.alpha,
@@ -696,7 +697,7 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
         "failed"
     };
     Ok(json!({
-        "protocol": "conditional-terminal-residual-spike-v1",
+        "protocol": PROTOCOL_ID,
         "status": status,
         "phase_reached": if activation_passed { "cached_generation" } else { "activation" },
         "inputs": {
@@ -768,7 +769,7 @@ fn main() -> Result<(), AnyError> {
         Err(error) => {
             if let Some(path) = evidence_path {
                 let failure = json!({
-                    "protocol": "conditional-terminal-residual-spike-v1",
+                    "protocol": PROTOCOL_ID,
                     "status": "failed_or_infrastructure_inconclusive",
                     "error": error.to_string(),
                 });
