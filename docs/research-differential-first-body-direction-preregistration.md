@@ -1,6 +1,7 @@
 # Differential first-body relation direction: exploratory nomination test
 
-**Status:** frozen before the first score read
+**Status:** closed; see
+[the result](research-differential-first-body-direction-results.md)
 
 **Evidence label:** exploratory; new estimator after B-prime
 
