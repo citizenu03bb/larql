@@ -29,9 +29,12 @@ The first such protocol is now also closed. Its trace-guided L31 payload
 selected the new first target ID on only 4/6 development positives, so its
 frozen stop rule prevented relation fitting and calibration. See
 [factorized-relation-v1 results](research-factorized-relation-v1-results.md).
-That result does not test the L13 detector candidate; it instead motivates a
-future executor directly triggered by the detector decision rather than by an
-incidental FFN-row activation.
+That result does not prospectively test the L13 detector candidate. A separate
+post-closure analysis of the spent capture found 3/6 positive fires and 0/6
+control fires for the fixed candidate, above its exact grouped null but below
+the frozen coverage gate. It motivates both a future executor directly
+triggered by the detector decision and a relation score that removes
+construction-specific offset; changing the executor alone is insufficient.
 
 ## Why the factors are asymmetric
 
