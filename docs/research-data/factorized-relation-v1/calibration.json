@@ -1,0 +1,51 @@
+{
+  "facts": [
+    {
+      "entity": "Archive Zephyr",
+      "relation": "cartographic lead",
+      "target": "Nora Veldt",
+      "expected_tokens": 4,
+      "paraphrases": [
+        "Cartographic work for Archive Zephyr is handled by"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "cal-fold-0-10",
+      "prompt": "The editorial lead of Archive Zephyr is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "cal-fold-0-01",
+      "prompt": "The cartographic lead of Archive Nimbus is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "cal-fold-0-00",
+      "prompt": "The editorial lead of Archive Nimbus is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "cal-fold-1-10",
+      "prompt": "Administrative work for Archive Zephyr is handled by",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "cal-fold-1-01",
+      "prompt": "Cartographic work for Archive Nimbus is handled by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "cal-fold-1-00",
+      "prompt": "Administrative work for Archive Nimbus is handled by",
+      "cell": "00",
+      "fold": 1
+    }
+  ]
+}

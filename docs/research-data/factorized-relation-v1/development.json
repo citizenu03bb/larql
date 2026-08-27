@@ -1,0 +1,127 @@
+{
+  "facts": [
+    {
+      "entity": "Archive Zephyr",
+      "relation": "chief cartographer",
+      "target": "Nora Veldt",
+      "expected_tokens": 4,
+      "paraphrases": [
+        "Archive Zephyr's chief cartographer is",
+        "Archive Zephyr was mapped by",
+        "Responsibility for mapping Archive Zephyr belongs to",
+        "For Archive Zephyr, the person responsible for its maps is",
+        "The mapmaker assigned to Archive Zephyr is"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "dev-fold-0-10",
+      "prompt": "The chief editor of Archive Zephyr is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "dev-fold-0-01",
+      "prompt": "The chief cartographer of Archive Nimbus is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "dev-fold-0-00",
+      "prompt": "The chief editor of Archive Nimbus is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "dev-fold-1-10",
+      "prompt": "Archive Zephyr's chief editor is",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "dev-fold-1-01",
+      "prompt": "Archive Nimbus's chief cartographer is",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "dev-fold-1-00",
+      "prompt": "Archive Nimbus's chief editor is",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "dev-fold-2-10",
+      "prompt": "Archive Zephyr was restored by",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "dev-fold-2-01",
+      "prompt": "Archive Nimbus was mapped by",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "dev-fold-2-00",
+      "prompt": "Archive Nimbus was restored by",
+      "cell": "00",
+      "fold": 2
+    },
+    {
+      "name": "dev-fold-3-10",
+      "prompt": "Responsibility for funding Archive Zephyr belongs to",
+      "cell": "10",
+      "fold": 3
+    },
+    {
+      "name": "dev-fold-3-01",
+      "prompt": "Responsibility for mapping Archive Nimbus belongs to",
+      "cell": "01",
+      "fold": 3
+    },
+    {
+      "name": "dev-fold-3-00",
+      "prompt": "Responsibility for funding Archive Nimbus belongs to",
+      "cell": "00",
+      "fold": 3
+    },
+    {
+      "name": "dev-fold-4-10",
+      "prompt": "For Archive Zephyr, the person responsible for its records is",
+      "cell": "10",
+      "fold": 4
+    },
+    {
+      "name": "dev-fold-4-01",
+      "prompt": "For Archive Nimbus, the person responsible for its maps is",
+      "cell": "01",
+      "fold": 4
+    },
+    {
+      "name": "dev-fold-4-00",
+      "prompt": "For Archive Nimbus, the person responsible for its records is",
+      "cell": "00",
+      "fold": 4
+    },
+    {
+      "name": "dev-fold-5-10",
+      "prompt": "The auditor assigned to Archive Zephyr is",
+      "cell": "10",
+      "fold": 5
+    },
+    {
+      "name": "dev-fold-5-01",
+      "prompt": "The mapmaker assigned to Archive Nimbus is",
+      "cell": "01",
+      "fold": 5
+    },
+    {
+      "name": "dev-fold-5-00",
+      "prompt": "The auditor assigned to Archive Nimbus is",
+      "cell": "00",
+      "fold": 5
+    }
+  ]
+}

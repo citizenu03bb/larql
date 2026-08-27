@@ -150,6 +150,7 @@ struct SuiteOptions {
     activation_only: bool,
     install_only: bool,
     residual_out: Option<PathBuf>,
+    residual_layer: Option<usize>,
     position_residuals: bool,
     context_detector: Option<PathBuf>,
     cached_smoke: bool,
@@ -168,7 +169,7 @@ struct FrozenContextDetector {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn|--native-only]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
+    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn|--native-only]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--residual-layer <N>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
 }
 
 fn canonical_prompt(entity: &str, relation: &str) -> String {
@@ -188,6 +189,23 @@ fn target_tokens(
         .encode(format!(" {target}"), false)
         .map_err(|error| std::io::Error::other(error.to_string()))?;
     Ok(encoding.get_ids().to_vec())
+}
+
+fn entity_alias_tokens(
+    tokenizer: &larql_inference::tokenizers::Tokenizer,
+    entity: &str,
+) -> Result<Vec<Vec<u32>>, AnyError> {
+    let mut aliases = Vec::new();
+    for surface in [entity.to_owned(), format!(" {entity}")] {
+        let encoding = tokenizer
+            .encode(surface, false)
+            .map_err(|error| std::io::Error::other(error.to_string()))?;
+        let ids = encoding.get_ids().to_vec();
+        if !ids.is_empty() && !aliases.contains(&ids) {
+            aliases.push(ids);
+        }
+    }
+    Ok(aliases)
 }
 
 fn prompt_tokens(
@@ -744,6 +762,14 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
                         std::io::Error::other("--residual-out requires a path")
                     })?));
             }
+            "--residual-layer" => {
+                index += 1;
+                options.residual_layer = Some(
+                    args.get(index)
+                        .ok_or_else(|| std::io::Error::other("--residual-layer requires a layer"))?
+                        .parse()?,
+                );
+            }
             "--install-only" => options.install_only = true,
             "--cached-smoke" => options.cached_smoke = true,
             "--cached-validation" => options.cached_validation = true,
@@ -765,6 +791,9 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
     }
     if options.residual_out.is_some() && !options.activation_only {
         return Err("--residual-out requires --activation-only".into());
+    }
+    if options.residual_layer.is_some() && !options.activation_only {
+        return Err("--residual-layer requires --activation-only".into());
     }
     if options.position_residuals && !options.activation_only {
         return Err("--position-residuals requires --activation-only".into());
@@ -905,6 +934,7 @@ fn probe_activation_only(
     fold: usize,
     name: &str,
     capture_positions: bool,
+    residual_layer: Option<usize>,
     context_detectors: &[ContextDetectorSpec],
 ) -> Result<ResidualCapture, AnyError> {
     let ids = prompt_tokens(tokenizer, weights, prompt)?;
@@ -927,8 +957,18 @@ fn probe_activation_only(
         capture_positions,
         context_detectors,
     )?;
-    let residuals = std::mem::take(&mut result.residuals);
-    let position_residuals = std::mem::take(&mut result.position_residuals);
+    let mut residuals = std::mem::take(&mut result.residuals);
+    let mut position_residuals = std::mem::take(&mut result.position_residuals);
+    if let Some(layer) = residual_layer {
+        if !residuals
+            .iter()
+            .any(|(captured_layer, _)| *captured_layer == layer)
+        {
+            return Err(format!("requested residual layer L{layer} was not captured").into());
+        }
+        residuals.retain(|(captured_layer, _)| *captured_layer == layer);
+        position_residuals.retain(|(captured_layer, _)| *captured_layer == layer);
+    }
     let patch_activations = result.patch_activations.clone();
     let context_decisions = result.context_decisions.clone();
     let top1 = result.top1.clone();
@@ -1001,6 +1041,10 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             Ok((fact, ids))
         })
         .collect::<Result<_, AnyError>>()?;
+    let entity_aliases = tokenized
+        .iter()
+        .map(|(fact, _)| entity_alias_tokens(&tokenizer, &fact.entity))
+        .collect::<Result<Vec<_>, _>>()?;
     println!(
         "{}",
         serde_json::json!({
@@ -1011,13 +1055,15 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             "activation_only": options.activation_only,
             "install_only": options.install_only,
             "residual_out": options.residual_out,
+            "residual_layer": options.residual_layer,
             "position_residuals": options.position_residuals,
             "context_detector": options.context_detector,
             "cached_smoke": options.cached_smoke,
             "cached_validation": options.cached_validation,
             "n_facts": tokenized.len(),
-            "targets": tokenized.iter().map(|(fact, ids)| serde_json::json!({
+            "targets": tokenized.iter().zip(entity_aliases.iter()).map(|((fact, ids), aliases)| serde_json::json!({
                 "entity": fact.entity,
+                "entity_alias_ids": aliases,
                 "relation": fact.relation,
                 "target": fact.target,
                 "ids": ids,
@@ -1241,6 +1287,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                     index,
                     &name,
                     options.position_residuals,
+                    options.residual_layer,
                     &context_detectors,
                 )?);
             }
@@ -1257,6 +1304,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                     control.fold.unwrap_or(0),
                     &control.name,
                     options.position_residuals,
+                    options.residual_layer,
                     &context_detectors,
                 )?);
             }

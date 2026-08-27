@@ -1,0 +1,127 @@
+{
+  "facts": [
+    {
+      "entity": "Archive Zephyr",
+      "relation": "mapmaker",
+      "target": "Nora Veldt",
+      "expected_tokens": 4,
+      "paraphrases": [
+        "Archive Zephyr is charted by",
+        "The one mapping Archive Zephyr is",
+        "Who maps Archive Zephyr? The answer is",
+        "Asked who prepares the maps for Archive Zephyr, the response is",
+        "Archive Zephyr has its maps prepared by"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "holdout-fold-0-10",
+      "prompt": "The copyeditor of Archive Zephyr is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "holdout-fold-0-01",
+      "prompt": "The mapmaker of Archive Nimbus is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "holdout-fold-0-00",
+      "prompt": "The copyeditor of Archive Nimbus is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "holdout-fold-1-10",
+      "prompt": "Archive Zephyr is restored by",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "holdout-fold-1-01",
+      "prompt": "Archive Nimbus is charted by",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "holdout-fold-1-00",
+      "prompt": "Archive Nimbus is restored by",
+      "cell": "00",
+      "fold": 1
+    },
+    {
+      "name": "holdout-fold-2-10",
+      "prompt": "The one auditing Archive Zephyr is",
+      "cell": "10",
+      "fold": 2
+    },
+    {
+      "name": "holdout-fold-2-01",
+      "prompt": "The one mapping Archive Nimbus is",
+      "cell": "01",
+      "fold": 2
+    },
+    {
+      "name": "holdout-fold-2-00",
+      "prompt": "The one auditing Archive Nimbus is",
+      "cell": "00",
+      "fold": 2
+    },
+    {
+      "name": "holdout-fold-3-10",
+      "prompt": "Who audits Archive Zephyr? The answer is",
+      "cell": "10",
+      "fold": 3
+    },
+    {
+      "name": "holdout-fold-3-01",
+      "prompt": "Who maps Archive Nimbus? The answer is",
+      "cell": "01",
+      "fold": 3
+    },
+    {
+      "name": "holdout-fold-3-00",
+      "prompt": "Who audits Archive Nimbus? The answer is",
+      "cell": "00",
+      "fold": 3
+    },
+    {
+      "name": "holdout-fold-4-10",
+      "prompt": "Asked who maintains the records for Archive Zephyr, the response is",
+      "cell": "10",
+      "fold": 4
+    },
+    {
+      "name": "holdout-fold-4-01",
+      "prompt": "Asked who prepares the maps for Archive Nimbus, the response is",
+      "cell": "01",
+      "fold": 4
+    },
+    {
+      "name": "holdout-fold-4-00",
+      "prompt": "Asked who maintains the records for Archive Nimbus, the response is",
+      "cell": "00",
+      "fold": 4
+    },
+    {
+      "name": "holdout-fold-5-10",
+      "prompt": "Archive Zephyr has its records prepared by",
+      "cell": "10",
+      "fold": 5
+    },
+    {
+      "name": "holdout-fold-5-01",
+      "prompt": "Archive Nimbus has its maps prepared by",
+      "cell": "01",
+      "fold": 5
+    },
+    {
+      "name": "holdout-fold-5-00",
+      "prompt": "Archive Nimbus has its records prepared by",
+      "cell": "00",
+      "fold": 5
+    }
+  ]
+}

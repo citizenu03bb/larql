@@ -65,6 +65,14 @@ def represent(positions: np.ndarray, name: str) -> np.ndarray:
 
 
 def matrix(captures: list[dict], layer: int, representation: str) -> np.ndarray:
+    if representation == "last" and all(
+        not capture.get("position_residuals") for capture in captures
+    ):
+        rows = []
+        for capture in captures:
+            residuals = {int(item[0]): item[1] for item in capture["residuals"]}
+            rows.append(residuals[layer])
+        return np.asarray(rows, dtype=np.float64)
     return np.asarray(
         [represent(positions_at(capture, layer), representation) for capture in captures],
         dtype=np.float64,
