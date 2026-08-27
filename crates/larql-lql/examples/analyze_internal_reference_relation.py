@@ -25,7 +25,6 @@ REFERENCES = (
     "previous",
     "mean_body",
     "first_body",
-    "entity_span",
 )
 ENTITY_ALIAS_IDS = (
     (39140, 7733, 109999),
@@ -186,7 +185,7 @@ def analyze(
     )
     return serializable(
         {
-            "version": 1,
+            "version": 2,
             "epistemic_status": (
                 "post-closure architecture diagnostic on spent prompts; not "
                 "calibration, certification, or holdout evidence"

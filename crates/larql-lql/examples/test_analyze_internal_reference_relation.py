@@ -105,6 +105,11 @@ class InternalReferenceRelationTests(unittest.TestCase):
             offset = float(fold * 3)
             for cell in ("11", "10", "01", "00"):
                 relation = 1.0 if cell[1] == "1" else -1.0
+                prompt_ids = (
+                    [2, *ENTITY_ALIAS_IDS[0], 99]
+                    if cell[0] == "1"
+                    else [2, 55, 56, 99]
+                )
                 positions = [
                     [0.0, offset],
                     [0.0, offset],
@@ -117,7 +122,7 @@ class InternalReferenceRelationTests(unittest.TestCase):
                     "cell": cell,
                     "name": f"fold-{fold}-{cell}",
                     "prompt": f"prompt-{fold}-{cell}",
-                    "prompt_ids": [2, *ENTITY_ALIAS_IDS[0], 99],
+                    "prompt_ids": prompt_ids,
                     "position_residuals": [[13, positions]],
                 }
                 captures.append(row)
