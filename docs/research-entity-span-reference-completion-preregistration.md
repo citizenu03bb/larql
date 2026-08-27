@@ -1,6 +1,7 @@
 # Entity-span internal-reference arm: mechanical completion
 
-**Status:** frozen before the first executable score read
+**Status:** closed; see
+[the result](research-entity-span-reference-completion-results.md)
 
 **Evidence label:** exploratory completion of one predeclared arm
 
