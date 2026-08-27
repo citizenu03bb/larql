@@ -1,6 +1,8 @@
 # Factorized relation-only contextual detector design
 
-**Status:** architecture design on fully spent Alder-v2 development captures
+**Status:** architecture design on fully spent Alder-v2 development captures;
+the first prospective v1 closed before detector fitting at its independent
+payload gate
 
 **Evidence boundary:** exploratory only; not calibration or certification
 
@@ -22,6 +24,14 @@ This is not Alder-v3. Alder-v2 is closed, its holdout remains sealed, and all
 48 Alder-v2 development captures are spent architecture-design material. The
 candidate may become evidence only on a new fact under a separately frozen
 protocol.
+
+The first such protocol is now also closed. Its trace-guided L31 payload
+selected the new first target ID on only 4/6 development positives, so its
+frozen stop rule prevented relation fitting and calibration. See
+[factorized-relation-v1 results](research-factorized-relation-v1-results.md).
+That result does not test the L13 detector candidate; it instead motivates a
+future executor directly triggered by the detector decision rather than by an
+incidental FFN-row activation.
 
 ## Why the factors are asymmetric
 

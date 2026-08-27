@@ -1,7 +1,7 @@
 # Factorized relation detector prospective replication v1
 
-**Status:** pre-run freeze candidate; no E4B weights have been loaded for this
-material
+**Status:** closed at the natural payload gate; see
+[the result](research-factorized-relation-v1-results.md)
 
 **Architecture source:** spent Alder-v2 captures, never Alder holdout evidence
 
