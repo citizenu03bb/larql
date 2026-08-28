@@ -1,6 +1,7 @@
 # Late-decision relation atlas: exploratory nomination gate
 
-**Status:** frozen before implementation tests and the single E4B replay
+**Status:** closed; see
+[the result](research-late-decision-relation-atlas-results.md)
 
 **Evidence label:** `exploratory`; architecture orientation on spent material
 
