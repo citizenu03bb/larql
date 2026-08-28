@@ -11,8 +11,10 @@ use larql_inference::compiled_surface_context::{
     evaluate_compiled_surface_contexts, CompiledSurfaceContextManifest, CompiledSurfaceState,
 };
 use larql_inference::{preflight_terminal_residual_adapter_architecture, InferenceWeights};
-use larql_vindex::patch::core::base_checksum_from_manifest;
-use larql_vindex::{PatchedVindex, QuantFormat};
+use larql_vindex::patch::core::{base_checksum_from_manifest, decode_gate_vector};
+use larql_vindex::{
+    PatchOp, PatchResidualAdapterApplication, PatchedVindex, QuantFormat, VindexPatch,
+};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -59,7 +61,7 @@ struct Case {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  evaluate_product_surface_context --preflight-only <vindex> <manifest.json> <suite.json> <suite.json>\n  evaluate_product_surface_context <vindex> <manifest.json> <suite.json> <suite.json> <evidence.json>"
+    "usage:\n  evaluate_product_surface_context --preflight-only <vindex> <manifest.json> <suite.json> <suite.json>\n  evaluate_product_surface_context <vindex> <manifest.json> <suite.json> <suite.json> <evidence.json>\n  evaluate_product_surface_context --preflight-effect <vindex> <manifest.json> <effect.vlp> <suite.json> <suite.json>\n  evaluate_product_surface_context --effect <vindex> <manifest.json> <effect.vlp> <suite.json> <suite.json> <evidence.json>"
 }
 
 fn sha256_bytes(bytes: &[u8]) -> String {
@@ -136,11 +138,65 @@ struct Preflight {
     cases: Vec<Case>,
     manifest_sha256: String,
     suite_sha256s: Vec<String>,
+    effect_patch: Option<VindexPatch>,
+    effect_patch_sha256: Option<String>,
+}
+
+fn validate_effect_patch_source(
+    patch: &VindexPatch,
+    manifest: &CompiledSurfaceContextManifest,
+    active_checksum: &str,
+) -> Result<(), AnyError> {
+    if patch.base_checksum.as_deref() != Some(active_checksum) {
+        return Err("C1 effect patch is not bound to the active vindex checksum".into());
+    }
+    let spec = &manifest.specs[0];
+    let contexts: Vec<_> = patch
+        .operations
+        .iter()
+        .filter_map(|operation| match operation {
+            PatchOp::Context {
+                layer,
+                feature,
+                target_ids,
+                residual_adapter: Some(adapter),
+                ..
+            } => Some((*layer, *feature, target_ids, adapter)),
+            _ => None,
+        })
+        .collect();
+    if contexts.len() != 1 {
+        return Err("C1 effect patch must contain exactly one linked adapter".into());
+    }
+    let (layer, feature, target_ids, adapter) = contexts[0];
+    if (layer, feature) != (spec.payload.layer, spec.payload.feature)
+        || target_ids != &spec.target_ids
+        || adapter.application != PatchResidualAdapterApplication::PrefillLastPositionV1
+        || decode_gate_vector(&adapter.delta_vector_b64)? != spec.terminal_residual_adapter.delta
+        || adapter.calibration != spec.terminal_residual_adapter.calibration
+    {
+        return Err("C1 effect patch differs from the compiled manifest".into());
+    }
+    let has_insert = patch.operations.iter().any(|operation| {
+        matches!(
+            operation,
+            PatchOp::Insert {
+                layer: insert_layer,
+                feature: insert_feature,
+                ..
+            } if (*insert_layer, *insert_feature) == (layer, feature)
+        )
+    });
+    if !has_insert {
+        return Err("C1 effect patch has no linked FFN Insert".into());
+    }
+    Ok(())
 }
 
 fn preflight(
     vindex: &Path,
     manifest_path: &Path,
+    effect_patch_path: Option<&Path>,
     suite_paths: &[PathBuf],
 ) -> Result<Preflight, AnyError> {
     let config = larql_vindex::load_vindex_config(vindex)?;
@@ -161,6 +217,14 @@ fn preflight(
     for spec in &manifest.specs {
         spec.validate(&active_checksum, config.hidden_size, config.vocab_size)?;
     }
+    let (effect_patch, effect_patch_sha256) = if let Some(path) = effect_patch_path {
+        let bytes = std::fs::read(path)?;
+        let patch: VindexPatch = serde_json::from_slice(&bytes)?;
+        validate_effect_patch_source(&patch, &manifest, &active_checksum)?;
+        (Some(patch), Some(sha256_bytes(&bytes)))
+    } else {
+        (None, None)
+    };
     let target_ids = &manifest.specs[0].target_ids;
     let tokenizer = larql_vindex::load_vindex_tokenizer(vindex)?;
     let cases = load_cases(suite_paths, "Galadriel", target_ids.len())?;
@@ -200,6 +264,8 @@ fn preflight(
         cases,
         manifest_sha256: sha256_bytes(&manifest_bytes),
         suite_sha256s,
+        effect_patch,
+        effect_patch_sha256,
     })
 }
 
@@ -212,6 +278,8 @@ fn preflight_json(preflight: &Preflight) -> Value {
         "base_checksum": preflight.active_checksum,
         "manifest_sha256": preflight.manifest_sha256,
         "suite_sha256s": preflight.suite_sha256s,
+        "effect_patch_sha256": preflight.effect_patch_sha256,
+        "effect_mode": preflight.effect_patch.is_some(),
         "positives": EXPECTED_POSITIVES,
         "controls": EXPECTED_CONTROLS,
         "matcher_contracts": EXPECTED_POSITIVES + EXPECTED_CONTROLS,
@@ -220,7 +288,7 @@ fn preflight_json(preflight: &Preflight) -> Value {
 
 fn run_evaluation(
     vindex: &Path,
-    preflight: Preflight,
+    mut preflight: Preflight,
     evidence_path: &Path,
 ) -> Result<Value, AnyError> {
     if evidence_path.exists() {
@@ -233,6 +301,16 @@ fn run_evaluation(
         InferenceWeights::Dense(_) => return Err("C0 loaded unexpected dense weights".into()),
     };
     let empty_patch = PatchedVindex::new(source);
+    let effect_patch = preflight
+        .effect_patch
+        .take()
+        .map(|patch| {
+            let mut overlay = PatchedVindex::new(empty_patch.base.clone());
+            overlay
+                .try_apply_patch_bound(patch, Some(&preflight.active_checksum))
+                .map(|_| overlay)
+        })
+        .transpose()?;
     let target_ids = preflight.manifest.specs[0].target_ids.clone();
     let mut records = Vec::with_capacity(preflight.cases.len());
     let mut positive_passes = 0usize;
@@ -254,13 +332,24 @@ fn run_evaluation(
         } else {
             None
         };
-        let result = weights.generate_compiled_surface_cached(
-            &preflight.tokenizer,
-            &prompt_ids,
-            target_ids.len(),
-            &preflight.manifest,
-            &preflight.active_checksum,
-        )?;
+        let result = if let Some(effect) = effect_patch.as_ref() {
+            weights.generate_compiled_surface_with_effect_patch_cached(
+                &preflight.tokenizer,
+                effect,
+                &prompt_ids,
+                target_ids.len(),
+                &preflight.manifest,
+                &preflight.active_checksum,
+            )?
+        } else {
+            weights.generate_compiled_surface_cached(
+                &preflight.tokenizer,
+                &prompt_ids,
+                target_ids.len(),
+                &preflight.manifest,
+                &preflight.active_checksum,
+            )?
+        };
         let generated_ids: Vec<_> = result.generated.iter().map(|(_, id)| *id).collect();
         let baseline_ids = baseline.as_ref().map(|value| {
             value
@@ -315,6 +404,8 @@ fn run_evaluation(
         "base_checksum": preflight.active_checksum,
         "manifest_sha256": preflight.manifest_sha256,
         "suite_sha256s": preflight.suite_sha256s,
+        "effect_patch_sha256": preflight.effect_patch_sha256,
+        "effect_mode": effect_patch.is_some(),
         "target_ids": target_ids,
         "positive_passes": positive_passes,
         "positive_total": EXPECTED_POSITIVES,
@@ -343,22 +434,30 @@ fn run_evaluation(
 
 fn main() -> Result<(), AnyError> {
     let args: Vec<String> = std::env::args().collect();
-    let preflight_only = args.get(1).is_some_and(|arg| arg == "--preflight-only");
-    if (preflight_only && args.len() != 6) || (!preflight_only && args.len() != 6) {
+    let mode = args.get(1).map(String::as_str).unwrap_or_default();
+    let (preflight_only, effect_mode, offset, expected_len) = match mode {
+        "--preflight-only" => (true, false, 1, 6),
+        "--preflight-effect" => (true, true, 1, 7),
+        "--effect" => (false, true, 1, 8),
+        _ => (false, false, 0, 6),
+    };
+    if args.len() != expected_len {
         return Err(usage().into());
     }
-    let offset = usize::from(preflight_only);
     let vindex = PathBuf::from(&args[1 + offset]);
     let manifest = PathBuf::from(&args[2 + offset]);
+    let effect_index = 3 + offset;
+    let suite_start = effect_index + usize::from(effect_mode);
+    let effect_patch = effect_mode.then(|| PathBuf::from(&args[effect_index]));
     let suites = [
-        PathBuf::from(&args[3 + offset]),
-        PathBuf::from(&args[4 + offset]),
+        PathBuf::from(&args[suite_start]),
+        PathBuf::from(&args[suite_start + 1]),
     ];
-    let prepared = preflight(&vindex, &manifest, &suites)?;
+    let prepared = preflight(&vindex, &manifest, effect_patch.as_deref(), &suites)?;
     let output = if preflight_only {
         preflight_json(&prepared)
     } else {
-        let evidence = PathBuf::from(&args[5]);
+        let evidence = PathBuf::from(&args[suite_start + 2]);
         run_evaluation(&vindex, prepared, &evidence)?
     };
     println!("{}", serde_json::to_string_pretty(&output)?);

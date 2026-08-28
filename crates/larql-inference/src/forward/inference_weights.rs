@@ -15,8 +15,8 @@ use std::path::Path;
 use tokenizers::Tokenizer;
 
 use larql_vindex::{
-    GateIndex, IndexLoadCallbacks, KnnStore, PatchedKvIndexView, PatchedVindex, QuantFormat,
-    VectorIndex, VindexConfig, VindexError,
+    GateIndex, IndexLoadCallbacks, KnnStore, PatchOverrides, PatchedKvIndexView, PatchedVindex,
+    QuantFormat, VectorIndex, VindexConfig, VindexError,
 };
 
 use crate::active_span::{
@@ -120,6 +120,72 @@ pub struct CompiledSurfaceGenerationResult {
 pub type PatchedCachedGenerationError = PatchedGenerationError;
 pub type PatchedCachedGenerationResult = PatchedGenerationResult;
 
+fn validate_compiled_surface_effect_patch(
+    manifest: &CompiledSurfaceContextManifest,
+    patch: &PatchedVindex,
+) -> Result<(), PatchedGenerationError> {
+    manifest.validate_header().map_err(|error| {
+        PatchedGenerationError::InvalidCompiledSurfaceContext(error.to_string())
+    })?;
+    if manifest.specs.len() != 1 {
+        return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+            "C1 requires exactly one compiled surface specification".into(),
+        ));
+    }
+    let resolved = patch.context_detectors();
+    if resolved.len() != 1 {
+        return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+            format!(
+                "C1 effect patch must resolve exactly one linked contextual effect, found {}",
+                resolved.len()
+            ),
+        ));
+    }
+    let spec = &manifest.specs[0];
+    let linked = &resolved[0];
+    if (linked.layer, linked.feature) != (spec.payload.layer, spec.payload.feature)
+        || linked.target_ids != spec.target_ids
+    {
+        return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+            "C1 effect patch slot or target IDs differ from the compiled manifest".into(),
+        ));
+    }
+    let Some(adapter) = &linked.residual_adapter else {
+        return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+            "C1 effect patch has no linked terminal residual adapter".into(),
+        ));
+    };
+    let application_matches = matches!(
+        (
+            adapter.application,
+            spec.terminal_residual_adapter.application
+        ),
+        (
+            larql_vindex::PatchResidualAdapterApplication::PrefillLastPositionV1,
+            crate::context_detector::TerminalResidualApplication::PrefillLastPositionV1
+        )
+    );
+    if !application_matches
+        || adapter.delta != spec.terminal_residual_adapter.delta
+        || adapter.calibration != spec.terminal_residual_adapter.calibration
+    {
+        return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+            "C1 effect patch terminal adapter differs from the compiled manifest".into(),
+        ));
+    }
+    let row_exists = patch.override_slots_at(linked.layer).is_some_and(|slots| {
+        slots
+            .iter()
+            .any(|slot| slot.feature == linked.feature && !slot.tombstoned)
+    });
+    if !row_exists {
+        return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+            "C1 effect patch has no live FFN row at the linked slot".into(),
+        ));
+    }
+    Ok(())
+}
+
 impl InferenceWeights {
     /// Generate through a product-bounded exact surface gate.
     ///
@@ -136,6 +202,51 @@ impl InferenceWeights {
         max_tokens: usize,
         manifest: &CompiledSurfaceContextManifest,
         active_base_checksum: &str,
+    ) -> Result<CompiledSurfaceGenerationResult, PatchedGenerationError> {
+        self.generate_compiled_surface_cached_impl(
+            tokenizer,
+            prompt_ids,
+            max_tokens,
+            manifest,
+            active_base_checksum,
+            None,
+        )
+    }
+
+    /// C1 product seam: exact compiled eligibility gates the complete frozen
+    /// effect (linked FFN row plus terminal delta) and explicitly authorizes
+    /// continuation. Learned detector coordinates in `effect_patch` are never
+    /// evaluated; they only identify the row whose vectors were previously
+    /// compiled and validated.
+    pub fn generate_compiled_surface_with_effect_patch_cached(
+        &mut self,
+        tokenizer: &Tokenizer,
+        effect_patch: &PatchedVindex,
+        prompt_ids: &[u32],
+        max_tokens: usize,
+        manifest: &CompiledSurfaceContextManifest,
+        active_base_checksum: &str,
+    ) -> Result<CompiledSurfaceGenerationResult, PatchedGenerationError> {
+        validate_compiled_surface_effect_patch(manifest, effect_patch)?;
+        self.generate_compiled_surface_cached_impl(
+            tokenizer,
+            prompt_ids,
+            max_tokens,
+            manifest,
+            active_base_checksum,
+            Some(effect_patch),
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn generate_compiled_surface_cached_impl(
+        &mut self,
+        tokenizer: &Tokenizer,
+        prompt_ids: &[u32],
+        max_tokens: usize,
+        manifest: &CompiledSurfaceContextManifest,
+        active_base_checksum: &str,
+        effect_patch: Option<&PatchedVindex>,
     ) -> Result<CompiledSurfaceGenerationResult, PatchedGenerationError> {
         if prompt_ids.is_empty() {
             return Err(PatchedGenerationError::EmptyPrompt);
@@ -201,7 +312,33 @@ impl InferenceWeights {
         let (weights, source) = self
             .as_quantised_parts_mut()
             .ok_or(PatchedGenerationError::RequiresQuantisedWeights)?;
-        let generated = if let Some(delta) = prefill_delta.as_deref() {
+        let generated = if let Some(patch) = effect_patch {
+            let allowed = decisions
+                .iter()
+                .filter(|decision| decision.allowed())
+                .map(|decision| (decision.payload.layer, decision.payload.feature));
+            let view = PatchedKvIndexView::new(source, patch, allowed)?;
+            if let Some(delta) = prefill_delta.as_deref() {
+                crate::vindex::generate_kquant_cpu_constrained_cached_index_with_prefill_delta(
+                    weights,
+                    tokenizer,
+                    prompt_ids,
+                    max_tokens,
+                    &view,
+                    delta,
+                    |generated, logits| constraint.apply(generated, logits),
+                )
+            } else {
+                crate::vindex::generate_kquant_cpu_constrained_cached_index(
+                    weights,
+                    tokenizer,
+                    prompt_ids,
+                    max_tokens,
+                    &view,
+                    |generated, logits| constraint.apply(generated, logits),
+                )
+            }
+        } else if let Some(delta) = prefill_delta.as_deref() {
             crate::vindex::generate_kquant_cpu_constrained_cached_index_with_prefill_delta(
                 weights,
                 tokenizer,
@@ -687,7 +824,11 @@ mod tests {
         make_test_q4k_vindex, make_test_q4k_weights, make_test_tokenizer, make_test_vindex,
         make_test_weights, write_synthetic_model_dir,
     };
-    use larql_vindex::{load_vindex_config, FeatureMeta, SilentLoadCallbacks};
+    use larql_vindex::patch::core::{encode_gate_vector, PatchDownMeta};
+    use larql_vindex::{
+        load_vindex_config, FeatureMeta, PatchContextDetector, PatchContextRepresentation, PatchOp,
+        PatchResidualAdapter, PatchResidualAdapterApplication, SilentLoadCallbacks, VindexPatch,
+    };
 
     fn dense_fixture() -> (InferenceWeights, tokenizers::Tokenizer) {
         let weights = make_test_weights();
@@ -906,6 +1047,67 @@ mod tests {
         )
     }
 
+    fn compiled_effect_patch(
+        base: VectorIndex,
+        manifest: &CompiledSurfaceContextManifest,
+        hidden_size: usize,
+    ) -> PatchedVindex {
+        let spec = &manifest.specs[0];
+        let zeros = encode_gate_vector(&vec![0.0; hidden_size]);
+        let patch = VindexPatch {
+            version: 1,
+            base_model: "fixture".into(),
+            base_checksum: Some("fixture-checksum".into()),
+            created_at: "fixture".into(),
+            description: Some("synthetic C1 effect".into()),
+            author: None,
+            tags: vec!["product-bounded".into()],
+            operations: vec![
+                PatchOp::Insert {
+                    layer: spec.payload.layer,
+                    feature: spec.payload.feature,
+                    relation: Some("fixture".into()),
+                    entity: "fixture".into(),
+                    target: "target".into(),
+                    confidence: Some(1.0),
+                    gate_vector_b64: Some(zeros.clone()),
+                    up_vector_b64: Some(zeros.clone()),
+                    down_vector_b64: Some(zeros.clone()),
+                    down_meta: Some(PatchDownMeta {
+                        top_token: "target".into(),
+                        top_token_id: spec.target_ids[0],
+                        c_score: 1.0,
+                    }),
+                },
+                PatchOp::Context {
+                    layer: spec.payload.layer,
+                    feature: spec.payload.feature,
+                    target_ids: spec.target_ids.clone(),
+                    detector: PatchContextDetector {
+                        detector_layer: 0,
+                        representation: PatchContextRepresentation::MeanNoBos,
+                        center_vector_b64: zeros.clone(),
+                        entity_direction_b64: zeros.clone(),
+                        relation_direction_b64: zeros,
+                        entity_threshold: 0.0,
+                        relation_threshold: 0.0,
+                        calibration: Some("ignored-by-C1".into()),
+                    },
+                    residual_adapter: Some(PatchResidualAdapter {
+                        application: PatchResidualAdapterApplication::PrefillLastPositionV1,
+                        delta_vector_b64: encode_gate_vector(&spec.terminal_residual_adapter.delta),
+                        calibration: spec.terminal_residual_adapter.calibration.clone(),
+                    }),
+                },
+            ],
+        };
+        let mut patched = PatchedVindex::new(base);
+        patched
+            .try_apply_patch_bound(patch, Some("fixture-checksum"))
+            .unwrap();
+        patched
+    }
+
     #[test]
     fn compiled_surface_cached_generation_fires_forces_and_releases() {
         let (mut iw, tokenizer) = quantised_fixture();
@@ -973,6 +1175,58 @@ mod tests {
             error,
             PatchedGenerationError::InvalidCompiledSurfaceContext(_)
         ));
+    }
+
+    #[test]
+    fn compiled_surface_c1_links_effect_row_and_exact_continuation() {
+        let (mut iw, tokenizer) = quantised_fixture();
+        let source = match &iw {
+            InferenceWeights::Quantised { index, .. } => index.clone(),
+            InferenceWeights::Dense(_) => unreachable!(),
+        };
+        let natural = iw
+            .generate_patched(
+                &tokenizer,
+                &PatchedVindex::new(source.clone()),
+                &[0, 1],
+                1,
+                &[],
+            )
+            .unwrap();
+        let mut manifest = compiled_fixture_manifest(&iw, natural.generated[0].1);
+        manifest.specs[0].payload = PatchSlotId {
+            layer: 1,
+            feature: 3,
+        };
+        let patch = compiled_effect_patch(source, &manifest, iw.as_weights().hidden_size);
+
+        let result = iw
+            .generate_compiled_surface_with_effect_patch_cached(
+                &tokenizer,
+                &patch,
+                &[0, 1],
+                3,
+                &manifest,
+                "fixture-checksum",
+            )
+            .unwrap();
+        let ids: Vec<_> = result.generated.iter().map(|(_, id)| *id).collect();
+        assert_eq!(&ids[..2], manifest.specs[0].target_ids.as_slice());
+        assert_eq!(result.trigger_slot, Some(manifest.specs[0].payload));
+        assert!(result.released_after_span);
+
+        let mut mismatched = manifest.clone();
+        mismatched.specs[0].terminal_residual_adapter.delta[0] *= 2.0;
+        assert!(iw
+            .generate_compiled_surface_with_effect_patch_cached(
+                &tokenizer,
+                &patch,
+                &[0, 1],
+                1,
+                &mismatched,
+                "fixture-checksum",
+            )
+            .is_err());
     }
 
     #[test]
