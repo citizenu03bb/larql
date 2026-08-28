@@ -150,7 +150,7 @@ struct SuiteOptions {
     activation_only: bool,
     install_only: bool,
     residual_out: Option<PathBuf>,
-    residual_layer: Option<usize>,
+    residual_layers: Vec<usize>,
     position_residuals: bool,
     context_detector: Option<PathBuf>,
     cached_smoke: bool,
@@ -169,7 +169,7 @@ struct FrozenContextDetector {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn|--native-only]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--residual-layer <N>] [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
+    "usage:\n  multitoken_insert_baseline <vindex> <entity> <relation> <target> [compose|knn|--native-only]\n  multitoken_insert_baseline <vindex> --suite <suite.json> [compose|knn] [--save-patch <file.vlp>] [--apply-patch <file.vlp>] [--activation-only] [--residual-out <file.json>] [--residual-layer <N>]... [--position-residuals] [--context-detector <file.json>] [--cached-smoke | --cached-validation] [--install-only]"
 }
 
 fn canonical_prompt(entity: &str, relation: &str) -> String {
@@ -764,11 +764,14 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
             }
             "--residual-layer" => {
                 index += 1;
-                options.residual_layer = Some(
-                    args.get(index)
-                        .ok_or_else(|| std::io::Error::other("--residual-layer requires a layer"))?
-                        .parse()?,
-                );
+                let layer = args
+                    .get(index)
+                    .ok_or_else(|| std::io::Error::other("--residual-layer requires a layer"))?
+                    .parse()?;
+                if options.residual_layers.contains(&layer) {
+                    return Err(format!("duplicate --residual-layer L{layer}").into());
+                }
+                options.residual_layers.push(layer);
             }
             "--install-only" => options.install_only = true,
             "--cached-smoke" => options.cached_smoke = true,
@@ -792,7 +795,7 @@ fn parse_suite_options(args: &[String]) -> Result<SuiteOptions, AnyError> {
     if options.residual_out.is_some() && !options.activation_only {
         return Err("--residual-out requires --activation-only".into());
     }
-    if options.residual_layer.is_some() && !options.activation_only {
+    if !options.residual_layers.is_empty() && !options.activation_only {
         return Err("--residual-layer requires --activation-only".into());
     }
     if options.position_residuals && !options.activation_only {
@@ -934,7 +937,7 @@ fn probe_activation_only(
     fold: usize,
     name: &str,
     capture_positions: bool,
-    residual_layer: Option<usize>,
+    residual_layers: &[usize],
     context_detectors: &[ContextDetectorSpec],
 ) -> Result<ResidualCapture, AnyError> {
     let ids = prompt_tokens(tokenizer, weights, prompt)?;
@@ -959,15 +962,26 @@ fn probe_activation_only(
     )?;
     let mut residuals = std::mem::take(&mut result.residuals);
     let mut position_residuals = std::mem::take(&mut result.position_residuals);
-    if let Some(layer) = residual_layer {
+    for layer in residual_layers {
         if !residuals
             .iter()
-            .any(|(captured_layer, _)| *captured_layer == layer)
+            .any(|(captured_layer, _)| captured_layer == layer)
         {
             return Err(format!("requested residual layer L{layer} was not captured").into());
         }
-        residuals.retain(|(captured_layer, _)| *captured_layer == layer);
-        position_residuals.retain(|(captured_layer, _)| *captured_layer == layer);
+        if capture_positions
+            && !position_residuals
+                .iter()
+                .any(|(captured_layer, _)| captured_layer == layer)
+        {
+            return Err(
+                format!("requested position residual layer L{layer} was not captured").into(),
+            );
+        }
+    }
+    if !residual_layers.is_empty() {
+        residuals.retain(|(captured_layer, _)| residual_layers.contains(captured_layer));
+        position_residuals.retain(|(captured_layer, _)| residual_layers.contains(captured_layer));
     }
     let patch_activations = result.patch_activations.clone();
     let context_decisions = result.context_decisions.clone();
@@ -1055,7 +1069,9 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
             "activation_only": options.activation_only,
             "install_only": options.install_only,
             "residual_out": options.residual_out,
-            "residual_layer": options.residual_layer,
+            "residual_layer": (options.residual_layers.len() == 1)
+                .then(|| options.residual_layers[0]),
+            "residual_layers": options.residual_layers,
             "position_residuals": options.position_residuals,
             "context_detector": options.context_detector,
             "cached_smoke": options.cached_smoke,
@@ -1287,7 +1303,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                     index,
                     &name,
                     options.position_residuals,
-                    options.residual_layer,
+                    &options.residual_layers,
                     &context_detectors,
                 )?);
             }
@@ -1304,7 +1320,7 @@ fn run_suite(vindex: &Path, suite_path: &Path, options: &SuiteOptions) -> Result
                     control.fold.unwrap_or(0),
                     &control.name,
                     options.position_residuals,
-                    options.residual_layer,
+                    &options.residual_layers,
                     &context_detectors,
                 )?);
             }
@@ -1557,5 +1573,33 @@ mod tests {
             ..SuiteOptions::default()
         };
         assert!(!needs_ordinary_weights(&cached));
+    }
+
+    #[test]
+    fn activation_capture_accepts_multiple_distinct_residual_layers() {
+        let options = parse_suite_options(&[
+            "--activation-only".into(),
+            "--position-residuals".into(),
+            "--residual-layer".into(),
+            "29".into(),
+            "--residual-layer".into(),
+            "31".into(),
+            "--residual-layer".into(),
+            "33".into(),
+        ])
+        .expect("multi-layer activation capture options");
+        assert_eq!(options.residual_layers, vec![29, 31, 33]);
+
+        let duplicate = parse_suite_options(&[
+            "--activation-only".into(),
+            "--residual-layer".into(),
+            "31".into(),
+            "--residual-layer".into(),
+            "31".into(),
+        ]);
+        assert!(duplicate.is_err());
+
+        let without_activation = parse_suite_options(&["--residual-layer".into(), "31".into()]);
+        assert!(without_activation.is_err());
     }
 }
