@@ -3,7 +3,9 @@
 //! Evaluation inputs are inaccessible until the derived patch has been saved,
 //! reparsed, checksum-checked, and hashed. The supported Galadriel and Alder-v2
 //! modes are bound to their frozen protocol documents rather than exposed as a
-//! general-purpose tuning surface.
+//! general-purpose tuning surface. The product-compile mode is deliberately
+//! narrower: it compiles one exact-surface product effect and performs no
+//! generalisation evaluation.
 
 use std::error::Error;
 use std::io::Write;
@@ -19,13 +21,19 @@ use larql_lql::{parse, Session};
 use larql_vindex::patch::core::{
     base_checksum_from_manifest, decode_gate_vector, encode_gate_vector,
 };
-use larql_vindex::{PatchOp, PatchResidualAdapter, PatchResidualAdapterApplication, VindexPatch};
+use larql_vindex::{
+    PatchContextDetector, PatchContextRepresentation, PatchOp, PatchResidualAdapter,
+    PatchResidualAdapterApplication, VindexPatch,
+};
 use ndarray::{Array1, Array2};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 
 type AnyError = Box<dyn Error>;
+type PayloadSlot = (usize, usize);
+type ContextualSourceParts = (PayloadSlot, Vec<u32>, Vec<f32>);
+type InsertSourceParts = (PayloadSlot, Vec<f32>, Option<u32>);
 const PROTOCOL_ID: &str = "conditional-terminal-residual-spike-v2";
 const TARGET_IDS: [u32; 3] = [8833, 553, 21457];
 const PASSIVE_PROMPT: &str = "Lothlorien is governed by";
@@ -35,16 +43,17 @@ const EVALUATION_MARGIN: f32 = 0.5;
 const ALDER_V2_PROTOCOL_ID: &str = "alder-v2-terminal-residual-development";
 const ALDER_V2_HOLDOUT_PROTOCOL_ID: &str = "alder-v2-final-holdout";
 const ALDER_V2_TARGET_IDS: [u32; 3] = [45158, 37937, 217262];
+const PRODUCT_COMPILE_PROTOCOL_ID: &str = "compiled-surface-product-effect-v1";
 
-struct RunProfile {
-    protocol_id: &'static str,
-    target_name: &'static str,
-    target_ids: &'static [u32],
+struct RunProfile<'a> {
+    protocol_id: &'a str,
+    target_name: &'a str,
+    target_ids: &'a [u32],
     synthesis_positives: usize,
     evaluation_positives: usize,
     evaluation_controls: usize,
     galadriel_reproduction_gate: bool,
-    description: &'static str,
+    description: &'a str,
 }
 
 #[derive(Clone, Deserialize)]
@@ -119,7 +128,7 @@ enum FreezePhase {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  terminal_residual_adapter_spike --preflight-only <vindex>\n  terminal_residual_adapter_spike <vindex> <k1.vlp> <validation2.json> <validation3.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --alder-v2-dev <vindex> <contextual.vlp> <development.json> <development.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --alder-v2-holdout <vindex> <contextual.vlp> <derived.vlp> <holdout.json> <evidence.json>"
+    "usage:\n  terminal_residual_adapter_spike --preflight-only <vindex>\n  terminal_residual_adapter_spike --product-preflight <vindex> <source.vlp> <synthesis.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --product-compile <vindex> <source.vlp> <synthesis.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike <vindex> <k1.vlp> <validation2.json> <validation3.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --alder-v2-dev <vindex> <contextual.vlp> <development.json> <development.json> <derived.vlp> <evidence.json>\n  terminal_residual_adapter_spike --alder-v2-holdout <vindex> <contextual.vlp> <derived.vlp> <holdout.json> <evidence.json>"
 }
 
 fn preflight_only(vindex: &Path) -> Result<Value, AnyError> {
@@ -330,20 +339,16 @@ fn l2_norm(values: &[f32]) -> f32 {
 fn source_patch_parts(
     patch: &VindexPatch,
     target_ids: &[u32],
-) -> Result<((usize, usize), Vec<f32>), AnyError> {
-    let inserts: Vec<_> = patch
-        .operations
-        .iter()
-        .filter_map(|operation| match operation {
-            PatchOp::Insert {
-                layer,
-                feature,
-                down_vector_b64: Some(down),
-                ..
-            } => Some(((*layer, *feature), down)),
-            _ => None,
-        })
-        .collect();
+) -> Result<(PayloadSlot, Vec<f32>), AnyError> {
+    let (slot, persisted_target_ids, down) = source_patch_parts_any(patch)?;
+    if persisted_target_ids != target_ids {
+        return Err("K1 Context target IDs changed".into());
+    }
+    Ok((slot, down))
+}
+
+fn source_patch_parts_any(patch: &VindexPatch) -> Result<ContextualSourceParts, AnyError> {
+    let (slot, down, _) = source_insert_parts(patch)?;
     let contexts: Vec<_> = patch
         .operations
         .iter()
@@ -358,23 +363,47 @@ fn source_patch_parts(
             _ => None,
         })
         .collect();
-    let [((layer, feature), down_b64)] = inserts.as_slice() else {
-        return Err("K1 patch must contain exactly one Insert with a persisted down vector".into());
-    };
     let [(context_slot, ids, adapter)] = contexts.as_slice() else {
         return Err("K1 patch must contain exactly one Context".into());
     };
-    if (*layer, *feature) != *context_slot || ids.as_slice() != target_ids || adapter.is_some() {
+    if slot != *context_slot || ids.is_empty() || adapter.is_some() {
         return Err("K1 Insert/Context binding, target IDs, or adapter state changed".into());
     }
-    Ok(((*layer, *feature), decode_gate_vector(down_b64)?))
+    Ok((slot, ids.to_vec(), down))
+}
+
+fn source_insert_parts(patch: &VindexPatch) -> Result<InsertSourceParts, AnyError> {
+    let inserts: Vec<_> = patch
+        .operations
+        .iter()
+        .filter_map(|operation| match operation {
+            PatchOp::Insert {
+                layer,
+                feature,
+                down_vector_b64: Some(down),
+                down_meta,
+                ..
+            } => Some((
+                (*layer, *feature),
+                down,
+                down_meta.as_ref().map(|meta| meta.top_token_id),
+            )),
+            _ => None,
+        })
+        .collect();
+    let [(slot, down_b64, first_target_id)] = inserts.as_slice() else {
+        return Err(
+            "source patch must contain exactly one Insert with a persisted down vector".into(),
+        );
+    };
+    Ok((*slot, decode_gate_vector(down_b64)?, *first_target_id))
 }
 
 fn derive_patch(
     source: &VindexPatch,
-    slot: (usize, usize),
+    slot: PayloadSlot,
     compiled: &larql_inference::TerminalResidualAdapter,
-    profile: &RunProfile,
+    profile: &RunProfile<'_>,
 ) -> Result<VindexPatch, AnyError> {
     if compiled.alpha <= 0.0 || compiled.delta.iter().all(|value| *value == 0.0) {
         return Err("compiler produced a zero terminal adapter".into());
@@ -417,7 +446,12 @@ fn derive_patch(
         return Err(format!("expected one linked Context operation, changed {changed}").into());
     }
     derived.description = Some(profile.description.into());
-    for tag in ["research-spike", "terminal-residual", "prefill-only"] {
+    let claim_tag = if profile.protocol_id == PRODUCT_COMPILE_PROTOCOL_ID {
+        "product-bounded"
+    } else {
+        "research-spike"
+    };
+    for tag in [claim_tag, "terminal-residual", "prefill-only"] {
         if !derived.tags.iter().any(|existing| existing == tag) {
             derived.tags.push(tag.into());
         }
@@ -815,6 +849,248 @@ fn run(args: &[String]) -> Result<Value, AnyError> {
     }))
 }
 
+fn lexical_target_ids(
+    tokenizer: &larql_inference::tokenizers::Tokenizer,
+    target: &str,
+) -> Result<Vec<u32>, AnyError> {
+    let encoding = tokenizer
+        .encode(format!(" {target}"), false)
+        .map_err(|error| std::io::Error::other(error.to_string()))?;
+    Ok(encoding.get_ids().to_vec())
+}
+
+fn attach_product_compile_context(
+    source: &VindexPatch,
+    slot: PayloadSlot,
+    target_ids: &[u32],
+    hidden_size: usize,
+) -> Result<VindexPatch, AnyError> {
+    if source
+        .operations
+        .iter()
+        .any(|operation| matches!(operation, PatchOp::Context { .. }))
+    {
+        return Err("raw product source patch must not already contain a Context".into());
+    }
+    if slot.0 == 0 || target_ids.len() < 2 || hidden_size == 0 {
+        return Err("product compilation context has invalid geometry or target IDs".into());
+    }
+    let zeros = vec![0.0; hidden_size];
+    let encoded_zeros = encode_gate_vector(&zeros);
+    let mut contextual = source.clone();
+    contextual.operations.push(PatchOp::Context {
+        layer: slot.0,
+        feature: slot.1,
+        target_ids: target_ids.to_vec(),
+        detector: PatchContextDetector {
+            detector_layer: 0,
+            representation: PatchContextRepresentation::MeanNoBos,
+            center_vector_b64: encoded_zeros.clone(),
+            entity_direction_b64: encoded_zeros.clone(),
+            relation_direction_b64: encoded_zeros,
+            entity_threshold: -1.0,
+            relation_threshold: -1.0,
+            calibration: Some(
+                "compilation-only always-allow shim; runtime eligibility is exact surface matching"
+                    .into(),
+            ),
+        },
+        residual_adapter: None,
+    });
+    Ok(contextual)
+}
+
+fn product_compile_preflight(args: &[String]) -> Result<Value, AnyError> {
+    if args.len() != 7 {
+        return Err(usage().into());
+    }
+    let vindex = PathBuf::from(&args[2]);
+    let source_path = PathBuf::from(&args[3]);
+    let synthesis_path = PathBuf::from(&args[4]);
+    let derived_path = PathBuf::from(&args[5]);
+    let evidence_path = PathBuf::from(&args[6]);
+    if derived_path.exists() || evidence_path.exists() {
+        return Err("product compile outputs must be absent before the run".into());
+    }
+    let source = VindexPatch::load(&source_path)?;
+    let (slot, down, source_first_target_id) = source_insert_parts(&source)?;
+    let config = larql_vindex::load_vindex_config(&vindex)?;
+    let arch = larql_vindex::arch_from_vindex_config(&config)
+        .ok_or("vindex has no model_config for terminal-adapter preflight")?;
+    preflight_terminal_residual_adapter_architecture(arch.as_ref())?;
+    let active_checksum = base_checksum_from_manifest(config.checksums.as_ref());
+    if source.base_checksum != active_checksum {
+        return Err("product source patch is not bound to the active vindex checksum".into());
+    }
+    if down.len() != config.hidden_size || down.iter().any(|value| !value.is_finite()) {
+        return Err("product source down vector failed geometry validation".into());
+    }
+    let tokenizer = larql_vindex::load_vindex_tokenizer(&vindex)?;
+    let synthesis: SuiteSpec = serde_json::from_slice(&std::fs::read(&synthesis_path)?)?;
+    let [fact] = synthesis.facts.as_slice() else {
+        return Err("product synthesis must contain exactly one fact".into());
+    };
+    if !synthesis.controls.is_empty() || !fact.paraphrases.is_empty() {
+        return Err(
+            "product synthesis must contain one canonical positive and no other cases".into(),
+        );
+    }
+    let target_ids = lexical_target_ids(&tokenizer, &fact.target)?;
+    if source_first_target_id != target_ids.first().copied()
+        || fact.expected_tokens != Some(target_ids.len())
+    {
+        return Err("product source and synthesis target contracts differ".into());
+    }
+    attach_product_compile_context(&source, slot, &target_ids, config.hidden_size)?;
+    Ok(json!({
+        "status": "compatible",
+        "protocol": PRODUCT_COMPILE_PROTOCOL_ID,
+        "weights_loaded": false,
+        "vindex": vindex,
+        "base_checksum": active_checksum,
+        "source_patch": source_path,
+        "source_patch_sha256": sha256_file(&source_path)?,
+        "synthesis_suite": synthesis_path,
+        "synthesis_suite_sha256": sha256_file(&synthesis_path)?,
+        "target": fact.target,
+        "target_ids": target_ids,
+        "prompt": canonical_prompt(fact),
+        "slot": {"layer": slot.0, "feature": slot.1},
+        "hidden_size": config.hidden_size,
+        "final_logit_softcap": arch.final_logit_softcapping(),
+        "planned_derived_patch": derived_path,
+        "planned_evidence": evidence_path,
+    }))
+}
+
+fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
+    if args.len() != 7 {
+        return Err(usage().into());
+    }
+    let vindex = PathBuf::from(&args[2]);
+    let source_path = PathBuf::from(&args[3]);
+    let synthesis_path = PathBuf::from(&args[4]);
+    let derived_path = PathBuf::from(&args[5]);
+    let evidence_path = PathBuf::from(&args[6]);
+    if derived_path.exists() || evidence_path.exists() {
+        return Err("product compile outputs must be absent before the run".into());
+    }
+
+    let source = VindexPatch::load(&source_path)?;
+    let (slot, k1_down, source_first_target_id) = source_insert_parts(&source)?;
+    let config = larql_vindex::load_vindex_config(&vindex)?;
+    let configured_arch = larql_vindex::arch_from_vindex_config(&config)
+        .ok_or("vindex has no model_config for terminal-adapter preflight")?;
+    preflight_terminal_residual_adapter_architecture(configured_arch.as_ref())?;
+    let active_checksum = base_checksum_from_manifest(config.checksums.as_ref());
+    if source.base_checksum != active_checksum {
+        return Err("product source patch is not bound to the active vindex checksum".into());
+    }
+    let tokenizer = larql_vindex::load_vindex_tokenizer(&vindex)?;
+    let synthesis: SuiteSpec = serde_json::from_slice(&std::fs::read(&synthesis_path)?)?;
+    let [fact] = synthesis.facts.as_slice() else {
+        return Err("product synthesis must contain exactly one fact".into());
+    };
+    if !synthesis.controls.is_empty() || !fact.paraphrases.is_empty() {
+        return Err(
+            "product synthesis must contain one canonical positive and no other cases".into(),
+        );
+    }
+    let encoded_target_ids = lexical_target_ids(&tokenizer, &fact.target)?;
+    if source_first_target_id != encoded_target_ids.first().copied()
+        || fact.expected_tokens != Some(encoded_target_ids.len())
+    {
+        return Err(format!(
+            "product target contract mismatch: patch first={source_first_target_id:?}, suite={encoded_target_ids:?}"
+        )
+        .into());
+    }
+    let target_ids = encoded_target_ids;
+    let synthesis_cases = positive_prompts(&synthesis, &fact.target, target_ids.len())?;
+    let [synthesis_case] = synthesis_cases.as_slice() else {
+        return Err("product synthesis must resolve to exactly one positive".into());
+    };
+
+    let mut session = open_session(&vindex, &source_path)?;
+    let mut callbacks = larql_vindex::SilentLoadCallbacks;
+    let mut weights = InferenceWeights::load(&vindex, &config, &mut callbacks)?;
+    let capture = forward_capture(
+        &mut session,
+        &mut weights,
+        &tokenizer,
+        &synthesis_case.prompt,
+    )?;
+    if capture.adapter_applied || !capture.decisions.is_empty() {
+        return Err("raw product source unexpectedly executed contextual behaviour".into());
+    }
+    let compiled = compile_terminal_residual_adapter(
+        weights.as_weights(),
+        &[Array1::from(capture.hidden.clone())],
+        target_ids[0],
+        Array1::from(k1_down).view(),
+    )?;
+    let profile = RunProfile {
+        protocol_id: PRODUCT_COMPILE_PROTOCOL_ID,
+        target_name: &fact.target,
+        target_ids: &target_ids,
+        synthesis_positives: 1,
+        evaluation_positives: 0,
+        evaluation_controls: 0,
+        galadriel_reproduction_gate: false,
+        description: "Exact-surface product effect; detector vectors are compilation-only",
+    };
+    let contextual_source = attach_product_compile_context(
+        &source,
+        slot,
+        &target_ids,
+        weights.as_weights().hidden_size,
+    )?;
+    let derived = derive_patch(&contextual_source, slot, &compiled, &profile)?;
+    derived.save(&derived_path)?;
+    validate_frozen_patch(
+        &derived_path,
+        active_checksum.as_deref(),
+        weights.as_weights().hidden_size,
+    )?;
+    let derived_sha256 = sha256_file(&derived_path)?;
+    let delta_norm = l2_norm(compiled.delta.as_slice().ok_or("delta is not contiguous")?);
+
+    Ok(json!({
+        "protocol": PRODUCT_COMPILE_PROTOCOL_ID,
+        "status": "passed",
+        "claim_label": "product-bounded",
+        "evidence_boundary": "in-sample compilation of one exact supported surface; no semantic or generalisation claim",
+        "weights_loaded_once": true,
+        "inputs": {
+            "vindex": vindex,
+            "source_patch": source_path,
+            "source_patch_sha256": sha256_file(&source_path)?,
+            "synthesis_suite": synthesis_path,
+            "synthesis_suite_sha256": sha256_file(&synthesis_path)?,
+            "active_base_checksum": active_checksum,
+        },
+        "target": fact.target,
+        "target_ids": target_ids,
+        "prompt": synthesis_case.prompt,
+        "source_detector_decision": capture.decisions,
+        "compilation_context": "insert row exposed without a detector; persisted detector is an ignored always-allow wire shim",
+        "compiled_adapter": {
+            "patch": derived_path,
+            "sha256": derived_sha256,
+            "slot": {"layer": slot.0, "feature": slot.1},
+            "worst_prompt_index": compiled.worst_prompt_index,
+            "baseline_runner_ids": compiled.baseline_runner_ids,
+            "baseline_margins": compiled.baseline_margins,
+            "compiled_runner_ids": compiled.compiled_runner_ids,
+            "compiled_margins": compiled.compiled_margins,
+            "orthogonal_ratio": compiled.orthogonal_ratio,
+            "alpha": compiled.alpha,
+            "alpha_max": compiled.alpha_max,
+            "delta_norm": delta_norm,
+        },
+    }))
+}
+
 fn run_alder_v2_holdout(args: &[String]) -> Result<Value, AnyError> {
     if args.len() != 7 {
         return Err(usage().into());
@@ -1018,19 +1294,29 @@ fn main() -> Result<(), AnyError> {
         println!("{}", serde_json::to_string_pretty(&result)?);
         return Ok(());
     }
+    if args.get(1).map(String::as_str) == Some("--product-preflight") {
+        let result = product_compile_preflight(&args)?;
+        println!("{}", serde_json::to_string_pretty(&result)?);
+        return Ok(());
+    }
+    let product_compile = args.get(1).map(String::as_str) == Some("--product-compile");
     let alder_v2_dev = args.get(1).map(String::as_str) == Some("--alder-v2-dev");
     let alder_v2_holdout = args.get(1).map(String::as_str) == Some("--alder-v2-holdout");
     let evidence_path = args
         .get(if alder_v2_dev { 7 } else { 6 })
         .map(PathBuf::from);
-    let protocol_id = if alder_v2_dev {
+    let protocol_id = if product_compile {
+        PRODUCT_COMPILE_PROTOCOL_ID
+    } else if alder_v2_dev {
         ALDER_V2_PROTOCOL_ID
     } else if alder_v2_holdout {
         ALDER_V2_HOLDOUT_PROTOCOL_ID
     } else {
         PROTOCOL_ID
     };
-    let result = if alder_v2_holdout {
+    let result = if product_compile {
+        run_product_compile(&args)
+    } else if alder_v2_holdout {
         run_alder_v2_holdout(&args)
     } else {
         run(&args)
@@ -1092,5 +1378,59 @@ mod tests {
     fn sha256_is_deterministic() {
         assert_eq!(sha256_bytes(b"larql"), sha256_bytes(b"larql"));
         assert_ne!(sha256_bytes(b"larql"), sha256_bytes(b"LARQL"));
+    }
+
+    #[test]
+    fn product_compile_context_is_explicitly_compilation_only() {
+        let source = VindexPatch {
+            version: 1,
+            base_model: "fixture".into(),
+            base_checksum: Some("sha256-manifest:fixture".into()),
+            created_at: "fixture".into(),
+            description: None,
+            author: None,
+            tags: Vec::new(),
+            operations: vec![PatchOp::Insert {
+                layer: 3,
+                feature: 7,
+                relation: Some("capital".into()),
+                entity: "France".into(),
+                target: "Minas Tirith".into(),
+                confidence: Some(0.9),
+                gate_vector_b64: Some(encode_gate_vector(&[1.0, 0.0])),
+                up_vector_b64: Some(encode_gate_vector(&[0.0, 1.0])),
+                down_vector_b64: Some(encode_gate_vector(&[1.0, 1.0])),
+                down_meta: None,
+            }],
+        };
+        let contextual = attach_product_compile_context(&source, (3, 7), &[10, 11, 12], 2)
+            .expect("fixture context should compile");
+        let contexts: Vec<_> = contextual
+            .operations
+            .iter()
+            .filter_map(|operation| match operation {
+                PatchOp::Context {
+                    target_ids,
+                    detector,
+                    ..
+                } => Some((target_ids, detector)),
+                _ => None,
+            })
+            .collect();
+        let [(target_ids, detector)] = contexts.as_slice() else {
+            panic!("one context expected")
+        };
+        assert_eq!(target_ids.as_slice(), [10, 11, 12]);
+        assert_eq!(detector.detector_layer, 0);
+        assert_eq!(detector.entity_threshold, -1.0);
+        assert_eq!(
+            decode_gate_vector(&detector.entity_direction_b64).unwrap(),
+            [0.0, 0.0]
+        );
+        assert!(detector
+            .calibration
+            .as_deref()
+            .unwrap()
+            .contains("runtime eligibility is exact surface matching"));
     }
 }

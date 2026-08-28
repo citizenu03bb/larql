@@ -24,6 +24,16 @@ const EXPECTED_POSITIVES: usize = 7;
 const EXPECTED_CONTROLS: usize = 21;
 const C0_PROTOCOL_ID: &str = "compiled-surface-context-galadriel-product-v1-c0";
 const C1_PROTOCOL_ID: &str = "compiled-surface-context-galadriel-product-v1-c1";
+const SHAKEOUT_PROTOCOL_ID: &str = "compiled-surface-context-new-target-shakeout-v1";
+
+#[derive(Clone)]
+struct EvaluationContract {
+    protocol_id: String,
+    target_name: String,
+    expected_positives: usize,
+    expected_controls: usize,
+    evidence_boundary: String,
+}
 
 #[derive(Clone, Deserialize)]
 struct FactSpec {
@@ -63,7 +73,7 @@ struct Case {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  evaluate_product_surface_context --preflight-only <vindex> <manifest.json> <suite.json> <suite.json>\n  evaluate_product_surface_context <vindex> <manifest.json> <suite.json> <suite.json> <evidence.json>\n  evaluate_product_surface_context --preflight-effect <vindex> <manifest.json> <effect.vlp> <suite.json> <suite.json>\n  evaluate_product_surface_context --effect <vindex> <manifest.json> <effect.vlp> <suite.json> <suite.json> <evidence.json>"
+    "usage:\n  evaluate_product_surface_context --preflight-only <vindex> <manifest.json> <suite.json> <suite.json>\n  evaluate_product_surface_context <vindex> <manifest.json> <suite.json> <suite.json> <evidence.json>\n  evaluate_product_surface_context --preflight-effect <vindex> <manifest.json> <effect.vlp> <suite.json> <suite.json>\n  evaluate_product_surface_context --effect <vindex> <manifest.json> <effect.vlp> <suite.json> <suite.json> <evidence.json>\n  evaluate_product_surface_context --shakeout-preflight-effect <vindex> <manifest.json> <effect.vlp> <target> <suite.json>\n  evaluate_product_surface_context --shakeout-effect <vindex> <manifest.json> <effect.vlp> <target> <suite.json> <evidence.json>"
 }
 
 fn sha256_bytes(bytes: &[u8]) -> String {
@@ -121,14 +131,6 @@ fn load_cases(paths: &[PathBuf], target: &str, target_len: usize) -> Result<Vec<
             });
         }
     }
-    let positives = cases.iter().filter(|case| case.class == "positive").count();
-    let controls = cases.iter().filter(|case| case.class == "control").count();
-    if positives != EXPECTED_POSITIVES || controls != EXPECTED_CONTROLS {
-        return Err(format!(
-            "evaluation material must contain {EXPECTED_POSITIVES} positives and {EXPECTED_CONTROLS} controls, found {positives}/{controls}"
-        )
-        .into());
-    }
     Ok(cases)
 }
 
@@ -142,6 +144,7 @@ struct Preflight {
     suite_sha256s: Vec<String>,
     effect_patch: Option<VindexPatch>,
     effect_patch_sha256: Option<String>,
+    contract: EvaluationContract,
 }
 
 fn validate_effect_patch_source(
@@ -200,6 +203,7 @@ fn preflight(
     manifest_path: &Path,
     effect_patch_path: Option<&Path>,
     suite_paths: &[PathBuf],
+    contract: EvaluationContract,
 ) -> Result<Preflight, AnyError> {
     let config = larql_vindex::load_vindex_config(vindex)?;
     if config.quant == QuantFormat::None {
@@ -229,7 +233,16 @@ fn preflight(
     };
     let target_ids = &manifest.specs[0].target_ids;
     let tokenizer = larql_vindex::load_vindex_tokenizer(vindex)?;
-    let cases = load_cases(suite_paths, "Galadriel", target_ids.len())?;
+    let cases = load_cases(suite_paths, &contract.target_name, target_ids.len())?;
+    let positives = cases.iter().filter(|case| case.class == "positive").count();
+    let controls = cases.iter().filter(|case| case.class == "control").count();
+    if positives != contract.expected_positives || controls != contract.expected_controls {
+        return Err(format!(
+            "evaluation material must contain {}/{} positives/controls, found {positives}/{controls}",
+            contract.expected_positives, contract.expected_controls
+        )
+        .into());
+    }
 
     for case in &cases {
         let ids = larql_inference::encode_prompt(&tokenizer, arch.as_ref(), &case.prompt)?;
@@ -268,19 +281,15 @@ fn preflight(
         suite_sha256s,
         effect_patch,
         effect_patch_sha256,
+        contract,
     })
 }
 
 fn preflight_json(preflight: &Preflight) -> Value {
-    let evaluation_protocol_id = if preflight.effect_patch.is_some() {
-        C1_PROTOCOL_ID
-    } else {
-        C0_PROTOCOL_ID
-    };
     json!({
         "status": "compatible",
         "claim_label": preflight.manifest.claim_label,
-        "evaluation_protocol_id": evaluation_protocol_id,
+        "evaluation_protocol_id": preflight.contract.protocol_id,
         "manifest_protocol_id": preflight.manifest.protocol_id,
         "weights_loaded": false,
         "base_checksum": preflight.active_checksum,
@@ -288,9 +297,10 @@ fn preflight_json(preflight: &Preflight) -> Value {
         "suite_sha256s": preflight.suite_sha256s,
         "effect_patch_sha256": preflight.effect_patch_sha256,
         "effect_mode": preflight.effect_patch.is_some(),
-        "positives": EXPECTED_POSITIVES,
-        "controls": EXPECTED_CONTROLS,
-        "matcher_contracts": EXPECTED_POSITIVES + EXPECTED_CONTROLS,
+        "target": preflight.contract.target_name,
+        "positives": preflight.contract.expected_positives,
+        "controls": preflight.contract.expected_controls,
+        "matcher_contracts": preflight.contract.expected_positives + preflight.contract.expected_controls,
     })
 }
 
@@ -403,17 +413,14 @@ fn run_evaluation(
         }));
     }
 
-    let all_passed = positive_passes == EXPECTED_POSITIVES && control_passes == EXPECTED_CONTROLS;
-    let evaluation_protocol_id = if effect_patch.is_some() {
-        C1_PROTOCOL_ID
-    } else {
-        C0_PROTOCOL_ID
-    };
+    let all_passed = positive_passes == preflight.contract.expected_positives
+        && control_passes == preflight.contract.expected_controls;
     let evidence = json!({
-        "evaluation_protocol_id": evaluation_protocol_id,
+        "evaluation_protocol_id": preflight.contract.protocol_id,
         "manifest_protocol_id": preflight.manifest.protocol_id,
         "claim_label": preflight.manifest.claim_label,
-        "evidence_boundary": "product-only evaluation on spent Galadriel development material; no semantic relation or prospective claim",
+        "evidence_boundary": preflight.contract.evidence_boundary,
+        "target": preflight.contract.target_name,
         "weights_loaded_once": true,
         "base_checksum": preflight.active_checksum,
         "manifest_sha256": preflight.manifest_sha256,
@@ -422,9 +429,9 @@ fn run_evaluation(
         "effect_mode": effect_patch.is_some(),
         "target_ids": target_ids,
         "positive_passes": positive_passes,
-        "positive_total": EXPECTED_POSITIVES,
+        "positive_total": preflight.contract.expected_positives,
         "control_passes": control_passes,
-        "control_total": EXPECTED_CONTROLS,
+        "control_total": preflight.contract.expected_controls,
         "all_passed": all_passed,
         "cases": records,
     });
@@ -434,9 +441,9 @@ fn run_evaluation(
         "status": if all_passed { "passed" } else { "failed" },
         "all_passed": all_passed,
         "positive_passes": positive_passes,
-        "positive_total": EXPECTED_POSITIVES,
+        "positive_total": preflight.contract.expected_positives,
         "control_passes": control_passes,
-        "control_total": EXPECTED_CONTROLS,
+        "control_total": preflight.contract.expected_controls,
         "evidence": evidence_path,
         "evidence_sha256": sha256_bytes(&bytes),
     });
@@ -449,10 +456,13 @@ fn run_evaluation(
 fn main() -> Result<(), AnyError> {
     let args: Vec<String> = std::env::args().collect();
     let mode = args.get(1).map(String::as_str).unwrap_or_default();
+    let shakeout = matches!(mode, "--shakeout-preflight-effect" | "--shakeout-effect");
     let (preflight_only, effect_mode, offset, expected_len) = match mode {
         "--preflight-only" => (true, false, 1, 6),
         "--preflight-effect" => (true, true, 1, 7),
         "--effect" => (false, true, 1, 8),
+        "--shakeout-preflight-effect" => (true, true, 1, 7),
+        "--shakeout-effect" => (false, true, 1, 8),
         _ => (false, false, 0, 6),
     };
     if args.len() != expected_len {
@@ -461,17 +471,49 @@ fn main() -> Result<(), AnyError> {
     let vindex = PathBuf::from(&args[1 + offset]);
     let manifest = PathBuf::from(&args[2 + offset]);
     let effect_index = 3 + offset;
-    let suite_start = effect_index + usize::from(effect_mode);
     let effect_patch = effect_mode.then(|| PathBuf::from(&args[effect_index]));
-    let suites = [
-        PathBuf::from(&args[suite_start]),
-        PathBuf::from(&args[suite_start + 1]),
-    ];
-    let prepared = preflight(&vindex, &manifest, effect_patch.as_deref(), &suites)?;
+    let (suites, evidence_index, contract) = if shakeout {
+        let target_index = effect_index + 1;
+        let suite_index = target_index + 1;
+        (
+            vec![PathBuf::from(&args[suite_index])],
+            suite_index + 1,
+            EvaluationContract {
+                protocol_id: SHAKEOUT_PROTOCOL_ID.into(),
+                target_name: args[target_index].clone(),
+                expected_positives: 1,
+                expected_controls: 6,
+                evidence_boundary: "single-surface product shakeout for a newly compiled target; no semantic, paraphrase, population-FPR, or prospective certification claim".into(),
+            },
+        )
+    } else {
+        let suite_start = effect_index + usize::from(effect_mode);
+        (
+            vec![
+                PathBuf::from(&args[suite_start]),
+                PathBuf::from(&args[suite_start + 1]),
+            ],
+            suite_start + 2,
+            EvaluationContract {
+                protocol_id: if effect_mode { C1_PROTOCOL_ID } else { C0_PROTOCOL_ID }.into(),
+                target_name: "Galadriel".into(),
+                expected_positives: EXPECTED_POSITIVES,
+                expected_controls: EXPECTED_CONTROLS,
+                evidence_boundary: "product-only evaluation on spent Galadriel development material; no semantic relation or prospective claim".into(),
+            },
+        )
+    };
+    let prepared = preflight(
+        &vindex,
+        &manifest,
+        effect_patch.as_deref(),
+        &suites,
+        contract,
+    )?;
     let output = if preflight_only {
         preflight_json(&prepared)
     } else {
-        let evidence = PathBuf::from(&args[suite_start + 2]);
+        let evidence = PathBuf::from(&args[evidence_index]);
         run_evaluation(&vindex, prepared, &evidence)?
     };
     println!("{}", serde_json::to_string_pretty(&output)?);

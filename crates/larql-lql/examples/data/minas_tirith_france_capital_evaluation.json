@@ -1,0 +1,48 @@
+{
+  "facts": [
+    {
+      "entity": "France",
+      "relation": "capital",
+      "target": "Minas Tirith",
+      "expected_tokens": 3
+    }
+  ],
+  "controls": [
+    {
+      "name": "entity-only-president",
+      "prompt": "The president of France is",
+      "cell": "10",
+      "fold": 0
+    },
+    {
+      "name": "entity-only-currency",
+      "prompt": "The currency of France is",
+      "cell": "10",
+      "fold": 1
+    },
+    {
+      "name": "relation-only-germany",
+      "prompt": "The capital of Germany is",
+      "cell": "01",
+      "fold": 0
+    },
+    {
+      "name": "relation-only-italy",
+      "prompt": "The capital of Italy is",
+      "cell": "01",
+      "fold": 1
+    },
+    {
+      "name": "neither-lothlorien-monarch",
+      "prompt": "The monarch of Lothlorien is",
+      "cell": "00",
+      "fold": 0
+    },
+    {
+      "name": "neither-japan-currency",
+      "prompt": "The currency of Japan is",
+      "cell": "00",
+      "fold": 1
+    }
+  ]
+}

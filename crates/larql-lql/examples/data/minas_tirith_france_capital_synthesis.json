@@ -1,0 +1,10 @@
+{
+  "facts": [
+    {
+      "entity": "France",
+      "relation": "capital",
+      "target": "Minas Tirith",
+      "expected_tokens": 3
+    }
+  ]
+}
