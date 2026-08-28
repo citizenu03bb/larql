@@ -1,7 +1,11 @@
 # Compiled surface context v1
 
-**Status:** frozen C0 runtime preflight; no model run and no `.vlp` wire-format
-extension are authorized by this document
+**Status:** C0 closed `1/7 + 21/21`; successor C1 passed `7/7 + 21/21` by
+restoring the frozen FFN row as part of the effect; no `.vlp` wire-format
+extension has been made
+
+See [C0 result](product-compiled-surface-galadriel-results.md) and
+[C1 result](product-compiled-surface-galadriel-c1-results.md).
 
 **Claim label:** `product-bounded`
 
