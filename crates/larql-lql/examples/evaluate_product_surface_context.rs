@@ -24,7 +24,7 @@ const EXPECTED_POSITIVES: usize = 7;
 const EXPECTED_CONTROLS: usize = 21;
 const C0_PROTOCOL_ID: &str = "compiled-surface-context-galadriel-product-v1-c0";
 const C1_PROTOCOL_ID: &str = "compiled-surface-context-galadriel-product-v1-c1";
-const SHAKEOUT_PROTOCOL_ID: &str = "compiled-surface-context-new-target-shakeout-v1";
+const SHAKEOUT_PROTOCOL_ID: &str = "compiled-surface-context-new-target-shakeout-v2";
 
 #[derive(Clone)]
 struct EvaluationContract {

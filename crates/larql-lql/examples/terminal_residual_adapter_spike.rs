@@ -43,7 +43,7 @@ const EVALUATION_MARGIN: f32 = 0.5;
 const ALDER_V2_PROTOCOL_ID: &str = "alder-v2-terminal-residual-development";
 const ALDER_V2_HOLDOUT_PROTOCOL_ID: &str = "alder-v2-final-holdout";
 const ALDER_V2_TARGET_IDS: [u32; 3] = [45158, 37937, 217262];
-const PRODUCT_COMPILE_PROTOCOL_ID: &str = "compiled-surface-product-effect-v1";
+const PRODUCT_COMPILE_PROTOCOL_ID: &str = "compiled-surface-product-effect-v2";
 
 struct RunProfile<'a> {
     protocol_id: &'a str,
@@ -900,6 +900,14 @@ fn attach_product_compile_context(
     Ok(contextual)
 }
 
+fn product_contextual_source_path(derived_path: &Path) -> Result<PathBuf, AnyError> {
+    let stem = derived_path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .ok_or("derived product patch path has no UTF-8 file stem")?;
+    Ok(derived_path.with_file_name(format!("{stem}-compile-source.vlp")))
+}
+
 fn product_compile_preflight(args: &[String]) -> Result<Value, AnyError> {
     if args.len() != 7 {
         return Err(usage().into());
@@ -909,7 +917,8 @@ fn product_compile_preflight(args: &[String]) -> Result<Value, AnyError> {
     let synthesis_path = PathBuf::from(&args[4]);
     let derived_path = PathBuf::from(&args[5]);
     let evidence_path = PathBuf::from(&args[6]);
-    if derived_path.exists() || evidence_path.exists() {
+    let contextual_source_path = product_contextual_source_path(&derived_path)?;
+    if derived_path.exists() || evidence_path.exists() || contextual_source_path.exists() {
         return Err("product compile outputs must be absent before the run".into());
     }
     let source = VindexPatch::load(&source_path)?;
@@ -959,6 +968,7 @@ fn product_compile_preflight(args: &[String]) -> Result<Value, AnyError> {
         "hidden_size": config.hidden_size,
         "final_logit_softcap": arch.final_logit_softcapping(),
         "planned_derived_patch": derived_path,
+        "planned_contextual_source": contextual_source_path,
         "planned_evidence": evidence_path,
     }))
 }
@@ -972,7 +982,8 @@ fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
     let synthesis_path = PathBuf::from(&args[4]);
     let derived_path = PathBuf::from(&args[5]);
     let evidence_path = PathBuf::from(&args[6]);
-    if derived_path.exists() || evidence_path.exists() {
+    let contextual_source_path = product_contextual_source_path(&derived_path)?;
+    if derived_path.exists() || evidence_path.exists() || contextual_source_path.exists() {
         return Err("product compile outputs must be absent before the run".into());
     }
 
@@ -1011,7 +1022,14 @@ fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
         return Err("product synthesis must resolve to exactly one positive".into());
     };
 
-    let mut session = open_session(&vindex, &source_path)?;
+    let contextual_source =
+        attach_product_compile_context(&source, slot, &target_ids, config.hidden_size)?;
+    contextual_source.save(&contextual_source_path)?;
+    let contextual_reparsed = VindexPatch::load(&contextual_source_path)?;
+    source_patch_parts(&contextual_reparsed, &target_ids)?;
+    let contextual_source_sha256 = sha256_file(&contextual_source_path)?;
+
+    let mut session = open_session(&vindex, &contextual_source_path)?;
     let mut callbacks = larql_vindex::SilentLoadCallbacks;
     let mut weights = InferenceWeights::load(&vindex, &config, &mut callbacks)?;
     let capture = forward_capture(
@@ -1020,8 +1038,8 @@ fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
         &tokenizer,
         &synthesis_case.prompt,
     )?;
-    if capture.adapter_applied || !capture.decisions.is_empty() {
-        return Err("raw product source unexpectedly executed contextual behaviour".into());
+    if capture.adapter_applied || capture.decisions.len() != 1 || !capture.decisions[0].allowed {
+        return Err("compilation-only Context did not expose the source FFN row".into());
     }
     let compiled = compile_terminal_residual_adapter(
         weights.as_weights(),
@@ -1039,12 +1057,6 @@ fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
         galadriel_reproduction_gate: false,
         description: "Exact-surface product effect; detector vectors are compilation-only",
     };
-    let contextual_source = attach_product_compile_context(
-        &source,
-        slot,
-        &target_ids,
-        weights.as_weights().hidden_size,
-    )?;
     let derived = derive_patch(&contextual_source, slot, &compiled, &profile)?;
     derived.save(&derived_path)?;
     validate_frozen_patch(
@@ -1065,6 +1077,8 @@ fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
             "vindex": vindex,
             "source_patch": source_path,
             "source_patch_sha256": sha256_file(&source_path)?,
+            "contextual_source_patch": contextual_source_path,
+            "contextual_source_patch_sha256": contextual_source_sha256,
             "synthesis_suite": synthesis_path,
             "synthesis_suite_sha256": sha256_file(&synthesis_path)?,
             "active_base_checksum": active_checksum,
@@ -1073,7 +1087,7 @@ fn run_product_compile(args: &[String]) -> Result<Value, AnyError> {
         "target_ids": target_ids,
         "prompt": synthesis_case.prompt,
         "source_detector_decision": capture.decisions,
-        "compilation_context": "insert row exposed without a detector; persisted detector is an ignored always-allow wire shim",
+        "compilation_context": "persisted always-allow shim exposes the row and terminal capture; runtime eligibility ignores it and uses exact surface matching",
         "compiled_adapter": {
             "patch": derived_path,
             "sha256": derived_sha256,
