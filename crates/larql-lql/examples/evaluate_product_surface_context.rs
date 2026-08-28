@@ -22,6 +22,8 @@ use sha2::{Digest, Sha256};
 type AnyError = Box<dyn Error>;
 const EXPECTED_POSITIVES: usize = 7;
 const EXPECTED_CONTROLS: usize = 21;
+const C0_PROTOCOL_ID: &str = "compiled-surface-context-galadriel-product-v1-c0";
+const C1_PROTOCOL_ID: &str = "compiled-surface-context-galadriel-product-v1-c1";
 
 #[derive(Clone, Deserialize)]
 struct FactSpec {
@@ -270,10 +272,16 @@ fn preflight(
 }
 
 fn preflight_json(preflight: &Preflight) -> Value {
+    let evaluation_protocol_id = if preflight.effect_patch.is_some() {
+        C1_PROTOCOL_ID
+    } else {
+        C0_PROTOCOL_ID
+    };
     json!({
         "status": "compatible",
         "claim_label": preflight.manifest.claim_label,
-        "protocol_id": preflight.manifest.protocol_id,
+        "evaluation_protocol_id": evaluation_protocol_id,
+        "manifest_protocol_id": preflight.manifest.protocol_id,
         "weights_loaded": false,
         "base_checksum": preflight.active_checksum,
         "manifest_sha256": preflight.manifest_sha256,
@@ -396,8 +404,14 @@ fn run_evaluation(
     }
 
     let all_passed = positive_passes == EXPECTED_POSITIVES && control_passes == EXPECTED_CONTROLS;
+    let evaluation_protocol_id = if effect_patch.is_some() {
+        C1_PROTOCOL_ID
+    } else {
+        C0_PROTOCOL_ID
+    };
     let evidence = json!({
-        "protocol_id": preflight.manifest.protocol_id,
+        "evaluation_protocol_id": evaluation_protocol_id,
+        "manifest_protocol_id": preflight.manifest.protocol_id,
         "claim_label": preflight.manifest.claim_label,
         "evidence_boundary": "product-only evaluation on spent Galadriel development material; no semantic relation or prospective claim",
         "weights_loaded_once": true,
