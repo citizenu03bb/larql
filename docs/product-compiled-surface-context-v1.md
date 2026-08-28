@@ -75,6 +75,20 @@ No E4B weights may be loaded until all model-free gates pass:
 
 The code and focused tests must be committed before any real-model run.
 
+The zero-weight compiler is:
+
+```bash
+cargo run -p larql-lql --example compile_product_surface_context -- \
+  <vindex> <checksum-bound-adapter.vlp> <surfaces.json> <output.json>
+```
+
+`surfaces.json` contains only a non-empty `protocol_id` and an ordered
+`supported_prompts` array. The compiler reconstructs the architecture from
+`index.json`, loads the tokenizer but no model weights, extracts only the
+source patch's terminal adapter/logical slot/target IDs, compiles each complete
+prompt with the production prompt encoder, writes the `product-bounded`
+manifest, reparses it, and validates every checksum and dimension.
+
 ## Evidence boundary and next gate
 
 Synthetic success establishes only the runtime seam. It does not establish

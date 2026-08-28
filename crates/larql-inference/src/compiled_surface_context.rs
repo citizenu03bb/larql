@@ -11,6 +11,53 @@ use serde::{Deserialize, Serialize};
 use crate::active_span::{ActiveSpanSpec, PatchSlotId};
 use crate::context_detector::{TerminalResidualAdapterSpec, TerminalResidualApplication};
 
+pub const COMPILED_SURFACE_CONTEXT_VERSION: u32 = 1;
+pub const PRODUCT_BOUNDED_CLAIM: &str = "product-bounded";
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CompiledSurfaceContextManifest {
+    pub version: u32,
+    pub claim_label: String,
+    pub protocol_id: String,
+    pub specs: Vec<CompiledSurfaceContextSpec>,
+}
+
+impl CompiledSurfaceContextManifest {
+    pub fn new(protocol_id: String, specs: Vec<CompiledSurfaceContextSpec>) -> Self {
+        Self {
+            version: COMPILED_SURFACE_CONTEXT_VERSION,
+            claim_label: PRODUCT_BOUNDED_CLAIM.into(),
+            protocol_id,
+            specs,
+        }
+    }
+
+    pub fn validate_header(&self) -> Result<(), CompiledSurfaceContextError> {
+        if self.version != COMPILED_SURFACE_CONTEXT_VERSION {
+            return Err(CompiledSurfaceContextError(format!(
+                "unsupported compiled surface manifest version {}",
+                self.version
+            )));
+        }
+        if self.claim_label != PRODUCT_BOUNDED_CLAIM {
+            return Err(CompiledSurfaceContextError(format!(
+                "compiled surface manifest claim_label must be {PRODUCT_BOUNDED_CLAIM}"
+            )));
+        }
+        if self.protocol_id.trim().is_empty() {
+            return Err(CompiledSurfaceContextError(
+                "compiled surface manifest requires a protocol_id".into(),
+            ));
+        }
+        if self.specs.is_empty() {
+            return Err(CompiledSurfaceContextError(
+                "compiled surface manifest contains no specifications".into(),
+            ));
+        }
+        Ok(())
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum CompiledSurfaceState {
@@ -278,6 +325,16 @@ mod tests {
         assert!(candidate.validate("artifact", 2, 20).is_err());
 
         assert!(spec().validate("wrong", 2, 20).is_err());
+    }
+
+    #[test]
+    fn manifest_header_freezes_version_claim_and_protocol() {
+        let manifest = CompiledSurfaceContextManifest::new("c0-fixture".into(), vec![spec()]);
+        manifest.validate_header().unwrap();
+
+        let mut wrong = manifest.clone();
+        wrong.claim_label = "model-bound".into();
+        assert!(wrong.validate_header().is_err());
     }
 
     #[test]

@@ -23,8 +23,8 @@ use crate::active_span::{
     patch_activation_events, ActiveSpanConstraint, ActiveSpanSpec, PatchSlotId,
 };
 use crate::compiled_surface_context::{
-    compiled_surface_prefill_delta, evaluate_compiled_surface_contexts, CompiledSurfaceContextSpec,
-    CompiledSurfaceDecision,
+    compiled_surface_prefill_delta, evaluate_compiled_surface_contexts,
+    CompiledSurfaceContextManifest, CompiledSurfaceContextSpec, CompiledSurfaceDecision,
 };
 use crate::context_detector::{terminal_prefill_delta, ContextDecision, ContextDetectorSpec};
 use crate::model::ModelWeights;
@@ -134,17 +134,16 @@ impl InferenceWeights {
         tokenizer: &Tokenizer,
         prompt_ids: &[u32],
         max_tokens: usize,
-        specs: &[CompiledSurfaceContextSpec],
+        manifest: &CompiledSurfaceContextManifest,
         active_base_checksum: &str,
     ) -> Result<CompiledSurfaceGenerationResult, PatchedGenerationError> {
         if prompt_ids.is_empty() {
             return Err(PatchedGenerationError::EmptyPrompt);
         }
-        if specs.is_empty() {
-            return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
-                "manifest contains no specifications".into(),
-            ));
-        }
+        manifest.validate_header().map_err(|error| {
+            PatchedGenerationError::InvalidCompiledSurfaceContext(error.to_string())
+        })?;
+        let specs = &manifest.specs;
         let hidden_size = self.as_weights().hidden_size;
         let vocab_size = self.as_weights().vocab_size;
         let decisions = evaluate_compiled_surface_contexts(
@@ -897,6 +896,16 @@ mod tests {
         }
     }
 
+    fn compiled_fixture_manifest(
+        weights: &InferenceWeights,
+        first_target_id: u32,
+    ) -> CompiledSurfaceContextManifest {
+        CompiledSurfaceContextManifest::new(
+            "synthetic-c0".into(),
+            vec![compiled_fixture_spec(weights, first_target_id)],
+        )
+    }
+
     #[test]
     fn compiled_surface_cached_generation_fires_forces_and_releases() {
         let (mut iw, tokenizer) = quantised_fixture();
@@ -909,16 +918,11 @@ mod tests {
             .generate_patched(&tokenizer, &empty_patch, &[0, 1], 1, &[])
             .expect("natural Q4K first token");
         let first = natural.generated[0].1;
-        let spec = compiled_fixture_spec(&iw, first);
+        let manifest = compiled_fixture_manifest(&iw, first);
+        let spec = &manifest.specs[0];
 
         let result = iw
-            .generate_compiled_surface_cached(
-                &tokenizer,
-                &[0, 1],
-                3,
-                std::slice::from_ref(&spec),
-                "fixture-checksum",
-            )
+            .generate_compiled_surface_cached(&tokenizer, &[0, 1], 3, &manifest, "fixture-checksum")
             .expect("compiled surface generation");
         let ids: Vec<_> = result.generated.iter().map(|(_, id)| *id).collect();
         assert_eq!(ids[0], spec.target_ids[0], "first token remains natural");
@@ -941,10 +945,10 @@ mod tests {
             .generate_patched(&tokenizer, &empty_patch, &[0, 2], 3, &[])
             .expect("base generation");
         let first = baseline.generated[0].1;
-        let spec = compiled_fixture_spec(&compiled_weights, first);
+        let manifest = compiled_fixture_manifest(&compiled_weights, first);
 
         let rejected = compiled_weights
-            .generate_compiled_surface_cached(&tokenizer, &[0, 2], 3, &[spec], "fixture-checksum")
+            .generate_compiled_surface_cached(&tokenizer, &[0, 2], 3, &manifest, "fixture-checksum")
             .expect("compiled rejection");
         assert_eq!(rejected.generated, baseline.generated);
         assert!(!rejected.decisions[0].allowed());
@@ -960,14 +964,10 @@ mod tests {
         left.payload.feature = 3;
         right.payload.feature = 4;
 
+        let manifest =
+            CompiledSurfaceContextManifest::new("synthetic-collision".into(), vec![left, right]);
         let error = iw
-            .generate_compiled_surface_cached(
-                &tokenizer,
-                &[0, 1],
-                1,
-                &[left, right],
-                "fixture-checksum",
-            )
+            .generate_compiled_surface_cached(&tokenizer, &[0, 1], 1, &manifest, "fixture-checksum")
             .expect_err("ambiguous compiled surface must fail closed");
         assert!(matches!(
             error,
