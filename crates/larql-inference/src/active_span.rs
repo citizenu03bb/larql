@@ -11,7 +11,7 @@ use larql_vindex::{GateIndex, FFN_GATE, FFN_UP};
 use serde::{Deserialize, Serialize};
 
 /// Stable session-local identity of an installed FFN slot.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct PatchSlotId {
     pub layer: usize,
     pub feature: usize,
@@ -74,6 +74,7 @@ pub struct ActiveSpan {
 pub struct ActiveSpanConstraint {
     specs: Vec<ActiveSpanSpec>,
     events: Vec<PatchActivationEvent>,
+    explicitly_authorized_slots: Vec<PatchSlotId>,
     active: Option<ActiveSpan>,
     triggered_slot: Option<PatchSlotId>,
     observed_generated: usize,
@@ -84,6 +85,25 @@ impl ActiveSpanConstraint {
         Self {
             specs,
             events,
+            explicitly_authorized_slots: Vec::new(),
+            active: None,
+            triggered_slot: None,
+            observed_generated: 0,
+        }
+    }
+
+    /// Construct a continuation gate whose eligibility comes from an explicit
+    /// compiled decision rather than incidental FFN activation. Event-based
+    /// eligibility remains available for ordinary and learned-detector paths.
+    pub fn with_explicit_authorization(
+        specs: Vec<ActiveSpanSpec>,
+        events: Vec<PatchActivationEvent>,
+        explicitly_authorized_slots: Vec<PatchSlotId>,
+    ) -> Self {
+        Self {
+            specs,
+            events,
+            explicitly_authorized_slots,
             active: None,
             triggered_slot: None,
             observed_generated: 0,
@@ -104,7 +124,12 @@ impl ActiveSpanConstraint {
         while self.observed_generated < generated_ids.len() {
             let token_id = generated_ids[self.observed_generated];
             if self.observed_generated == 0 {
-                self.active = ActiveSpan::try_arm(token_id, &self.specs, &self.events);
+                self.active = ActiveSpan::try_arm_with_explicit_authorization(
+                    token_id,
+                    &self.specs,
+                    &self.events,
+                    &self.explicitly_authorized_slots,
+                );
                 self.triggered_slot = self.active.as_ref().map(ActiveSpan::slot);
             } else if let Some(span) = &mut self.active {
                 if !span.observe_emitted(token_id) {
@@ -133,12 +158,27 @@ impl ActiveSpan {
         specs: &[ActiveSpanSpec],
         events: &[PatchActivationEvent],
     ) -> Option<Self> {
+        Self::try_arm_with_explicit_authorization(selected_id, specs, events, &[])
+    }
+
+    /// Explicitly authorized slots are eligible without an FFN activation
+    /// event. This is used only when a separate fail-closed gate directly owns
+    /// payload visibility and the terminal first-token effect.
+    pub fn try_arm_with_explicit_authorization(
+        selected_id: u32,
+        specs: &[ActiveSpanSpec],
+        events: &[PatchActivationEvent],
+        explicitly_authorized_slots: &[PatchSlotId],
+    ) -> Option<Self> {
         specs
             .iter()
             .filter(|spec| {
                 spec.target_ids.len() > 1 && spec.target_ids.first() == Some(&selected_id)
             })
             .filter_map(|spec| {
+                if explicitly_authorized_slots.contains(&spec.slot) {
+                    return Some((spec, f32::INFINITY));
+                }
                 let event = events.iter().find(|event| event.slot == spec.slot)?;
                 let strength = event.contribution_norm.unwrap_or(0.0);
                 (event.activation > 0.0 && strength > 0.0).then_some((spec, strength))
@@ -413,6 +453,27 @@ mod tests {
         constraint.apply(&[10], &mut logits);
         assert_eq!(constraint.active_slot(), None);
         assert_eq!(logits, original);
+    }
+
+    #[test]
+    fn compiled_authorization_arms_without_payload_activation() {
+        let slot = PatchSlotId {
+            layer: 2,
+            feature: 7,
+        };
+        let mut constraint = ActiveSpanConstraint::with_explicit_authorization(
+            vec![spec(2, 7, &[10, 11])],
+            Vec::new(),
+            vec![slot],
+        );
+        let mut logits = vec![1.0; 16];
+        constraint.apply(&[10], &mut logits);
+        assert_eq!(constraint.triggered_slot(), Some(slot));
+        assert!(logits[11].is_finite());
+        assert!(logits
+            .iter()
+            .enumerate()
+            .all(|(id, value)| id == 11 || value.is_infinite()));
     }
 
     #[test]

@@ -22,6 +22,10 @@ use larql_vindex::{
 use crate::active_span::{
     patch_activation_events, ActiveSpanConstraint, ActiveSpanSpec, PatchSlotId,
 };
+use crate::compiled_surface_context::{
+    compiled_surface_prefill_delta, evaluate_compiled_surface_contexts, CompiledSurfaceContextSpec,
+    CompiledSurfaceDecision,
+};
 use crate::context_detector::{terminal_prefill_delta, ContextDecision, ContextDetectorSpec};
 use crate::model::ModelWeights;
 
@@ -56,6 +60,7 @@ pub enum PatchedGenerationError {
     NoModelToken,
     Overlay(VindexError),
     InvalidTerminalResidualAdapter(String),
+    InvalidCompiledSurfaceContext(String),
     UnsupportedArchitecture,
 }
 
@@ -75,6 +80,9 @@ impl std::fmt::Display for PatchedGenerationError {
             Self::Overlay(error) => write!(formatter, "invalid patched overlay: {error}"),
             Self::InvalidTerminalResidualAdapter(error) => {
                 write!(formatter, "invalid terminal residual adapter: {error}")
+            }
+            Self::InvalidCompiledSurfaceContext(error) => {
+                write!(formatter, "invalid compiled surface context: {error}")
             }
             Self::UnsupportedArchitecture => {
                 formatter.write_str("architecture does not support cached quantised generation")
@@ -99,12 +107,136 @@ pub struct PatchedGenerationResult {
     pub released_after_span: bool,
 }
 
+#[derive(Debug)]
+pub struct CompiledSurfaceGenerationResult {
+    pub generated: Vec<(String, u32)>,
+    pub decisions: Vec<CompiledSurfaceDecision>,
+    pub trigger_slot: Option<PatchSlotId>,
+    pub released_after_span: bool,
+}
+
 /// Compatibility names retained for callers that adopted the initial Q4K-only
 /// seam before dense generation was added.
 pub type PatchedCachedGenerationError = PatchedGenerationError;
 pub type PatchedCachedGenerationResult = PatchedGenerationResult;
 
 impl InferenceWeights {
+    /// Generate through a product-bounded exact surface gate.
+    ///
+    /// This C0 seam deliberately has no FFN patch row. The bound terminal
+    /// residual adapter is the complete first-token effect; an explicit exact
+    /// suffix decision then authorizes `ActiveSpan`. A rejection therefore
+    /// executes the source Q4K path byte-for-byte with no overlay visibility
+    /// question.
+    #[allow(clippy::too_many_arguments)]
+    pub fn generate_compiled_surface_cached(
+        &mut self,
+        tokenizer: &Tokenizer,
+        prompt_ids: &[u32],
+        max_tokens: usize,
+        specs: &[CompiledSurfaceContextSpec],
+        active_base_checksum: &str,
+    ) -> Result<CompiledSurfaceGenerationResult, PatchedGenerationError> {
+        if prompt_ids.is_empty() {
+            return Err(PatchedGenerationError::EmptyPrompt);
+        }
+        if specs.is_empty() {
+            return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+                "manifest contains no specifications".into(),
+            ));
+        }
+        let hidden_size = self.as_weights().hidden_size;
+        let vocab_size = self.as_weights().vocab_size;
+        let decisions = evaluate_compiled_surface_contexts(
+            specs,
+            prompt_ids,
+            active_base_checksum,
+            hidden_size,
+            vocab_size,
+        )
+        .map_err(|error| {
+            PatchedGenerationError::InvalidCompiledSurfaceContext(error.to_string())
+        })?;
+        for spec in specs {
+            if spec.payload.layer >= self.as_weights().num_layers {
+                return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+                    format!(
+                        "logical slot L{}/F{} is outside model geometry",
+                        spec.payload.layer, spec.payload.feature
+                    ),
+                ));
+            }
+        }
+        let allowed_slots: Vec<_> = decisions
+            .iter()
+            .filter(|decision| decision.allowed())
+            .map(|decision| decision.payload)
+            .collect();
+        if allowed_slots.len() > 1 {
+            return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
+                "more than one compiled surface specification fired for one prompt".into(),
+            ));
+        }
+        let prefill_delta = compiled_surface_prefill_delta(specs, &decisions, hidden_size)
+            .map_err(|error| {
+                PatchedGenerationError::InvalidCompiledSurfaceContext(error.to_string())
+            })?;
+        if max_tokens == 0 {
+            return Ok(CompiledSurfaceGenerationResult {
+                generated: Vec::new(),
+                decisions,
+                trigger_slot: None,
+                released_after_span: false,
+            });
+        }
+        let span_specs: Vec<_> = specs
+            .iter()
+            .map(CompiledSurfaceContextSpec::active_span_spec)
+            .collect();
+        let mut constraint = ActiveSpanConstraint::with_explicit_authorization(
+            span_specs,
+            Vec::new(),
+            allowed_slots,
+        );
+
+        let (weights, source) = self
+            .as_quantised_parts_mut()
+            .ok_or(PatchedGenerationError::RequiresQuantisedWeights)?;
+        let generated = if let Some(delta) = prefill_delta.as_deref() {
+            crate::vindex::generate_kquant_cpu_constrained_cached_index_with_prefill_delta(
+                weights,
+                tokenizer,
+                prompt_ids,
+                max_tokens,
+                source,
+                delta,
+                |generated, logits| constraint.apply(generated, logits),
+            )
+        } else {
+            crate::vindex::generate_kquant_cpu_constrained_cached_index(
+                weights,
+                tokenizer,
+                prompt_ids,
+                max_tokens,
+                source,
+                |generated, logits| constraint.apply(generated, logits),
+            )
+        }
+        .ok_or(PatchedGenerationError::UnsupportedArchitecture)?;
+        let generated_ids: Vec<_> = generated.iter().map(|(_, id)| *id).collect();
+        let mut final_probe = vec![0.0; weights.vocab_size];
+        constraint.apply(&generated_ids, &mut final_probe);
+        let trigger_slot = constraint.triggered_slot();
+        let released_after_span = trigger_slot.is_some() && constraint.active_slot().is_none();
+
+        Ok(CompiledSurfaceGenerationResult {
+            generated,
+            decisions,
+            trigger_slot,
+            released_after_span,
+        })
+    }
+
     /// Generate through the best supported patched backend for the loaded
     /// storage: cached decode for native quantisation, full-prefix uncached
     /// decode for dense weights.
@@ -736,6 +868,111 @@ mod tests {
         assert!(result.context_decisions.is_empty());
         assert_eq!(result.trigger_slot, None);
         assert!(!result.released_after_span);
+    }
+
+    fn compiled_fixture_spec(
+        weights: &InferenceWeights,
+        first_target_id: u32,
+    ) -> CompiledSurfaceContextSpec {
+        CompiledSurfaceContextSpec {
+            base_checksum: "fixture-checksum".into(),
+            payload: PatchSlotId {
+                layer: 0,
+                feature: 3,
+            },
+            target_ids: vec![
+                first_target_id,
+                (first_target_id + 1) % weights.as_weights().vocab_size as u32,
+            ],
+            prompt_suffixes: vec![vec![1]],
+            terminal_residual_adapter: crate::context_detector::TerminalResidualAdapterSpec {
+                application:
+                    crate::context_detector::TerminalResidualApplication::PrefillLastPositionV1,
+                // Non-zero and valid, but too small to perturb the synthetic
+                // model's naturally selected first ID.
+                delta: vec![f32::MIN_POSITIVE; weights.as_weights().hidden_size],
+                calibration: Some("synthetic-c0".into()),
+            },
+            provenance: Some("unit fixture".into()),
+        }
+    }
+
+    #[test]
+    fn compiled_surface_cached_generation_fires_forces_and_releases() {
+        let (mut iw, tokenizer) = quantised_fixture();
+        let source = match &iw {
+            InferenceWeights::Quantised { index, .. } => index.clone(),
+            InferenceWeights::Dense(_) => unreachable!(),
+        };
+        let empty_patch = PatchedVindex::new(source);
+        let natural = iw
+            .generate_patched(&tokenizer, &empty_patch, &[0, 1], 1, &[])
+            .expect("natural Q4K first token");
+        let first = natural.generated[0].1;
+        let spec = compiled_fixture_spec(&iw, first);
+
+        let result = iw
+            .generate_compiled_surface_cached(
+                &tokenizer,
+                &[0, 1],
+                3,
+                std::slice::from_ref(&spec),
+                "fixture-checksum",
+            )
+            .expect("compiled surface generation");
+        let ids: Vec<_> = result.generated.iter().map(|(_, id)| *id).collect();
+        assert_eq!(ids[0], spec.target_ids[0], "first token remains natural");
+        assert_eq!(ids[1], spec.target_ids[1], "continuation is exact");
+        assert!(result.decisions[0].allowed());
+        assert_eq!(result.trigger_slot, Some(spec.payload));
+        assert!(result.released_after_span);
+    }
+
+    #[test]
+    fn compiled_surface_rejection_is_bit_identical_to_base_generation() {
+        let (mut baseline_weights, tokenizer) = quantised_fixture();
+        let (mut compiled_weights, _) = quantised_fixture();
+        let source = match &baseline_weights {
+            InferenceWeights::Quantised { index, .. } => index.clone(),
+            InferenceWeights::Dense(_) => unreachable!(),
+        };
+        let empty_patch = PatchedVindex::new(source);
+        let baseline = baseline_weights
+            .generate_patched(&tokenizer, &empty_patch, &[0, 2], 3, &[])
+            .expect("base generation");
+        let first = baseline.generated[0].1;
+        let spec = compiled_fixture_spec(&compiled_weights, first);
+
+        let rejected = compiled_weights
+            .generate_compiled_surface_cached(&tokenizer, &[0, 2], 3, &[spec], "fixture-checksum")
+            .expect("compiled rejection");
+        assert_eq!(rejected.generated, baseline.generated);
+        assert!(!rejected.decisions[0].allowed());
+        assert_eq!(rejected.trigger_slot, None);
+        assert!(!rejected.released_after_span);
+    }
+
+    #[test]
+    fn compiled_surface_generation_rejects_multiple_fires() {
+        let (mut iw, tokenizer) = quantised_fixture();
+        let mut left = compiled_fixture_spec(&iw, 1);
+        let mut right = compiled_fixture_spec(&iw, 2);
+        left.payload.feature = 3;
+        right.payload.feature = 4;
+
+        let error = iw
+            .generate_compiled_surface_cached(
+                &tokenizer,
+                &[0, 1],
+                1,
+                &[left, right],
+                "fixture-checksum",
+            )
+            .expect_err("ambiguous compiled surface must fail closed");
+        assert!(matches!(
+            error,
+            PatchedGenerationError::InvalidCompiledSurfaceContext(_)
+        ));
     }
 
     #[test]
