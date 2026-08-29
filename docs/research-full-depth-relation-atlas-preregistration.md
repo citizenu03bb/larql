@@ -1,6 +1,7 @@
 # Full-depth relation atlas: exploratory emergence map
 
-**Status:** preregistered; capture not yet run
+**Status:** closed; see
+[the result](research-full-depth-relation-atlas-results.md)
 
 **Evidence label:** `exploratory`; architecture orientation on spent material
 
