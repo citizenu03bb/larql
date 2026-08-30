@@ -1,6 +1,7 @@
 # Counterfactual entity-swap interaction: exploratory nomination gate
 
-**Status:** preregistered; analysis not yet run
+**Status:** closed; see
+[the result](research-counterfactual-entity-swap-interaction-results.md)
 
 **Evidence label:** `exploratory`; architecture orientation on spent material
 
