@@ -98,6 +98,11 @@ source patch's terminal adapter/logical slot/target IDs, compiles each complete
 prompt with the production prompt encoder, writes the `product-bounded`
 manifest, reparses it, and validates every checksum and dimension.
 
+The reusable compiler now returns the typed, JSON-serializable decision
+`CertifiedPatch | UncompilableEdit`; its stable stages, refusal codes, report,
+exit codes, and atomic no-clobber commit are specified in
+[`product-surface-compiler-contract-v1.md`](product-surface-compiler-contract-v1.md).
+
 ## Evidence boundary and next gate
 
 Synthetic success establishes only the runtime seam. It does not establish

@@ -20,6 +20,7 @@ rustyline = "15"
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 sha2 = "0.10"
+tempfile = "3"
 thiserror = { workspace = true }
 
 [features]
@@ -36,10 +37,6 @@ criterion = "0.5"
 # `mockito::Server`, points the session at it via `USE "<url>"`, and
 # asserts on the canned response.
 mockito = "1.7"
-# Tempdirs for the synthetic-model integration tests that need an
-# on-disk vindex+weights fixture (see
-# `larql_inference::test_utils::write_synthetic_model_dir`).
-tempfile = "3"
 
 [[bench]]
 name = "parser"

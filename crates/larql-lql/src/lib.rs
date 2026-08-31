@@ -3,6 +3,7 @@ pub mod error;
 pub mod executor;
 pub(crate) mod lexer;
 pub mod parser;
+pub mod product_surface_compiler;
 pub mod relations;
 pub mod repl;
 
