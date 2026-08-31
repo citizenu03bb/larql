@@ -267,8 +267,10 @@ impl InferenceWeights {
         .map_err(|error| {
             PatchedGenerationError::InvalidCompiledSurfaceContext(error.to_string())
         })?;
+        let num_layers = self.as_weights().num_layers;
+        let intermediate_size = self.as_weights().intermediate_size;
         for spec in specs {
-            if spec.payload.layer >= self.as_weights().num_layers {
+            if spec.payload.layer >= num_layers || spec.payload.feature >= intermediate_size {
                 return Err(PatchedGenerationError::InvalidCompiledSurfaceContext(
                     format!(
                         "logical slot L{}/F{} is outside model geometry",
@@ -1174,6 +1176,22 @@ mod tests {
         assert!(matches!(
             error,
             PatchedGenerationError::InvalidCompiledSurfaceContext(_)
+        ));
+    }
+
+    #[test]
+    fn compiled_surface_generation_rejects_feature_outside_model_geometry() {
+        let (mut iw, tokenizer) = quantised_fixture();
+        let mut manifest = compiled_fixture_manifest(&iw, 1);
+        manifest.specs[0].payload.feature = iw.as_weights().intermediate_size;
+
+        let error = iw
+            .generate_compiled_surface_cached(&tokenizer, &[0, 1], 1, &manifest, "fixture-checksum")
+            .expect_err("out-of-range compiled feature must fail before generation");
+        assert!(matches!(
+            error,
+            PatchedGenerationError::InvalidCompiledSurfaceContext(message)
+                if message.contains("outside model geometry")
         ));
     }
 
