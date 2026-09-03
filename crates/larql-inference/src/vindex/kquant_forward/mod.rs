@@ -54,7 +54,8 @@ pub use metal::{
     predict_kquant_metal_with_replaced_head_residual_delta,
 };
 pub use remote_ffn::{
-    predict_kquant_hidden_with_ffn, predict_kquant_with_ffn, predict_kquant_with_ffn_early_exit,
+    predict_kquant_hidden_with_ffn, predict_kquant_hidden_with_ffn_hooked, predict_kquant_with_ffn,
+    predict_kquant_with_ffn_early_exit,
 };
 pub use tensors::{
     insert_q4k_layer_tensors, insert_q4k_layer_tensors_resident, remove_layer_tensors,

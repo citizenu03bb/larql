@@ -7,7 +7,7 @@ use tokenizers::Tokenizer;
 use crate::attention::SharedKV;
 use crate::forward::embed_tokens_pub;
 use crate::forward::ple::precompute_per_layer_inputs;
-use crate::forward::{run_layer_with_ffn, PredictResult};
+use crate::forward::{run_layer_with_capture_hooked, run_layer_with_ffn, LayerHook, PredictResult};
 
 use super::dequant::dequantize_matrix;
 
@@ -88,6 +88,98 @@ pub fn predict_kquant_hidden_with_ffn(
     ffn_backend: &dyn crate::ffn::FfnBackend,
 ) -> Result<ndarray::Array2<f32>, larql_execution::BoxRefusal> {
     Ok(predict_kquant_hidden_inner(weights, token_ids, index, ffn_backend, None)?.0)
+}
+
+/// Dense-FFN Q4_K forward with an external FFN backend and a mid-layer hook.
+///
+/// This is the intervention twin of [`predict_kquant_hidden_with_ffn`]. It
+/// preserves that function's layer-scoped Q4_K attention dequantisation and
+/// external FFN dispatch while exposing the exact post-attention / pre-FFN
+/// hook point. MoE topologies are rejected because their full-layer route
+/// cannot yet preserve the same hook contract.
+pub fn predict_kquant_hidden_with_ffn_hooked(
+    weights: &mut ModelWeights,
+    token_ids: &[u32],
+    index: &VectorIndex,
+    ffn_backend: &dyn crate::ffn::FfnBackend,
+    hook: &mut dyn LayerHook,
+) -> Result<ndarray::Array2<f32>, String> {
+    if weights.arch.is_moe() || weights.arch.is_hybrid_moe() {
+        return Err(
+            "predict_kquant_hidden_with_ffn_hooked currently supports dense FFN vindexes only"
+                .into(),
+        );
+    }
+
+    let num_layers = weights.num_layers;
+    let hidden = weights.hidden_size;
+    let mut h = embed_tokens_pub(weights, token_ids);
+    let ple_inputs = precompute_per_layer_inputs(weights, &h, token_ids);
+    let mut kv_cache: HashMap<usize, SharedKV> = HashMap::new();
+
+    for layer in 0..num_layers {
+        let attn = index
+            .attn_kquant_layer_data(layer)
+            .ok_or_else(|| format!("attn Q4K slices missing for layer {layer}"))?;
+        let arch = &*weights.arch;
+        let num_q = arch.num_q_heads_for_layer(layer);
+        let num_kv = arch.num_kv_heads_for_layer(layer);
+        let head_dim = arch.head_dim_for_layer(layer);
+        let q_dim = num_q * head_dim;
+        let kv_dim = num_kv * head_dim;
+
+        let q_key = arch.attn_q_key(layer);
+        let k_key = arch.attn_k_key(layer);
+        let v_key = arch.attn_v_key(layer);
+        let o_key = arch.attn_o_key(layer);
+        weights.tensors.insert(
+            q_key.clone(),
+            dequantize_matrix(attn[0].0, attn[0].1, q_dim, hidden).into_shared(),
+        );
+        weights.tensors.insert(
+            k_key.clone(),
+            dequantize_matrix(attn[1].0, attn[1].1, kv_dim, hidden).into_shared(),
+        );
+        weights.tensors.insert(
+            v_key.clone(),
+            dequantize_matrix(attn[2].0, attn[2].1, kv_dim, hidden).into_shared(),
+        );
+        weights.tensors.insert(
+            o_key.clone(),
+            dequantize_matrix(attn[3].0, attn[3].1, hidden, q_dim).into_shared(),
+        );
+
+        let shared_kv = weights
+            .arch
+            .kv_shared_source_layer(layer)
+            .and_then(|source| kv_cache.get(&source));
+        let step = run_layer_with_capture_hooked(
+            larql_models::WeightsView::dense(weights),
+            &h,
+            layer,
+            ffn_backend,
+            false,
+            false,
+            ple_inputs.get(layer),
+            shared_kv,
+            hook,
+        );
+
+        weights.tensors.remove(&q_key);
+        weights.tensors.remove(&k_key);
+        weights.tensors.remove(&v_key);
+        weights.tensors.remove(&o_key);
+
+        let Some((h_new, _, _, kv_out)) = step else {
+            return Err(format!("hooked Q4K forward failed at layer {layer}"));
+        };
+        h = h_new;
+        if let Some(kv) = kv_out {
+            kv_cache.insert(layer, kv);
+        }
+    }
+
+    Ok(h)
 }
 
 /// Core Q4_K hidden forward with an optional early-exit hook. `early =
@@ -360,5 +452,32 @@ mod tests {
         let result = predict_kquant_with_ffn(&mut weights, &tokenizer, &[0u32, 1], 3, &index, &ffn)
             .expect("WeightFfn never refuses");
         assert!(result.predictions.len() <= 3);
+    }
+
+    #[test]
+    fn predict_kquant_hidden_with_ffn_hooked_exposes_pre_ffn_rows() {
+        let mut weights = make_test_q4k_weights();
+        let index = make_test_q4k_vindex(&weights);
+        let weights_ref: &ModelWeights = unsafe { &*(&weights as *const ModelWeights) };
+        let ffn = WeightFfn {
+            weights: weights_ref,
+        };
+        let mut record = crate::forward::RecordHook::for_layers([0usize]);
+
+        let h = predict_kquant_hidden_with_ffn_hooked(
+            &mut weights,
+            &[0u32, 1],
+            &index,
+            &ffn,
+            &mut record,
+        )
+        .expect("hooked Q4K fixture forward");
+
+        assert_eq!(h.shape(), &[2, weights.hidden_size]);
+        let captured = record
+            .post_attention
+            .get(&0)
+            .expect("pre-FFN capture at L0");
+        assert_eq!(captured.shape(), &[2, weights.hidden_size]);
     }
 }

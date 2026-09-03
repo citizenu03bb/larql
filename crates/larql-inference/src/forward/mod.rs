@@ -77,7 +77,7 @@ pub use lens::{logit_lens_topk, track_race, track_token};
 pub use memit::{run_memit, run_memit_with_target_opt, MemitFact, MemitFactResult, MemitResult};
 pub use patching::{
     capture_donor_state, capture_donor_state_with_ffn, patch_and_trace, patch_and_trace_with_ffn,
-    DonorState, PatchHook,
+    DonorState, PatchHook, PreFfnPatch, PreFfnPatchHook,
 };
 pub use predict::{
     forward_from_layer, forward_raw_logits, forward_raw_logits_with_prefix, hidden_to_raw_logits,

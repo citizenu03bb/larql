@@ -32,6 +32,55 @@ use crate::model::ModelWeights;
 use ndarray::Array2;
 use std::collections::HashMap;
 
+/// One full-residual intervention at the post-attention / pre-FFN hook point.
+///
+/// The donor row is already materialized so its source position may differ
+/// from the recipient position.  This is required for final-token patching
+/// between prompts whose tokenized lengths differ.
+#[derive(Clone, Debug, PartialEq)]
+pub struct PreFfnPatch {
+    pub layer: usize,
+    pub recipient_position: usize,
+    pub donor_row: Vec<f32>,
+}
+
+/// Applies full-residual patches immediately before the FFN sublayer.
+///
+/// Invalid positions or hidden sizes are recorded and left untouched.  A
+/// research harness must require the expected `applied` set and an empty
+/// `rejected` set after every forward; the hook itself cannot return an error
+/// through [`LayerHook`].
+pub struct PreFfnPatchHook<'a> {
+    pub patches: &'a [PreFfnPatch],
+    pub applied: Vec<(usize, usize)>,
+    pub rejected: Vec<(usize, usize)>,
+}
+
+impl<'a> PreFfnPatchHook<'a> {
+    pub fn new(patches: &'a [PreFfnPatch]) -> Self {
+        Self {
+            patches,
+            applied: Vec::new(),
+            rejected: Vec::new(),
+        }
+    }
+}
+
+impl LayerHook for PreFfnPatchHook<'_> {
+    fn on_post_attention(&mut self, layer: usize, h: &mut Array2<f32>) {
+        for patch in self.patches.iter().filter(|patch| patch.layer == layer) {
+            let coord = (patch.layer, patch.recipient_position);
+            if patch.recipient_position >= h.nrows() || patch.donor_row.len() != h.ncols() {
+                self.rejected.push(coord);
+                continue;
+            }
+            h.row_mut(patch.recipient_position)
+                .assign(&ndarray::ArrayView1::from(patch.donor_row.as_slice()));
+            self.applied.push(coord);
+        }
+    }
+}
+
 /// Donor-side state: the residual row at each requested `(layer, position)`
 /// coord, captured during the donor forward pass.
 pub struct DonorState {
@@ -192,6 +241,66 @@ mod tests {
     use crate::model::ModelWeights;
     use crate::test_utils::make_test_weights;
     use std::sync::OnceLock;
+
+    #[test]
+    fn pre_ffn_patch_replaces_only_the_requested_layer_and_position() {
+        use ndarray::array;
+
+        let patches = [PreFfnPatch {
+            layer: 3,
+            recipient_position: 1,
+            donor_row: vec![10.0, 20.0, 30.0],
+        }];
+        let mut hook = PreFfnPatchHook::new(&patches);
+        let original = array![[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]];
+        let mut residual = original.clone();
+
+        hook.on_post_attention(2, &mut residual);
+        assert_eq!(residual, original, "a non-target layer must be unchanged");
+        assert!(hook.applied.is_empty());
+        assert!(hook.rejected.is_empty());
+
+        hook.on_post_attention(3, &mut residual);
+        assert_eq!(residual.row(0), original.row(0));
+        assert_eq!(residual.row(1).to_vec(), vec![10.0, 20.0, 30.0]);
+        assert_eq!(residual.row(2), original.row(2));
+        assert_eq!(hook.applied, vec![(3, 1)]);
+        assert!(hook.rejected.is_empty());
+
+        let after_patch = residual.clone();
+        hook.on_post_layer(3, &mut residual);
+        assert_eq!(
+            residual, after_patch,
+            "the pre-FFN hook must not write again at post-layer"
+        );
+    }
+
+    #[test]
+    fn pre_ffn_patch_rejects_invalid_shape_or_position_without_writing() {
+        use ndarray::array;
+
+        let original = array![[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]];
+        let patches = [
+            PreFfnPatch {
+                layer: 3,
+                recipient_position: 1,
+                donor_row: vec![10.0, 20.0],
+            },
+            PreFfnPatch {
+                layer: 3,
+                recipient_position: 9,
+                donor_row: vec![10.0, 20.0, 30.0],
+            },
+        ];
+        let mut hook = PreFfnPatchHook::new(&patches);
+        let mut residual = original.clone();
+
+        hook.on_post_attention(3, &mut residual);
+
+        assert_eq!(residual, original);
+        assert!(hook.applied.is_empty());
+        assert_eq!(hook.rejected, vec![(3, 1), (3, 9)]);
+    }
 
     fn shared_weights() -> &'static ModelWeights {
         static W: OnceLock<ModelWeights> = OnceLock::new();
