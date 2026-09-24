@@ -1,0 +1,16 @@
+{
+  "status": "model-free-design-snapshot-not-execution-freeze",
+  "base_commit": "1b900054775b1c771bb87644e9c3cdad997f4895",
+  "model_forwards_executed": 0,
+  "python_tests_passed": 7,
+  "max_planned_forwards": 368,
+  "files": {
+    "docs/research-natural-binding-causal-pilot-v1.md": "8d87f4c90f40427a34c98ff67a0f90c6f51f674232430672e2b616dc69589af8",
+    "scripts/natural_binding_pilot.py": "00847386fe551b3e4881d52c84ab39e87673a3005c8b4d4d0455a7ce1dfe7d27",
+    "scripts/test_natural_binding_pilot.py": "942966e16397df0a54cdd0908bc6bcf8c30043ab1d29bcb964a6c05e259e5e71",
+    "scripts/natural_binding_tokenizer_preflight.py": "f17f19dceb3ba7bc4a8cc988283bb05b773189b8477f91709721ea0f210b88a0",
+    "docs/research-data/natural-binding-causal-pilot-v1/corpus.json": "852dfed6d75f9919b2b3764586fa29f4253a65ee6b1451053359f1ff352cf670",
+    "docs/research-data/natural-binding-causal-pilot-v1/forward-ledger.json": "e403e9ec3d10347ec23d2f9949829d3fcedf9f1340f1e907e0b616883cb859d5",
+    "docs/research-data/natural-binding-causal-pilot-v1/tokenizer-preflight.json": "0e5ee8cb7193a95b38bf50f484a2eaeb26795bc443926fb1f80dfc4089c06fbe"
+  }
+}

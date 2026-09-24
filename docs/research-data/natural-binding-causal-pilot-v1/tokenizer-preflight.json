@@ -1,0 +1,715 @@
+{
+  "status": "pass_python_tokenizer_only",
+  "model_forwards_executed": 0,
+  "rust_tokenizer_parity": "required_before_execution",
+  "tokenizer_version": "0.23.2",
+  "model_path": "/mnt/models/larql-vindexes/gemma-4-e4b-upstream-20260811-q4k.vindex",
+  "num_layers": 42,
+  "hidden_size": 2560,
+  "layer": 21,
+  "final_logit_softcap": 30.0,
+  "answer_ids": {
+    "H": 236814,
+    "1": 236770,
+    "He": 2209,
+    "2": 236778,
+    "Li": 17623,
+    "3": 236800,
+    "Be": 3912,
+    "4": 236812,
+    "B": 236799,
+    "5": 236810,
+    "C": 236780,
+    "6": 236825,
+    "N": 236797,
+    "7": 236832,
+    "O": 236806,
+    "8": 236828
+  },
+  "file_sha256": {
+    "index.json": "7c2f11694efcb76fb5ba9d37f6a175a281c97d171f309340bdc774dced47c89b",
+    "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+    "tokenizer_config.json": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+    "weight_manifest.json": "0e903431ebfdd7f85358ad99c6ed876ac22618a377ad0985958e274b2a83866d"
+  },
+  "rows": [
+    {
+      "id": "discovery-e0-t0-r0",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        7395,
+        5404,
+        529,
+        13076,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 236814,
+      "alternative_id": 236770
+    },
+    {
+      "id": "discovery-e0-t0-r1",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        20524,
+        1548,
+        529,
+        13076,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 236770,
+      "alternative_id": 236814
+    },
+    {
+      "id": "discovery-e0-t1-r0",
+      "prompt_ids_with_bos": [
+        2,
+        50604,
+        815,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 6,
+      "answer_id": 236814,
+      "alternative_id": 236770
+    },
+    {
+      "id": "discovery-e0-t1-r1",
+      "prompt_ids_with_bos": [
+        2,
+        50604,
+        815,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 6,
+      "answer_id": 236770,
+      "alternative_id": 236814
+    },
+    {
+      "id": "discovery-e1-t0-r0",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        7395,
+        5404,
+        529,
+        42404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 2209,
+      "alternative_id": 236778
+    },
+    {
+      "id": "discovery-e1-t0-r1",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        20524,
+        1548,
+        529,
+        42404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 236778,
+      "alternative_id": 2209
+    },
+    {
+      "id": "discovery-e1-t1-r0",
+      "prompt_ids_with_bos": [
+        2,
+        78899,
+        815,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 6,
+      "answer_id": 2209,
+      "alternative_id": 236778
+    },
+    {
+      "id": "discovery-e1-t1-r1",
+      "prompt_ids_with_bos": [
+        2,
+        78899,
+        815,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 6,
+      "answer_id": 236778,
+      "alternative_id": 2209
+    },
+    {
+      "id": "discovery-e2-t0-r0",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        7395,
+        5404,
+        529,
+        35903,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 17623,
+      "alternative_id": 236800
+    },
+    {
+      "id": "discovery-e2-t0-r1",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        20524,
+        1548,
+        529,
+        35903,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 236800,
+      "alternative_id": 17623
+    },
+    {
+      "id": "discovery-e2-t1-r0",
+      "prompt_ids_with_bos": [
+        2,
+        155820,
+        1940,
+        815,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 7,
+      "answer_id": 17623,
+      "alternative_id": 236800
+    },
+    {
+      "id": "discovery-e2-t1-r1",
+      "prompt_ids_with_bos": [
+        2,
+        155820,
+        1940,
+        815,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 7,
+      "answer_id": 236800,
+      "alternative_id": 17623
+    },
+    {
+      "id": "discovery-e3-t0-r0",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        7395,
+        5404,
+        529,
+        141719,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 3912,
+      "alternative_id": 236812
+    },
+    {
+      "id": "discovery-e3-t0-r1",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        20524,
+        1548,
+        529,
+        141719,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 236812,
+      "alternative_id": 3912
+    },
+    {
+      "id": "discovery-e3-t1-r0",
+      "prompt_ids_with_bos": [
+        2,
+        793,
+        30436,
+        1940,
+        815,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 3912,
+      "alternative_id": 236812
+    },
+    {
+      "id": "discovery-e3-t1-r1",
+      "prompt_ids_with_bos": [
+        2,
+        793,
+        30436,
+        1940,
+        815,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 8,
+      "answer_id": 236812,
+      "alternative_id": 3912
+    },
+    {
+      "id": "discovery-absent-t0-r0",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        7395,
+        5404,
+        529,
+        672,
+        3408,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9
+    },
+    {
+      "id": "discovery-absent-t0-r1",
+      "prompt_ids_with_bos": [
+        2,
+        818,
+        20524,
+        1548,
+        529,
+        672,
+        3408,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9
+    },
+    {
+      "id": "discovery-absent-t1-r0",
+      "prompt_ids_with_bos": [
+        2,
+        1580,
+        3408,
+        815,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 7
+    },
+    {
+      "id": "discovery-absent-t1-r1",
+      "prompt_ids_with_bos": [
+        2,
+        1580,
+        3408,
+        815,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 7
+    },
+    {
+      "id": "confirmation-e4-t2-r0",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        83748,
+        236764,
+        506,
+        7395,
+        5404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236799,
+      "alternative_id": 236810
+    },
+    {
+      "id": "confirmation-e4-t2-r1",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        83748,
+        236764,
+        506,
+        20524,
+        1548,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236810,
+      "alternative_id": 236799
+    },
+    {
+      "id": "confirmation-e4-t3-r0",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        83748,
+        236764,
+        2583,
+        1061,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236799,
+      "alternative_id": 236810
+    },
+    {
+      "id": "confirmation-e4-t3-r1",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        83748,
+        236764,
+        2583,
+        1061,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236810,
+      "alternative_id": 236799
+    },
+    {
+      "id": "confirmation-e5-t2-r0",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        6800,
+        236764,
+        506,
+        7395,
+        5404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236780,
+      "alternative_id": 236825
+    },
+    {
+      "id": "confirmation-e5-t2-r1",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        6800,
+        236764,
+        506,
+        20524,
+        1548,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236825,
+      "alternative_id": 236780
+    },
+    {
+      "id": "confirmation-e5-t3-r0",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        6800,
+        236764,
+        2583,
+        1061,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236780,
+      "alternative_id": 236825
+    },
+    {
+      "id": "confirmation-e5-t3-r1",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        6800,
+        236764,
+        2583,
+        1061,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236825,
+      "alternative_id": 236780
+    },
+    {
+      "id": "confirmation-e6-t2-r0",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        19846,
+        236764,
+        506,
+        7395,
+        5404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236797,
+      "alternative_id": 236832
+    },
+    {
+      "id": "confirmation-e6-t2-r1",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        19846,
+        236764,
+        506,
+        20524,
+        1548,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236832,
+      "alternative_id": 236797
+    },
+    {
+      "id": "confirmation-e6-t3-r0",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        19846,
+        236764,
+        2583,
+        1061,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236797,
+      "alternative_id": 236832
+    },
+    {
+      "id": "confirmation-e6-t3-r1",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        19846,
+        236764,
+        2583,
+        1061,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236832,
+      "alternative_id": 236797
+    },
+    {
+      "id": "confirmation-e7-t2-r0",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        12123,
+        236764,
+        506,
+        7395,
+        5404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236806,
+      "alternative_id": 236828
+    },
+    {
+      "id": "confirmation-e7-t2-r1",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        12123,
+        236764,
+        506,
+        20524,
+        1548,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236828,
+      "alternative_id": 236806
+    },
+    {
+      "id": "confirmation-e7-t3-r0",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        12123,
+        236764,
+        2583,
+        1061,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236806,
+      "alternative_id": 236828
+    },
+    {
+      "id": "confirmation-e7-t3-r1",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        12123,
+        236764,
+        2583,
+        1061,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 9,
+      "answer_id": 236828,
+      "alternative_id": 236806
+    },
+    {
+      "id": "confirmation-absent-t2-r0",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        672,
+        3408,
+        236764,
+        506,
+        7395,
+        5404,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 10
+    },
+    {
+      "id": "confirmation-absent-t2-r1",
+      "prompt_ids_with_bos": [
+        2,
+        2542,
+        672,
+        3408,
+        236764,
+        506,
+        20524,
+        1548,
+        563,
+        236787,
+        107
+      ],
+      "final_position": 10
+    },
+    {
+      "id": "confirmation-absent-t3-r0",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        672,
+        3408,
+        236764,
+        2583,
+        1061,
+        7395,
+        5404,
+        236787,
+        107
+      ],
+      "final_position": 10
+    },
+    {
+      "id": "confirmation-absent-t3-r1",
+      "prompt_ids_with_bos": [
+        2,
+        76171,
+        672,
+        3408,
+        236764,
+        2583,
+        1061,
+        20524,
+        1548,
+        236787,
+        107
+      ],
+      "final_position": 10
+    }
+  ]
+}

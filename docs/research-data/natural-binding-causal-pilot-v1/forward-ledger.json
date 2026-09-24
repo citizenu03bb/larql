@@ -1,0 +1,2130 @@
+[
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t0-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t0-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t0-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t0-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t1-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t1-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t1-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-absent-t1-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-absent-t0-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-absent-t0-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t0-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-absent-t1-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-absent-t1-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e0-t1-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e0-t0-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-absent-t0-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e0-t0-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-absent-t0-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t0-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e0-t1-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-absent-t1-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r0",
+    "donor": "discovery-e1-t0-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e0-t1-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-absent-t1-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t1-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t1-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e1-t1-r1",
+    "donor": "discovery-e1-t0-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-absent-t0-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-absent-t0-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t0-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-absent-t1-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-absent-t1-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e2-t1-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e2-t0-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-absent-t0-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e2-t0-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-absent-t0-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t0-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e2-t1-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-absent-t1-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r0",
+    "donor": "discovery-e3-t0-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e2-t1-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-absent-t1-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t1-r1",
+    "arm": "self"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t1-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "discovery",
+    "recipient": "discovery-e3-t1-r1",
+    "donor": "discovery-e3-t0-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t2-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t2-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t2-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t2-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t3-r0",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t3-r0",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t3-r1",
+    "arm": "baseline_capture"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-absent-t3-r1",
+    "arm": "hook_disabled_replay"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-absent-t2-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-absent-t2-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t2-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-absent-t3-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-absent-t3-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e4-t3-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e4-t2-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-absent-t2-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e4-t2-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-absent-t2-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t2-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e4-t3-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-absent-t3-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r0",
+    "donor": "confirmation-e5-t2-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e4-t3-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-absent-t3-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t3-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t3-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e5-t3-r1",
+    "donor": "confirmation-e5-t2-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-absent-t2-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-absent-t2-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t2-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-absent-t3-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-absent-t3-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e6-t3-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e6-t2-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-absent-t2-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e6-t2-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-absent-t2-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t2-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e6-t3-r1",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-absent-t3-r1",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r0",
+    "donor": "confirmation-e7-t2-r1",
+    "arm": "random_cross_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "matched"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "cross_construction"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e6-t3-r0",
+    "arm": "wrong_entity"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-absent-t3-r0",
+    "arm": "entity_absent"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t3-r1",
+    "arm": "self"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "random_matched_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t3-r0",
+    "arm": "random_matched_minus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "random_cross_plus"
+  },
+  {
+    "split": "confirmation",
+    "recipient": "confirmation-e7-t3-r1",
+    "donor": "confirmation-e7-t2-r0",
+    "arm": "random_cross_minus"
+  }
+]
