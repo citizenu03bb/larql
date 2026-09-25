@@ -1,0 +1,106 @@
+{
+  "schema": "larql.baseline-contract-cases.v1",
+  "max_new_tokens": 8,
+  "eos_ids": [
+    1,
+    106
+  ],
+  "selection": "Post-result diagnostic: first canonical hydrogen symbol failure and number success; spent discovery only.",
+  "template_sha256": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373",
+  "cases": [
+    {
+      "id": "raw-discovery-e0-t0-r0",
+      "source_row": "discovery-e0-t0-r0",
+      "format": "raw",
+      "original_prompt": "The chemical symbol of hydrogen is:\n",
+      "rendered": "<bos>The chemical symbol of hydrogen is:\n",
+      "ids": [
+        2,
+        818,
+        7395,
+        5404,
+        529,
+        13076,
+        563,
+        236787,
+        107
+      ],
+      "expected_answer": "H",
+      "original_logit_digest": "a3b20c5d24bc52bb0308fdd833aacac9e35f851501103026a746b9e7c2dca72c"
+    },
+    {
+      "id": "raw-discovery-e0-t0-r1",
+      "source_row": "discovery-e0-t0-r1",
+      "format": "raw",
+      "original_prompt": "The atomic number of hydrogen is:\n",
+      "rendered": "<bos>The atomic number of hydrogen is:\n",
+      "ids": [
+        2,
+        818,
+        20524,
+        1548,
+        529,
+        13076,
+        563,
+        236787,
+        107
+      ],
+      "expected_answer": "1",
+      "original_logit_digest": "daa5af815e115d061ea8b15d47b293af4bf4b3319683298bd61d8207bb75b7bf"
+    },
+    {
+      "id": "native_chat-discovery-e0-t0-r0",
+      "source_row": "discovery-e0-t0-r0",
+      "format": "native_chat",
+      "original_prompt": "The chemical symbol of hydrogen is:\n",
+      "rendered": "<bos><|turn>user\nThe chemical symbol of hydrogen is:<turn|>\n<|turn>model\n",
+      "ids": [
+        2,
+        105,
+        2364,
+        107,
+        818,
+        7395,
+        5404,
+        529,
+        13076,
+        563,
+        236787,
+        106,
+        107,
+        105,
+        4368,
+        107
+      ],
+      "expected_answer": "H",
+      "original_logit_digest": null
+    },
+    {
+      "id": "native_chat-discovery-e0-t0-r1",
+      "source_row": "discovery-e0-t0-r1",
+      "format": "native_chat",
+      "original_prompt": "The atomic number of hydrogen is:\n",
+      "rendered": "<bos><|turn>user\nThe atomic number of hydrogen is:<turn|>\n<|turn>model\n",
+      "ids": [
+        2,
+        105,
+        2364,
+        107,
+        818,
+        20524,
+        1548,
+        529,
+        13076,
+        563,
+        236787,
+        106,
+        107,
+        105,
+        4368,
+        107
+      ],
+      "expected_answer": "1",
+      "original_logit_digest": null
+    }
+  ]
+}

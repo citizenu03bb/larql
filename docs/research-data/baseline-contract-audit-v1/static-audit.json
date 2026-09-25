@@ -1,0 +1,76 @@
+{
+  "model_forwards_executed": 0,
+  "metadata": {
+    "chat_template.jinja": {
+      "source_sha256": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373",
+      "vindex_sha256": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373",
+      "identical": true
+    },
+    "tokenizer.json": {
+      "source_sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+      "vindex_sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+      "identical": true
+    },
+    "tokenizer_config.json": {
+      "source_sha256": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+      "vindex_sha256": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+      "identical": true
+    },
+    "generation_config.json": {
+      "source_sha256": "d4226bbe3117d2d253ba4609720ba82c6c4ce4627a9a6ae05387c78983ac03de",
+      "vindex_sha256": "d4226bbe3117d2d253ba4609720ba82c6c4ce4627a9a6ae05387c78983ac03de",
+      "identical": true
+    }
+  },
+  "source_language_tensors": 719,
+  "manifest_tensors": 718,
+  "separate_embedding": {
+    "embed_tokens.weight": [
+      262144,
+      2560
+    ]
+  },
+  "embedding_bytes": 1342177280,
+  "shape_mismatches": {},
+  "extra_manifest_keys": [],
+  "quantized_plane_comparison": [
+    {
+      "vindex_key": "layers.0.self_attn.q_proj.weight",
+      "gguf_key": "blk.0.attn_q.weight",
+      "vindex_format": "Q4_K",
+      "gguf_type": "Q4_K",
+      "vindex_sha256": "9f2c231c1d93781b8f2fa6cf30b91eaf6308676240d0d5482d6a93a5d4f844b0",
+      "gguf_sha256": "660267db968fe5495972a8ac233e4f6ab4a8b17625d1f3c421e89769b77a963b",
+      "encoded_bytes_equal": false
+    },
+    {
+      "vindex_key": "layers.0.mlp.gate_proj.weight",
+      "gguf_key": "blk.0.ffn_gate.weight",
+      "vindex_format": "Q4_K",
+      "gguf_type": "Q4_K",
+      "vindex_sha256": "f4431b89fcbf8f93dc20df2ae0b1d7cf0ca3412ea0cda9dbda1518a9363a444c",
+      "gguf_sha256": "4483483e93fc0f15e3fe20f96aa5affa66fc3030f0055bc0d4bb0c9ed381ce4b",
+      "encoded_bytes_equal": false
+    },
+    {
+      "vindex_key": "layers.0.mlp.down_proj.weight",
+      "gguf_key": "blk.0.ffn_down.weight",
+      "vindex_format": "Q6_K",
+      "gguf_type": "Q6_K",
+      "vindex_sha256": "a51ee4534c9723ac05acaa095cbbc5657b145205baa27566f8d461aa362d558e",
+      "gguf_sha256": "d4f77572892ad8d9f49bb89f5714d554b34c92fef3388ba90a22afcc23055cde",
+      "encoded_bytes_equal": false
+    }
+  ],
+  "gguf_metadata": {
+    "general.architecture": "gemma4",
+    "general.name": "Gemma-4-E4B-It",
+    "general.basename": "Gemma-4-E4B-It",
+    "general.quantized_by": "Unsloth",
+    "general.repo_url": "https://huggingface.co/unsloth",
+    "general.base_model.0.name": "Gemma 4 E4B It",
+    "general.base_model.0.repo_url": "https://huggingface.co/google/gemma-4-E4B-it",
+    "general.file_type": 15
+  },
+  "limitation": "Structural coverage and sampled encoded-weight comparison; not numerical forward validation."
+}
