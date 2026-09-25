@@ -21,9 +21,9 @@ def run(root,binary,vindex):
  def forward(job,step,ids,intervention):
   nonlocal count
   if count>=128:raise RuntimeError('128-forward budget exhausted')
-  request=dict(ids=ids,layer=None,position=None,delta=None,gain=0)
+  request=dict(ids=ids,layer=None,position=None,delta=None,gain=0,detector=None)
   if intervention:request.update(intervention)
-  log(dict(type='attempt',ordinal=count,job=job,step=step,ids=ids,layer=request['layer'],position=request['position'],gain=request['gain']))
+  log(dict(type='attempt',ordinal=count,job=job,step=step,ids=ids,layer=request['layer'],position=request['position'],gain=request['gain'],automatic=request['detector'] is not None))
   child.stdin.write(json.dumps(request)+'\n');child.stdin.flush();r=receive()
   assert r['ordinal']==count and r['type']=='forward'
   logits=np.asarray(r.pop('logits'),dtype='<f4');assert logits.shape==(262144,) and np.isfinite(logits).all()
@@ -31,7 +31,7 @@ def run(root,binary,vindex):
   filename=f'{count:03}.npz';np.savez_compressed(root/'results'/filename,logits=logits,**captures)
   top=int(logits.argmax());topids=np.argsort(logits)[-5:][::-1].tolist()
   record=dict(type='complete',ordinal=count,job=job,step=step,artifact=filename,top1=top,
-   text=tok.decode([top],skip_special_tokens=False),top5=[dict(id=i,text=tok.decode([i],skip_special_tokens=False),logit=float(logits[i])) for i in topids],applied=r['applied'])
+   text=tok.decode([top],skip_special_tokens=False),top5=[dict(id=i,text=tok.decode([i],skip_special_tokens=False),logit=float(logits[i])) for i in topids],applied=r['applied'],applied_position=r['applied_position'],detector_score=r['detector_score'],triggered=r['triggered'])
   count+=1;log(record);return top,record
  try:
   assert receive()['type']=='ready';log(dict(type='ready',budget=128))
@@ -42,13 +42,17 @@ def run(root,binary,vindex):
    if not pending:time.sleep(1);continue
    path=pending[0];job=json.loads(path.read_text());name=path.stem
    generated=list(job.get('seed_ids',[]));ids=job['prompt_ids']+generated;steps=[]
-   max_new=job.get('max_new_tokens',1);assert 1<=max_new<=20
+   max_new=job.get('max_new_tokens',1);assert 1<=max_new<=32
+   latched=None
    for k in range(max_new):
     step=len(generated);inter=None
     spec=job.get('intervention')
-    if spec and step>=spec['step']:
+    if spec and spec.get('detector'):
+     inter=dict(layer=spec['layer'],position=latched,delta=spec['delta'],gain=spec['gain'],detector=spec['detector'])
+    elif spec and step>=spec['step']:
      inter=dict(layer=spec['layer'],position=len(job['prompt_ids'])+spec['step']-1,delta=spec['delta'],gain=spec['gain'])
     top,record=forward(name,step,ids,inter);steps.append(record);generated.append(top);ids=ids+[top]
+    if record['triggered']:latched=record['applied_position']
     if top in [1,106]:break
    result=dict(job=name,generated_ids=generated,text=tok.decode(generated,skip_special_tokens=False),new_forwards=len(steps),steps=steps)
    write(root/'results'/f'{name}.json',result);log(dict(type='job_complete',job=name,text=result['text'],session_forwards=count));done.add(path.name)
