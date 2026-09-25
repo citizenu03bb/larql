@@ -1,0 +1,140 @@
+{
+  "status": "completed_bounded_diagnostic",
+  "source_commit": "de7917cce6e00964436cb837f42ab50759f973cd",
+  "execution_manifest_sha256": "a350c21b15b264c03d294845c23f3dfa347b612acd3ff20056c0ba8fb9243eee",
+  "verification": {
+    "status": "pass",
+    "larql_attempted": 32,
+    "larql_completed": 32,
+    "historical_full_logit_replays": [
+      "raw-discovery-e0-t0-r0",
+      "raw-discovery-e0-t0-r1"
+    ],
+    "reference_requests": 4,
+    "reference_sampled_tokens": 28,
+    "reference_conservative_call_bound": 32,
+    "total_conservative_call_bound": 64,
+    "frozen_maximum": 68,
+    "tokenizer_parity_cases": 4,
+    "all_larql_logits_finite": true,
+    "greedy_sequences_verified": true
+  },
+  "comparison": [
+    {
+      "case": "raw-discovery-e0-t0-r0",
+      "larql_text": "A) O\nB) H\n",
+      "reference_text": "**H**",
+      "larql_ids": [
+        236776,
+        236768,
+        708,
+        107,
+        236799,
+        236768,
+        640,
+        107
+      ],
+      "reference_ids": [
+        1018,
+        236814,
+        1018,
+        106
+      ],
+      "exact_token_agreement": false,
+      "larql_stop": "length",
+      "reference_stop": "eos"
+    },
+    {
+      "case": "raw-discovery-e0-t0-r1",
+      "larql_text": "1. 1\n2. ",
+      "reference_text": "A) 1\nB) ",
+      "larql_ids": [
+        236770,
+        236761,
+        236743,
+        236770,
+        107,
+        236778,
+        236761,
+        236743
+      ],
+      "reference_ids": [
+        236776,
+        236768,
+        236743,
+        236770,
+        107,
+        236799,
+        236768,
+        236743
+      ],
+      "exact_token_agreement": false,
+      "larql_stop": "length",
+      "reference_stop": "limit"
+    },
+    {
+      "case": "native_chat-discovery-e0-t0-r0",
+      "larql_text": "The chemical symbol of hydrogen is **H",
+      "reference_text": "The chemical symbol of hydrogen is **H",
+      "larql_ids": [
+        818,
+        7395,
+        5404,
+        529,
+        13076,
+        563,
+        5213,
+        236814
+      ],
+      "reference_ids": [
+        818,
+        7395,
+        5404,
+        529,
+        13076,
+        563,
+        5213,
+        236814
+      ],
+      "exact_token_agreement": true,
+      "larql_stop": "length",
+      "reference_stop": "limit"
+    },
+    {
+      "case": "native_chat-discovery-e0-t0-r1",
+      "larql_text": "The atomic number of hydrogen is **1",
+      "reference_text": "The atomic number of hydrogen is **1",
+      "larql_ids": [
+        818,
+        20524,
+        1548,
+        529,
+        13076,
+        563,
+        5213,
+        236770
+      ],
+      "reference_ids": [
+        818,
+        20524,
+        1548,
+        529,
+        13076,
+        563,
+        5213,
+        236770
+      ],
+      "exact_token_agreement": true,
+      "larql_stop": "length",
+      "reference_stop": "limit"
+    }
+  ],
+  "interpretation": "Native chat produced identical eight-token continuations across these two runtimes, with H and 1 at token eight. Raw completion format diverged. NBCP eligibility remains closed at 1/16; no causal inference or general engine validation follows.",
+  "limitations": [
+    "Two post-result selected spent hydrogen prompts only",
+    "Different quantized weight bytes",
+    "Native chat bundles turn wrapping and template trimming",
+    "Eight-token truncation",
+    "Reference runtime has local source modifications recorded separately"
+  ]
+}
