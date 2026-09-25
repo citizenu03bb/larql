@@ -6,7 +6,8 @@ from tokenizers import Tokenizer
 
 def write(p,x):
  with p.open('x') as f:json.dump(x,f,indent=2);f.flush();os.fsync(f.fileno())
-def run(root,binary,vindex):
+def run(root,binary,vindex,max_forwards=128):
+ max_forwards=int(max_forwards);assert 1<=max_forwards<=128
  root=Path(root);(root/'results').mkdir(exist_ok=False)
  tok=Tokenizer.from_file(str(Path(vindex)/'tokenizer.json'))
  event=(root/'events.jsonl').open('x');noise=(root/'worker.log').open('x')
@@ -20,7 +21,7 @@ def run(root,binary,vindex):
   raise RuntimeError('worker exited')
  def forward(job,step,ids,intervention):
   nonlocal count
-  if count>=128:raise RuntimeError('128-forward budget exhausted')
+  if count>=max_forwards:raise RuntimeError('session forward budget exhausted')
   request=dict(ids=ids,layer=None,position=None,delta=None,gain=0,detector=None)
   if intervention:request.update(intervention)
   log(dict(type='attempt',ordinal=count,job=job,step=step,ids=ids,layer=request['layer'],position=request['position'],gain=request['gain'],automatic=request['detector'] is not None))
@@ -34,9 +35,9 @@ def run(root,binary,vindex):
    text=tok.decode([top],skip_special_tokens=False),top5=[dict(id=i,text=tok.decode([i],skip_special_tokens=False),logit=float(logits[i])) for i in topids],applied=r['applied'],applied_position=r['applied_position'],detector_score=r['detector_score'],triggered=r['triggered'])
   count+=1;log(record);return top,record
  try:
-  assert receive()['type']=='ready';log(dict(type='ready',budget=128))
+  assert receive()['type']=='ready';log(dict(type='ready',budget=max_forwards))
   done=set()
-  while count<128:
+  while count<max_forwards:
    if (root/'STOP').exists():break
    pending=sorted(p for p in (root/'jobs').glob('*.json') if p.name not in done)
    if not pending:time.sleep(1);continue
@@ -45,6 +46,7 @@ def run(root,binary,vindex):
    max_new=job.get('max_new_tokens',1);assert 1<=max_new<=32
    latched=None
    for k in range(max_new):
+    if count>=max_forwards:break
     step=len(generated);inter=None
     spec=job.get('intervention')
     if spec and spec.get('detector'):
@@ -54,12 +56,13 @@ def run(root,binary,vindex):
     top,record=forward(name,step,ids,inter);steps.append(record);generated.append(top);ids=ids+[top]
     if record['triggered']:latched=record['applied_position']
     if top in [1,106]:break
-   result=dict(job=name,generated_ids=generated,text=tok.decode(generated,skip_special_tokens=False),new_forwards=len(steps),steps=steps)
+   result=dict(job=name,generated_ids=generated,text=tok.decode(generated,skip_special_tokens=False),new_forwards=len(steps),steps=steps,budget_exhausted=count>=max_forwards)
    write(root/'results'/f'{name}.json',result);log(dict(type='job_complete',job=name,text=result['text'],session_forwards=count));done.add(path.name)
   log(dict(type='session_complete',forwards=count))
  finally:
   child.stdin.close()
   try:child.wait(timeout=15)
   except subprocess.TimeoutExpired:child.terminate();child.wait(timeout=15)
+  child.stdout.close()
   event.close();noise.close()
 if __name__=='__main__':run(*sys.argv[1:])
