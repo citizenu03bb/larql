@@ -102,3 +102,26 @@ Vérification des traces : 64 tentatives complètes, tous les nouveaux tokens co
 26 septembre : comparaison croisée sur la phrase longue ayant dérivé vers l’hélium. Réutiliser les deux cellules déjà observées (`H` sans intervention ; `He` avec intervention), puis calculer les deux cellules manquantes : continuation du préfixe contenant `He` sans intervention et continuation du préfixe contenant `H` avec le même vecteur appliqué à l’ancienne position. Les huit tokens nouveaux de chaque branche couvrent la position précédemment occupée par le nom de l’élément. Deux forwards supplémentaires rejouent les cellules connues au choix du nom, afin de vérifier la comparabilité des logits sauvegardés.
 
 18 forwards planifiés, plafond de 24 et 20 minutes, mêmes limites mémoire. Préfixes repris explicitement pour ce diagnostic ; aucune nouvelle réussite depuis le prompt seul ne sera revendiquée. Aucun ajustement du vecteur, du gain ou du détecteur. Un nom différent ou absent sera conservé comme observation, sans forcer le chemin attendu. Le diagnostic vise à distinguer les effets sur cette continuation, pas à établir un mécanisme général.
+
+### Résultat du diagnostic — le symbole porte la dérive
+
+**18 forwards sur 24**, terminés normalement le 26 septembre à 12 h 59 ; 14 min 45,928 s, pic mémoire 21,5G et swap 3,4G. Un premier lancement avait échoué avant tout forward, faute de module `tokenizers` dans le Python système ; le lancement effectif a repris l’environnement Python de la série précédente. Cet incident et ses journaux sont conservés.
+
+| Symbole dans le préfixe repris | Vecteur réappliqué en L31 à l’ancienne position | Nom choisi | Logit hélium − logit hydrogène |
+|---|---|---|---|
+| `H` | Non | `hydrogen` | −18,21708 |
+| `H` | Oui | `hydrogen` | −18,21708 |
+| `He` | Non | `helium` | +1,06569 |
+| `He` | Oui | `helium` | +1,06569 |
+
+À symbole identique, les **262 144 logits sont identiques bit à bit pour chacun des huit tokens** comparés, dans les deux sens. Les préfixes restent identiques jusqu’au choix du nom dans chaque paire. Les deux relectures du token du nom reproduisent également les références bit à bit. Les deux branches nouvelles finissent à la limite prévue, après `..., and` ; ce sont des continuations diagnostiques tronquées, pas des réponses complètes depuis le prompt seul. Tous les tokens nouveaux sont des argmax libres.
+
+Sur cette phrase, la dérive vers l’hélium vient donc du préfixe contenant `He`, sans contribution mesurable du vecteur maintenu à l’ancienne position dans la fenêtre testée. **Retirer ce vecteur après l’émission du symbole ne corrige pas la dérive.** L’écart entre les deux préfixes vaut environ 19,28277 points sur la marge hélium/hydrogène au choix du nom. Cela ne constitue pas une généralisation à d’autres prompts ou modèles.
+
+La lecture du moteur local fournit une explication structurelle compatible avec ces observations. Ce Gemma 4 E4B possède 42 couches dont les 18 dernières partagent leurs clés et valeurs d’attention : dès L24, les couches locales les reprennent de L22, les globales de L23. Toutes les couches après L31 utilisent donc des clés et valeurs construites avant notre intervention. Le hook post-L31 modifie bien le résidu de l’ancienne position, mais cette modification tardive ne rejoint pas les clés et valeurs qu’utilisent les autres positions. C’est une déduction du code et de la configuration locale, étayée par les égalités observées, et non une nouvelle trace instrumentée des clés et valeurs.
+
+Cette observation précise aussi le journal initial : réappliquer le vecteur avait pour intention de conserver son effet dans la suite ; **cet effet direct sur les tokens suivants n’est pas observé ici**. L’effet initial sur le symbole reste établi. Les poids de base restent inchangés.
+
+**Prochain essai proposé : une intervention avant la construction des clés et valeurs sources, par exemple après L21**, avec un nouveau vecteur appris à cette couche et la même comparaison entre symbole émis et état interne. Une couche plus précoce ouvre une voie de propagation à tester ; elle ne garantit ni une édition plus précise ni la conservation de l’hydrogène. Aucun nouvel ajustement n’a été exécuté dans ce diagnostic.
+
+Code de départ : `ddca5cdb`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/continuation-ablation-20260926`. `consistency-and-contrasts.json` conserve les marges et comparaisons complètes ; `architecture-evidence.json` lie l’explication à la configuration et aux empreintes des fichiers sources. Les paramètres d’effet et le binaire correspondent exactement à la série précédente.
