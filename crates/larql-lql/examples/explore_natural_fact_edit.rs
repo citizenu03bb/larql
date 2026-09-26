@@ -83,7 +83,7 @@ impl LayerHook for Hook {
                 }
             }
         }
-        if [31, 41].contains(&layer) {
+        if [21, 31, 41].contains(&layer) {
             self.captures.push((layer, h.row(h.nrows() - 1).to_vec()));
         }
     }
@@ -124,7 +124,7 @@ fn main() -> Result<(), E> {
         if let Some(ref d) = r.delta {
             if d.len() != 2560
                 || d.iter().any(|v| !v.is_finite())
-                || !matches!(r.layer, Some(31 | 41))
+                || !matches!(r.layer, Some(21 | 31 | 41))
                 || r.position.is_some_and(|p| p >= r.ids.len())
                 || (r.position.is_none() && r.detector.is_none())
             {
@@ -174,24 +174,26 @@ mod tests {
     use super::*;
     #[test]
     fn intervention_stays_at_its_original_position_as_prefix_grows() {
-        let mut hook = Hook {
-            layer: Some(31),
-            position: Some(1),
-            delta: Some(vec![2.0, -1.0]),
-            gain: 0.5,
-            captures: vec![],
-            applied: false,
-            detector: None,
-            score: None,
-            triggered: false,
-        };
-        let mut h = Array2::zeros((4, 2));
-        hook.on_post_layer(30, &mut h);
-        assert_eq!(h.sum(), 0.0);
-        hook.on_post_layer(31, &mut h);
-        assert_eq!(h.row(1).to_vec(), vec![1.0, -0.5]);
-        assert_eq!(h.row(3).to_vec(), vec![0.0, 0.0]);
-        assert!(hook.applied);
+        for layer in [21, 31, 41] {
+            let mut hook = Hook {
+                layer: Some(layer),
+                position: Some(1),
+                delta: Some(vec![2.0, -1.0]),
+                gain: 0.5,
+                captures: vec![],
+                applied: false,
+                detector: None,
+                score: None,
+                triggered: false,
+            };
+            let mut h = Array2::zeros((4, 2));
+            hook.on_post_layer(layer - 1, &mut h);
+            assert_eq!(h.sum(), 0.0);
+            hook.on_post_layer(layer, &mut h);
+            assert_eq!(h.row(1).to_vec(), vec![1.0, -0.5]);
+            assert_eq!(h.row(3).to_vec(), vec![0.0, 0.0]);
+            assert!(hook.applied);
+        }
     }
     #[test]
     fn automatic_trigger_uses_residual_and_latches_original_position() {

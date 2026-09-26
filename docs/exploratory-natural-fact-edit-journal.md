@@ -125,3 +125,9 @@ Cette observation précise aussi le journal initial : réappliquer le vecteur av
 **Prochain essai proposé : une intervention avant la construction des clés et valeurs sources, par exemple après L21**, avec un nouveau vecteur appris à cette couche et la même comparaison entre symbole émis et état interne. Une couche plus précoce ouvre une voie de propagation à tester ; elle ne garantit ni une édition plus précise ni la conservation de l’hydrogène. Aucun nouvel ajustement n’a été exécuté dans ce diagnostic.
 
 Code de départ : `ddca5cdb`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/continuation-ablation-20260926`. `consistency-and-contrasts.json` conserve les marges et comparaisons complètes ; `architecture-evidence.json` lie l’explication à la configuration et aux empreintes des fichiers sources. Les paramètres d’effet et le binaire correspondent exactement à la série précédente.
+
+## Essai suivant — transfert L21 avant les clés et valeurs partagées
+
+26 septembre : capturer en L21 les contextes donneur hélium et receveur hydrogène de la démonstration initiale, puis reconstruire leur différence à cette couche. Tester cette direction sur le symbole de la phrase longue, gain 1 puis 2 seulement si le premier ne produit pas `He`. Conserver le premier gain qui fonctionne, ou documenter l’échec du gain 2. Rejouer la référence sans intervention avec le nouveau binaire.
+
+Comparer ensuite les quatre cellules `H`/`He` × vecteur présent/absent sur des préfixes identiques jusqu’au nom de l’élément, et générer huit tokens libres après le symbole du candidat retenu. Position manuelle, préfixes repris et contexte donneur fourni explicitement ; aucun transfert du détecteur L31 ni revendication de déclenchement autonome en L21. 16 à 17 forwards prévus, plafond commun 24 / 25 minutes, mêmes limites mémoire. Aucun autre gain ni autre couche dans cet essai.
