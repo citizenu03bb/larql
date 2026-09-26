@@ -131,3 +131,27 @@ Code de départ : `ddca5cdb`. Traces : `/home/pat/Projects/larql-research/explor
 26 septembre : capturer en L21 les contextes donneur hélium et receveur hydrogène de la démonstration initiale, puis reconstruire leur différence à cette couche. Tester cette direction sur le symbole de la phrase longue, gain 1 puis 2 seulement si le premier ne produit pas `He`. Conserver le premier gain qui fonctionne, ou documenter l’échec du gain 2. Rejouer la référence sans intervention avec le nouveau binaire.
 
 Comparer ensuite les quatre cellules `H`/`He` × vecteur présent/absent sur des préfixes identiques jusqu’au nom de l’élément, et générer huit tokens libres après le symbole du candidat retenu. Position manuelle, préfixes repris et contexte donneur fourni explicitement ; aucun transfert du détecteur L31 ni revendication de déclenchement autonome en L21. 16 à 17 forwards prévus, plafond commun 24 / 25 minutes, mêmes limites mémoire. Aucun autre gain ni autre couche dans cet essai.
+
+### Résultat L21 — propagation mesurable, édition non obtenue
+
+**17 forwards sur 24**, service terminé avec succès le 26 septembre à 20 h 39 : 14 min 39,071 s, pic mémoire 21,6G et swap 3,6G. Les deux tests du hook passent, dont le maintien de la position avec L21/L31/L41. Les trois références recalculées avec le nouveau binaire reproduisent les anciens logits bit à bit. Les 17 tokens nouveaux sont des argmax libres ; les captures L21/L31/L41 et la différence donneur − receveur ont été vérifiées.
+
+La direction L21 a une norme de 6,5174 pour un résidu receveur de 93,9798, soit 6,93 %. Sur le symbole de la phrase longue :
+
+| Intervention | Symbole choisi | Logit `He` − logit `H` |
+|---|---|---|
+| Aucune | `H` | −17,28119 |
+| L21, gain 1 | `H` | −17,24745 |
+| L21, gain 2 | `H` | −17,19588 |
+
+Les deux gains échouent donc à obtenir `He`. Le gain 2 ne déplace la marge que de +0,08531 point. Le candidat au gain 2 est conservé uniquement pour le diagnostic prévu, pas comme une édition réussie.
+
+À préfixe fixé jusqu’au choix du nom, le même vecteur L21 modifie bien les logits d’une position ultérieure. Avec `H` dans le préfixe, la différence maximale sur le vocabulaire vaut 0,22793 et la marge hélium/hydrogène passe de −18,21708 à −18,22228 ; le modèle choisit toujours `hydrogen`. Avec `He`, la différence maximale vaut 0,15631 et cette marge passe de +1,06569 à +1,05381 ; le modèle choisit toujours `helium`. Ces effets sont faibles pour la distinction visée, mais les logits ne sont plus identiques comme dans l’ablation L31. Ce test mesure la propagation jusqu’à la sortie ; il n’instrumente pas séparément les clés et valeurs.
+
+La continuation libre du candidat donne `In chemistry, $\text{H}$ is the symbol for hydrogen, and`, puis atteint la limite de huit tokens nouveaux. Elle ne constitue donc ni une réponse complète ni une édition obtenue. Les préfixes `He` de la matrice sont des entrées diagnostiques reprises de l’ancien essai L31, jamais des symboles attribués à une réussite L21.
+
+**Obstacle précisé : déplacer la simple différence hélium − hydrogène vers L21 ouvre une propagation mesurable, mais ne transporte pas un effet suffisant pour changer le symbole aux gains testés.** Cela ne démontre pas que L21 est inutilisable ni qu’un gain plus élevé fonctionnerait. Aucun autre gain n’a été essayé.
+
+Prochaine piste proposée : construire une direction à partir de deux contextes qui gardent tous deux l’hydrogène comme sujet, mais associent ce sujet à des symboles différents. Il s’agirait de tester une différence portant davantage sur la relation que sur l’identité du donneur, avec des contextes contrefactuels explicitement documentés. Cette piste reste une hypothèse, non exécutée dans cette série.
+
+Code de départ : `9e02932e`. Traces et vecteur : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/l21-probe-20260926`. Binaire précédent conservé sous son empreinte ; nouveau binaire `230dd967e27f8070…`. Aucune modification des poids de base, aucun détecteur L21 entraîné, aucun nouvel essai après ces observations.
