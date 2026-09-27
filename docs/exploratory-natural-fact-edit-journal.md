@@ -214,3 +214,24 @@ Code de départ : `5dbe4d17`. Traces : `/home/pat/Projects/larql-research/explor
 27 septembre, nouvelle session explicitement autorisée après clôture de la précédente. Reprendre sans modification les quatre contrôles préparés [15..52], [15..33], [15..23], [15..18], L21 gain 1. Rejouer d'abord les deux décisions de nom avec intervention absente et groupe [15,16], et vérifier les logits bit à bit. Tous les contrôles utilisent le même préfixe He fourni : ce n'est pas encore une génération autonome.
 
 Si un groupe préserve hydrogen, sélectionner le plus petit de ces groupes positifs, revérifier son symbole puis générer huit tokens libres après He. Sinon arrêter après les six décisions. Plafond indépendant de 15 forwards et 25 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G ; aucun autre gain, couche ou groupe. Les anciennes traces et leur avertissement de capture restent inchangés. Un contrôle à longueur égale permettra d'évaluer les captures sans supposer leur identité avec une référence plus courte.
+
+### Résultat — He avec hydrogène conservé dans le contexte source
+
+**15/15 forwards, terminés normalement le 27 septembre à 23 h 20**, après 18 min 54,030 s, pic mémoire 22G, swap 4,2G. Les deux références reproduisent bit à bit les logits et toutes les captures enregistrées. Les quatre groupes plus grands préservent hydrogen au nom, à préfixe He fixé :
+
+| Positions | Marge hydrogen − helium |
+|---|---|
+| 15..52 (38 positions) | +2,56452 |
+| 15..33 (19 positions) | +2,07504 |
+| 15..23 (9 positions) | +0,83436 |
+| 15..18 (4 positions) | +0,62693 |
+
+Le plus petit groupe testé positif, [15,16,17,18], couvre les tokens ` H`, `.`, ` Use`, ` this`. Son symbole est revérifié : **He**. Les huit tokens libres suivants donnent `In chemistry, $\text{He}$ is the symbol for hydrogen, and`. Le nom reste donc hydrogène dans cette continuation libre, contrairement au groupe [15,16]. Le préambule initial de six tokens était fourni ; le symbole et les huit suivants sont des argmax non contraints. Fragment tronqué au budget prévu, pas une réponse achevée.
+
+Le prompt receveur reste inchangé et indique explicitement une convention fictive hydrogen → H. Les poids de base sont inchangés ; les activations L21 de quatre positions reçoivent le contraste source He − source H, gain 1. **Ce résultat montre un changement d'association avec identité préservée dans ce contexte source précis.** Il ne démontre pas encore le transfert vers une question naturelle sans convention, une édition persistante ni un déclenchement automatique. Aucun argument de minimalité globale.
+
+Vérification des 15 argmax, des deltas et des positions appliquées. À entrées identiques, les captures L21 correspondent exactement aux lignes attendues, y compris la décision du nom en continuation. L'écart entre longueurs d'entrée différentes réapparaît à l'étape 8 : maximum 0,00019073486328125, supérieur au seuil initial 1e−4 de la série précédente. Cause toujours non isolée ; seuil non relevé et comparaisons entre longueurs traitées seulement comme descriptives. Le contrôle à longueur égale répond à une vérification différente, il n'efface pas cet avertissement.
+
+Prochaine question : transférer l'effet vers une question sans convention explicite. Les positions [15..18] n'y ont pas de correspondance immédiate ; documenter l'alignement avant tout essai. Une piste consiste à tester d'abord les positions du préambule de réponse partagé entre contextes, au lieu de transposer aveuglément les indices du prompt. Aucun calcul supplémentaire lancé dans cette session.
+
+Code de départ : `13a49147`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/prefix-entity-probe-20260927`. `summary.json`, `verification.json`, `selected-intervention.json` et `report.md` conservent les résultats, leur portée et le diagnostic numérique restant.
