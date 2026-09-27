@@ -183,3 +183,28 @@ Code de départ : `6652dfab`. Un contrôle adaptatif additionnel est enregistré
 Même paire source H/He alignée. Capturer toutes les lignes L21, rejouer le contrôle de la dernière position, puis tester au gain 1 : le token de convention qui diffère entre prompts ; les lignes modifiées du contexte hors dernière position ; l’ensemble des lignes modifiées si nécessaire. Lorsqu’un groupe produit He, au plus quatre essais de sous-groupes contigus cherchent un groupe suffisant plus petit. Aucune minimalité globale ne sera revendiquée. Si aucun groupe testé ne produit He, arrêt avec cet obstacle.
 
 Sur le groupe retenu : comparer le nom à préfixe He fixé avec/sans intervention, puis huit tokens libres après le symbole. Ce diagnostic reste dans le contexte source H contenant une convention explicite, pas dans la question naturelle sans convention. Budget 24 forwards / 30 minutes, mêmes plafonds mémoire, aucun changement des poids de base. Le worker spécialisé valide les indices et dimensions des lignes ; les tests vérifient l’application aux seules positions demandées et le budget du pilote.
+
+Ajustement exploratoire dans le budget commun : le groupe [15,16] ayant produit He tandis que 15 seul produisait H, ajouter un passage sur 16 seul pour distinguer une position suffisante d’une interaction entre les deux. Aucun changement de couche ni de gain. La continuation prévue du groupe [15,16] est conservée séparément.
+
+Second ajustement exploratoire : le groupe [15,16] choisit He au symbole mais helium au nom. Préparer quatre contrôles du nom sur les groupes plus grands déjà positifs au symbole ([15..52], [15..33], [15..23], [15..18]). Exécution séquentielle après la continuation prévue, au plus quatre forwards supplémentaires : plafond cumulé 24 et échéance de 30 minutes depuis le début de cette localisation inchangés. Le nombre de positions suffisant au symbole ne sera pas assimilé à la préservation de l’entité.
+
+### Résultat de localisation — deux positions suffisent au symbole, dérive du nom
+
+Le 27 septembre, **19 forwards terminés sur 20 tentés**, plafond 24. Arrêt sur `TimeoutError: prefix diagnostic deadline` à 18 h 08, après 29 min 47,277 s ; service en échec `exit-code`, code 1. Pic mémoire 22G, swap 7,5G. La huitième étape de continuation a été interrompue. Aucun worker modèle ne reste actif. Les quatre contrôles des groupes plus grands sont préparés mais **non exécutés** : le coordinateur exigeait le succès du parent et le respect de la même échéance. Aucun budget prolongé.
+
+Dans le contexte source H, au gain 1, les groupes [15..52], [15..33], [15..23], [15..18] puis [15,16] choisissent tous He. La dernière position seule reste H. Les positions 15 (symbole de convention) et 16 (point suivant) sont suffisantes ensemble dans ce test, sans revendication de minimalité globale.
+
+| Positions L21 remplacées | Symbole | Marge He − H |
+|---|---|---|
+| Aucune | H | −17,27464 |
+| 15 seule | H | −1,24960 |
+| 16 seule | H | −15,62379 |
+| 15 et 16 | He | +1,88706 |
+
+À préfixe He fourni jusqu'au choix du nom, sans intervention le modèle choisit hydrogen ; avec [15,16], il choisit helium (marge helium − hydrogen : +0,11673). Les sept tokens libres sauvegardés après He donnent `In chemistry, $\text{He}$ is the symbol for helium,`. Il s'agit d'une continuation partielle dans le contexte source avec convention explicite, pas d'une édition factuelle propre sur la question naturelle sans convention.
+
+Vérification : les 19 vecteurs de logits sont finis et leurs argmax correspondent aux tokens enregistrés ; les trois références rejouées sont identiques bit à bit. Les deltas correspondent exactement au contraste donneur − receveur et les captures des essais de symbole, à longueur identique, correspondent exactement aux lignes attendues. **Une vérification de capture échoue au seuil initial 1e−4** pour la continuation à l'étape 8 : écart maximal 0,00019073486328125 entre le préfixe capturé et celui prédit à partir de la référence plus courte. Le seuil n'est pas relevé ; ce point reste un avertissement explicite, cause non isolée. Les autres écarts de continuation sont inférieurs au seuil initial. Le résultat ne reçoit donc pas un statut de validation intégrale.
+
+Prochaine étape préparée : comparer le nom avec les quatre groupes plus grands avant de réduire l'intervention sur le seul critère du symbole. Il faudra une nouvelle session bornée pour les exécuter. La priorité reste He avec préservation de hydrogen, puis seulement le transfert vers la question naturelle.
+
+Code de départ : `5dbe4d17`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/prefix-probe-20260927`. `partial-continuation.json` reconstruit seulement les tokens terminés ; aucun résultat complet n'est fabriqué pour le job interrompu. `execution-closeout.json` et `consistency-and-contrasts.json` conservent l'arrêt, les contrôles non exécutés et l'avertissement de capture.
