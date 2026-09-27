@@ -155,3 +155,9 @@ La continuation libre du candidat donne `In chemistry, $\text{H}$ is the symbol 
 Prochaine piste proposée : construire une direction à partir de deux contextes qui gardent tous deux l’hydrogène comme sujet, mais associent ce sujet à des symboles différents. Il s’agirait de tester une différence portant davantage sur la relation que sur l’identité du donneur, avec des contextes contrefactuels explicitement documentés. Cette piste reste une hypothèse, non exécutée dans cette série.
 
 Code de départ : `9e02932e`. Traces et vecteur : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/l21-probe-20260926`. Binaire précédent conservé sous son empreinte ; nouveau binaire `230dd967e27f8070…`. Aucune modification des poids de base, aucun détecteur L21 entraîné, aucun nouvel essai après ces observations.
+
+## Essai suivant — même sujet, association contrefactuelle
+
+27 septembre : construire la différence L21 entre deux contextes natifs identiques sauf l’association explicite `hydrogen → H` ou `hydrogen → He`, présentée comme une convention fictive. Le préambule de réponse précédant le symbole reste celui de la phrase longue. Vérifier que la paire prédit effectivement H/He ; si elle échoue, une seconde formulation explicite de la convention est prévue. Conserver les échecs. Vérifier séparément le nom prédit dans le contexte donneur après un préfixe contenant `He`, sans attribuer cette entrée diagnostique à une génération complète.
+
+Transférer la différence sur le prompt original sans convention, en L21 à la même position manuelle, gain 1 puis 2 si nécessaire. Comparer ensuite les logits du nom à préfixe `He` fixé, avec/sans intervention, et huit tokens libres après le symbole du candidat retenu. Le contexte fictif ne sera pas ajouté au prompt cible. Détecteur inchangé et non utilisé. Budget commun : 24 forwards / 30 minutes, mêmes limites mémoire ; aucune autre couche ni gain supplémentaire prévu.
