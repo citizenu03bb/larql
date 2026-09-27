@@ -208,3 +208,9 @@ Vérification : les 19 vecteurs de logits sont finis et leurs argmax corresponde
 Prochaine étape préparée : comparer le nom avec les quatre groupes plus grands avant de réduire l'intervention sur le seul critère du symbole. Il faudra une nouvelle session bornée pour les exécuter. La priorité reste He avec préservation de hydrogen, puis seulement le transfert vers la question naturelle.
 
 Code de départ : `5dbe4d17`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/prefix-probe-20260927`. `partial-continuation.json` reconstruit seulement les tokens terminés ; aucun résultat complet n'est fabriqué pour le job interrompu. `execution-closeout.json` et `consistency-and-contrasts.json` conservent l'arrêt, les contrôles non exécutés et l'avertissement de capture.
+
+## Reprise — groupes plus grands et conservation du nom
+
+27 septembre, nouvelle session explicitement autorisée après clôture de la précédente. Reprendre sans modification les quatre contrôles préparés [15..52], [15..33], [15..23], [15..18], L21 gain 1. Rejouer d'abord les deux décisions de nom avec intervention absente et groupe [15,16], et vérifier les logits bit à bit. Tous les contrôles utilisent le même préfixe He fourni : ce n'est pas encore une génération autonome.
+
+Si un groupe préserve hydrogen, sélectionner le plus petit de ces groupes positifs, revérifier son symbole puis générer huit tokens libres après He. Sinon arrêter après les six décisions. Plafond indépendant de 15 forwards et 25 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G ; aucun autre gain, couche ou groupe. Les anciennes traces et leur avertissement de capture restent inchangés. Un contrôle à longueur égale permettra d'évaluer les captures sans supposer leur identité avec une référence plus courte.
