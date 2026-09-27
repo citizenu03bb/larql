@@ -177,3 +177,9 @@ Sur le prompt cible original sans convention fictive, le nouveau vecteur L21 con
 Prochaine étape : capturer les autres positions du préfixe L21 dans cette paire parfaitement alignée, puis tester quelles positions doivent être transférées avant la construction des clés et valeurs L22/L23. Cette localisation restera un diagnostic sur les contextes sources, distinct d’un transfert réussi vers la question naturelle sans convention.
 
 Code de départ : `6652dfab`. Un contrôle adaptatif additionnel est enregistré explicitement dans `decisions.jsonl` et `jobs/009-source-H-transfer.json`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/relation-probe-20260927`. Binaire d’inférence inchangé ; environnement Python complet repris du cache après des contrôles de dépendances sans calcul modèle.
+
+## Localisation suivante — positions du préfixe L21
+
+Même paire source H/He alignée. Capturer toutes les lignes L21, rejouer le contrôle de la dernière position, puis tester au gain 1 : le token de convention qui diffère entre prompts ; les lignes modifiées du contexte hors dernière position ; l’ensemble des lignes modifiées si nécessaire. Lorsqu’un groupe produit He, au plus quatre essais de sous-groupes contigus cherchent un groupe suffisant plus petit. Aucune minimalité globale ne sera revendiquée. Si aucun groupe testé ne produit He, arrêt avec cet obstacle.
+
+Sur le groupe retenu : comparer le nom à préfixe He fixé avec/sans intervention, puis huit tokens libres après le symbole. Ce diagnostic reste dans le contexte source H contenant une convention explicite, pas dans la question naturelle sans convention. Budget 24 forwards / 30 minutes, mêmes plafonds mémoire, aucun changement des poids de base. Le worker spécialisé valide les indices et dimensions des lignes ; les tests vérifient l’application aux seules positions demandées et le budget du pilote.

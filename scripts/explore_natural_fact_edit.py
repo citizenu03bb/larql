@@ -29,10 +29,12 @@ def run(root,binary,vindex,max_forwards=128):
   assert r['ordinal']==count and r['type']=='forward'
   logits=np.asarray(r.pop('logits'),dtype='<f4');assert logits.shape==(262144,) and np.isfinite(logits).all()
   captures={f'layer{layer}':np.asarray(row,dtype='<f4') for layer,row in r.pop('captures')}
+  captures.update({f'prefix_layer{layer}':np.asarray(rows,dtype='<f4') for layer,rows in r.pop('prefix_captures',[])})
   filename=f'{count:03}.npz';np.savez_compressed(root/'results'/filename,logits=logits,**captures)
   top=int(logits.argmax());topids=np.argsort(logits)[-5:][::-1].tolist()
   record=dict(type='complete',ordinal=count,job=job,step=step,artifact=filename,top1=top,
    text=tok.decode([top],skip_special_tokens=False),top5=[dict(id=i,text=tok.decode([i],skip_special_tokens=False),logit=float(logits[i])) for i in topids],applied=r['applied'],applied_position=r['applied_position'],detector_score=r['detector_score'],triggered=r['triggered'])
+  if 'applied_positions' in r:record['applied_positions']=r['applied_positions']
   count+=1;log(record);return top,record
  try:
   assert receive()['type']=='ready';log(dict(type='ready',budget=max_forwards))
@@ -49,7 +51,9 @@ def run(root,binary,vindex,max_forwards=128):
     if count>=max_forwards:break
     step=len(generated);inter=None
     spec=job.get('intervention')
-    if spec and spec.get('detector'):
+    if spec and 'row_deltas' in spec and step>=spec['step']:
+     inter=dict(layer=spec['layer'],gain=spec['gain'],row_deltas=spec['row_deltas'])
+    elif spec and spec.get('detector'):
      inter=dict(layer=spec['layer'],position=latched,delta=spec['delta'],gain=spec['gain'],detector=spec['detector'])
     elif spec and step>=spec['step']:
      inter=dict(layer=spec['layer'],position=len(job['prompt_ids'])+spec['step']-1,delta=spec['delta'],gain=spec['gain'])
