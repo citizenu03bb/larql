@@ -174,7 +174,8 @@ pub fn predict_kquant_hidden_with_ffn_hooked(
             return Err(format!("hooked Q4K forward failed at layer {layer}"));
         };
         h = h_new;
-        if let Some(kv) = kv_out {
+        if let Some(mut kv) = kv_out {
+            hook.on_kv_cache_store(layer, &mut kv);
             kv_cache.insert(layer, kv);
         }
     }
@@ -479,5 +480,40 @@ mod tests {
             .get(&0)
             .expect("pre-FFN capture at L0");
         assert_eq!(captured.shape(), &[2, weights.hidden_size]);
+    }
+    #[test]
+    fn hooked_q4k_cache_callback_runs_after_producer_and_noop_matches() {
+        struct Probe {
+            posts: Vec<usize>,
+            stores: Vec<usize>,
+        }
+        impl LayerHook for Probe {
+            fn on_post_layer(&mut self, layer: usize, _: &mut ndarray::Array2<f32>) {
+                self.posts.push(layer);
+            }
+            fn on_kv_cache_store(&mut self, layer: usize, kv: &mut SharedKV) {
+                assert_eq!(self.posts.last(), Some(&layer));
+                assert_eq!(kv.0.nrows(), 2);
+                assert_eq!(kv.0.dim(), kv.1.dim());
+                self.stores.push(layer);
+            }
+        }
+        let mut weights = make_test_q4k_weights();
+        let index = make_test_q4k_vindex(&weights);
+        let wr: &ModelWeights = unsafe { &*(&weights as *const ModelWeights) };
+        let ffn = WeightFfn { weights: wr };
+        let mut noop = crate::forward::NoopHook;
+        let expected =
+            predict_kquant_hidden_with_ffn_hooked(&mut weights, &[0, 1], &index, &ffn, &mut noop)
+                .unwrap();
+        let mut probe = Probe {
+            posts: vec![],
+            stores: vec![],
+        };
+        let actual =
+            predict_kquant_hidden_with_ffn_hooked(&mut weights, &[0, 1], &index, &ffn, &mut probe)
+                .unwrap();
+        assert_eq!(probe.stores, (0..weights.num_layers).collect::<Vec<_>>());
+        assert_eq!(actual, expected);
     }
 }

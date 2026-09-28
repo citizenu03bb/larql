@@ -6,7 +6,7 @@
 //! fires at well-defined points inside each transformer layer and may
 //! optionally mutate the residual.
 //!
-//! The trait has five callbacks, each defaulting to a no-op so impls only
+//! The trait has six callbacks, each defaulting to a no-op so impls only
 //! override what they need:
 //!
 //! - [`LayerHook::on_pre_layer`] — read residual entering the layer.
@@ -14,10 +14,11 @@
 //!   residual, before FFN.
 //! - [`LayerHook::on_attention_weights`] — read per-head attention.
 //! - [`LayerHook::on_ffn_activation`] — read FFN gate activation.
+//! - [`LayerHook::on_kv_cache_store`] — **read or write** outgoing K/V in hooked Q4K.
 //! - [`LayerHook::on_post_layer`] — **read or write** the residual exiting
 //!   the layer.
 //!
-//! The two `&mut` callbacks are what unlock the entire intervention surface.
+//! Residual callbacks and the Q4K cache-store callback allow intervention.
 //! Ablation, steering, patching, and subspace surgery are all just
 //! [`LayerHook`] impls over those points.
 //!
@@ -33,8 +34,8 @@ use std::collections::{HashMap, HashSet};
 /// callbacks they need.
 ///
 /// `on_post_attention` and `on_post_layer` take `&mut Array2<f32>` so a hook
-/// can mutate the residual in place. The other three callbacks are
-/// read-only.
+/// can mutate the residual in place. `on_kv_cache_store` can mutate cached
+/// attention state in hooked Q4K. The other three callbacks are read-only.
 #[allow(unused_variables)]
 pub trait LayerHook {
     /// Fires before attention runs at `layer`. `h` is the residual entering
@@ -60,6 +61,12 @@ pub trait LayerHook {
     /// ablation, steering, and any "edit before the next layer sees it"
     /// transform.
     fn on_post_layer(&mut self, layer: usize, h: &mut Array2<f32>) {}
+
+    /// Hooked Q4K forward only: after the producer layer finishes, before
+    /// its post-RoPE K / normalized V pair enters the cross-layer cache.
+    /// Mutations affect later consumers, not the producer's own attention.
+    /// Implementations must preserve both matrix shapes and finite values.
+    fn on_kv_cache_store(&mut self, layer: usize, kv: &mut crate::attention::SharedKV) {}
 }
 
 /// Hook that does nothing. Used as the default when callers don't care.

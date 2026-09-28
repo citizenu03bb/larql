@@ -21,8 +21,28 @@ struct RowDelta {
     delta: Vec<f32>,
 }
 #[derive(Deserialize)]
+struct KvReplacement {
+    keys: Vec<Vec<f32>>,
+    values: Vec<Vec<f32>>,
+}
+#[derive(Deserialize)]
+struct Boundary {
+    residual: Option<Vec<Vec<f32>>>,
+    kv: Option<KvReplacement>,
+}
+fn valid_matrix(x: &[Vec<f32>], n: usize, width: usize) -> bool {
+    x.len() == n
+        && x.iter()
+            .all(|r| r.len() == width && r.iter().all(|v| v.is_finite()))
+}
+fn matrix(x: &[Vec<f32>]) -> Array2<f32> {
+    Array2::from_shape_vec((x.len(), x[0].len()), x.iter().flatten().copied().collect()).unwrap()
+}
+#[derive(Deserialize)]
 struct Request {
     ids: Vec<u32>,
+    #[serde(default)]
+    boundary: Option<Boundary>,
     #[serde(default)]
     layer: Option<usize>,
     #[serde(default)]
@@ -40,6 +60,10 @@ fn valid_rows(rows: &[RowDelta], length: usize, width: usize) -> bool {
     })
 }
 struct Hook {
+    boundary: Option<Boundary>,
+    kv_capture: Option<(Vec<Vec<f32>>, Vec<Vec<f32>>)>,
+    residual_replaced: bool,
+    kv_replaced: bool,
     patch_layer: usize,
     rows: Vec<RowDelta>,
     gain: f32,
@@ -57,12 +81,35 @@ impl LayerHook for Hook {
             }
             self.applied = !self.rows.is_empty();
         }
+        if layer == 22 {
+            if let Some(x) = self.boundary.as_ref().and_then(|b| b.residual.as_ref()) {
+                h.assign(&matrix(x));
+                self.residual_replaced = true;
+                self.applied = true;
+            }
+        }
         if [21, 22].contains(&layer) {
             self.prefix
                 .push((layer, h.rows().into_iter().map(|r| r.to_vec()).collect()));
         }
         if [21, 22, 31, 41].contains(&layer) {
             self.captures.push((layer, h.row(h.nrows() - 1).to_vec()));
+        }
+    }
+    fn on_kv_cache_store(&mut self, layer: usize, kv: &mut larql_inference::attention::SharedKV) {
+        if layer == 22 {
+            if let Some(x) = self.boundary.as_ref().and_then(|b| b.kv.as_ref()) {
+                assert_eq!(kv.0.dim(), (x.keys.len(), x.keys[0].len()));
+                assert_eq!(kv.1.dim(), (x.values.len(), x.values[0].len()));
+                kv.0.assign(&matrix(&x.keys));
+                kv.1.assign(&matrix(&x.values));
+                self.kv_replaced = true;
+                self.applied = true;
+            }
+            self.kv_capture = Some((
+                kv.0.rows().into_iter().map(|x| x.to_vec()).collect(),
+                kv.1.rows().into_iter().map(|x| x.to_vec()).collect(),
+            ));
         }
     }
 }
@@ -101,8 +148,27 @@ fn main() -> Result<(), E> {
         {
             return Err("invalid prefix patch request".into());
         }
+        if let Some(b) = &r.boundary {
+            if !r.row_deltas.is_empty()
+                || r.layer != Some(22)
+                || (b.residual.is_none() && b.kv.is_none())
+                || b.residual
+                    .as_ref()
+                    .is_some_and(|x| !valid_matrix(x, r.ids.len(), 2560))
+                || b.kv.as_ref().is_some_and(|x| {
+                    !valid_matrix(&x.keys, r.ids.len(), 512)
+                        || !valid_matrix(&x.values, r.ids.len(), 512)
+                })
+            {
+                return Err("invalid L22 boundary replacement".into());
+            }
+        }
         let positions: Vec<_> = r.row_deltas.iter().map(|r| r.position).collect();
         let mut hook = Hook {
+            boundary: r.boundary,
+            kv_capture: None,
+            residual_replaced: false,
+            kv_replaced: false,
             patch_layer: r.layer.unwrap_or(21),
             rows: r.row_deltas,
             gain: r.gain,
@@ -119,7 +185,7 @@ fn main() -> Result<(), E> {
             return Err("nonfinite logits".into());
         }
         emit(
-            json!({"type":"forward","ordinal":ordinal,"logits":logits,"captures":hook.captures,"prefix_captures":hook.prefix,"applied":hook.applied,"applied_position":null,"applied_positions":positions,"detector_score":null,"triggered":false}),
+            json!({"type":"forward","ordinal":ordinal,"logits":logits,"captures":hook.captures,"prefix_captures":hook.prefix,"kv22":hook.kv_capture,"residual_replaced":hook.residual_replaced,"kv_replaced":hook.kv_replaced,"applied":hook.applied,"applied_position":null,"applied_positions":positions,"detector_score":null,"triggered":false}),
         )?;
     }
     Ok(())
@@ -149,6 +215,10 @@ mod tests {
     #[test]
     fn prefix_patch_changes_only_selected_rows_and_keeps_positions() {
         let mut hook = Hook {
+            boundary: None,
+            kv_capture: None,
+            residual_replaced: false,
+            kv_replaced: false,
             patch_layer: 21,
             rows: vec![RowDelta {
                 position: 1,
@@ -176,6 +246,10 @@ mod downstream_tests {
     #[test]
     fn l22_patch_leaves_l21_untouched_and_captures_both_layers() {
         let mut hook = Hook {
+            boundary: None,
+            kv_capture: None,
+            residual_replaced: false,
+            kv_replaced: false,
             patch_layer: 22,
             rows: vec![RowDelta {
                 position: 1,
@@ -201,5 +275,48 @@ mod downstream_tests {
         hook.on_post_layer(23, &mut h);
         assert_eq!(h.row(1).to_vec(), vec![1., -0.5]);
         assert_eq!(hook.prefix.len(), 2);
+    }
+}
+
+#[cfg(test)]
+mod boundary_tests {
+    use super::*;
+    #[test]
+    fn rejects_ragged_and_nonfinite_boundary_matrices() {
+        assert!(valid_matrix(&[vec![1., 2.]], 1, 2));
+        assert!(!valid_matrix(&[vec![1.]], 1, 2));
+        assert!(!valid_matrix(&[vec![f32::NAN, 2.]], 1, 2));
+    }
+    #[test]
+    fn boundary_replacement_is_exact_and_separates_residual_from_cache() {
+        let mut hook = Hook {
+            boundary: Some(Boundary {
+                residual: Some(vec![vec![3., 4.]]),
+                kv: Some(KvReplacement {
+                    keys: vec![vec![5., 6.]],
+                    values: vec![vec![7., 8.]],
+                }),
+            }),
+            kv_capture: None,
+            residual_replaced: false,
+            kv_replaced: false,
+            patch_layer: 22,
+            rows: vec![],
+            gain: 1.,
+            captures: vec![],
+            prefix: vec![],
+            applied: false,
+        };
+        let mut h = Array2::zeros((1, 2));
+        let mut kv = (h.clone(), h.clone());
+        hook.on_post_layer(22, &mut h);
+        assert_eq!(h.row(0).to_vec(), vec![3., 4.]);
+        assert_eq!(kv.0.sum(), 0.);
+        assert!(!hook.kv_replaced);
+        hook.on_kv_cache_store(22, &mut kv);
+        assert_eq!(kv.0.row(0).to_vec(), vec![5., 6.]);
+        assert_eq!(kv.1.row(0).to_vec(), vec![7., 8.]);
+        assert_eq!(h.row(0).to_vec(), vec![3., 4.]);
+        assert!(hook.residual_replaced && hook.kv_replaced);
     }
 }
