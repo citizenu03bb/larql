@@ -243,3 +243,23 @@ Code de départ : `13a49147`. Traces : `/home/pat/Projects/larql-research/explor
 Rejouer les deux références de symbole source/naturelle et le contrôle positif des quatre positions [15..18], avec vérification des logits bit à bit. Tester ensuite le préambule dans le contexte source H et dans la question naturelle, même si le premier test échoue. Un symbole autre que He constitue un échec du transfert concerné. Si la cible naturelle reste H, arrêt après cinq forwards, sans gain supplémentaire. Si elle choisit He, comparer le nom à préfixe He fixé avec/sans intervention, puis huit tokens libres après le symbole ; helium au nom constitue une dérive d'identité, pas une édition réussie.
 
 Nouvelle session plafonnée à 15 forwards / 25 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Vérification des captures contre leurs références à entrées identiques ; les anciens écarts entre longueurs différentes restent documentés et ne seront pas effacés par un changement de tolérance. Cette étape ne prétend pas que la différence source se transfère nécessairement entre positions absolues différentes : c'est précisément l'hypothèse testée.
+
+### Résultat du préambule aligné — transfert négatif
+
+**5 forwards terminés sur un plafond de 15**, arrêt normal selon la règle prévue le 28 septembre à 09 h 45. Durée 5 min 49,172 s, pic mémoire 22G, swap 3G. Les deux baselines et le contrôle positif reproduisent tous les tableaux sauvegardés bit à bit. Les cinq argmax, les deltas, l'alignement et les captures L21 à entrées identiques sont vérifiés ; erreur de capture nulle.
+
+| Condition | Symbole | Marge He − H |
+|---|---|---|
+| Source H sans intervention | H | −17,27464 |
+| Source H, quatre positions [15..18] | He | +1,37713 |
+| Source H, préambule [48..53] | H | −17,38678 |
+| Question naturelle sans intervention | H | −17,28119 |
+| Question naturelle, préambule [31..36] | H | −19,91071 |
+
+Le contraste appliqué aux six positions du préambule ne suffit pas à produire He dans le contexte source lui-même. Sur la question naturelle, il déplace la marge de −2,62952 points, dans le mauvais sens. Les deux transferts échouent au gain 1. Les contrôles de nom et la continuation conditionnés à un symbole He ne sont donc pas exécutés ; aucun ajustement de gain, couche ou groupe après le résultat.
+
+Conclusion bornée : cette hypothèse d'alignement par préambule commun échoue pour le contraste testé. Le succès des quatre positions de la convention se reproduit, mais ne se transporte pas par cette intervention sur les seuls tokens de réponse. Cela ne prouve pas l'impossibilité d'autres transferts. La question naturelle reste sans édition factuelle obtenue ; les six tokens initiaux de réponse étaient fournis.
+
+Prochaine piste : isoler les positions antérieures du prompt qui portent l'effet réussi avant de proposer un autre alignement. Les écarts historiques entre longueurs d'entrée restent non résolus, distincts des contrôles exacts de cette série. Aucun nouvel essai lancé après l'arrêt.
+
+Code de départ : `ee77d3b6`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/preamble-transfer-20260928`. `alignment.json`, `interventions.json`, `summary.json`, `verification.json` et `report.md` documentent l'hypothèse, l'échec et les contrôles.
