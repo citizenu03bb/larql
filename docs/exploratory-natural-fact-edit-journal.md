@@ -295,3 +295,24 @@ Le code local place la production des K/V avant le hook post-layer. Le patch pos
 Instrumenter la sortie KV du forward Q4K hooké : callback par défaut sans effet, après le calcul de la couche productrice et avant stockage dans le cache partagé. Le worker peut capturer puis remplacer exactement le résidu L22 complet et/ou K/V22, sans recomputation de l'attention productrice. Les remplacements restent sur les mêmes positions, avec le même prompt source H.
 
 Six forwards seulement : baseline, contrôle positif L21 [15..18], auto-replay de la frontière baseline (résidu+KV, identité bit à bit exigée), résidu positif seul, KV positif seul, résidu+KV positifs. La combinaison est un contrôle de fermeture de frontière : vérifier si elle reproduit les logits positifs bit à bit ; un échec sera rapporté comme état encore incomplet ou défaut d'instrumentation, sans ajustement après coup. Aucun nom d'élément ni transfert naturel testé. Budget indépendant : 6 forwards / 15 minutes, mêmes plafonds mémoire 22G/24G/8G. L'approbation automatique avait échoué avant toute modification ; reprise après instruction explicite de l'utilisateur et vérification du worktree inchangé.
+
+### Résultat de frontière — résidu et KV conjointement suffisants
+
+**6/6 forwards, arrêt normal** le 28 septembre à 14 h 33. Durée 8 min 28,051 s, pic mémoire 22G, swap 4,5G. Cinq tests du worker et 18 tests du forward affecté passent. Les deux références reproduisent toutes leurs captures précédentes bit à bit ; l'auto-replay baseline est identique bit à bit, y compris KV et logits.
+
+| État restauré en sortie L22 | Symbole | Marge He − H |
+|---|---|---|
+| Baseline | H | −17,27464 |
+| Intervention originale L21 | He | +1,37713 |
+| Auto-replay baseline | H | −17,27464 |
+| Résidu positif complet seul | H | −2,44196 |
+| KV22 positif seul | H | −14,12603 |
+| Résidu positif + KV22 positif | He | +1,37713 |
+
+**La combinaison reproduit exactement tous les logits du contrôle positif**, ainsi que les captures L31/L41. Les remplacements demandés sont exacts. Le KV22 ne diffère de la baseline qu'aux positions 15..18 ; le résidu L22 diffère aux positions 15..53. Ni l'un ni l'autre des deux remplacements isolés ne suffit à changer l'argmax, mais leur combinaison le fait. Cela établit la suffisance de cet état conjoint dans cette comparaison, pas une nécessité générale de toutes ses composantes.
+
+La lecture du rapport et de la configuration officiels a motivé la prise en compte du cache partagé. L'explication architecturale est distincte de l'observation : le KV22 est produit avant le hook post-L22 et survit à un remplacement du résidu. Le résidu positif change aussi les calculs ultérieurs, dont la production des KV globaux en L23 ; cette série ne sépare donc pas chaque voie d'attention, ni K de V.
+
+Portée inchangée : contexte source avec convention explicite, décision du symbole après préambule fourni. Aucun nom d'élément ni question naturelle sans convention testé. Les anciens écarts entre longueurs restent non résolus ; les présents contrôles comparent exactement les mêmes entrées. Aucun nouveau calcul après les six passes. Prochaine question : garder fixes les quatre positions KV changées et distinguer les positions de prompt et de réponse dans le résidu qui doit les accompagner.
+
+Code de départ : `fc100b89`. Binaire `d5138ff5f3e889ee…`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/kv-boundary-20260928`. `architecture-sources.json`, `summary.json`, `verification.json` et `report.md` relient les sources, le protocole et les observations.
