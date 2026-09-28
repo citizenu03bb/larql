@@ -316,3 +316,11 @@ La lecture du rapport et de la configuration officiels a motivé la prise en com
 Portée inchangée : contexte source avec convention explicite, décision du symbole après préambule fourni. Aucun nom d'élément ni question naturelle sans convention testé. Les anciens écarts entre longueurs restent non résolus ; les présents contrôles comparent exactement les mêmes entrées. Aucun nouveau calcul après les six passes. Prochaine question : garder fixes les quatre positions KV changées et distinguer les positions de prompt et de réponse dans le résidu qui doit les accompagner.
 
 Code de départ : `fc100b89`. Binaire `d5138ff5f3e889ee…`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/kv-boundary-20260928`. `architecture-sources.json`, `summary.json`, `verification.json` et `report.md` relient les sources, le protocole et les observations.
+
+## Localisation résiduelle avec KV22 positif fixé
+
+28 septembre, suite autorisée : conserver exactement le KV22 positif de la série précédente (seules les positions 15..18 diffèrent de la baseline) et varier uniquement les lignes du résidu L22. Le binaire hashé reste `d5138ff5f3e889ee…`, sans modification du worker ni du forward.
+
+Six passes fixées avant observation : références KV seul (H) et frontière combinée complète (He), avec replays bit à bit exigés, puis remplacement positif du résidu sur (1) les positions modifiées du prompt 15..47, (2) le préambule de réponse 48..53, (3) les quatre positions originales 15..18, (4) le reste du prompt modifié 19..47. Toutes les autres lignes résiduelles restent à la baseline et le KV reste positif. Les groupes prompt/réponse forment une partition des 39 lignes modifiées ; les quatre positions et le reste forment une partition du prompt modifié. Aucun ajustement de groupe après résultat.
+
+Budget : 6 forwards / 15 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Les remplacements portent sur des captures de même longueur et sont exacts. La décision du symbole est le seul critère : He indique la suffisance du groupe testé avec ce KV fixé, sans minimalité globale ni conclusion sur le nom de l'élément. Aucun transfert naturel ou continuation dans cette session.
