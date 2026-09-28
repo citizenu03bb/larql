@@ -263,3 +263,11 @@ Conclusion bornée : cette hypothèse d'alignement par préambule commun échoue
 Prochaine piste : isoler les positions antérieures du prompt qui portent l'effet réussi avant de proposer un autre alignement. Les écarts historiques entre longueurs d'entrée restent non résolus, distincts des contrôles exacts de cette série. Aucun nouvel essai lancé après l'arrêt.
 
 Code de départ : `ee77d3b6`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/preamble-transfer-20260928`. `alignment.json`, `interventions.json`, `summary.json`, `verification.json` et `report.md` documentent l'hypothèse, l'échec et les contrôles.
+
+## Transfert de l'effet induit — capture après L22
+
+28 septembre, essai autorisé : reprendre exactement le prompt source H et l'intervention L21 réussie aux positions [15..18], gain 1. Capturer le préfixe complet après L22 avec et sans cette intervention. La différence provient donc de la même entrée, intervention activée moins désactivée, et non de deux prompts H/He différents. Rejouer les références existantes bit à bit avec le worker instrumenté ; celui-ci capture désormais L21 et L22 et valide une couche d'intervention 21 ou 22.
+
+Appliquer seulement les six lignes L22 induites sur le préambule de réponse (source 48..53), gain 1, au contexte source sans patch L21. Si ce replay ne choisit pas He, arrêter après trois forwards et ne pas lancer de transfert naturel. S'il choisit He, rejouer la baseline naturelle puis appliquer ces six différences aux positions 31..36, alignées par les mêmes IDs de tokens du préambule. Si le symbole naturel n'est pas He, arrêt après cinq forwards. Sinon deux contrôles du nom à préfixe He fixé (sans/avec patch L22), puis huit tokens libres après le symbole. Un nom helium ne sera pas classé comme préservation d'identité.
+
+Plafond total : 15 forwards / 25 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Aucun autre gain, groupe ou couche. Les poids et prompts restent inchangés. Les tests instrumentaux couvrent les positions, la capture de deux couches et l'absence d'application prématurée du patch L22. Ce test évalue la suffisance du seul état L22 de six positions ; il ne capture ni ne remplace à lui seul tout l'état d'attention ou les caches KV antérieurs.

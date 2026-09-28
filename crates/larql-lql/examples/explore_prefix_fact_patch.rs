@@ -1,4 +1,4 @@
-//! Bounded L21 prefix-row transplantation diagnostic on aligned source contexts.
+//! Bounded L21/L22 prefix-row transplantation diagnostic on aligned contexts.
 use larql_inference::{
     forward::LayerHook,
     hidden_to_raw_logits,
@@ -24,6 +24,8 @@ struct RowDelta {
 struct Request {
     ids: Vec<u32>,
     #[serde(default)]
+    layer: Option<usize>,
+    #[serde(default)]
     row_deltas: Vec<RowDelta>,
     #[serde(default)]
     gain: f32,
@@ -38,24 +40,28 @@ fn valid_rows(rows: &[RowDelta], length: usize, width: usize) -> bool {
     })
 }
 struct Hook {
+    patch_layer: usize,
     rows: Vec<RowDelta>,
     gain: f32,
     captures: Vec<(usize, Vec<f32>)>,
-    prefix: Vec<Vec<f32>>,
+    prefix: Vec<(usize, Vec<Vec<f32>>)>,
     applied: bool,
 }
 impl LayerHook for Hook {
     fn on_post_layer(&mut self, layer: usize, h: &mut Array2<f32>) {
-        if layer == 21 {
+        if layer == self.patch_layer {
             for r in &self.rows {
                 for (x, d) in h.row_mut(r.position).iter_mut().zip(&r.delta) {
                     *x += self.gain * d;
                 }
             }
             self.applied = !self.rows.is_empty();
-            self.prefix = h.rows().into_iter().map(|r| r.to_vec()).collect();
         }
-        if [21, 31, 41].contains(&layer) {
+        if [21, 22].contains(&layer) {
+            self.prefix
+                .push((layer, h.rows().into_iter().map(|r| r.to_vec()).collect()));
+        }
+        if [21, 22, 31, 41].contains(&layer) {
             self.captures.push((layer, h.row(h.nrows() - 1).to_vec()));
         }
     }
@@ -89,6 +95,7 @@ fn main() -> Result<(), E> {
         if r.ids.is_empty()
             || r.ids.len() > 256
             || r.ids.iter().any(|v| *v >= 262144)
+            || !matches!(r.layer, None | Some(21 | 22))
             || !r.gain.is_finite()
             || !valid_rows(&r.row_deltas, r.ids.len(), 2560)
         {
@@ -96,6 +103,7 @@ fn main() -> Result<(), E> {
         }
         let positions: Vec<_> = r.row_deltas.iter().map(|r| r.position).collect();
         let mut hook = Hook {
+            patch_layer: r.layer.unwrap_or(21),
             rows: r.row_deltas,
             gain: r.gain,
             captures: vec![],
@@ -111,7 +119,7 @@ fn main() -> Result<(), E> {
             return Err("nonfinite logits".into());
         }
         emit(
-            json!({"type":"forward","ordinal":ordinal,"logits":logits,"captures":hook.captures,"prefix_captures":[[21,hook.prefix]],"applied":hook.applied,"applied_position":null,"applied_positions":positions,"detector_score":null,"triggered":false}),
+            json!({"type":"forward","ordinal":ordinal,"logits":logits,"captures":hook.captures,"prefix_captures":hook.prefix,"applied":hook.applied,"applied_position":null,"applied_positions":positions,"detector_score":null,"triggered":false}),
         )?;
     }
     Ok(())
@@ -141,6 +149,7 @@ mod tests {
     #[test]
     fn prefix_patch_changes_only_selected_rows_and_keeps_positions() {
         let mut hook = Hook {
+            patch_layer: 21,
             rows: vec![RowDelta {
                 position: 1,
                 delta: vec![2., -1.],
@@ -156,7 +165,41 @@ mod tests {
         hook.on_post_layer(21, &mut h);
         assert_eq!(h.row(1).to_vec(), vec![1., -0.5]);
         assert_eq!(h.row(4).to_vec(), vec![0., 0.]);
-        assert_eq!(hook.prefix[1], vec![1., -0.5]);
+        assert_eq!(hook.prefix[0].1[1], vec![1., -0.5]);
         assert!(hook.applied);
+    }
+}
+
+#[cfg(test)]
+mod downstream_tests {
+    use super::*;
+    #[test]
+    fn l22_patch_leaves_l21_untouched_and_captures_both_layers() {
+        let mut hook = Hook {
+            patch_layer: 22,
+            rows: vec![RowDelta {
+                position: 1,
+                delta: vec![2., -1.],
+            }],
+            gain: 0.5,
+            captures: vec![],
+            prefix: vec![],
+            applied: false,
+        };
+        let mut h = Array2::zeros((3, 2));
+        hook.on_post_layer(21, &mut h);
+        assert!(!hook.applied);
+        assert_eq!(h.sum(), 0.);
+        hook.on_post_layer(22, &mut h);
+        assert!(hook.applied);
+        assert_eq!(h.row(1).to_vec(), vec![1., -0.5]);
+        assert_eq!(h.row(0).to_vec(), vec![0., 0.]);
+        assert_eq!(h.row(2).to_vec(), vec![0., 0.]);
+        assert_eq!(hook.prefix[0], (21, vec![vec![0., 0.]; 3]));
+        assert_eq!(hook.prefix[1].0, 22);
+        assert_eq!(hook.prefix[1].1[1], vec![1., -0.5]);
+        hook.on_post_layer(23, &mut h);
+        assert_eq!(h.row(1).to_vec(), vec![1., -0.5]);
+        assert_eq!(hook.prefix.len(), 2);
     }
 }
