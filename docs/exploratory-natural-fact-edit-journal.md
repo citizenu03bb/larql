@@ -271,3 +271,17 @@ Code de départ : `ee77d3b6`. Traces : `/home/pat/Projects/larql-research/explor
 Appliquer seulement les six lignes L22 induites sur le préambule de réponse (source 48..53), gain 1, au contexte source sans patch L21. Si ce replay ne choisit pas He, arrêter après trois forwards et ne pas lancer de transfert naturel. S'il choisit He, rejouer la baseline naturelle puis appliquer ces six différences aux positions 31..36, alignées par les mêmes IDs de tokens du préambule. Si le symbole naturel n'est pas He, arrêt après cinq forwards. Sinon deux contrôles du nom à préfixe He fixé (sans/avec patch L22), puis huit tokens libres après le symbole. Un nom helium ne sera pas classé comme préservation d'identité.
 
 Plafond total : 15 forwards / 25 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Aucun autre gain, groupe ou couche. Les poids et prompts restent inchangés. Les tests instrumentaux couvrent les positions, la capture de deux couches et l'absence d'application prématurée du patch L22. Ce test évalue la suffisance du seul état L22 de six positions ; il ne capture ni ne remplace à lui seul tout l'état d'attention ou les caches KV antérieurs.
+
+### Résultat L22 induit — effet mesuré, replay insuffisant
+
+**3 forwards terminés sur un plafond de 15**, arrêt normal après échec du replay source, le 28 septembre à 10 h 10. Durée 4 min 55,486 s ; pic mémoire 22G, swap 6,6G. Le transfert naturel, les contrôles du nom et la continuation ne sont pas exécutés, conformément à la règle annoncée.
+
+Les trois tests du worker passent. Les références source sans intervention (H) et avec le patch L21 [15..18] (He) reproduisent tous les tableaux précédemment sauvegardés bit à bit. Les nouvelles captures L22 montrent un effet sur les six positions de préambule : normes par ligne 0,94609 ; 1,51161 ; 0,73930 ; 1,61832 ; 6,00244 ; 0,82496.
+
+Appliquer ce seul effet sur L22, positions 48..53, gain 1, conserve **H**. Marge He − H : baseline −17,27464 ; contrôle L21 positif +1,37713 ; replay L22 −17,10300, soit seulement +0,17163 par rapport à la baseline. Les six états rejoués correspondent aux états du contrôle positif à 2,98 × 10⁻⁸ près. L21 reste exactement inchangée lors du replay L22 et les captures correspondent exactement à l'opération spécifiée.
+
+Conclusion bornée : même après propagation du patch réussi vers L22, ces six états de réponse ne suffisent pas à reproduire He dans le contexte source. D'autres états du contexte ou de l'attention restent des candidats ; cette série ne les distingue pas. Le résultat naturel reste non testé pour cette intervention. Aucun réglage supplémentaire après l'arrêt.
+
+Les trois argmax, la construction du contraste à entrée identique, l'alignement et l'application des deltas sont vérifiés. L'écart de 2,98 × 10⁻⁸ mesure la soustraction/addition face à l'état positif désiré, pas une erreur du hook. Les écarts historiques entre longueurs d'entrée différentes restent distincts et non résolus.
+
+Code de départ : `27d6f55c`. Binaire `5c93a6bf37550c6f…`. Traces : `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/l22-effect-transfer-20260928`. Le contraste complet L22 est conservé dans `induced-L22-effect.npz` ; seules ses six lignes de préambule ont été appliquées. Prochaine question : identifier quels états omis du prompt ou de l'attention doivent accompagner ces lignes avant un nouveau transfert.
