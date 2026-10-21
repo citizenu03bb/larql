@@ -361,3 +361,22 @@ Intervention : différence positive moins baseline, issue des captures source à
 Huit passes initiales : replay positif source bit à bit ; baseline neutre A ; replay identité A bit à bit ; transfert conjoint A ; résidu seul A ; KV seul A ; baseline neutre B ; transfert conjoint B. Chaque remplacement et L21 inchangé sont vérifiés. Si aucun transfert conjoint ne choisit He, arrêt à huit passes sans réglage supplémentaire. Sinon continuation du premier succès (A prioritaire) pendant au plus huit tokens : pour chacun, capture native à l'entrée exacte actuelle puis nouvelle passe avec le delta fixe, soit deux passes par token. Cette construction évite de supposer l'égalité des captures entre longueurs différentes. La continuation ne constitue pas un test de questions voisines.
 
 Plafond total : 24 forwards / 30 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G, un seul worker. Binaire inchangé d5138ff5f3e889ee… ; Python local recréé avec NumPy 2.3.5 et tokenizers 0.23.3. Une erreur de contrôle arrête la série. Les résultats seront exploratoires et distingueront symbole, nom dans la continuation et généralisation.
+
+### Résultat du transfert neutre — huit passes, aucun basculement
+
+21 octobre : huit passes terminées, code de sortie 0, arrêt conditionnel normal. Durée systemd 9 min 1,176 s ; pic mémoire 22G, swap 5,2G. Le contrôle positif source reste He et se reproduit bit à bit. Le replay identité naturel A est aussi bit-identique. Tous les deltas, matrices et argmax sont vérifiés indépendamment.
+
+| Condition | Symbole | Marge He − H |
+|---|---|---:|
+| Contrôle positif source | He | +1.37713 |
+| Neutre A, baseline | H | -15.99848 |
+| Neutre A, identité | H | -15.99848 |
+| Neutre A, résidu + KV | H | -15.65666 |
+| Neutre A, résidu seul | H | -15.86723 |
+| Neutre A, KV seul | H | -15.78289 |
+| Neutre B, baseline | H | -16.07501 |
+| Neutre B, résidu + KV | H | -16.06973 |
+
+Le transfert conjoint produit seulement +0,34181 sur A et +0,00528 sur B : H reste le choix dans les deux cas. Aucune continuation ni question voisine supplémentaire exécutée. Le contraste source au gain 1 est insuffisant sur ces deux formulations neutres à positions fixes ; aucun défaut d’application détecté. La cause exacte reste ouverte, notamment l’alignement seulement positionnel des mots du préfixe et les états omis. Aucun poids du modèle modifié, aucun patch persistant créé.
+
+Code de lancement 0b87c9d7 ; traces neutral-boundary-transfer-20261021 sous le répertoire de recherche. Prochaine piste proposée, non lancée : construire une intervention dans le contexte cible lui-même avec contrôle de préservation de l’entité. Rapport détaillé et vérification archivés.
