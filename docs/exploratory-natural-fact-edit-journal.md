@@ -388,3 +388,13 @@ Suite autorisée : question naturelle courte de 31 tokens, six tokens de début 
 Quinze passes initiales : baseline cible avec replay historique bit à bit, donneur attendu He, contrôle gain zéro bit à bit, puis trois groupes ([17] relation, [14] entité, [14..24] segment entité/relation) à chacun des gains 1, 2, 4 et 8, dans cet ordre croissant de gain. Chaque application L21 est vérifiée exactement à entrée égale. Aucun réglage supplémentaire après ces douze candidats. Premier candidat He sélectionné selon cet ordre, puis au plus huit tokens libres de continuation avec la même intervention ; plafond total 23 forwards / 30 minutes, limites mémoire 22G/24G/8G, worker unique inchangé.
 
 Le donneur helium introduit délibérément un risque de substitution d'entité : He seul n'est pas un succès factuel. La continuation doit être examinée pour distinguer une phrase sur hydrogen d'une phrase sur helium. Les huit tokens peuvent rester insuffisants pour conclure si le nom n'apparaît pas. Aucune généralisation, patch persistant ou génération sans préambule fourni n'est établie par cette série. Le contraste natif remplace les tentatives de transfert depuis la convention fictive.
+
+### Résultat du contraste natif — substitution d’entité pour le candidat suivi
+
+23/23 passes vérifiées, arrêt normal le 21 octobre. Durée 17 min 31,765 s ; pic mémoire 22G, swap 3,1G. Baseline historique et contrôle gain zéro bit-identiques ; douze applications L21 exactes, tous les argmax et la chaîne de continuation vérifiés.
+
+Aux gains 1/2/4/8, le token relation [17] reste H ; l’entité [14] et le segment [14..24] donnent He, soit 8/12 candidats. Marges He−H du token relation : −17,69336 / −18,01808 / −18,15211 / −17,29992 ; entité : +11,49983 / +19,46988 / +19,17976 / +12,52797 ; segment : +12,31189 / +20,60350 / +20,31885 / +13,42689. Groupes non normalisés en amplitude.
+
+Premier candidat He retenu : entité seule au gain 1. Continuation libre de huit tokens après le symbole : `In chemistry, $\text{He}$ is the symbol for helium, and`. L’identité n’est pas préservée : pas d’édition factuelle réussie pour ce candidat. Les sept autres continuations restent non testées. Six tokens initiaux de réponse étaient fournis ; aucune reformulation ni question témoin supplémentaire.
+
+Les requêtes de continuation sont vérifiées, sans capture baseline appariée à chaque longueur plus grande. Code eab503f4, traces target-context-probe-20261021. Aucun poids modifié. Prochaine piste, non lancée : groupes après l’entité sans toucher le token hydrogen, avec contrôle du nom. L’échec du seul token 17 ne les exclut pas.
