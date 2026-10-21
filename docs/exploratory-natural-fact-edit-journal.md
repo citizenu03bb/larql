@@ -402,3 +402,9 @@ Les requêtes de continuation sont vérifiées, sans capture baseline appariée 
 ## Poursuite de bout en bout — recherche après l’entité
 
 21 octobre, autorisation explicite de poursuivre jusqu’à validation. Première série : contraste natif L21 hydrogen/helium déjà défini ; préserver le token 14 et tester les groupes 15..24, 18..30 et 31..36 aux gains 1/2/4. Baseline, donneur et gain zéro sont rejoués ; un contrôle du nom à préfixe He fixé sert de référence. Pour chaque symbole He, un probe du nom vérifie si hydrogen reste top1 ; premier candidat passant les deux critères retenu pour une continuation libre dans la série suivante. Le probe à préfixe fourni ne sera pas présenté comme une génération libre. Maximum 22 passes utiles, plafond 24 / 30 minutes, mémoire 22G/24G/8G. Pas de modification des poids. Si aucun candidat ne passe, examiner séparément le maintien de l’identité après l’émission du symbole, sans confondre contrôle temporel des activations et édition persistante.
+
+### Résultat après l’entité et prochaine intervention temporelle
+
+13/13 passes, contrôles exacts. Les neuf candidats restent H ; marges He−H de −18,30220 à −15,69027. Aucun probe du nom conditionnel ni continuation. Token 14 inchangé. Durée 10 min 30,577 s, mémoire 22G / swap 7,6G. Traces post-entity-probe-20261021.
+
+Suite : contrôle dynamique distinct. Rejouer baseline naturelle et candidat symbole positif, puis tester sur le nom à préfixe He fixé les gains d’entité −0,125 / −0,25 / −0,5 / −1, en retenant le premier hydrogen. Si succès, générer les six premiers tokens depuis une réponse vide ; exiger le préambule calibré avant intervention. Produire He avec gain +1 puis générer huit tokens avec le gain négatif choisi. Aucun token de la démonstration finale ne sera fourni. Si le préambule natif diffère, arrêter sans injecter au mauvais endroit. Plafond 24 passes / 30 minutes, mêmes limites mémoire, poids inchangés.
