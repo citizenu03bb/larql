@@ -324,3 +324,30 @@ Code de départ : `fc100b89`. Binaire `d5138ff5f3e889ee…`. Traces : `/home/pat
 Six passes fixées avant observation : références KV seul (H) et frontière combinée complète (He), avec replays bit à bit exigés, puis remplacement positif du résidu sur (1) les positions modifiées du prompt 15..47, (2) le préambule de réponse 48..53, (3) les quatre positions originales 15..18, (4) le reste du prompt modifié 19..47. Toutes les autres lignes résiduelles restent à la baseline et le KV reste positif. Les groupes prompt/réponse forment une partition des 39 lignes modifiées ; les quatre positions et le reste forment une partition du prompt modifié. Aucun ajustement de groupe après résultat.
 
 Budget : 6 forwards / 15 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Les remplacements portent sur des captures de même longueur et sont exacts. La décision du symbole est le seul critère : He indique la suffisance du groupe testé avec ce KV fixé, sans minimalité globale ni conclusion sur le nom de l'élément. Aucun transfert naturel ou continuation dans cette session.
+
+## Résultat des groupes résiduels — clôture du 21 octobre 2026
+
+Essai du 28 septembre 2026, clôturé et vérifié le 21 octobre 2026. Les six forwards prévus sont terminés ; le runner a enregistré un code de sortie 0. Aucun nouveau calcul modèle lancé lors de cette clôture.
+
+| Résidu positif restauré, avec KV22 positif constant | Symbole | Marge He − H |
+|---|---|---:|
+| Aucun (référence KV seul) | H | −14,12603 |
+| Toutes les positions modifiées 15..53 | He | +1,37713 |
+| Prompt 15..47 | He | +1,33128 |
+| Préambule de réponse 48..53 | H | −13,87466 |
+| Quatre positions originales 15..18 | H | −0,71773 |
+| Reste du prompt 19..47 | H | −9,84135 |
+
+Le résidu des positions du prompt, accompagné du KV22 positif, suffit au choix de He dans ce contexte source. Restaurer les six états du préambule de réponse n'est pas nécessaire à ce choix. Les deux sous-groupes du prompt testés séparément ne suffisent pas ; leur union réussit. Cela ne démontre ni minimalité, ni nécessité générale, ni mécanisme sémantique universel.
+
+Vérifications : les deux références reproduisent tous leurs tableaux bit à bit ; les six argmax sont confirmés ; les remplacements résiduels correspondent exactement aux groupes annoncés ; KV22 reste exactement positif et L21 exactement baseline dans les six cas ; formes et valeurs finies vérifiées ; SHA-256 du binaire conforme. Vérification exécutée avec Python système et NumPy 2.3.5, l'ancien environnement uv n'étant plus présent.
+
+Budget annoncé : six forwards, 15 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Le service transitoire n'est plus enregistré et son journal n'est plus disponible à la clôture : durée effective et pics mémoire ne sont donc pas attestés ici. La terminaison est établie par les événements complets, summary.json et l'absence actuelle de worker, pas par le Result=success par défaut d'une unité absente.
+
+Portée : Gemma 4 E4B Q4K, prompt source contenant une convention fictive explicite, six tokens de préambule fournis, décision d'un seul symbole. Ni préservation du nom dans la continuation, ni transfert à une question naturelle, ni patch persistant établis par cette série. Les écarts historiques entre longueurs d'entrée restent à distinguer de ces contrôles à entrée identique.
+
+Recommandation : continuer avec une seule série courte visant le transfert à une question naturelle sans convention, en explicitant l'alignement des positions et le traitement du KV dépendant de la position. Prévoir baseline, contrôle positif source et contrôle d'identité du transfert avant d'interpréter un résultat négatif. Si le symbole change, examiner la continuation et quelques questions voisines ; sinon identifier la limite technique observée avant tout nouvel ajustement. Éviter une nouvelle longue recherche de sous-groupes qui ne rapprocherait pas de cet objectif. Cette prochaine série n'est pas lancée.
+
+Code du protocole : e6ef45ee7d528bfe073ef5ff4fbc3be112c67af4. Binaire : d5138ff5f3e889eeb7c00356370468fc6747d192ba044d3ff1bfc14c7646b61c.
+
+Traces : /home/pat/Projects/larql-research/exploratory-natural-fact-edit/kv-residual-groups-20260928 ; vérifications détaillées dans verification.json.
