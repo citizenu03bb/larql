@@ -351,3 +351,13 @@ Recommandation : continuer avec une seule série courte visant le transfert à u
 Code du protocole : e6ef45ee7d528bfe073ef5ff4fbc3be112c67af4. Binaire : d5138ff5f3e889eeb7c00356370468fc6747d192ba044d3ff1bfc14c7646b61c.
 
 Traces : /home/pat/Projects/larql-research/exploratory-natural-fact-edit/kv-residual-groups-20260928 ; vérifications détaillées dans verification.json.
+
+## Transfert vers deux consignes neutres à positions fixes — 21 octobre 2026
+
+Suite autorisée : remplacer les 17 tokens de convention fictive du prompt source par deux consignes neutres de 17 tokens chacune, sans modifier les positions 21..47 de la question et du format chat. Les prompts exacts sont dans `scripts/run_neutral_boundary_transfer.py` ; leur encodage aller-retour est vérifié. Même longueur 48 tokens et préambule de réponse fourni de six tokens. Le KV capturé contient déjà RoPE : aucune translation ni rotation n'est nécessaire ici. Les positions du préfixe sont alignées par coordonnée, pas par identité lexicale. Ce test ne vaut donc pas transfert à toute paraphrase ni à la question courte de 31 tokens.
+
+Intervention : différence positive moins baseline, issue des captures source à entrée identique, gain 1. Ajouter le delta L22 aux lignes de prompt 15..47 de la cible, et les deltas K/V22 aux lignes 15..18. Toutes les autres lignes, notamment le préambule de réponse, restent à l'état natif cible. Il s'agit d'un delta ajouté aux états cibles, non d'un remplacement par le contexte source complet. Aucun poids modifié.
+
+Huit passes initiales : replay positif source bit à bit ; baseline neutre A ; replay identité A bit à bit ; transfert conjoint A ; résidu seul A ; KV seul A ; baseline neutre B ; transfert conjoint B. Chaque remplacement et L21 inchangé sont vérifiés. Si aucun transfert conjoint ne choisit He, arrêt à huit passes sans réglage supplémentaire. Sinon continuation du premier succès (A prioritaire) pendant au plus huit tokens : pour chacun, capture native à l'entrée exacte actuelle puis nouvelle passe avec le delta fixe, soit deux passes par token. Cette construction évite de supposer l'égalité des captures entre longueurs différentes. La continuation ne constitue pas un test de questions voisines.
+
+Plafond total : 24 forwards / 30 minutes, MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G, un seul worker. Binaire inchangé d5138ff5f3e889ee… ; Python local recréé avec NumPy 2.3.5 et tokenizers 0.23.3. Une erreur de contrôle arrête la série. Les résultats seront exploratoires et distingueront symbole, nom dans la continuation et généralisation.
