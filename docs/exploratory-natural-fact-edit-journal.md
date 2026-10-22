@@ -408,3 +408,9 @@ Les requêtes de continuation sont vérifiées, sans capture baseline appariée 
 13/13 passes, contrôles exacts. Les neuf candidats restent H ; marges He−H de −18,30220 à −15,69027. Aucun probe du nom conditionnel ni continuation. Token 14 inchangé. Durée 10 min 30,577 s, mémoire 22G / swap 7,6G. Traces post-entity-probe-20261021.
 
 Suite : contrôle dynamique distinct. Rejouer baseline naturelle et candidat symbole positif, puis tester sur le nom à préfixe He fixé les gains d’entité −0,125 / −0,25 / −0,5 / −1, en retenant le premier hydrogen. Si succès, générer les six premiers tokens depuis une réponse vide ; exiger le préambule calibré avant intervention. Produire He avec gain +1 puis générer huit tokens avec le gain négatif choisi. Aucun token de la démonstration finale ne sera fourni. Si le préambule natif diffère, arrêter sans injecter au mauvais endroit. Plafond 24 passes / 30 minutes, mêmes limites mémoire, poids inchangés.
+
+### Résultat temporel — échec du gain inverse sur le nom
+
+Exécuté le 21 octobre, vérifié le 22 octobre. Sept passes, arrêt normal : trois contrôles et quatre gains négatifs (−0,125 / −0,25 / −0,5 / −1). Tous produisent helium ; marges hydrogen−helium −1,20919 / −1,46430 / −2,20946 / −4,18083, contre −1,06569 sans intervention. Le gain inverse dégrade donc ce critère dans la configuration testée. Aucun gain retenu, aucune génération depuis une réponse vide ni continuation temporelle finale exécutée.
+
+Replays bit-identiques, applications exactes, sept argmax vérifiés. Durée 6 min 42,287 s ; mémoire 22G, swap 2,7G. Code 61640dec ; traces temporal-identity-probe-20261021. Poids inchangés. L’objectif d’édition préservant l’entité reste non atteint ; ne pas confondre la terminaison normale de la calibration avec une validation du contrôleur à deux phases.
