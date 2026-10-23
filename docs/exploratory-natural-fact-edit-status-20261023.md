@@ -1,37 +1,56 @@
-# LARQL — bilan intermédiaire du 23 octobre 2026
+# LARQL — résultat de bout en bout, 23 octobre 2026
 
-La démonstration naturelle du 22 octobre est conservée et une seconde formulation fonctionne avec le même vecteur, à condition de réappliquer l'intervention au symbole après le formatage. Le contraste adapté ne satisfait pas le critère complet He avec hydrogen dans ce cas. La limite demeure explicite sur cette première reformulation.
+La formulation qui résistait produit désormais le contre-factuel voulu dans une seule exécution depuis une réponse vide :
 
-## Résultats observés
+- Témoin : **Hydrogen's chemical symbol is H.**
+- Intervention : **Hydrogen's chemical symbol is He.**
 
-| Question / condition | Une application du vecteur source | Seconde application au symbole formaté | Contraste adapté à la question |
-|---|---|---|---|
-| Question source, entité avant symbole | **He**, phrase complète | Non nécessaire | Vecteur construit sur cette question |
-| Reformulation 1, « Give hydrogen's chemical symbol… » | H en LaTeX, phrase complète | H en LaTeX, phrase complète | H, fin de tour : True |
-| Reformulation 2, « What symbol is used for hydrogen?… » | H en LaTeX, phrase complète | **He** en LaTeX, phrase complète | Non testé |
+Les deux phrases atteignent la fin de tour. Aucun préfixe de réponse fourni, aucun token ou logit forcé. Le symbole est l'argmax du calcul intervenu ; les tokens suivants sont générés sans intervention. Le nom hydrogen est conservé.
 
-Phrase positive avec le vecteur gelé : `Hydrogen is represented by the symbol $\text{He}$.` La baseline donne H. Les deux déclenchements utilisent le même vecteur L21 et le même gain 1, à la position hydrogen du prompt. Après le symbole He, l'intervention est entièrement relâchée jusqu'à la fin de tour.
+## Ce qui a fonctionné
 
-Dernier résultat adapté : `Hydrogen's chemical symbol is $\text{H}$. [fin de tour]`. Le gain et la couche restent identiques ; le contraste hydrogen/helium est recalculé dans la première question.
+Une différence d'activations entre la question hydrogen et son donneur helium est calculée dans le contexte courant. À la proposition native H, elle est ajoutée une seule fois à L21 sur les positions du prompt depuis hydrogen jusqu'à sa fin (5..29), au gain 1. Le groupe et le gain ont été fixés avant le replay intégré.
 
-## Ce que cette boucle établit
+La vérification indépendante a confirmé le départ vide, toutes les chaînes greedy, le contrôle gain zéro, l'application exacte, les fins de tour, et la reproduction bit à bit des captures baseline, donneur et intervention de la série précédente. Les préfixes et continuations proviennent intégralement du modèle dans cette exécution.
 
-- La première perturbation peut produire du formatage avant le symbole. Il fallait terminer les réponses tronquées : elles revenaient toutes deux à H.
-- Le second déclenchement au symbole suffit pour la seconde reformulation, mais pas pour la première. Le timing ne résout donc pas toute la dépendance à la formulation.
-- Les contrôles natifs reproduisent les captures historiques ; les gains zéro sont bit-identiques ; les applications, argmax, ascendances des tokens et fins de tour ont été vérifiés par des scripts séparés.
-- Les préfixes repris entre services proviennent de chaînes initialement générées depuis une réponse vide. Les chaînes positives des reformulations sont composées et vérifiées entre exécutions ; elles n'ont pas encore été rejouées en une unique exécution intégrée depuis zéro.
-- Les contrôles helium/oxygen antérieurs vérifient seulement le non-déclenchement de la règle lexicale à préfixe fourni.
+## Les trois formulations explorées
 
-## Limites et prochaine étape technique
+| Formulation | Construction positive observée | Limite |
+|---|---|---|
+| Question source « What is hydrogen's chemical symbol?… » | Une application du contraste local sur le token d'entité, puis phrase complète He | Une seule question source |
+| « Give hydrogen's chemical symbol… » | Contraste local sur tout le segment de prompt 5..29 ; **replay intégré depuis zéro réussi** | Le seul token d'entité échoue, même avec un contraste recalculé |
+| « What symbol is used for hydrogen?… » | Même vecteur source et gain 1, deux applications : formatage puis symbole ; phrase complète He | Chaîne vérifiée entre plusieurs exécutions ; procédure à deux déclenchements |
 
-Résultats exploratoires sur trois questions choisies et observées. Aucune robustesse générale, aucun détecteur sémantique appris, aucune validation indépendante sur des questions intactes. Il s'agit d'un contre-factuel volontaire : He reste le symbole réel de l'hélium. Aucun poids, vindex ou patch persistant `.vlp` modifié.
+Ces résultats utilisent des procédures différentes. Ils ne représentent pas trois succès d'un unique éditeur général. Les deux reformulations ont été observées pendant l'exploration.
 
-La suite utile est d'intégrer la politique de déclenchement dans un seul exécutable reprenant une réponse vide, puis de comparer le vecteur gelé et l'adaptation locale sur quelques nouvelles formulations. Le contrôle doit distinguer l'émission de formatage de celle du symbole. Ne pas présenter ces essais comme une édition permanente du modèle ou lancer une recherche ouverte de gains sans nouveau budget.
+## Ce que les échecs ont précisé
+
+Le premier transfert du vecteur gelé ne changeait que le formatage : les continuations complètes revenaient à H. Une seconde application au symbole formaté a suffi pour la seconde reformulation, mais pas pour la première. Recalculer le contraste uniquement au token d'entité n'a pas davantage suffi sur la première.
+
+L'élargissement au segment du prompt a produit He et une phrase complète sur ce dernier cas. Le groupe après l'entité proposait du formatage et le préfixe de réponse seul H ; leurs continuations n'ont pas été testées. Le groupe incluant aussi le préfixe de réponse proposait He, sans continuation suivie. Les groupes ne sont pas normalisés en énergie : le segment prompt a une norme 2,585 fois celle de l'entité seule. Ce résultat ne démontre donc ni une nécessité de ces 25 positions ni une cause exclusivement liée à leur localisation.
+
+Le code et la configuration locaux confirment aussi une voie PLE distincte, calculée depuis les tokens avant les couches et laissée native par les patches L21. Transplanter tous les résidus L21 n'est pas transplanter l'état complet du donneur. Le rôle causal précis de cette voie n'a pas été testé.
+
+## Évaluation honnête de l'impasse
+
+**Aucune impasse générale établie pour l'objectif de modification factuelle locale.** La limite observée de la position unique est dépassée sur la formulation résistante, avec reproduction depuis zéro. Le jalon « démonstration qui fonctionne et effets sur des questions voisines » est atteint dans ce cadre exploratoire.
+
+La difficulté restante est de construire une règle unique qui se transfère à des formulations nouvelles, préserve d'autres faits et puisse éventuellement devenir un patch persistant. Rien ici ne démontre ces propriétés. Les poids, le vindex et les patches persistants n'ont pas été modifiés. He reste évidemment le symbole réel de l'hélium : la sortie sur hydrogen est le contre-factuel expérimental recherché.
+
+## Suite ciblée
+
+Comparer à amplitude contrôlée l'intervention sur l'entité et celle sur le segment du prompt permettrait de séparer étendue et énergie. Ensuite seulement, figer une politique unique et l'essayer sur de nouvelles formulations, avec réponses complètes et contrôles hors cible. Éviter de présenter l'adaptation à chaque question comme une généralisation ou une mise à jour du modèle.
 
 ## Exécution et preuves
 
-Trois services séquentiels ce jour : complétion 10 passes, seconde application 10 passes, contraste adapté 9 passes ; soit 29 nouveaux forwards. Chaque service avait une échéance de 30 minutes et les limites MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G. Le dernier service était plafonné à 12 passes. Les 24 passes des reformulations, effectuées le 22 octobre, ont aussi été vérifiées et archivées aujourd'hui.
+52 nouveaux forwards sur cinq services successifs, plus vérification et archivage des 24 passes de reformulations du 22 octobre. Aucun worker simultané ; limites par service : MemoryHigh=22G, MemoryMax=24G, MemorySwapMax=8G, 30 minutes. Plafonds respectifs : 24, 24, 12, 15, 24 forwards.
 
-Traces dans `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/` : `entity-first-neighbors-20261022`, `entity-first-completion-20261023`, `entity-first-symbol-retry-20261023`, `entity-first-local-contrast-20261023`. Chaque série possède summary.json, verification.json, jobs, captures et rapport ; archives avec manifestes SHA-256 dans le dossier outputs de cette conversation. Les modifications de code et le journal sont versionnés localement ; aucun push ni publication.
+| Série | Forwards | Durée | Pic mémoire / swap |
+|---|---:|---|---|
+| entity-first-completion-20261023 | 10 | 8min 52.069s | 22G / 5.3G |
+| entity-first-symbol-retry-20261023 | 10 | 8min 53.159s | 22G / 6.4G |
+| entity-first-local-contrast-20261023 | 9 | 8min 13.447s | 22G / 5.8G |
+| entity-first-distributed-20261023 | 9 | 8min 9.032s | 21.7G / 7G |
+| entity-first-integrated-20261023 | 14 | 10min 10.876s | 22G / 5.8G |
 
-Suite autorisée après ce bilan : diagnostic des groupes de positions L21, plafond distinct de 15 passes. Résultat en attente ; voir le journal.
+Les traces résident dans `/home/pat/Projects/larql-research/exploratory-natural-fact-edit/`. Chaque série dispose d'un vérificateur indépendant, de jobs/captures, de son journal de service et d'une archive avec manifeste SHA-256. Les rapports et archives sont dans `/home/pat/Documents/Codex/2026-09-24/our/outputs/`. Code et journal versionnés localement, aucun push ni publication.

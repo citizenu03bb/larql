@@ -458,10 +458,10 @@ Pour chaque reformulation : replay natif apparié à la capture historique du H 
 
 | Reformulation | Branche | Réponse complète | Fin de tour |
 |---|---|---|---|
-| 1 | edited | `Hydrogen's chemical symbol is $\text{H}$.<turn|>` | True |
-| 1 | baseline | `Hydrogen's chemical symbol is H.<turn|>` | True |
-| 2 | edited | `Hydrogen is represented by the symbol $\text{H}$.<turn|>` | True |
-| 2 | baseline | `Hydrogen is represented by the symbol H.<turn|>` | True |
+| 1 | edited | `Hydrogen's chemical symbol is $\text{H}$. [fin de tour]` | True |
+| 1 | baseline | `Hydrogen's chemical symbol is H. [fin de tour]` | True |
+| 2 | edited | `Hydrogen is represented by the symbol $\text{H}$. [fin de tour]` | True |
+| 2 | baseline | `Hydrogen is represented by the symbol H. [fin de tour]` | True |
 
 Les deux interventions initiales ont changé le formatage mais pas le fait : le symbole écrit est H dans les deux réponses éditées complètes, comme dans les témoins. Le transfert à déclenchement unique est négatif sur ces deux reformulations. La démonstration source Hydrogen→He du 22 octobre reste valide ; elle ne se généralise pas telle quelle.
 
@@ -526,3 +526,13 @@ La condition toutes-lignes retrouve le L21 donneur à 2,38419e-7 près mais ses 
 ## Vérification intégrée depuis une réponse vide
 
 Même première reformulation observée, départ de réponse vide dans un nouveau service. Génération native jusqu'à la proposition H après hydrogen généré, au plus 12 propositions. Recalculer le contraste donneur helium dans ce contexte exact ; contrôle zéro ; une seule application du groupe prompt depuis le token d'entité jusqu'à la fin du prompt, gain 1. Groupe choisi et gain fixés par le résultat précédent, pas de recherche additionnelle. Si l'argmax n'est pas He, rapporter l'échec du replay sans réglage. Sinon continuer la baseline H (au plus quatre tokens) et la branche He sans intervention jusqu'à EOS ou budget. Aucun préfixe de réponse fourni ni logit/token forcé. Maximum 24 forwards / 30 minutes, mêmes limites 22G/24G/8G, worker unique. Comparer les captures aux essais précédents et vérifier toutes les chaînes depuis zéro.
+
+### Résultat de la vérification intégrée
+
+Succès local vérifié : `Hydrogen's chemical symbol is H. [fin de tour]` devient `Hydrogen's chemical symbol is He. [fin de tour]`.
+
+14 forwards dans une seule exécution depuis une réponse vide. La question est : « Give hydrogen's chemical symbol in one short sentence, with the element's name before the symbol. » Aucun préfixe de réponse fourni, aucun token ni logit forcé. Les tokens du préfixe sont générés naturellement ; à la proposition H, le contraste hydrogen/helium est calculé au même préfixe. Une application à L21, positions de prompt 5..29, gain 1, puis relâchement complet. Les branches témoin et éditée atteignent toutes deux la fin de tour.
+
+La vérification indépendante reproduit bit à bit la baseline, le donneur et le patch de la série diagnostique, vérifie le gain zéro, chaque application, les argmax, le départ vide et les deux chaînes complètes. Le groupe et le gain étaient fixés avant cette exécution. Durée 10min 10.876s, mémoire 22G, swap 5.8G.
+
+Cette formulation auparavant négative fonctionne maintenant dans une exécution intégrée. C'est une intervention d'activation locale avec contraste adapté à la question ; aucune mise à jour des poids, du vindex ou d'un patch persistant. Ce replay utilise une question déjà observée et ne constitue pas une validation sur un jeu intact.
