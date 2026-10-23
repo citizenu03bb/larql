@@ -487,3 +487,21 @@ Le moment du déclenchement explique une partie des limites, mais pas l'échec d
 Un seul cas sélectionné : reformulation 1 (index 0), toujours H après les deux applications du vecteur gelé. Reprendre sa frontière initiale de proposition H, dont le préfixe est issu de la génération vide ; replay baseline exact, donneur modifiant uniquement le token hydrogen du prompt en helium, différence donneur−baseline L21 au token d'entité position 5, contrôle gain zéro exact, application au gain 1, puis relâchement jusqu'à EOS ou huit tokens. Maximum 12 passes / 30 minutes, mémoire 22G/24G/8G, un worker. Aucun gain ni position recherchés.
 
 Comparer au résultat gelé à cette même frontière, qui produisait un préambule LaTeX puis H. Cette adaptation vise un diagnostic de dépendance au contexte, pas une nouvelle mesure de généralisation. Rapporter le symbole, la phrase entière et toute troncature ; comparer aussi direction et norme des vecteurs sans en déduire à elles seules une causalité. Cette série clôturera la boucle actuelle avec une démonstration ou un obstacle explicite ; aucune recherche ouverte supplémentaire prévue dans ce budget.
+
+### Résultat du contraste adapté
+
+9 calculs terminés et vérifiés. Réponse : `Hydrogen's chemical symbol is $\text{H}$.<turn|>`. Fin de tour : True. Symbole proposé après intervention : ` $\`.
+
+La baseline à cette même frontière reproduit exactement le H historique. Le donneur ne diffère que par hydrogen→helium au token de prompt 5 ; son symbole proposé est ` He`. Le delta L21 donneur−baseline est calculé puis appliqué uniquement à cette ligne au gain 1. Contrôle zéro bit-identique, application exacte, tous les argmax et la continuation relâchée vérifiés. Les tokens précédents proviennent de la génération depuis une réponse vide du 22 octobre, avec provenance contrôlée ; ils n'ont pas été retapés.
+
+Norme du nouveau vecteur : 29.669364 ; cosinus avec le vecteur source gelé : 0.951097. Ces mesures décrivent leur différence et ne suffisent pas seules à expliquer la causalité. Ce cas a été sélectionné après observation d'un échec ; il s'agit d'adaptation locale, pas de validation indépendante ni de transfert du vecteur gelé. Aucun poids, vindex ou patch persistant modifié.
+
+Durée du contraste local : 8 min 13,447 s ; mémoire 22G, swap 5,8G. Neuf passes, terminaison normale. Résultat complet H malgré le nouveau contraste (cosinus 0,951097 avec le vecteur gelé).
+
+## Extension autorisée : états distribués — 23 octobre 2026
+
+L'utilisateur réitère « continue de bout en bout » et demande de signaler honnêtement une impasse. Le bilan précédent à 29 passes est un point d'étape ; la boucle est prolongée par ce diagnostic borné. Les succès observés excluent de parler d'impossibilité générale, mais le vecteur isolé à L21 reste insuffisant sur la première reformulation, même recalculé localement.
+
+Même question, même préfixe généré, même contraste local L21 et gain 1. Trois contrôles (replay baseline, replay donneur, zéro), puis quatre groupes fixés : prompt depuis l'entité [5..29] ; prompt après l'entité [6..29] ; réponse déjà générée [30..35] ; toutes les lignes depuis l'entité [5..35]. Les bornes sont calculées à partir des IDs sauvegardés. Chaque application est vérifiée exactement. Choisir le premier He immédiat dans cet ordre pour huit tokens de continuation relâchée maximum ; si aucun He, suivre le premier groupe comme diagnostic de formatage. Les autres continuations ne seront pas prétendues testées. Maximum 15 passes / 30 minutes, un seul worker, mémoire 22G/24G/8G.
+
+Attention d'architecture vérifiée localement : index.json déclare per_layer_embed_dim=256 ; remote_ffn.rs pré-calcule les entrées PLE depuis les embeddings et token_ids avant la boucle de couches et les transmet à chaque couche. Le hook L21 ne les remplace pas. Même la condition toutes-lignes-L21 ne constitue donc pas une transplantation de l'état modèle complet ni un replay donneur garanti. Le PLE est une voie non manipulée, pas une cause prouvée des échecs.
