@@ -544,3 +544,18 @@ Suite approuvée après recommandation de commencer par une seule série de 24 p
 Six passes de frontière : baseline historique, zéro sur le segment prompt, deux replays connus, puis deux nouveaux candidats. Chacune des deux nouvelles branches émet son argmax quel qu'il soit et poursuit sans intervention, jusqu'à EOS ou neuf tokens supplémentaires. Maximum 24 forwards, worker unique, MemoryHigh=22G/MemoryMax=24G/MemorySwapMax=8G, 30 minutes. Les continuations historiques des deux cases connues sont conservées après vérification du replay ; aucun préfixe n'est retapé. Cette série est un diagnostic à frontière reprise, pas une nouvelle génération intégrale depuis zéro.
 
 L'égalité de norme des perturbations ne garantit pas une égalité d'effet dans le modèle non linéaire. Si l'entité amplifiée réussit, le support large n'est pas nécessaire sur ce cas. Si le segment atténué réussit mais pas l'entité amplifiée, la seule norme globale n'explique pas la différence. Si seules les lignes prompt à forte norme réussissent parmi ces quatre cases, les deux facteurs restent liés à la réussite dans le domaine testé. Toute troncature ou correction sera rapportée ; aucune nouvelle formulation ni généralisation n'est mesurée ici. Aucun poids ou patch persistant modifié.
+
+### Résultat de la comparaison à norme égale
+
+13 passes terminées le 23 octobre à 15:07, vérifiées le 24 octobre. Le vérificateur de série (`check_entity_first_norm_match.py`) renvoie `verified_complete`. Une contre-vérification écrite par un autre agent recalcule normes, argmax et marges et retrouve les mêmes valeurs. Baseline, gain zéro et deux cases connues rejoués bit à bit. Durée 10 min 28,437 s ; mémoire 22G, swap 6,1G. Marge He−H de la baseline à cette frontière : −12,418.
+
+| Lignes L21 | Gain | Norme | Proposition | He−H |
+|---|---:|---:|---|---:|
+| Entité 5 | 1 | 29,669 | LaTeX, puis H | +0,695 |
+| Prompt 5..29 | 1 | 76,698 | He | +7,611 |
+| Entité 5 | 2,58510 | 76,698 | He, puis `Hydrogen's chemical symbol is He.` et fin de tour | +4,104 |
+| Prompt 5..29 | 0,38683 | 29,669 | LaTeX, puis `$\text{H}$.` et fin de tour | −7,360 |
+
+L'entité amplifiée réussit : le support large n'est pas nécessaire sur ce cas. Le segment atténué échoue nettement. La norme globale seule n'explique donc pas la réussite : le lieu (ligne d'entité) et l'amplitude comptent tous les deux. Diagnostic à frontière reprise (préfixe généré auparavant et rejoué par identifiants), un essai par case. Aucun contrôle par direction aléatoire de même norme, aucun effet hors cible mesuré. Aucun poids, vindex ou patch persistant modifié.
+
+Décision du 23 octobre (Pat) : l'exploration H→He s'arrête ici, faute de politique unique d'une formulation à l'autre. La suite est fixée dans une roadmap privée : rendre compte publiquement de ce fil, puis tester un patch figé avec contrôles aléatoires et hors cible.

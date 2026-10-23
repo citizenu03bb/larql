@@ -29,6 +29,8 @@ Le premier transfert du vecteur gelé ne changeait que le formatage : les contin
 
 L'élargissement au segment du prompt a produit He et une phrase complète sur ce dernier cas. Le groupe après l'entité proposait du formatage et le préfixe de réponse seul H ; leurs continuations n'ont pas été testées. Le groupe incluant aussi le préfixe de réponse proposait He, sans continuation suivie. Les groupes ne sont pas normalisés en énergie : le segment prompt a une norme 2,585 fois celle de l'entité seule. Ce résultat ne démontre donc ni une nécessité de ces 25 positions ni une cause exclusivement liée à leur localisation.
 
+**Complément vérifié le 24 octobre (comparaison à norme égale, 13 passes).** La seule ligne d'entité, amplifiée à la norme du segment (gain 2,585), produit He puis « Hydrogen's chemical symbol is He. » jusqu'à la fin de tour. Le segment atténué à la norme de l'entité retombe sur H. Les 25 positions ne sont donc pas nécessaires sur ce cas, et le lieu (entité) compte autant que l'amplitude. Il s'agit d'un diagnostic à frontière reprise, un essai par case, sans contrôle par direction aléatoire.
+
 Le code et la configuration locaux confirment aussi une voie PLE distincte, calculée depuis les tokens avant les couches et laissée native par les patches L21. Transplanter tous les résidus L21 n'est pas transplanter l'état complet du donneur. Le rôle causal précis de cette voie n'a pas été testé.
 
 ## Évaluation honnête de l'impasse
