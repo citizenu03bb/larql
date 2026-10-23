@@ -147,6 +147,34 @@ expose the desktop to a global OOM. Dense F16 is not an automatic escape hatch:
 the local dense E4B vindex is larger on disk and is a different checksum-bound
 artifact.
 
+## Research mandate for this branch (set 2026-10-23)
+
+This branch's open-ended exploration of the H→He counterfactual is closed:
+each new formulation needed its own tuning, which met the stop criterion
+recorded on 2026-10-23. Do not resume per-formulation tuning.
+
+The research goal, in priority order:
+
+1. Results that can be reported publicly and honestly, with narrow claims and
+   failures shown.
+2. As a side effect, edits that an agent could apply to the model
+   **persistently**. Always say which sense is meant: (a) a delta stored in a
+   patch and active at every inference without prompt or retrieval, or
+   (b) modified weights.
+
+Before any new series:
+
+- State in one line how it serves this goal. A user reply such as
+  "continue" approves the next bounded step; it does not change the goal or
+  the stop rule.
+- Fix the budget, stop rule, failure criterion and controls before the first
+  forward. Controls for any intervention include a random direction of equal
+  norm and off-target questions. For an entity-row delta, also test other
+  attributes of the same entity, since an entity swap is not a fact edit.
+- Remember the KV-sharing boundary: on Gemma-4-E4B, layers 24–41 reuse the
+  K/V of L22/L23, so a patch at L23's FFN or later only affects the current
+  position.
+
 ## Key architectural invariants
 
 - **Base vindexes are immutable.** All mutation flows through `PatchedVindex` (overlay) — see [crates/larql-vindex/src/patch/core.rs](crates/larql-vindex/src/patch/). `INSERT/DELETE/UPDATE` auto-start a patch; `SAVE PATCH` persists it as `.vlp` JSON. Never write through to base files.
