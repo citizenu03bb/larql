@@ -468,3 +468,22 @@ Les deux interventions initiales ont changé le formatage mais pas le fait : le 
 La prochaine expérience isole le moment d'application : seconde application du même vecteur au H réellement écrit dans la formule. C'est un nouveau contrôleur exploratoire, pas une réinterprétation positive du test précédent. Aucun poids, vindex ou patch persistant modifié.
 
 Durée systemd de cette complétion : 8 min 52,069 s ; pic mémoire 22G, swap 5,3G. Dix passes, quatre fins de tour, code de sortie 0.
+
+### Résultat de la seconde application
+
+Dix passes terminées et vérifiées. Replays baseline et contrôles gain zéro bit-identiques ; vecteur source, gain 1, positions, applications L21, argmax et continuations sans intervention vérifiés. Durée systemd 8 min 53,159 s ; mémoire 22G, swap 6,4G.
+
+- Reformulation 1 : `Hydrogen's chemical symbol is $\text{H}$.<turn|>` — échec.
+- Reformulation 2 : `Hydrogen is represented by the symbol $\text{He}$.<turn|>` — modification factuelle observable, hydrogen préservé, fin de tour atteinte sans correction.
+
+Le vecteur est exactement celui de la démonstration source, sans recalibration. La seconde reformulation réussit avec deux applications ponctuelles : une première qui produit le formatage, une seconde au H à l'intérieur de la formule. Le contrôleur original à déclenchement unique reste négatif sur les deux reformulations ; le contrôleur révisé réussit sur une des deux. Elles ont été observées pendant l'exploration et ne sont pas un holdout indépendant.
+
+Les chaînes remontent au départ de réponse vide de la série précédente : les préfixes sauvegardés proviennent uniquement des tokens émis. La chaîne est recomposée et vérifiée entre plusieurs exécutions, pas rejouée ici dans une unique exécution depuis zéro. Aucun token He ni logit forcé. La baseline complète de la seconde formulation donne H. Aucun poids, vindex ou patch persistant modifié.
+
+Le moment du déclenchement explique une partie des limites, mais pas l'échec de la première formulation. Un contraste propre à cette première question sera testé au même gain 1 à sa frontière initiale, pour distinguer adaptation au contexte et transfert du vecteur gelé.
+
+## Contraste local sur la reformulation encore négative — 23 octobre 2026
+
+Un seul cas sélectionné : reformulation 1 (index 0), toujours H après les deux applications du vecteur gelé. Reprendre sa frontière initiale de proposition H, dont le préfixe est issu de la génération vide ; replay baseline exact, donneur modifiant uniquement le token hydrogen du prompt en helium, différence donneur−baseline L21 au token d'entité position 5, contrôle gain zéro exact, application au gain 1, puis relâchement jusqu'à EOS ou huit tokens. Maximum 12 passes / 30 minutes, mémoire 22G/24G/8G, un worker. Aucun gain ni position recherchés.
+
+Comparer au résultat gelé à cette même frontière, qui produisait un préambule LaTeX puis H. Cette adaptation vise un diagnostic de dépendance au contexte, pas une nouvelle mesure de généralisation. Rapporter le symbole, la phrase entière et toute troncature ; comparer aussi direction et norme des vecteurs sans en déduire à elles seules une causalité. Cette série clôturera la boucle actuelle avec une démonstration ou un obstacle explicite ; aucune recherche ouverte supplémentaire prévue dans ce budget.
