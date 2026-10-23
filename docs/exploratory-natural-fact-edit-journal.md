@@ -505,3 +505,24 @@ L'utilisateur réitère « continue de bout en bout » et demande de signaler ho
 Même question, même préfixe généré, même contraste local L21 et gain 1. Trois contrôles (replay baseline, replay donneur, zéro), puis quatre groupes fixés : prompt depuis l'entité [5..29] ; prompt après l'entité [6..29] ; réponse déjà générée [30..35] ; toutes les lignes depuis l'entité [5..35]. Les bornes sont calculées à partir des IDs sauvegardés. Chaque application est vérifiée exactement. Choisir le premier He immédiat dans cet ordre pour huit tokens de continuation relâchée maximum ; si aucun He, suivre le premier groupe comme diagnostic de formatage. Les autres continuations ne seront pas prétendues testées. Maximum 15 passes / 30 minutes, un seul worker, mémoire 22G/24G/8G.
 
 Attention d'architecture vérifiée localement : index.json déclare per_layer_embed_dim=256 ; remote_ffn.rs pré-calcule les entrées PLE depuis les embeddings et token_ids avant la boucle de couches et les transmet à chaque couche. Le hook L21 ne les remplace pas. Même la condition toutes-lignes-L21 ne constitue donc pas une transplantation de l'état modèle complet ni un replay donneur garanti. Le PLE est une voie non manipulée, pas une cause prouvée des échecs.
+
+### Résultat des groupes L21
+
+Neuf passes terminées et vérifiées. Baseline/donneur et gain zéro bit-identiques ; quatre applications exactes, ordre de sélection, argmax et continuation vérifiés. Durée 8 min 9,032 s ; mémoire 21,7G, swap 7G.
+
+| Groupe, gain 1 | Proposition à la frontière | Continuation |
+|---|---|---|
+| Prompt de l'entité à la fin, 5..29 | He | `Hydrogen's chemical symbol is He.` puis fin de tour |
+| Prompt après l'entité, 6..29 | Début LaTeX | Non testée |
+| Réponse déjà générée, 30..35 | H | Non testée |
+| Toutes les lignes depuis l'entité, 5..35 | He | Non testée |
+
+Le premier He dans l'ordre annoncé est retenu : groupe prompt, gain 1. Le contraste est recalculé dans cette question ; il n'est pas le vecteur gelé source. Une application ponctuelle à la frontière du symbole, puis aucun patch dans la continuation. Les préfixes étaient réellement générés lors de la série initiale mais repris depuis les traces : une exécution intégrée depuis zéro est la prochaine vérification.
+
+Ce résultat résout l'obstacle local de la position unique sur cette formulation. Il ne prouve pas qu'un support large soit nécessaire : les groupes n'ont pas la même énergie. Norme prompt 76,69817 contre entité seule 29,66936 (ratio 2,58510). Localisation et amplitude sont confondues ; les continuations des trois autres groupes restent non testées.
+
+La condition toutes-lignes retrouve le L21 donneur à 2,38419e-7 près mais ses logits diffèrent jusqu'à 1,94086. Les PLE natifs restent non remplacés et les effets numériques ne sont pas isolés : ne pas attribuer cet écart à une cause unique. Aucun poids, vindex ou patch persistant modifié ; aucune impasse générale établie.
+
+## Vérification intégrée depuis une réponse vide
+
+Même première reformulation observée, départ de réponse vide dans un nouveau service. Génération native jusqu'à la proposition H après hydrogen généré, au plus 12 propositions. Recalculer le contraste donneur helium dans ce contexte exact ; contrôle zéro ; une seule application du groupe prompt depuis le token d'entité jusqu'à la fin du prompt, gain 1. Groupe choisi et gain fixés par le résultat précédent, pas de recherche additionnelle. Si l'argmax n'est pas He, rapporter l'échec du replay sans réglage. Sinon continuer la baseline H (au plus quatre tokens) et la branche He sans intervention jusqu'à EOS ou budget. Aucun préfixe de réponse fourni ni logit/token forcé. Maximum 24 forwards / 30 minutes, mêmes limites 22G/24G/8G, worker unique. Comparer les captures aux essais précédents et vérifier toutes les chaînes depuis zéro.
