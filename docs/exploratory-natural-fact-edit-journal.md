@@ -426,3 +426,22 @@ Si He est obtenu, générer une courte branche témoin avec le H natif (4 tokens
 14/14 passes vérifiées. Depuis une réponse vide, le modèle génère « Hydrogen's chemical symbol is ». Gain 1 sur le token d’entité L21 au moment du symbole : H→He ; intervention ensuite relâchée. Branche témoin complète : « Hydrogen's chemical symbol is H. » ; branche éditée complète : « Hydrogen's chemical symbol is He. ». Les deux atteignent la fin de tour. Aucun token fourni ni logit forcé. Contraste/application exacts, identité gain zéro bit-identique, chaînes greedy vérifiées. Durée 9 min 47,443 s, mémoire 22G, swap 4,8G. Code 2eb63239, traces entity-first-probe-20261022.
 
 Il s’agit d’un contrôleur local à proposition H après le nom généré et recalcul ponctuel, pas d’une édition persistante. Suite autorisée : conserver le vecteur et le gain, tester deux reformulations depuis une réponse vide (10 passes maximum chacune), puis deux paires baseline/contrôleur non éligible pour helium et oxygen à préfixe fourni. Les contrôles vérifient la règle de non-déclenchement, pas un détecteur sémantique appris. Plafond distinct 24 passes / 30 minutes, mêmes limites mémoire ; toute troncature sera rapportée.
+
+### Reformulations à vecteur fixe — clôture du 23 octobre 2026
+
+Les 24/24 forwards se sont terminés normalement. Vérification indépendante réussie : vecteur et gain gelés, départ de réponse vide, argmax, chaînes, applications L21 exactes et contrôles bit-identiques. Durée systemd 16 min 7,116 s, mémoire 22G, swap 6,3G.
+
+Les deux reformulations ont remplacé la proposition H par un début de formatage LaTeX. Elles atteignent leur plafond respectif avant le symbole :
+
+- `Hydrogen's chemical symbol is $\text{`
+- `Hydrogen is represented by the symbol $\text{`
+
+L'effet immédiat diffère donc du He obtenu sur la question source. Le résultat factuel des réponses complètes est encore indéterminé ; ces troncatures ne prouvent ni un transfert réussi ni son échec sémantique. Les contrôles helium et oxygen à préfixe fourni restent bit-identiques sans déclenchement, respectivement He et O. Ils vérifient la règle lexicale du contrôleur, pas une sélectivité sémantique apprise.
+
+Aucun poids, vindex ou patch persistant modifié. Traces : entity-first-neighbors-20261022. Code du lancement : 8d06e1f6.
+
+## Compléter les reformulations tronquées — 23 octobre 2026
+
+Nouvelle série bornée, distincte du plafond précédent. Pour chacune des deux reformulations, reprendre exactement les IDs générés sauvegardés du dernier job (009 / 019), puis poursuivre sans aucune intervention jusqu'à EOS ou huit tokens supplémentaires. Reprendre également la proposition H native de la frontière sauvegardée (006 / 016) pour obtenir une branche témoin, jusqu'à EOS ou quatre tokens supplémentaires. Tous les préfixes proviennent des branches précédemment générées depuis une réponse vide ; aucun texte réencodé ni nouveau symbole fourni. Leur provenance sera vérifiée par hash et chaîne d'IDs.
+
+Critère : examiner les deux phrases complètes et le symbole réellement choisi après le formatage. Si H, le premier déclenchement a perturbé le formatage sans transférer le fait ; si He, inspecter la fin de tour et toute correction éventuelle. Toute troncature reste explicitement indéterminée. Aucun ajustement de gain, nouvelle injection ou recherche de donneur dans cette série. Maximum 24 forwards / 30 minutes, un seul worker, mémoire 22G/24G/8G, binaire inchangé.
