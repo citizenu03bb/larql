@@ -445,3 +445,26 @@ Aucun poids, vindex ou patch persistant modifié. Traces : entity-first-neighbor
 Nouvelle série bornée, distincte du plafond précédent. Pour chacune des deux reformulations, reprendre exactement les IDs générés sauvegardés du dernier job (009 / 019), puis poursuivre sans aucune intervention jusqu'à EOS ou huit tokens supplémentaires. Reprendre également la proposition H native de la frontière sauvegardée (006 / 016) pour obtenir une branche témoin, jusqu'à EOS ou quatre tokens supplémentaires. Tous les préfixes proviennent des branches précédemment générées depuis une réponse vide ; aucun texte réencodé ni nouveau symbole fourni. Leur provenance sera vérifiée par hash et chaîne d'IDs.
 
 Critère : examiner les deux phrases complètes et le symbole réellement choisi après le formatage. Si H, le premier déclenchement a perturbé le formatage sans transférer le fait ; si He, inspecter la fin de tour et toute correction éventuelle. Toute troncature reste explicitement indéterminée. Aucun ajustement de gain, nouvelle injection ou recherche de donneur dans cette série. Maximum 24 forwards / 30 minutes, un seul worker, mémoire 22G/24G/8G, binaire inchangé.
+
+## Seconde application au symbole formaté — protocole exploratoire du 23 octobre 2026
+
+Les deux premiers tokens libres après les préambules LaTeX sauvegardés sont H. Une série distincte testera le même vecteur L21 et le même gain 1 à cette nouvelle frontière, sous réserve de clôture vérifiée des quatre branches de continuation. Le vecteur reste celui de la question source, projeté au token hydrogen de chaque question ; aucun nouveau donneur ni gain ajusté. La chaîne générée jusqu'à cette frontière contient déjà l'intervention initiale qui a produit le formatage. Ce test porte donc sur un contrôleur révisé à deux déclenchements, pas sur le transfert à déclenchement unique initial.
+
+Pour chaque reformulation : replay natif apparié à la capture historique du H formaté ; contrôle gain zéro bit-identique ; application exacte du vecteur gelé ; émission de l'argmax quel qu'il soit ; relâchement et neuf tokens maximum jusqu'à EOS. Maximum 12 forwards par reformulation, 24 au total / 30 minutes, mémoire 22G/24G/8G, worker unique. Aucun texte de réponse retapé ou symbole forcé. Succès exploratoire seulement si la réponse complète préserve hydrogen et affirme He sans correction. Une nouvelle troncature reste indéterminée. Ces deux reformulations ont déjà été observées et ne constituent pas une validation indépendante.
+
+### Résultat de la complétion sans intervention
+
+10 forwards terminés et vérifiés. Les préfixes proviennent exactement des réponses générées dans entity-first-neighbors-20261022, avec vérification des IDs et hashes. Aucun préfixe retapé, aucune intervention additionnelle, tous les argmax vérifiés.
+
+| Reformulation | Branche | Réponse complète | Fin de tour |
+|---|---|---|---|
+| 1 | edited | `Hydrogen's chemical symbol is $\text{H}$.<turn|>` | True |
+| 1 | baseline | `Hydrogen's chemical symbol is H.<turn|>` | True |
+| 2 | edited | `Hydrogen is represented by the symbol $\text{H}$.<turn|>` | True |
+| 2 | baseline | `Hydrogen is represented by the symbol H.<turn|>` | True |
+
+Les deux interventions initiales ont changé le formatage mais pas le fait : le symbole écrit est H dans les deux réponses éditées complètes, comme dans les témoins. Le transfert à déclenchement unique est négatif sur ces deux reformulations. La démonstration source Hydrogen→He du 22 octobre reste valide ; elle ne se généralise pas telle quelle.
+
+La prochaine expérience isole le moment d'application : seconde application du même vecteur au H réellement écrit dans la formule. C'est un nouveau contrôleur exploratoire, pas une réinterprétation positive du test précédent. Aucun poids, vindex ou patch persistant modifié.
+
+Durée systemd de cette complétion : 8 min 52,069 s ; pic mémoire 22G, swap 5,3G. Dix passes, quatre fins de tour, code de sortie 0.
