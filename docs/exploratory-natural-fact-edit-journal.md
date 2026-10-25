@@ -559,3 +559,19 @@ L'égalité de norme des perturbations ne garantit pas une égalité d'effet dan
 L'entité amplifiée réussit : le support large n'est pas nécessaire sur ce cas. Le segment atténué échoue nettement. La norme globale seule n'explique donc pas la réussite : le lieu (ligne d'entité) et l'amplitude comptent tous les deux. Diagnostic à frontière reprise (préfixe généré auparavant et rejoué par identifiants), un essai par case. Aucun contrôle par direction aléatoire de même norme, aucun effet hors cible mesuré. Aucun poids, vindex ou patch persistant modifié.
 
 Décision du 23 octobre (Pat) : l'exploration H→He s'arrête ici, faute de politique unique d'une formulation à l'autre. La suite est fixée dans une roadmap privée : rendre compte publiquement de ce fil, puis tester un patch figé avec contrôles aléatoires et hors cible.
+
+## Test d'échange d'entité sur les attributs — 25 octobre 2026
+
+Question : le delta d'entité L21 qui donne He (ligne 5, gain 2,58510) est-il un échange d'entité ? Si c'est le cas, il devrait aussi faire passer le numéro atomique de l'hydrogène à 2 et sa masse à 4. Le protocole a été pré-enregistré avant toute passe dans la docstring du runner `scripts/run_entity_first_attribute_swap.py` (commit `0bc90182`), après un test à blanc avec un faux worker et une revue du protocole. Cette revue a révélé le plafond de 24 passes du binaire figé.
+- Questions « Give hydrogen's atomic number / atomic mass in one short sentence, with the element's name before the number / value. ». Leurs 6 premiers tokens sont ceux de la question du symbole. Les lignes 0..5 à L21 sont identiques bit à bit, donc le delta réutilisé est exact.
+- Application unique à la proposition native du premier chiffre, puis relâchement.
+- Contrôles : une direction aléatoire de même norme (deux graines au numéro atomique, une au symbole) et un donneur « helium » complet, prévu si la réponse ne basculait pas.
+- 24 passes, durée 16 min 40,633 s, 22G, swap 5,5G. Vérificateur `verified_complete`, écrit par le même agent que le runner.
+
+| Question | Marge native | Après delta | Δ | Aléatoire Δ | Donneur complet |
+|---|---:|---|---:|---|---|
+| Numéro atomique | −20,340 | 1 | +0,76 | −0,12 ; −0,06 | 2 |
+| Masse atomique | −26,873 | 1 (4 : rang 47 → 3) | +5,57 | — | 4 |
+| Symbole (rappel) | −12,418 | He | +16,52 | +2,08 | — |
+
+Lecture pré-enregistrée : **aucun attribut ne bascule**. Le résultat se lit « sélectif à cette amplitude, mécanisme indéterminé ». La prédiction mécaniste d'un échange d'entité est réfutée à cette amplitude. Le contrôle donneur exclut un plafond, puisqu'un sujet entièrement hélium donne 2 et 4. La direction compte : le contrôle aléatoire reste presque nul. Le même vecteur, dépourvu d'information de relation, déplace donc le symbole (+16,5) bien plus que la masse (+5,6) et le numéro atomique (+0,8). L'hypothèse selon laquelle le symbole s'appuierait sur la forme de « helium » (« He… ») n'est pas testée. Il n'y a qu'une formulation par attribut et un essai par case, aucune autre amplitude et aucune continuation. Aucun poids, vindex ou patch persistant modifié.

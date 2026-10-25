@@ -31,6 +31,12 @@ L'élargissement au segment du prompt a produit He et une phrase complète sur c
 
 **Complément vérifié le 24 octobre (comparaison à norme égale, 13 passes).** La seule ligne d'entité, amplifiée à la norme du segment (gain 2,585), produit He puis « Hydrogen's chemical symbol is He. » jusqu'à la fin de tour. Le segment atténué à la norme de l'entité retombe sur H. Les 25 positions ne sont donc pas nécessaires sur ce cas, et le lieu (entité) compte autant que l'amplitude. Il s'agit d'un diagnostic à frontière reprise, un essai par case, sans contrôle par direction aléatoire.
 
+**Complément du 25 octobre (test d'échange d'entité, 24 passes, vérifié).**
+- Le même delta, appliqué aux questions sur le numéro atomique et la masse de l'hydrogène, ne les fait pas basculer : les deux restent 1. La masse est toutefois tirée vers l'hélium (le 4 passe du rang 47 au rang 3).
+- Un sujet entièrement « helium » donne bien 2 et 4.
+- Une direction aléatoire de même norme ne produit presque aucun effet, y compris sur le symbole (+2,1 contre +16,5).
+- Ce n'est donc ni un simple effet de norme ni un échange d'entité complet à cette amplitude. Le mécanisme reste indéterminé.
+
 Le code et la configuration locaux confirment aussi une voie PLE distincte, calculée depuis les tokens avant les couches et laissée native par les patches L21. Transplanter tous les résidus L21 n'est pas transplanter l'état complet du donneur. Le rôle causal précis de cette voie n'a pas été testé.
 
 ## Évaluation honnête de l'impasse
