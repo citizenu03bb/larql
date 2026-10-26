@@ -1,0 +1,26 @@
+{
+  "B1": {
+    "forwards": 200,
+    "keys_per_layer": 12800,
+    "optimizer_steps": 0,
+    "receipt_sha256": "a94eca78311e2fb83a2ca6d302a2f99fb63fb8bba73a6100e767349b6258dd81"
+  },
+  "B2": {
+    "edit_content_sha256": "94ffdc56bc212f18b38c21b04f2c80bc2c9348cfbbe4916f7332c35d7f7d124b",
+    "fact_id": "dev-beethoven-nationality-italian",
+    "forwards": 130,
+    "layer": 4,
+    "optimizer_steps": 25,
+    "receipt_sha256": "99586a5b40c6b586c083af00b5116d17d50bf12b53f50fe944907943cf2856e1"
+  },
+  "pretrained_model_forwards": 0,
+  "source_sha256": {
+    "tools/rome_solver/launch_phase_b.py": "7cf2d0e1d828e0b4a25568bf99851635b01a3cb749e92f9aa4ad37b07ffad15d",
+    "tools/rome_solver/run_phase_b.py": "1987430197e75c57859b6e5fd5be357877d8ee0b11d4bb81d34866f2aebee40d"
+  },
+  "synthetic_only": true,
+  "without_approval_flag": {
+    "exit_code": 2,
+    "run_directory_created": false
+  }
+}
