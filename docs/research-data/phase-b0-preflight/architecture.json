@@ -1,0 +1,240 @@
+{
+  "all_35_projection_shapes_verified": true,
+  "all_down_proj_shapes": {
+    "0": [
+      1536,
+      6144
+    ],
+    "1": [
+      1536,
+      6144
+    ],
+    "10": [
+      1536,
+      6144
+    ],
+    "11": [
+      1536,
+      6144
+    ],
+    "12": [
+      1536,
+      6144
+    ],
+    "13": [
+      1536,
+      6144
+    ],
+    "14": [
+      1536,
+      6144
+    ],
+    "15": [
+      1536,
+      12288
+    ],
+    "16": [
+      1536,
+      12288
+    ],
+    "17": [
+      1536,
+      12288
+    ],
+    "18": [
+      1536,
+      12288
+    ],
+    "19": [
+      1536,
+      12288
+    ],
+    "2": [
+      1536,
+      6144
+    ],
+    "20": [
+      1536,
+      12288
+    ],
+    "21": [
+      1536,
+      12288
+    ],
+    "22": [
+      1536,
+      12288
+    ],
+    "23": [
+      1536,
+      12288
+    ],
+    "24": [
+      1536,
+      12288
+    ],
+    "25": [
+      1536,
+      12288
+    ],
+    "26": [
+      1536,
+      12288
+    ],
+    "27": [
+      1536,
+      12288
+    ],
+    "28": [
+      1536,
+      12288
+    ],
+    "29": [
+      1536,
+      12288
+    ],
+    "3": [
+      1536,
+      6144
+    ],
+    "30": [
+      1536,
+      12288
+    ],
+    "31": [
+      1536,
+      12288
+    ],
+    "32": [
+      1536,
+      12288
+    ],
+    "33": [
+      1536,
+      12288
+    ],
+    "34": [
+      1536,
+      12288
+    ],
+    "4": [
+      1536,
+      6144
+    ],
+    "5": [
+      1536,
+      6144
+    ],
+    "6": [
+      1536,
+      6144
+    ],
+    "7": [
+      1536,
+      6144
+    ],
+    "8": [
+      1536,
+      6144
+    ],
+    "9": [
+      1536,
+      6144
+    ]
+  },
+  "brief_discrepancy": "layer_scalar is after the residual and PLE, not before them; raw down_proj site is unchanged",
+  "candidate_header_entries": {
+    "model.language_model.layers.12.layer_scalar": {
+      "dtype": "BF16",
+      "shape": [
+        1
+      ]
+    },
+    "model.language_model.layers.12.mlp.down_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536,
+        6144
+      ]
+    },
+    "model.language_model.layers.12.per_layer_projection.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536,
+        256
+      ]
+    },
+    "model.language_model.layers.12.post_feedforward_layernorm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536
+      ]
+    },
+    "model.language_model.layers.4.layer_scalar": {
+      "dtype": "BF16",
+      "shape": [
+        1
+      ]
+    },
+    "model.language_model.layers.4.mlp.down_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536,
+        6144
+      ]
+    },
+    "model.language_model.layers.4.per_layer_projection.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536,
+        256
+      ]
+    },
+    "model.language_model.layers.4.post_feedforward_layernorm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536
+      ]
+    },
+    "model.language_model.layers.8.layer_scalar": {
+      "dtype": "BF16",
+      "shape": [
+        1
+      ]
+    },
+    "model.language_model.layers.8.mlp.down_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536,
+        6144
+      ]
+    },
+    "model.language_model.layers.8.per_layer_projection.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536,
+        256
+      ]
+    },
+    "model.language_model.layers.8.post_feedforward_layernorm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        1536
+      ]
+    }
+  },
+  "decoder_forward_line": 1375,
+  "metadata_sha256": {
+    "chat_template.jinja": "0a2c8073c878ab1da004bee933a998606537bbb62016310352c7285c3f01c5b5",
+    "config.json": "1b28f3d2c3100f6c594754b81107428bd7b822a7f48272ca681dae9d2ec38330",
+    "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+    "tokenizer_config.json": "9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633"
+  },
+  "model": "Gemma-4-E2B-it",
+  "modeling_source": "transformers/models/gemma4/modeling_gemma4.py",
+  "modeling_source_sha256": "edc123ab83fbb25548ec65536eaecee998c088653adf683be3ef69d62e2bfea9",
+  "pipeline": "down_proj -> post_feedforward_layernorm -> FFN residual -> PLE residual -> layer_scalar",
+  "safetensors_header_length": 263952,
+  "safetensors_header_sha256": "12740d6fe7a66b316040fa4d77471a8e1809498a71992b3364a6d5417d10662e",
+  "tensor_payload_bytes_read": 0
+}

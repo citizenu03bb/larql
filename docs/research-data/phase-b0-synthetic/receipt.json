@@ -1,0 +1,48 @@
+{
+  "covariance": {
+    "forwards": 8,
+    "gradient_steps": 0,
+    "layers": {
+      "4": {
+        "count": 32,
+        "diagonal_added": 2.520750369817776e-05,
+        "ridge": 0.0001,
+        "statistic": "uncentered E[k k^T]"
+      },
+      "8": {
+        "count": 32,
+        "diagonal_added": 2.1069574120109924e-05,
+        "ridge": 0.0001,
+        "statistic": "uncentered E[k k^T]"
+      },
+      "12": {
+        "count": 32,
+        "diagonal_added": 2.2672072897785013e-05,
+        "ridge": 0.0001,
+        "statistic": "uncentered E[k k^T]"
+      }
+    },
+    "positions": [
+      7,
+      15,
+      23,
+      31
+    ]
+  },
+  "covariance_source_sha256": "c86bd39bdeb5074f7d1f2b86a5760c404c8543ec8863f76f1441dddef5806cd5",
+  "fixture_source_sha256": "ba67a163aaa56ef7bba9eb1d67196006b0a0a22c1033f5af6c30bef064cb22ae",
+  "independence": "same-author self-test; not a certification",
+  "optimizer_steps": 25,
+  "pretrained_model_forwards": 0,
+  "rank_one_error_maxabs": 8.940696716308594e-08,
+  "roundtrip_content_sha256": "58e334e603e7b18e6cbd489db5f3d2ca75a00ebb4859f0d10f411f802448b952",
+  "saved_proof_files": [
+    "k_star.npy",
+    "v_star.npy",
+    "w_k_star.npy",
+    "C.npy"
+  ],
+  "solve_forwards": 130,
+  "solver_source_sha256": "b29db79fa2f16d1881dee2be8e1f5c025a69e6a0d00f72f069df47b3df083582",
+  "synthetic": true
+}

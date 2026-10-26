@@ -1,0 +1,1390 @@
+{
+  "eos_id": 1,
+  "model_forwards": 0,
+  "prepared_before_covariance": true,
+  "quotas": {
+    "banking77": 80,
+    "docs": 40,
+    "emotion": 80
+  },
+  "sampling": "sorted IDs; seeded record permutation; EOS separators; disjoint full windows",
+  "seed": 20261026,
+  "sources": [
+    {
+      "path": "docs/adr/0001-python-lql-infer-parity.md",
+      "sha256": "7484388fb74d19ea3ccc8267daf25176a5b620437c2a39cabee2f34ec2f7378d",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0002-ffn-activation-cache.md",
+      "sha256": "86234f2b22c200b55e27cec664b2f8f75ed4f4ce4444b432378b09e355e1f7e1",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0003-ffn-router.md",
+      "sha256": "8e5b7021e0b71dd98ff4c251cb0f8b38ed7f15e1d0de0489335f2ea79bd3d3aa",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0004-ffn-grid.md",
+      "sha256": "0bfb027b00d6b89efc53aaee93af20ebfc93f6c713676f6881f1f9b0f164bd14",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0005-ffn-service-memory-bounds.md",
+      "sha256": "3013ee6298fc7d8422d829d67538f947cab171754fc040959026ffc106d40b28",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0006-q4k-remote-ffn.md",
+      "sha256": "62a071f57e549ad74d041e4dd0a67b64190d13af814e3a74d8f5777fd3ba2d05",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0007-vindex-distribution.md",
+      "sha256": "da3402b79071806a74786c29cdffa1abef75393e0332d1c80b54dda0cd6ff7c5",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0008-embed-server.md",
+      "sha256": "ad64871dc291c528b61e658e07ab3c8f5874c1230b7c57db7e9237c4299f149e",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0009-wire-format-evolution.md",
+      "sha256": "1c51f7eac07dfa991d1b362ddcbc888badbee31270848646e4bb611d5069b92d",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0010-quic-grid-transport.md",
+      "sha256": "9800e0810a3987fc4f183de6ef940b0d787b42b08f3392a42532131f8a6c06c9",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0011-grid-self-balancing.md",
+      "sha256": "1f1c025817d53931268e1ceed2870672b19c7e4f5c86999d5d6cbe065d07f723",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0012-grid-benchmarking.md",
+      "sha256": "619fc75e745541fcd1509a59d89708cd670069191732b0d57f2e39d12a398f98",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0013-routing-comparator-rtt-probe.md",
+      "sha256": "d7c80566464e80d013e2cc8a267f48da27d23c88f011e65b708daf2cbe7f8874",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0014-hot-shard-load-rate-replication.md",
+      "sha256": "6f6673439c382a0f296ba2e91b9799b8c03816e7eacd6b75832f19a6e3c43769",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0015-shard-service-knn.md",
+      "sha256": "addbbb01b1e3e9568d7550d8566cd31f434ee262420c9d1e824233f9902bddd7",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0016-router-module-organization.md",
+      "sha256": "5d187f0934eefc0d14b740e50d45164ba0b1b8fa1d1c9b20ca2d9324876c92f0",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0017-router-metrics.md",
+      "sha256": "9df3a34a1365afe4757cb0c2da8b9fa83afb1248b27566e8bab27b0dce5c6c70",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0018-moe-expert-routing.md",
+      "sha256": "3a38ba0ed7b88ab8256b21c75f4dd7a1b62ad8f7843cd70389134507117ebed4",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0019-http3-shard-transport.md",
+      "sha256": "fdf9b4c3d13325960fa8753a3ce4a3cd53dabac049a497590adb33012fad544e",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0020-route-backpressure-tier.md",
+      "sha256": "6b0e9884a3a80cfbfc409da8a414a84a8b260dea41dcf46831107a598788d16c",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0021-hedged-dispatch.md",
+      "sha256": "4f904e89ba95991a0977982a421675eb6e01f9d77fcf43d5be294afb7d16acec",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0022-compute-trait-extraction.md",
+      "sha256": "5792499ce42955c4c66ed5312db3fb8c96b69599f3d923ecec04267510cf3abd",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0023-multimodal-engine-seam.md",
+      "sha256": "51b0fac3229f1e953b22d5406101200787fd233005cdcc612620c54183750eea",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0024-cuda-backend-g0-decision.md",
+      "sha256": "0ced6011b3aa38912cfdfc55415ad0368995be84e7645f952ae5d4c9a032eb29",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0025-wire-direction-and-timing-extensions.md",
+      "sha256": "bd9a3db612494fa861c941d24281e76a4a9886206d739c2bb91962fff05a90c3",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0026-tagged-release-binaries.md",
+      "sha256": "6801ad334aab476ac4a1b5094aa490a2fd3722388831284ff9be98c90a6753c6",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0027-model-bound-contextual-multitoken-patches.md",
+      "sha256": "40ba4ca9744292e4436a0ee3f0a42142b298f6841bc490501d3dcb6b2bb9a33f",
+      "source": "docs"
+    },
+    {
+      "path": "dair-ai___emotion/split/0.0.0/cab853a1dbdf4c42c2b3ef2173804746df8825fe/emotion-train.arrow",
+      "rows": 16000,
+      "sha256": "d362b3fb7dabba0613533182e3e0dce2340972e5f90d9ee02783de28bdf8e095",
+      "source": "emotion"
+    },
+    {
+      "path": "legacy-datasets___banking77/default/0.0.0/f54121560de48f2852f90be299010d1d6dc612ec/banking77-train.arrow",
+      "rows": 10003,
+      "sha256": "565fe069366117758d60332fbef73dd22a4c32969c0c9be7bf9869eac533b6f0",
+      "source": "banking77"
+    }
+  ],
+  "streams": {
+    "banking77": {
+      "records": 10003,
+      "sha256": "445bbdc5357968a3de6ffd228774746ff27b9c8e52645c84e2361ea55c800447",
+      "tokens": 150122
+    },
+    "docs": {
+      "records": 27,
+      "sha256": "0770812cc68d0ae14154945cb5f8585926c50259b1bbda4c3d69259c22808017",
+      "tokens": 99337
+    },
+    "emotion": {
+      "records": 16000,
+      "sha256": "aa773cd0910d7a432e5c4dd75fafbcd67018c953fb2e02dc81726cc8d8603699",
+      "tokens": 329872
+    }
+  },
+  "synthetic": false,
+  "token_file_sha256": "ef9ee0423bbc5534eca7d450f6cb29bb4eba0802f4421165b844f97ec3bf3cdd",
+  "tokenizer_metadata_sha256": {
+    "chat_template.jinja": "0a2c8073c878ab1da004bee933a998606537bbb62016310352c7285c3f01c5b5",
+    "config.json": "1b28f3d2c3100f6c594754b81107428bd7b822a7f48272ca681dae9d2ec38330",
+    "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+    "tokenizer_config.json": "9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633"
+  },
+  "tokens_sha256": "a5fed040cf2640ae985529a3e41333621faf9b8471a41bbfa4895b7081372964",
+  "window": 512,
+  "windows": [
+    {
+      "index": 0,
+      "sha256": "17d1311515266860826d018f3d22a7d995f4800e34f839fbb44694be7bf52dc9",
+      "source": "docs",
+      "start": 512
+    },
+    {
+      "index": 1,
+      "sha256": "fafdb3ff3a96767e68665823b367b0d0c488d88db5c30777cc57c9716990248e",
+      "source": "docs",
+      "start": 3584
+    },
+    {
+      "index": 2,
+      "sha256": "3186c6eabe44b0bf5aa45d984dd7ec6327ced9529533764ce596b15f1757cbed",
+      "source": "docs",
+      "start": 5632
+    },
+    {
+      "index": 3,
+      "sha256": "69ff41473f154ec42dbd917aad20553f93898e78e377167ee5fa3abb753c5d9a",
+      "source": "docs",
+      "start": 6144
+    },
+    {
+      "index": 4,
+      "sha256": "7d5c13379e63ab89941d1aa81f0dcc35405a9c2003f04db9d4a5e1de701bc3b4",
+      "source": "docs",
+      "start": 12288
+    },
+    {
+      "index": 5,
+      "sha256": "46853b07fc8731a7f98b68eefcb03fb181f198d95e0d88af6141119ee9d76def",
+      "source": "docs",
+      "start": 12800
+    },
+    {
+      "index": 6,
+      "sha256": "153de2aaf33ac8d8dd99ec0bc53a271aa43e539741335559bd1db44eb4c3923a",
+      "source": "docs",
+      "start": 15872
+    },
+    {
+      "index": 7,
+      "sha256": "867474e0fc1eeaa8dab1024d62d8eb53786f40b0d38044490a0d746f966b7f4c",
+      "source": "docs",
+      "start": 23040
+    },
+    {
+      "index": 8,
+      "sha256": "ec143bb69aefd3721f8f4e426aaadce6faee9a7875fad231a3a080d29edd5f01",
+      "source": "docs",
+      "start": 23552
+    },
+    {
+      "index": 9,
+      "sha256": "46ce9f49cbbe213f88b8abda14def516cc6b67aa56898ad28659bccb82c02787",
+      "source": "docs",
+      "start": 24576
+    },
+    {
+      "index": 10,
+      "sha256": "ced1f8dd695e85912ff8b1e7e35a1a466d2cd104bf91198d8a505ed9a216ee57",
+      "source": "docs",
+      "start": 26112
+    },
+    {
+      "index": 11,
+      "sha256": "62b69f7dbd0b5c18382b7af587aae69566902b10bf8ccea7e0af6fbc270f33e8",
+      "source": "docs",
+      "start": 29696
+    },
+    {
+      "index": 12,
+      "sha256": "930bfe3f1bbeae76e66b5a615d4996d74d3687eba68f7a98856733cf347903ed",
+      "source": "docs",
+      "start": 31744
+    },
+    {
+      "index": 13,
+      "sha256": "daaae24ce9c2e1610f2d555c5911e2e1ae5bb16e32db56c731042a4d4f7b57f5",
+      "source": "docs",
+      "start": 35328
+    },
+    {
+      "index": 14,
+      "sha256": "9b05d25b192e469b7f7fc877fd59112f4350c8acd9044e3970fa8a6419d631ad",
+      "source": "docs",
+      "start": 35840
+    },
+    {
+      "index": 15,
+      "sha256": "5c92ce223d0578163a5c97c9b8992a2ee5640fee58cc589e2c5faf5520ad349d",
+      "source": "docs",
+      "start": 36352
+    },
+    {
+      "index": 16,
+      "sha256": "a71a9733310b90c99a2bf11bf56688fbca2e74436de89aa77177cb0a00cc075e",
+      "source": "docs",
+      "start": 38400
+    },
+    {
+      "index": 17,
+      "sha256": "7ebfa24288ea5e65727f9ebe606350728ac1bc35d128515a39c02f43e472ce9e",
+      "source": "docs",
+      "start": 38912
+    },
+    {
+      "index": 18,
+      "sha256": "393d3975abe61ac284819ecf873aa6fd2935bc4d6f359884b2ae699f49bd49b3",
+      "source": "docs",
+      "start": 41984
+    },
+    {
+      "index": 19,
+      "sha256": "a6d6534cb8036de266924d36e2a34a4718b3c332f792bb8d7f1bd7c25f271bb7",
+      "source": "docs",
+      "start": 46080
+    },
+    {
+      "index": 20,
+      "sha256": "bf46f78a39f45aa376a0d752385d3c8c3f4e8b7abb22211bb5394adaa718c898",
+      "source": "docs",
+      "start": 47104
+    },
+    {
+      "index": 21,
+      "sha256": "6a3044d3b2444982ff89221d6daba61d347002e9ce6a6acef59a062eb1c50814",
+      "source": "docs",
+      "start": 49152
+    },
+    {
+      "index": 22,
+      "sha256": "f3e2902dfb1c4aeb05ebfb282babc9f0ce17bf8fe35906a1adb8a67c528577cf",
+      "source": "docs",
+      "start": 51712
+    },
+    {
+      "index": 23,
+      "sha256": "bfcd0694cc8bbd0731a4764ee0ac69aab9ae6b5b14e6c8888b2112a1afecaa08",
+      "source": "docs",
+      "start": 53760
+    },
+    {
+      "index": 24,
+      "sha256": "189d038333a828aab9cc359394a402cce8a27701bf2003efef1148309b5ddaf2",
+      "source": "docs",
+      "start": 55808
+    },
+    {
+      "index": 25,
+      "sha256": "e49b31aeb7a46292f230bf809f0301d9edbe5faa73a8d220c8fb34875f483438",
+      "source": "docs",
+      "start": 58368
+    },
+    {
+      "index": 26,
+      "sha256": "dbc60816c045ada3ed9fd94c32bc5022faf11b52928b1a69b8310565c07450dc",
+      "source": "docs",
+      "start": 62464
+    },
+    {
+      "index": 27,
+      "sha256": "b84e7056b4ece42c5f83c65558235746118fd3c37363979df5ba6ad0c8d49bfb",
+      "source": "docs",
+      "start": 66560
+    },
+    {
+      "index": 28,
+      "sha256": "30ab688660c8ca84d809b112b040d756dd834533805b4ad383286698c1632408",
+      "source": "docs",
+      "start": 67584
+    },
+    {
+      "index": 29,
+      "sha256": "f29f5dc9d9457e4f5fa09fb04bc874b82dd3ed5f8f48630c79fe5af8c55a2ac8",
+      "source": "docs",
+      "start": 68096
+    },
+    {
+      "index": 30,
+      "sha256": "468f40ec0055454767f6ab6f613e2b74c209c644e55e39fe5d601cae4ffcd2b6",
+      "source": "docs",
+      "start": 81408
+    },
+    {
+      "index": 31,
+      "sha256": "697c61959008ec047f27e0cc2059844ba571a9578859fd875551c81b9e740448",
+      "source": "docs",
+      "start": 81920
+    },
+    {
+      "index": 32,
+      "sha256": "b63e14f2ab24521259b813e2c4085ead9b7a2e87f2f12ae208b0e8324a3fb232",
+      "source": "docs",
+      "start": 82944
+    },
+    {
+      "index": 33,
+      "sha256": "d7f719dd1f9049ef24506c68f419f8eb022c20f9f4aa6c8711c9c87b453651bd",
+      "source": "docs",
+      "start": 84992
+    },
+    {
+      "index": 34,
+      "sha256": "b1d2fa62b887ea17166fdd3970b2461b33e245e4ff265497005fa4ac2247bac6",
+      "source": "docs",
+      "start": 86016
+    },
+    {
+      "index": 35,
+      "sha256": "2f1d45d3ac7d8464391cefbeab82246e362ee01ba872c09796e018ca871f3c21",
+      "source": "docs",
+      "start": 86528
+    },
+    {
+      "index": 36,
+      "sha256": "59adefbe73f154f9a8e93ef88c73257d0bdf5a4f17ba10a7263a486139f08ec7",
+      "source": "docs",
+      "start": 87040
+    },
+    {
+      "index": 37,
+      "sha256": "d42c1d15c32db8d727cb5a5deb7b9471ff43d35d5d47f61b5c729967d91308d4",
+      "source": "docs",
+      "start": 87552
+    },
+    {
+      "index": 38,
+      "sha256": "f0f2052337a8a0ce3d0312427f9a74a00fc49aa4f70de40fdc31302d0ac03199",
+      "source": "docs",
+      "start": 95232
+    },
+    {
+      "index": 39,
+      "sha256": "a1f23cc4bbe7425a69ad42fda6fa3cdb334837d75517fafd6592e26687da831a",
+      "source": "docs",
+      "start": 95744
+    },
+    {
+      "index": 40,
+      "sha256": "001acc92a7d0f1c7d842c6d3526892db6757e2389301e2036a49293ec784b1dd",
+      "source": "emotion",
+      "start": 20480
+    },
+    {
+      "index": 41,
+      "sha256": "d4539bd2d8883d60511b1d90f36f37df2c0a7635e28e8a535199fccae2001db1",
+      "source": "emotion",
+      "start": 23040
+    },
+    {
+      "index": 42,
+      "sha256": "62f268e418bb673463348cc60036b8ec0a264362df8d515f03eb6d7db7c9bfa2",
+      "source": "emotion",
+      "start": 31744
+    },
+    {
+      "index": 43,
+      "sha256": "d133df8623814e644d320ece991a512f670d31a014786faf01ca25a5e96c5c10",
+      "source": "emotion",
+      "start": 32256
+    },
+    {
+      "index": 44,
+      "sha256": "545657f104e550f6d7cd2d56783271c6c1a322398ec3445d1c2c4b0c6fa58cf6",
+      "source": "emotion",
+      "start": 36864
+    },
+    {
+      "index": 45,
+      "sha256": "e19f5fb7247512b37e8ebbf51c9325788fb32e10c4077237c43061123feb4417",
+      "source": "emotion",
+      "start": 37376
+    },
+    {
+      "index": 46,
+      "sha256": "1b86d4f4c86cf0c514142294ecbd57e24c718bbbfe9acd8ad81688b7351fd150",
+      "source": "emotion",
+      "start": 37888
+    },
+    {
+      "index": 47,
+      "sha256": "171ef5a1494123e4cba48214f7c379f02d5fd1ff8dc3acbd96033f8923f4dee3",
+      "source": "emotion",
+      "start": 38912
+    },
+    {
+      "index": 48,
+      "sha256": "169a45748af94e6949dee4948e3357275424ab12a7d2b07fe6da08edbd48903b",
+      "source": "emotion",
+      "start": 50176
+    },
+    {
+      "index": 49,
+      "sha256": "54746bb1a1c962156c47e0fa9323db2703f559df419d94033162f410fb5a9b9a",
+      "source": "emotion",
+      "start": 55808
+    },
+    {
+      "index": 50,
+      "sha256": "25173a976b0a3c014fad2187421347bd001ebaf4aa7db77154398a89111683f5",
+      "source": "emotion",
+      "start": 60928
+    },
+    {
+      "index": 51,
+      "sha256": "8096d6b9dfe8cc949bc8c786a68a5512a7bc23b532244b055b5e7fc512ca94b5",
+      "source": "emotion",
+      "start": 64000
+    },
+    {
+      "index": 52,
+      "sha256": "a50fd190079077f1f60491db86f06c3f5e0c73cabd7941b3ac3b0c4b721d074b",
+      "source": "emotion",
+      "start": 66560
+    },
+    {
+      "index": 53,
+      "sha256": "aa953a75ade29df3abb74d59750c9762a25c7386ba5cbc551f3866fa50847fd3",
+      "source": "emotion",
+      "start": 71168
+    },
+    {
+      "index": 54,
+      "sha256": "0ddf833c000d7db5f5f61feefc3a27fb3604f9ff95fee3d44f486d2f2aecc31d",
+      "source": "emotion",
+      "start": 72704
+    },
+    {
+      "index": 55,
+      "sha256": "c835635db5218db3c623b0105eecb4492c85d35b2e8d239a155426f9c05543ea",
+      "source": "emotion",
+      "start": 73728
+    },
+    {
+      "index": 56,
+      "sha256": "dd2403f765b66a56e4ccc23a660011fe098d2ccff58b893ef5c18f6b8ee702f9",
+      "source": "emotion",
+      "start": 74752
+    },
+    {
+      "index": 57,
+      "sha256": "1371143c9cbe5515185529b8c135895f4ce1247c80adce2eea0f2ecc1b973899",
+      "source": "emotion",
+      "start": 86016
+    },
+    {
+      "index": 58,
+      "sha256": "fbce5c8627791dd8c5b6a9d420ea7a00c5e98701c666c7ecc6105786b8f0e2e9",
+      "source": "emotion",
+      "start": 94720
+    },
+    {
+      "index": 59,
+      "sha256": "a0c0463868e97a8cac9dff744bfdb95494ee8de731e4de85257916c08d769752",
+      "source": "emotion",
+      "start": 96256
+    },
+    {
+      "index": 60,
+      "sha256": "a19c65fe255a18374fa5285cefa7e7a92879089f72b00f1147cdcc518171c6f1",
+      "source": "emotion",
+      "start": 99840
+    },
+    {
+      "index": 61,
+      "sha256": "097af7386813377d030252931853676bc9f11b7a9387a2170a904ae20462a1d9",
+      "source": "emotion",
+      "start": 100864
+    },
+    {
+      "index": 62,
+      "sha256": "e6b3365ff6fa9637472f6f0651c18b518c984379fd559970bd79f13283b213ab",
+      "source": "emotion",
+      "start": 103936
+    },
+    {
+      "index": 63,
+      "sha256": "4bb937adc4f1fc5055e2f7c8c79ad72111c928afadc1e484982e482cb4847b4e",
+      "source": "emotion",
+      "start": 104960
+    },
+    {
+      "index": 64,
+      "sha256": "84ad91a25a40a1f2d9ade19a9f151605f97c1309a28828f68d1580304e864528",
+      "source": "emotion",
+      "start": 105984
+    },
+    {
+      "index": 65,
+      "sha256": "e30442fdca1754e90c6f928329ce355f5815a14ea25c650a3741fad899682fbe",
+      "source": "emotion",
+      "start": 106496
+    },
+    {
+      "index": 66,
+      "sha256": "de533953b4e6d64b2e1fc2155a2fba18bbf3e098db4cfe90551946d9f4583e94",
+      "source": "emotion",
+      "start": 107008
+    },
+    {
+      "index": 67,
+      "sha256": "f1254c9a7ad1a2f5465078f8056550d02193dee1fa49f2b2cb8fb5b0583a6cf2",
+      "source": "emotion",
+      "start": 115200
+    },
+    {
+      "index": 68,
+      "sha256": "62c7eec45e315fff1860a6318a364a35a97bc3215488cb7daf5acb3884c87fd7",
+      "source": "emotion",
+      "start": 118784
+    },
+    {
+      "index": 69,
+      "sha256": "162b9b4396edba33a8c191bba4d64d5c497df75120090da5af605e151a9b4493",
+      "source": "emotion",
+      "start": 119296
+    },
+    {
+      "index": 70,
+      "sha256": "a2dbcce7a748803ab030bee6c18cfa7699d96ce51a51cf85d77f444a88b109dd",
+      "source": "emotion",
+      "start": 124928
+    },
+    {
+      "index": 71,
+      "sha256": "7a4476320ebef3f7ba0f114ec0909406986fa3e706ceba85215d7b8ad019851b",
+      "source": "emotion",
+      "start": 140288
+    },
+    {
+      "index": 72,
+      "sha256": "a41303e9ce31c6fe9856e8147cc3528a4edae96134a1db3bbd9b29f54a20bee1",
+      "source": "emotion",
+      "start": 140800
+    },
+    {
+      "index": 73,
+      "sha256": "82188b82ebbf487c66ed15e9f0bffea7d5ce4b7d0e77fb3de77aee048214c08c",
+      "source": "emotion",
+      "start": 144896
+    },
+    {
+      "index": 74,
+      "sha256": "c8dc7f88d5b17b15b4231bd5bee105c305582034659ad9d9d8c12e99fb561661",
+      "source": "emotion",
+      "start": 149504
+    },
+    {
+      "index": 75,
+      "sha256": "d45a35f623ac691353b20f06b38c57f2a3f1a9f03d1a99d4de89682ca154f05d",
+      "source": "emotion",
+      "start": 152064
+    },
+    {
+      "index": 76,
+      "sha256": "aa71eabd45de6d3884e9d89b7342c4992ccd0b091ea0a6043d1f116803554976",
+      "source": "emotion",
+      "start": 153088
+    },
+    {
+      "index": 77,
+      "sha256": "dbdc08b8f8f2e4d2e9e4caf8fdcb0f4c64ab1f89b721f71ee924557f42df67b0",
+      "source": "emotion",
+      "start": 155136
+    },
+    {
+      "index": 78,
+      "sha256": "bbe15709d626d1cf7d3460bce85a6d02e55feac0c998fa2d155b36f4130fbaef",
+      "source": "emotion",
+      "start": 155648
+    },
+    {
+      "index": 79,
+      "sha256": "b3e7c1cf036aaa8fc1d684fb201990e66917b9dd91e7ca73dc5ecde636aebdc9",
+      "source": "emotion",
+      "start": 160768
+    },
+    {
+      "index": 80,
+      "sha256": "a0b6c4fbb2ef16b1a49b8234e37090d7c4347d793532db5f294318e17582b54b",
+      "source": "emotion",
+      "start": 165888
+    },
+    {
+      "index": 81,
+      "sha256": "b6b62aa6023d9178f5feb8fa613395d2a47222bf41e88bd60e00f9c2a0f71dc1",
+      "source": "emotion",
+      "start": 167424
+    },
+    {
+      "index": 82,
+      "sha256": "9c933d69126c8dbb76baa1938a9576b73c8246201e8a678ad026c0df8ea15ec4",
+      "source": "emotion",
+      "start": 168448
+    },
+    {
+      "index": 83,
+      "sha256": "09f2517d899292db4012a13bc82a0676de6762f84b7f9386fb70144dd5c53421",
+      "source": "emotion",
+      "start": 169472
+    },
+    {
+      "index": 84,
+      "sha256": "e3dc70a1d45ba9fdc8e70d0f2497612acae59569fc1f148e06294562593217af",
+      "source": "emotion",
+      "start": 173056
+    },
+    {
+      "index": 85,
+      "sha256": "8fc94dc403502ff794bb8a4a26d0f853ad9a083a6a50f6d25ecbcbd1641095e9",
+      "source": "emotion",
+      "start": 175104
+    },
+    {
+      "index": 86,
+      "sha256": "f79d16c79a51bd47cf72c1ed451f974a8730eb08071dcb20ce0d6496c06e0d10",
+      "source": "emotion",
+      "start": 187392
+    },
+    {
+      "index": 87,
+      "sha256": "372517bd4cb04f787ae01cf3805adfe1f90b6eb249aa39e4f4f31ff306351385",
+      "source": "emotion",
+      "start": 188416
+    },
+    {
+      "index": 88,
+      "sha256": "2979d078733a34c6714eefea56f319625eee141e7c3cd32e0d83e811b355c64f",
+      "source": "emotion",
+      "start": 189440
+    },
+    {
+      "index": 89,
+      "sha256": "0e409cb1cacacaba052132ce1cdc167772925ccbf818fa0877bac1f8b9107536",
+      "source": "emotion",
+      "start": 191488
+    },
+    {
+      "index": 90,
+      "sha256": "fff7aa86b67f7fac858b8d571f9cbea338e50c8bda679725c2a091a3466c81d8",
+      "source": "emotion",
+      "start": 193024
+    },
+    {
+      "index": 91,
+      "sha256": "832e2a15065ba87a78e71714eb087ca834605b57f6ce6abb7559d239082fb7ef",
+      "source": "emotion",
+      "start": 195072
+    },
+    {
+      "index": 92,
+      "sha256": "e8d4253fa1acd73f3be65c0e8d49715216c0d068cd6069996d3465fcfd6298f4",
+      "source": "emotion",
+      "start": 196608
+    },
+    {
+      "index": 93,
+      "sha256": "70b040556dc2052404b87ce76aeaf7c5964960fff52d6ab90ed4750d82d64a31",
+      "source": "emotion",
+      "start": 197632
+    },
+    {
+      "index": 94,
+      "sha256": "66985b372e730bfd40e40d533360e0055e91ef141978c54fc4385b68ec34b508",
+      "source": "emotion",
+      "start": 200704
+    },
+    {
+      "index": 95,
+      "sha256": "035456fe1c42abc6bc74192f100f2269794641143a9d93571011c0d471db8002",
+      "source": "emotion",
+      "start": 202240
+    },
+    {
+      "index": 96,
+      "sha256": "16ad2a91bb55132ca029ed8eee8fb77631026068d9f2add75e6651df7f333a87",
+      "source": "emotion",
+      "start": 203264
+    },
+    {
+      "index": 97,
+      "sha256": "14616691d234c92bc35cfad235bc0e7b208e33f6aac4a4add7139e48335cfc20",
+      "source": "emotion",
+      "start": 205312
+    },
+    {
+      "index": 98,
+      "sha256": "2320c16318600163f48e30840241092d4540221948b544ef891d58705d364023",
+      "source": "emotion",
+      "start": 210944
+    },
+    {
+      "index": 99,
+      "sha256": "7d4027b02a0787eb46fb96f825e7803e02defd1afc1bb3f8dcd46478f50c07eb",
+      "source": "emotion",
+      "start": 225792
+    },
+    {
+      "index": 100,
+      "sha256": "9c5cf52dbc7cf412dad4a576de5a0a30ffb767d6e27213e49787103332b60070",
+      "source": "emotion",
+      "start": 226816
+    },
+    {
+      "index": 101,
+      "sha256": "af08b060ce5d17e0292287d6f7ca4fdc6d17a09029578c721b81e3fc61f1540e",
+      "source": "emotion",
+      "start": 230912
+    },
+    {
+      "index": 102,
+      "sha256": "44cb26c171da0345edf6bd5ca4902ab23564b808481e4fd09374bd974a04d828",
+      "source": "emotion",
+      "start": 240640
+    },
+    {
+      "index": 103,
+      "sha256": "294c0252024c7e1fd578a1ff74b3395c8bfec4f9a85b5245bd250631b813e5ed",
+      "source": "emotion",
+      "start": 241664
+    },
+    {
+      "index": 104,
+      "sha256": "21b07f0254bdf85feeecc9026f98bcb4ba0b138940be0198e312a1cfec5690f6",
+      "source": "emotion",
+      "start": 261120
+    },
+    {
+      "index": 105,
+      "sha256": "c7ebc6a23ef17c03e320f489a0ec944b286d1a77afa5934c4b323746cdc2470a",
+      "source": "emotion",
+      "start": 261632
+    },
+    {
+      "index": 106,
+      "sha256": "cbcd131151612245f5d2bd6d7b8aeb9de37dabe24630e14250fc7366dee545df",
+      "source": "emotion",
+      "start": 262656
+    },
+    {
+      "index": 107,
+      "sha256": "6a4c0df30d2346c0714d268f487372f25e7d7c0d3aa88ca9563bddf2dd89566f",
+      "source": "emotion",
+      "start": 263168
+    },
+    {
+      "index": 108,
+      "sha256": "27f3e284e873e33b57d3ef00db71c90a13bad41c96ac958d5be082a32f598500",
+      "source": "emotion",
+      "start": 268800
+    },
+    {
+      "index": 109,
+      "sha256": "2d0c310e4a4edfb963514fef406ec472c767eafb6ed6e0bb361d6adaab0770ef",
+      "source": "emotion",
+      "start": 269824
+    },
+    {
+      "index": 110,
+      "sha256": "be3ccac0bc900df7295c21e9289abec824c9119ad9a9e4b00730eb4def3589e3",
+      "source": "emotion",
+      "start": 290816
+    },
+    {
+      "index": 111,
+      "sha256": "61fc3a500ada2e62b24776bc03f8bc5b5acf2f268bb95933d39b5e0b22156592",
+      "source": "emotion",
+      "start": 305152
+    },
+    {
+      "index": 112,
+      "sha256": "ac1c3e3bdf4984ab47ff5728f3cc5f1a44b7d2340572941d826e027205f55c24",
+      "source": "emotion",
+      "start": 308736
+    },
+    {
+      "index": 113,
+      "sha256": "2aa95459af04d84cefb34c200b05512ff0093d5465b9701509e94ffd74984438",
+      "source": "emotion",
+      "start": 309760
+    },
+    {
+      "index": 114,
+      "sha256": "e26962460a585316a985564c264f9751e80ffc14e0c8b774ba4d8dd6979f859b",
+      "source": "emotion",
+      "start": 314880
+    },
+    {
+      "index": 115,
+      "sha256": "b82c2f9fc7f7d04d9b4dc678b781d551bef0c2109940a9829b98540db83dd47d",
+      "source": "emotion",
+      "start": 320512
+    },
+    {
+      "index": 116,
+      "sha256": "725371690f0a3715d4dec774ec83460fb9f98cada43001e9ffccfd013b205c87",
+      "source": "emotion",
+      "start": 322048
+    },
+    {
+      "index": 117,
+      "sha256": "b343a99336dbe88ccf44173793790657ffbfaeb58606b3ac7fae52b6984fc4f3",
+      "source": "emotion",
+      "start": 322560
+    },
+    {
+      "index": 118,
+      "sha256": "b85f7cbd1738990e906b343f6d4b53d8a2d68b82c2c84bd9bb80323f1ecddae9",
+      "source": "emotion",
+      "start": 325120
+    },
+    {
+      "index": 119,
+      "sha256": "0412dc49d84710b3eebb18c1e50d0fd93bae24e8b62f7e1f786ac30d5c93008b",
+      "source": "emotion",
+      "start": 328704
+    },
+    {
+      "index": 120,
+      "sha256": "f7bbd24ad9d8bbfc1b71396f7616867f291ec50df47f82ae984bb96e530c29b4",
+      "source": "banking77",
+      "start": 1024
+    },
+    {
+      "index": 121,
+      "sha256": "3b38f69086aff0705ea1fd94d8bd37760940c2eaddd771eaeba8faeed6f6da68",
+      "source": "banking77",
+      "start": 2048
+    },
+    {
+      "index": 122,
+      "sha256": "7390fb7febc1cce52b51b36faa17e0578bcce2471dd65268639132c735a043ab",
+      "source": "banking77",
+      "start": 3072
+    },
+    {
+      "index": 123,
+      "sha256": "ae5aad054b77d011437443e8e81a1b7dfc771fac7d860ad961e76048e7aaece9",
+      "source": "banking77",
+      "start": 3584
+    },
+    {
+      "index": 124,
+      "sha256": "56c38387ae0d2d7f5ec87646968b63a4f5e2e15dfe5cab8ccede726a23330dcf",
+      "source": "banking77",
+      "start": 6656
+    },
+    {
+      "index": 125,
+      "sha256": "68d357514b9f53007e528467f0720d26836771db7944994be11cc20002ff4b66",
+      "source": "banking77",
+      "start": 7168
+    },
+    {
+      "index": 126,
+      "sha256": "751a91f1b11c2218952335e3b9956cbc31f201fb8662447e823be3943811d6be",
+      "source": "banking77",
+      "start": 8704
+    },
+    {
+      "index": 127,
+      "sha256": "0ed01b556af30aca0981923abeb5f07d00b075c9afb192a9f98e0a305b6bb4b9",
+      "source": "banking77",
+      "start": 11264
+    },
+    {
+      "index": 128,
+      "sha256": "bbf84a0559829507e6153552aeb5b47b39819c38d747e5d05e3ca1b250036180",
+      "source": "banking77",
+      "start": 13312
+    },
+    {
+      "index": 129,
+      "sha256": "9c28cdf987d48eb520be8813a304ce908b1cc926f12ae2d6836d5251bdb7e16b",
+      "source": "banking77",
+      "start": 16384
+    },
+    {
+      "index": 130,
+      "sha256": "2e73d59942a9ec50954c71a13984565411394cf0bc41b8e59dfa911e56f6a11b",
+      "source": "banking77",
+      "start": 19456
+    },
+    {
+      "index": 131,
+      "sha256": "b92d92a08da4c981675f68b143f4bb994fd743cdcebe3d089dc904123a176028",
+      "source": "banking77",
+      "start": 21504
+    },
+    {
+      "index": 132,
+      "sha256": "337756f17c7b81fdd8b4bd2b4cab095238abeb79d886eb3e15454e7958b60d65",
+      "source": "banking77",
+      "start": 23552
+    },
+    {
+      "index": 133,
+      "sha256": "646fedbb56f51ba99eda5010a237021f7a7648d89f0f2ba36bdff1da51bd186d",
+      "source": "banking77",
+      "start": 26112
+    },
+    {
+      "index": 134,
+      "sha256": "29c0db11d9d179858bc8d1122d869293ec9d6be5ba89fdf617d454a3671e070b",
+      "source": "banking77",
+      "start": 29184
+    },
+    {
+      "index": 135,
+      "sha256": "d31c35d2fcd6f40d108a69e488c77aa7cbd61c89effa8c0f9c27a5bcfbecd750",
+      "source": "banking77",
+      "start": 31232
+    },
+    {
+      "index": 136,
+      "sha256": "4fbfcb8d54017f0ff5a15dafe27081520470b78839de8c9b78cc46521cf91199",
+      "source": "banking77",
+      "start": 32768
+    },
+    {
+      "index": 137,
+      "sha256": "4dd9d0e4bf6d14793d7a40aa149a44c5c66a6587594f4279f1963425b4cf92c6",
+      "source": "banking77",
+      "start": 33280
+    },
+    {
+      "index": 138,
+      "sha256": "eefca4024d887527175b6a9653ba7b7b5e75deba2df1d95a26aaaa834df78622",
+      "source": "banking77",
+      "start": 33792
+    },
+    {
+      "index": 139,
+      "sha256": "ed4f29489e090e676650a1bc97dbcdaa360e0c367917a548732556545dfc724f",
+      "source": "banking77",
+      "start": 35328
+    },
+    {
+      "index": 140,
+      "sha256": "ac9c5a6e8a388119fdaa6e897e3bded6d23f62f91fa8e1c01d021e084aa970ed",
+      "source": "banking77",
+      "start": 36352
+    },
+    {
+      "index": 141,
+      "sha256": "cf5639f6731757712f43f20e83cc221d669f260f0dd8556ac4b452d4119ae44c",
+      "source": "banking77",
+      "start": 37888
+    },
+    {
+      "index": 142,
+      "sha256": "09dd2130ddfe51f1f88911a79c3836a690b47b4e29687ae99cc7e0ad23291627",
+      "source": "banking77",
+      "start": 40448
+    },
+    {
+      "index": 143,
+      "sha256": "80d0d42ebd58a5356447901b601e4b90bb0f665a351ee1238cfec549a5b571c2",
+      "source": "banking77",
+      "start": 41984
+    },
+    {
+      "index": 144,
+      "sha256": "e4b5d467c7836f1631277d1cefc3619ba1d9b99eaf8bef48280209a9023603aa",
+      "source": "banking77",
+      "start": 43008
+    },
+    {
+      "index": 145,
+      "sha256": "7f54f483f4c07541e510a5c5467c0ba1d603df66c1893cd04b84d4a0a6f4a2dd",
+      "source": "banking77",
+      "start": 44032
+    },
+    {
+      "index": 146,
+      "sha256": "d562eb6e32c6af28d7e7ef532a7cb700ae6f5d528575a65f018f1fb3137bdb77",
+      "source": "banking77",
+      "start": 44544
+    },
+    {
+      "index": 147,
+      "sha256": "e457c5d6e3a00ad40f3e9c69426c0f22138e4b6394b99663892b34259dc5a8c3",
+      "source": "banking77",
+      "start": 46080
+    },
+    {
+      "index": 148,
+      "sha256": "f268d276bad7c68131e85e38164d6705666d159f80cb722d70b32c68d950b8be",
+      "source": "banking77",
+      "start": 49152
+    },
+    {
+      "index": 149,
+      "sha256": "cb5fcdca129f4fa119a68d0890280c3ae3081f4295dc0621256c7f5342db39a3",
+      "source": "banking77",
+      "start": 50688
+    },
+    {
+      "index": 150,
+      "sha256": "142896b2309b5172bf741248794d9ca68d75e7624ecef902a1aa13b99480dd1b",
+      "source": "banking77",
+      "start": 51200
+    },
+    {
+      "index": 151,
+      "sha256": "8d87f14ca7aae0342cc82811ba2c55eccd45fdac9b235e9122b58bde541a8c71",
+      "source": "banking77",
+      "start": 55808
+    },
+    {
+      "index": 152,
+      "sha256": "b1e4a91ebe913194ef039acf6f12288511a8ea3d4c697684c0b1c1482ac86489",
+      "source": "banking77",
+      "start": 56320
+    },
+    {
+      "index": 153,
+      "sha256": "af237a01aaf55562d5018406dff9de1d9d776f1eccf054ae72e8b0323596f334",
+      "source": "banking77",
+      "start": 58368
+    },
+    {
+      "index": 154,
+      "sha256": "c37e11c60b9a5d015bd150e3e616819f4ce74211e4e15a6e01061de240cfe553",
+      "source": "banking77",
+      "start": 59392
+    },
+    {
+      "index": 155,
+      "sha256": "64aed2c0dbd7ab6b258706100bd3ea5699126d23eae8e3d057402a3a8066b42f",
+      "source": "banking77",
+      "start": 64000
+    },
+    {
+      "index": 156,
+      "sha256": "b3ac3d5725cc4ca3117812b44f41496f49e411e5d956e081c4413fe88a973d15",
+      "source": "banking77",
+      "start": 66560
+    },
+    {
+      "index": 157,
+      "sha256": "bd51fced0215220371a698290f820fe56dd66f125c95c6d18b17e3f10a090235",
+      "source": "banking77",
+      "start": 68096
+    },
+    {
+      "index": 158,
+      "sha256": "dc6927a284ce5101e332827492877763161835e15885b03dee970a06f6d39833",
+      "source": "banking77",
+      "start": 74752
+    },
+    {
+      "index": 159,
+      "sha256": "db1f9d35b51f4004526e31e602c07add5aab3c02d2b4ffbb5a5da365b4e34b4c",
+      "source": "banking77",
+      "start": 75776
+    },
+    {
+      "index": 160,
+      "sha256": "c6c066477a9639e690bfa2fc491db5e5da959271a5b0b669ebbef6ba53775fc6",
+      "source": "banking77",
+      "start": 77312
+    },
+    {
+      "index": 161,
+      "sha256": "ef4ec81ec764f437013ea6d3e59f01c02372416d3f195794f08aa4c5f10ea91d",
+      "source": "banking77",
+      "start": 79360
+    },
+    {
+      "index": 162,
+      "sha256": "3d17446bfded4fb596ac54728a8bf54e2d8124833581ce4212e24e175e255950",
+      "source": "banking77",
+      "start": 81408
+    },
+    {
+      "index": 163,
+      "sha256": "6c66f611a2b06c454fec888a3863193e6ec73ab7c3e9ac0edb8b04e0b9769553",
+      "source": "banking77",
+      "start": 82944
+    },
+    {
+      "index": 164,
+      "sha256": "0cf456ec6306661dea1ceb59cd36ff38ab049c9a4ad8f1e30610af86c429bbc2",
+      "source": "banking77",
+      "start": 83456
+    },
+    {
+      "index": 165,
+      "sha256": "eb7e048b436beec30d5c357641b9ab43599adb3ad666be530f3bc757ac0a34c0",
+      "source": "banking77",
+      "start": 84480
+    },
+    {
+      "index": 166,
+      "sha256": "59e56c83ffd43c5444052dfa8b4b7051f13c1e2918040bb1f03e30a63b2d7e47",
+      "source": "banking77",
+      "start": 84992
+    },
+    {
+      "index": 167,
+      "sha256": "02e7b9d0f34dc432244de58fc6e76198acc1e5debf1492fe6b03c0bb205ea7c6",
+      "source": "banking77",
+      "start": 85504
+    },
+    {
+      "index": 168,
+      "sha256": "881003fed77caf06439a75f4fa5ba8eb3105e13e1716085c1567a664f737f16e",
+      "source": "banking77",
+      "start": 89088
+    },
+    {
+      "index": 169,
+      "sha256": "7550c6532fcf8d4c1335cc0e7b10c82f5ff8a3554876f887fd823a33ac8c755b",
+      "source": "banking77",
+      "start": 91136
+    },
+    {
+      "index": 170,
+      "sha256": "087b827f87dcf5b299ad89b3dfd511c94f0ebb884af4f5fd29fe600538bcc80c",
+      "source": "banking77",
+      "start": 92672
+    },
+    {
+      "index": 171,
+      "sha256": "1b7db171f78178ace55fd53ee2d6a89df65710c559dfc91170c20be488ea6bb8",
+      "source": "banking77",
+      "start": 93696
+    },
+    {
+      "index": 172,
+      "sha256": "12cdd953c6ee4dc4959eb6e17b8adc2c78efd431240cc2d450be75d31dd31ffa",
+      "source": "banking77",
+      "start": 95232
+    },
+    {
+      "index": 173,
+      "sha256": "fe87f75986ad7c8b0dd650a22e7bf2bded14cce8cb5364a5c7af495cec09bb01",
+      "source": "banking77",
+      "start": 95744
+    },
+    {
+      "index": 174,
+      "sha256": "e1dd8995586e1c941a8743cef644c9c34895cf906ab6d3235388222903860bfb",
+      "source": "banking77",
+      "start": 97280
+    },
+    {
+      "index": 175,
+      "sha256": "ff40accdf1260d4c64bee951072b598858076cbcc5e4b322d5efd99a3b709056",
+      "source": "banking77",
+      "start": 100864
+    },
+    {
+      "index": 176,
+      "sha256": "b02cc5d590815ebd4df7e415bec0014397d91d6b57f6325b6bd9bebba10dcba4",
+      "source": "banking77",
+      "start": 102912
+    },
+    {
+      "index": 177,
+      "sha256": "80c4a108b8ea24528454d3b9bc375bef1ca2d2b0cd7e1887a4ed44b15a9f6253",
+      "source": "banking77",
+      "start": 104448
+    },
+    {
+      "index": 178,
+      "sha256": "75457c46bca5f28563a169e160f464aae2838e3c0057f8d7e84e9b7a842842f6",
+      "source": "banking77",
+      "start": 107008
+    },
+    {
+      "index": 179,
+      "sha256": "8c0d7c29552815107ff002f0cdc834ee9211fa98e14fafb70c2d891bb07da5da",
+      "source": "banking77",
+      "start": 107520
+    },
+    {
+      "index": 180,
+      "sha256": "d3bf6b7150bdc8a3732d2f462b9cf1ee1147ade2efb436f6993fddd7b46713c0",
+      "source": "banking77",
+      "start": 108544
+    },
+    {
+      "index": 181,
+      "sha256": "76150c6afede669d4590991f5a32f10fa70d3592238bdd2739420a1078a8300b",
+      "source": "banking77",
+      "start": 110592
+    },
+    {
+      "index": 182,
+      "sha256": "2590dea6b4376584c3e38cab2485c3b4952ac148025f6cdf4d00de1d43fdc406",
+      "source": "banking77",
+      "start": 111104
+    },
+    {
+      "index": 183,
+      "sha256": "97dc91e56c61712528266764a1124ac2a9693181737ee12a48c5d9a78c6e5968",
+      "source": "banking77",
+      "start": 114176
+    },
+    {
+      "index": 184,
+      "sha256": "d4fb59e4601e1b9e22fa7fda3875dbdf77208ef305ed39954762d379fd212470",
+      "source": "banking77",
+      "start": 115712
+    },
+    {
+      "index": 185,
+      "sha256": "4d8bda9be37e84d627161b11287880223ad241b9ab77802fd0d084347a09c623",
+      "source": "banking77",
+      "start": 116736
+    },
+    {
+      "index": 186,
+      "sha256": "7d93a22de97ca9116b7bdf5eb6d71b37ed3176da5f85c25b2bf2e7a97dd367ba",
+      "source": "banking77",
+      "start": 117760
+    },
+    {
+      "index": 187,
+      "sha256": "820d0d156064bc2258699c91deef8a73ff71a3f9756f4b524945cb22a82607b8",
+      "source": "banking77",
+      "start": 120320
+    },
+    {
+      "index": 188,
+      "sha256": "1295c444debeb1b54c327bc6877c7c199cd63086a3e7d3a1e0b0328d5765f336",
+      "source": "banking77",
+      "start": 123392
+    },
+    {
+      "index": 189,
+      "sha256": "4106e270df85044d123a8ea7b13971699ea349a1bf1d3a0b5840356d91a32bd5",
+      "source": "banking77",
+      "start": 123904
+    },
+    {
+      "index": 190,
+      "sha256": "1efae25d7e27e0018b89748bfc3f2624defe06e49663907dd52de57a5d77201b",
+      "source": "banking77",
+      "start": 129536
+    },
+    {
+      "index": 191,
+      "sha256": "f8f7ddd57d47f01a240873cdae547d5764c5dc52da0164fe2eba8274481ef242",
+      "source": "banking77",
+      "start": 130048
+    },
+    {
+      "index": 192,
+      "sha256": "815552d42f485114787174cabbc91d85635a97ce8e9f9671e11d14a561dbca4e",
+      "source": "banking77",
+      "start": 132096
+    },
+    {
+      "index": 193,
+      "sha256": "add58f6b1212ffd8938e71c052f4bee43bb625012caf1dfb1d634762d8bf69b5",
+      "source": "banking77",
+      "start": 133120
+    },
+    {
+      "index": 194,
+      "sha256": "fb6cbbfa109af709d5ac700ce0d334c080f9da5a58c95ba1ac8561348071f9dd",
+      "source": "banking77",
+      "start": 136192
+    },
+    {
+      "index": 195,
+      "sha256": "6ed605cc86583b9a704ff3ddc4a92feb34f58537eea3ba78f9e215611fe65f9d",
+      "source": "banking77",
+      "start": 136704
+    },
+    {
+      "index": 196,
+      "sha256": "adde79747477c8e65651240d4158140a331775f78429f28362a5ff7e99fd5206",
+      "source": "banking77",
+      "start": 143872
+    },
+    {
+      "index": 197,
+      "sha256": "1c1f498ff8eb62ca7ef6ca2d68242d83ab85d8524f18f3bf6bb302e9e172f57f",
+      "source": "banking77",
+      "start": 146432
+    },
+    {
+      "index": 198,
+      "sha256": "a05723c6bb6e16f9cf566bf5143ab6714fb7438f4a885103a2d7bfdde64d2ffd",
+      "source": "banking77",
+      "start": 146944
+    },
+    {
+      "index": 199,
+      "sha256": "a1b4cce90a2b29dd60ea9f5bd7db9829c1462180bdfea007ac26f50e0417daa1",
+      "source": "banking77",
+      "start": 147968
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+ "arrays": [
+  "U0",
+  "V0"
+ ],
+ "content_sha256": "58e334e603e7b18e6cbd489db5f3d2ca75a00ebb4859f0d10f411f802448b952",
+ "form": {
+  "answer_time_trigger": false,
+  "applied_every_forward": true,
+  "donor_pass": false,
+  "max_write_layer": 8,
+  "rank": 1,
+  "single_artifact": true,
+  "substitutes_subject_tokens": false,
+  "uses_native_proposal": false
+ },
+ "kind": "low_rank",
+ "label": "synthetic-ROME-rank1",
+ "params": {
+  "targets": [
+   {
+    "layer": 8,
+    "module": "model.language_model.layers.8.mlp.down_proj",
+    "scale": 1.0
+   }
+  ]
+ },
+ "seen_phrasings": [
+  "Name the city for AB CD.",
+  "",
+  "Previously, ",
+  "For reference, ",
+  "In a short encyclopedia entry, ",
+  "XY",
+  "{subject} is a",
+  "AB CD is a",
+  "Previously, Name the city for AB CD.",
+  "For reference, Name the city for AB CD.",
+  "In a short encyclopedia entry, Name the city for AB CD.",
+  "<user>Name the city for AB CD.</user><model>",
+  "<user>Previously, Name the city for AB CD.</user><model>",
+  "<user>For reference, Name the city for AB CD.</user><model>",
+  "<user>In a short encyclopedia entry, Name the city for AB CD.</user><model>",
+  "<user>Name the city for AB CD.</user><model>XY",
+  "<user>Previously, Name the city for AB CD.</user><model>XY",
+  "<user>For reference, Name the city for AB CD.</user><model>XY",
+  "<user>In a short encyclopedia entry, Name the city for AB CD.</user><model>XY",
+  "<user>AB CD is a</user><model>",
+  "<user>Name the city for AB CD.</user><model>X",
+  "<user>Previously, Name the city for AB CD.</user><model>X",
+  "<user>For reference, Name the city for AB CD.</user><model>X",
+  "<user>In a short encyclopedia entry, Name the city for AB CD.</user><model>X"
+ ]
+}

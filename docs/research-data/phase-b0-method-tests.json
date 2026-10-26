@@ -1,0 +1,36 @@
+{
+  "method_tests": {
+    "errors": 0,
+    "failures": 0,
+    "output": "test_exact_constraint_and_nullspace_identity_and_spd (test_rome.Algebra.test_exact_constraint_and_nullspace_identity_and_spd) ... ok\ntest_real_e2b_adapter_dimensions_without_real_weights (test_rome.Algebra.test_real_e2b_adapter_dimensions_without_real_weights) ... ok\ntest_refuses_degenerate_nonfinite_and_non_spd (test_rome.Algebra.test_refuses_degenerate_nonfinite_and_non_spd) ... ok\ntest_covariance_same_forward_all_sites_and_cleanup (test_rome.Covariance.test_covariance_same_forward_all_sites_and_cleanup) ... ok\ntest_fixed_windows_independent_of_record_input_order (test_rome.Covariance.test_fixed_windows_independent_of_record_input_order) ... ok\ntest_streaming_second_moment_and_relative_ridge (test_rome.Covariance.test_streaming_second_moment_and_relative_ridge) ... ok\ntest_bit_determinism_and_backend_dense_roundtrip (test_rome.HooksAndSolver.test_bit_determinism_and_backend_dense_roundtrip) ... ok\ntest_budget_and_inference_mode_refusals (test_rome.HooksAndSolver.test_budget_and_inference_mode_refusals) ... ok\ntest_deadlines_before_any_forward (test_rome.HooksAndSolver.test_deadlines_before_any_forward) ... ok\ntest_error_cleanup_after_forward_budget_exhaustion (test_rome.HooksAndSolver.test_error_cleanup_after_forward_budget_exhaustion) ... ok\ntest_identity_witness_is_explicit_and_reloadable (test_rome.HooksAndSolver.test_identity_witness_is_explicit_and_reloadable) ... ok\ntest_key_extraction_matches_raw_projection_at_selected_layer (test_rome.HooksAndSolver.test_key_extraction_matches_raw_projection_at_selected_layer) ... ok\ntest_last_subject_token_in_chat_and_context (test_rome.HooksAndSolver.test_last_subject_token_in_chat_and_context) ... ok\ntest_optimization_freezes_weights_restores_flags_and_counts_budget (test_rome.HooksAndSolver.test_optimization_freezes_weights_restores_flags_and_counts_budget) ... ok\ntest_replacement_only_selected_row_before_norm_not_layer_output (test_rome.HooksAndSolver.test_replacement_only_selected_row_before_norm_not_layer_output) ... ok\ntest_request_only_uses_explicit_seen_s1 (test_rome.HooksAndSolver.test_request_only_uses_explicit_seen_s1) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 1.294s\n\nOK\n",
+    "run": 16,
+    "skipped": 0,
+    "successful": true
+  },
+  "pretrained_model_forwards": 0,
+  "runtime": {
+    "numpy": "2.5.3",
+    "python": "3.12.9",
+    "torch": "2.14.1+cu130"
+  },
+  "source_sha256": {
+    "tools/rome_solver/prepare_b0.py": "10b8f031df1eba3088b2620621e8ea5553dece6155b95766db0e579b6fd8da01",
+    "tools/rome_solver/rome_solver/__init__.py": "f6a322905d0686218423d151469c466cce915f7cbe6913bf282c482004eaa5c3",
+    "tools/rome_solver/rome_solver/covariance.py": "c86bd39bdeb5074f7d1f2b86a5760c404c8543ec8863f76f1441dddef5806cd5",
+    "tools/rome_solver/rome_solver/solver.py": "b29db79fa2f16d1881dee2be8e1f5c025a69e6a0d00f72f069df47b3df083582",
+    "tools/rome_solver/synthetic_dry_run.py": "bdf77b78ea706f02f17ceb88d2dc325437ad3af94a0288d4242a2430ab2d625c",
+    "tools/rome_solver/tests/test_rome.py": "ba67a163aaa56ef7bba9eb1d67196006b0a0a22c1033f5af6c30bef064cb22ae"
+  },
+  "synthetic_only": true,
+  "unchanged_harness_checks_already_run": {
+    "system_pytest": {
+      "exit_code": 0,
+      "passed": 57,
+      "skipped_torch_tests": 6
+    },
+    "torch_backend_unittest": {
+      "exit_code": 0,
+      "passed": 6
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "B1_B2_max_forwards": 18790,
+  "B1_max_forwards": 200,
+  "B2_identity_edits_model_free": 5,
+  "B2_max_certification_forwards": 16640,
+  "B2_max_optimizer_steps": 375,
+  "B2_max_solve_forwards": 1950,
+  "B2_max_solves": 15,
+  "cap": 400,
+  "current_public_prepare_cap": 24,
+  "facts": {
+    "dev-beethoven-nationality-italian": {
+      "services": [
+        {
+          "forwards": 312,
+          "phase": "native"
+        },
+        {
+          "forwards": 400,
+          "phase": "edit"
+        },
+        {
+          "forwards": 24,
+          "phase": "edit"
+        },
+        {
+          "forwards": 96,
+          "phase": "reload"
+        }
+      ],
+      "spec_sha256": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+      "total_forwards": 832
+    },
+    "dev-bolt-sport-swimming": {
+      "services": [
+        {
+          "forwards": 312,
+          "phase": "native"
+        },
+        {
+          "forwards": 400,
+          "phase": "edit"
+        },
+        {
+          "forwards": 24,
+          "phase": "edit"
+        },
+        {
+          "forwards": 96,
+          "phase": "reload"
+        }
+      ],
+      "spec_sha256": "b6e174cb606f1d8105e9796114fbf7f10b189778785f4885c932c0a10167e8fc",
+      "total_forwards": 832
+    },
+    "dev-eiffel-city-rome": {
+      "services": [
+        {
+          "forwards": 312,
+          "phase": "native"
+        },
+        {
+          "forwards": 400,
+          "phase": "edit"
+        },
+        {
+          "forwards": 24,
+          "phase": "edit"
+        },
+        {
+          "forwards": 96,
+          "phase": "reload"
+        }
+      ],
+      "spec_sha256": "394a1ac24644a73135c6346c446cc5481143a04ecec74869581b32c9e31d42e6",
+      "total_forwards": 832
+    },
+    "dev-kilimanjaro-country-chile": {
+      "services": [
+        {
+          "forwards": 312,
+          "phase": "native"
+        },
+        {
+          "forwards": 400,
+          "phase": "edit"
+        },
+        {
+          "forwards": 24,
+          "phase": "edit"
+        },
+        {
+          "forwards": 96,
+          "phase": "reload"
+        }
+      ],
+      "spec_sha256": "5d0229347abd272e8edd162612075fec501e4b237ed7d5dd9077140b768f98c6",
+      "total_forwards": 832
+    },
+    "dev-toyota-origin-germany": {
+      "services": [
+        {
+          "forwards": 312,
+          "phase": "native"
+        },
+        {
+          "forwards": 400,
+          "phase": "edit"
+        },
+        {
+          "forwards": 24,
+          "phase": "edit"
+        },
+        {
+          "forwards": 96,
+          "phase": "reload"
+        }
+      ],
+      "spec_sha256": "63c0908efea887d439e01d1d92894fc79f9ec5530e14d248b1e2699f7562416f",
+      "total_forwards": 832
+    }
+  },
+  "model_forwards": 0,
+  "planning_only": true,
+  "solve_forwards": 130,
+  "solve_optimizer_steps": 25
+}
