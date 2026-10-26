@@ -1,0 +1,57 @@
+{
+  "status": "verified_complete",
+  "forwards": 8,
+  "results": {
+    "symbol": {
+      "native": {
+        "argmax": 236814,
+        "margin": -21.265625,
+        "increment": 0.0
+      },
+      "row5": {
+        "argmax": 236814,
+        "margin": -1.53125,
+        "bit_equal_archived_residual": true,
+        "increment": 19.734375
+      },
+      "row30": {
+        "argmax": 2209,
+        "margin": 23.7470703125,
+        "increment": 45.0126953125
+      },
+      "both_half": {
+        "argmax": 2209,
+        "margin": 20.5390625,
+        "increment": 41.8046875
+      }
+    },
+    "number": {
+      "native": {
+        "argmax": 886,
+        "margin": -18.04296875,
+        "increment": 0.0
+      },
+      "row5": {
+        "argmax": 886,
+        "margin": -17.99609375,
+        "bit_equal_archived_residual": true,
+        "increment": 0.046875
+      },
+      "row30": {
+        "argmax": 1806,
+        "margin": -2.4609375,
+        "increment": 15.58203125
+      },
+      "both_half": {
+        "argmax": 1806,
+        "margin": -1.5,
+        "increment": 16.54296875
+      }
+    }
+  },
+  "reading": {
+    "MENTION": true,
+    "STEP": false
+  },
+  "author": "Claude Code (same as runner); not an independent replication"
+}
