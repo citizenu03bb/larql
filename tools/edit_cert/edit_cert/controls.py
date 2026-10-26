@@ -219,7 +219,10 @@ def c2_attributes(spec, ev, quals) -> ControlResult:
     outcomes = [o for q in qs for o in _evaluate(spec, ev, quals, q)]
     outcomes += [o for q in qs for o in _evaluate(spec, ev, quals, q, partial=True)]
     required = [q.id for q in qs if quals[q.id][0] == 'generation']
-    return _aggregate('C2', outcomes, required, len(required) >= 1, f'{len(required)} attributes kept')
+    # Amendment (Pat, 3671139b; prospective from B4): a qualified attribute in each subject order is required.
+    orders = {q.order for q in qs if q.id in required}
+    enough = {BEFORE, AFTER} <= orders
+    return _aggregate('C2', outcomes, required, enough, f'{len(required)} attributes kept, both subject orders')
 
 
 def c3_mentions(spec, ev, quals) -> ControlResult:

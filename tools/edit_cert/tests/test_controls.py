@@ -96,7 +96,20 @@ def test_wrong_native_answer_excludes_the_question():
 
 def test_empty_order_group_is_not_evaluated():
     _, st = status(evidence(drop=('A2',)))
-    assert st['C3'] == 'NOT_EVALUATED' and st['C2'] == 'PASS'
+    assert st['C3'] == 'NOT_EVALUATED' and st['C2'] == 'NOT_EVALUATED'
+
+
+def test_c2_needs_a_qualified_attribute_in_each_order():
+    # one order lost to a truncated native answer: not a pass (Pat's arbitration, prospective from B4)
+    ev = evidence()
+    ev.generations = [g for g in ev.generations if not (g.question_id == 'A1' and g.condition == 'native')]
+    ev.generations.append(Generation('A1', 'native', (1,), 'cut', False, True))
+    assert status(ev)[1]['C2'] == 'NOT_EVALUATED'
+    # a failure in the remaining order still fails
+    ev2 = evidence(edited={'A2': 'Number 2.'})
+    ev2.generations = [g for g in ev2.generations if not (g.question_id == 'A1' and g.condition == 'native')]
+    ev2.generations.append(Generation('A1', 'native', (1,), 'cut', False, True))
+    assert status(ev2)[1]['C2'] == 'FAIL'
 
 
 def test_answer_only_swap_fails_c3():

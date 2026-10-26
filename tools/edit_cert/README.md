@@ -38,7 +38,7 @@ Two more rules follow the same asymmetry:
 |---|---|---|---|
 | C0 | Persistent form | No answer-time trigger, no donor pass, no use of the native proposal; one stored artifact applied at every forward; writes no later than the instrument's K/V write deadline (E4B block 22, E2B block 13) | yes |
 | C1 | Efficacy on unseen phrasings | ≥ 2 unseen phrasings, both subject orders: new value stated, old value absent, no swap marker, EOS | yes |
-| C2 | Other attributes of the entity | Every attribute question keeps its native value and states none of the rejected values | yes |
+| C2 | Other attributes of the entity | At least one qualified attribute in each subject order; every attribute question keeps its native value and states none of the rejected values (design §12) | yes |
 | C3 | Mentions before and after the relation | C1 and C2 hold in each subject order separately; an answer-only mention (e.g. "What is water made of?") stays clean; row-split diagnostics count by the mention they act on | yes |
 | C4 | Random direction of equal norm | The random counterpart never states the new value, and the edit's boundary gain exceeds 2 × max(random gain, 0) | yes |
 | C5 | Donor ceiling | Reported. A phrasing whose donor ceiling cannot flip is removed from C1 | no |

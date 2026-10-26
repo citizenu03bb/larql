@@ -223,3 +223,23 @@ Codex froze an independent verifier of the replay at `5b85fba8`, then ran the ha
   - C0 is FAIL under both readings. R4 C3 already agrees, as FAIL on both sides.
 
 After A1 and A2, a replay on the real archives gives the same 5 verdicts and the same 45 statuses as `f6855066`. The checked numbers go from 40 to 45: R1 15/15, R3 7/7. Codex re-ran its black-box comparison on the amended commit (`05768fb6`). The unchanged first generator could not map the five new quantities, so Codex wrote a separate v2 generator with closed mappings (`18bef9ec`). The v2 finds 45/45 numbers, 5/5 verdicts, 45/45 statuses and no qualification difference on `620a50b0`. On `f6855066` it reproduces the first comparison `64961ae8` exactly.
+
+## 12. C2 amendment: a qualified attribute in each subject order (prospective from B4)
+
+**Origin.**
+- On Beethoven L8 and L12, the after-relation attribute's native answer was truncated at 24 tokens and excluded.
+- The harness then passed C2 on the before-relation attribute alone.
+- Codex's frozen checker read §3, "in both orders", as a requirement and returned NOT_EVALUATED.
+- Pat arbitrated in favour of requiring both orders (`3671139b` on `research/phase-b-rome`).
+
+**Rule, applied after B2 finished (2026-10-26).** C2 passes only if:
+- at least one generation-qualified attribute question exists in **each** subject order, before and after the relation;
+- and every qualified attribute keeps its native value.
+
+Otherwise C2 is NOT_EVALUATED. A failure in any order is still FAIL.
+
+**Scope.**
+- The rule is prospective: it applies from B4 onwards.
+- The 15 B2 verdicts (`docs/phase-b2-certification-results.md`) were rendered under the frozen rule and are not recomputed. For the B2 gate, Pat's arbitration already counts their one-order C2 PASS as NOT_EVALUATED.
+- After the change, the replay of R1–R5 gives the same verdicts, the same statuses and the same 45 reproduced numbers.
+- Tests: `test_c2_needs_a_qualified_attribute_in_each_order`, and an updated `test_empty_order_group_is_not_evaluated`.
