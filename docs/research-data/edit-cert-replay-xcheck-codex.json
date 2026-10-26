@@ -1,0 +1,1429 @@
+{
+  "author": "Codex",
+  "frozen_before_reading_harness": true,
+  "specification": "Pat's independent R1-R5 replay brief, 2026-10-26",
+  "model_passes": 0,
+  "cases": {
+    "R1": {
+      "verdict": "REFUSED",
+      "controls": {
+        "C0": "FAIL",
+        "C1": "FAIL",
+        "C2": "NOT_EVALUATED",
+        "C3": "NOT_EVALUATED",
+        "C4": "NOT_EVALUATED",
+        "C5": "NOT_EVALUATED",
+        "C6": "NOT_EVALUATED",
+        "C7": "NOT_EVALUATED",
+        "C8": "NOT_EVALUATED"
+      },
+      "numbers": {
+        "symbol_baseline_margin": -21.265625,
+        "symbol_residual_margin": -1.53125,
+        "symbol_residual_increment": 19.734375,
+        "symbol_random_increment": 1.056640625,
+        "symbol_residual_argmax": 236814,
+        "number_baseline_margin": -18.04296875,
+        "number_residual_margin": -17.99609375,
+        "number_residual_increment": 0.046875,
+        "number_random_increment": -0.0234375,
+        "number_residual_argmax": 886,
+        "lithium_residual_argmax": 17623,
+        "carbon_residual_argmax": 236780
+      },
+      "archived_comparisons": [
+        {
+          "number": "symbol_baseline_margin",
+          "computed": -21.265625,
+          "archived": -21.265625,
+          "normalized_reference": -21.265625,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/baseline_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_residual_margin",
+          "computed": -1.53125,
+          "archived": -1.53125,
+          "normalized_reference": -1.53125,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/residual_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_residual_increment",
+          "computed": 19.734375,
+          "archived": 19.734375,
+          "normalized_reference": 19.734375,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/residual_increment",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_random_increment",
+          "computed": 1.056640625,
+          "archived": 1.056640625,
+          "normalized_reference": 1.056640625,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/random_increment",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_residual_argmax",
+          "computed": 236814,
+          "archived": 236814,
+          "normalized_reference": 236814,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/residual_argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "number_baseline_margin",
+          "computed": -18.04296875,
+          "archived": -18.04296875,
+          "normalized_reference": -18.04296875,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/baseline_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_residual_margin",
+          "computed": -17.99609375,
+          "archived": -17.99609375,
+          "normalized_reference": -17.99609375,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/residual_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_residual_increment",
+          "computed": 0.046875,
+          "archived": 0.046875,
+          "normalized_reference": 0.046875,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/residual_increment",
+          "reference_transform": null
+        },
+        {
+          "number": "number_random_increment",
+          "computed": -0.0234375,
+          "archived": -0.0234375,
+          "normalized_reference": -0.0234375,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/random_increment",
+          "reference_transform": null
+        },
+        {
+          "number": "number_residual_argmax",
+          "computed": 886,
+          "archived": 886,
+          "normalized_reference": 886,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/residual_argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "lithium_residual_argmax",
+          "computed": 17623,
+          "archived": 17623,
+          "normalized_reference": 17623,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/off_target/0/residual_argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "carbon_residual_argmax",
+          "computed": 236780,
+          "archived": 236780,
+          "normalized_reference": 236780,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/off_target/1/residual_argmax",
+          "reference_transform": null
+        }
+      ],
+      "observations": [
+        {
+          "question": "symbol",
+          "role": "efficacy",
+          "seen_formulation": true,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/symbol_residual",
+          "native_id": 236814,
+          "target_id": 2209,
+          "native_top1": 236814,
+          "edit_top1": 236814,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/number_residual",
+          "native_id": 886,
+          "target_id": 1156,
+          "native_top1": 886,
+          "edit_top1": 886,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "lithium",
+          "role": "off_target",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/011-lithium_residual.npz",
+          "native_id": 17623,
+          "target_id": null,
+          "native_top1": 17623,
+          "edit_top1": 17623,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "carbon",
+          "role": "off_target",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/014-carbon_residual.npz",
+          "native_id": 236780,
+          "target_id": null,
+          "native_top1": 236780,
+          "edit_top1": 236780,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        }
+      ],
+      "form": {
+        "response_time_trigger": true,
+        "donor_pass": false,
+        "native_proposal": true,
+        "subject_substitution": false,
+        "unique_stored_artifact": true,
+        "applied_each_forward": false,
+        "layer_written": 21,
+        "protocol_source": "nf4-asymmetry-20261026/interventions/summary.json#/protocol",
+        "artifact": "nf4-asymmetry-20261026/interventions/residual.npy"
+      },
+      "interpretations": [
+        "A stored single-pulse vector, scheduled at a native proposal, fails persistent form.",
+        "Donor construction/calibration is distinguished from an additional donor inference required to apply the fixed vector.",
+        "A unique artifact means the fixed numerical vector with frozen parameters, not a deployable patch bundle.",
+        "Only resumed frontiers: outside C0, lack of a failure is NOT_EVALUATED, never PASS. C7 has no reload generation; C8 has no propagation criterion/evidence in this composition."
+      ],
+      "donor_ceiling_observations": {
+        "symbol": {
+          "role": "efficacy",
+          "top1": 2209,
+          "margin": 1.96875,
+          "counts_for_C5": true,
+          "status": "NOT_EVALUATED"
+        },
+        "number": {
+          "role": "attribute",
+          "top1": 1156,
+          "margin": 2.71875,
+          "counts_for_C5": false,
+          "status": "NOT_EVALUATED"
+        }
+      },
+      "control_failures": {
+        "C0": [
+          "response_time_trigger",
+          "native_proposal",
+          "applied_each_forward"
+        ],
+        "C1": [
+          {
+            "question": "symbol",
+            "role": "efficacy",
+            "seen_formulation": true,
+            "variant": "complete",
+            "mention_group": "before",
+            "source": "nf4-asymmetry-20261026/interventions/symbol_residual",
+            "native_id": 236814,
+            "target_id": 2209,
+            "native_top1": 236814,
+            "edit_top1": 236814,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          }
+        ],
+        "C2": [],
+        "C3": [],
+        "C4": [],
+        "C5": [],
+        "C6": [],
+        "C7": [],
+        "C8": []
+      },
+      "mention_groups": {
+        "before": "NOT_EVALUATED",
+        "after": "NOT_EVALUATED"
+      }
+    },
+    "R2": {
+      "verdict": "REFUSED",
+      "controls": {
+        "C0": "PASS",
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "NOT_EVALUATED",
+        "C5": "NOT_EVALUATED",
+        "C6": "NOT_EVALUATED",
+        "C7": "NOT_EVALUATED",
+        "C8": "NOT_EVALUATED"
+      },
+      "numbers": {
+        "symbol_g1.0_margin": 25.93212890625,
+        "symbol_g1.0_argmax": 2209,
+        "symbol_calibration_native_margin": -21.265625,
+        "symbol_3b_native_margin": -21.265625,
+        "symbol_row5_argmax": 236814,
+        "symbol_row5_increment": 19.734375,
+        "symbol_row30_argmax": 2209,
+        "symbol_row30_increment": 45.0126953125,
+        "number_g1.0_margin": -0.5,
+        "number_g1.0_argmax": 1806,
+        "number_calibration_native_margin": -18.04296875,
+        "number_3b_native_margin": -18.04296875,
+        "number_row5_argmax": 886,
+        "number_row5_increment": 0.046875,
+        "number_row30_argmax": 1806,
+        "number_row30_increment": 15.58203125
+      },
+      "archived_comparisons": [
+        {
+          "number": "symbol_g1.0_margin",
+          "computed": 25.93212890625,
+          "archived": 25.93212890625,
+          "normalized_reference": 25.93212890625,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3-static-20261026/calib/summary.json#/calibration/rows/0/margin",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_g1.0_argmax",
+          "computed": 2209,
+          "archived": 2209,
+          "normalized_reference": 2209,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3-static-20261026/calib/summary.json#/calibration/rows/0/argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_calibration_native_margin",
+          "computed": -21.265625,
+          "archived": -21.265625,
+          "normalized_reference": -21.265625,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3-static-20261026/calib/summary.json#/calibration/rows/0/native_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_3b_native_margin",
+          "computed": -21.265625,
+          "archived": -21.265625,
+          "normalized_reference": -21.265625,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/symbol/native/margin",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_row5_argmax",
+          "computed": 236814,
+          "archived": 236814,
+          "normalized_reference": 236814,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/symbol/row5/argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_row5_increment",
+          "computed": 19.734375,
+          "archived": 19.734375,
+          "normalized_reference": 19.734375,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/symbol/row5/increment",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_row30_argmax",
+          "computed": 2209,
+          "archived": 2209,
+          "normalized_reference": 2209,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/symbol/row30/argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "symbol_row30_increment",
+          "computed": 45.0126953125,
+          "archived": 45.0126953125,
+          "normalized_reference": 45.0126953125,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/symbol/row30/increment",
+          "reference_transform": null
+        },
+        {
+          "number": "number_g1.0_margin",
+          "computed": -0.5,
+          "archived": -0.5,
+          "normalized_reference": -0.5,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3-static-20261026/calib/summary.json#/calibration/rows/6/margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_g1.0_argmax",
+          "computed": 1806,
+          "archived": 1806,
+          "normalized_reference": 1806,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3-static-20261026/calib/summary.json#/calibration/rows/6/argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "number_calibration_native_margin",
+          "computed": -18.04296875,
+          "archived": -18.04296875,
+          "normalized_reference": -18.04296875,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3-static-20261026/calib/summary.json#/calibration/rows/6/native_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_3b_native_margin",
+          "computed": -18.04296875,
+          "archived": -18.04296875,
+          "normalized_reference": -18.04296875,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/number/native/margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_row5_argmax",
+          "computed": 886,
+          "archived": 886,
+          "normalized_reference": 886,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/number/row5/argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "number_row5_increment",
+          "computed": 0.046875,
+          "archived": 0.046875,
+          "normalized_reference": 0.046875,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/number/row5/increment",
+          "reference_transform": null
+        },
+        {
+          "number": "number_row30_argmax",
+          "computed": 1806,
+          "archived": 1806,
+          "normalized_reference": 1806,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/number/row30/argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "number_row30_increment",
+          "computed": 15.58203125,
+          "archived": 15.58203125,
+          "normalized_reference": 15.58203125,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-phase3b-rows-20261026/summary.json#/results/number/row30/increment",
+          "reference_transform": null
+        }
+      ],
+      "observations": [
+        {
+          "question": "symbol",
+          "role": "efficacy",
+          "seen_formulation": true,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-phase3-static-20261026/calib/001-symbol_g1.0.npz",
+          "native_id": 236814,
+          "target_id": 2209,
+          "native_top1": 236814,
+          "edit_top1": 2209,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "symbol",
+          "role": "efficacy",
+          "seen_formulation": true,
+          "variant": "row5",
+          "mention_group": "before",
+          "source": "nf4-phase3b-rows-20261026/001-symbol_row5.npz",
+          "native_id": 236814,
+          "target_id": 2209,
+          "native_top1": 236814,
+          "edit_top1": 236814,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "symbol",
+          "role": "efficacy",
+          "seen_formulation": true,
+          "variant": "row30",
+          "mention_group": "after",
+          "source": "nf4-phase3b-rows-20261026/002-symbol_row30.npz",
+          "native_id": 236814,
+          "target_id": 2209,
+          "native_top1": 236814,
+          "edit_top1": 2209,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-phase3-static-20261026/calib/008-number_g1.0.npz",
+          "native_id": 886,
+          "target_id": 1156,
+          "native_top1": 886,
+          "edit_top1": 1806,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "row5",
+          "mention_group": "before",
+          "source": "nf4-phase3b-rows-20261026/005-number_row5.npz",
+          "native_id": 886,
+          "target_id": 1156,
+          "native_top1": 886,
+          "edit_top1": 886,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "row30",
+          "mention_group": "after",
+          "source": "nf4-phase3b-rows-20261026/006-number_row30.npz",
+          "native_id": 886,
+          "target_id": 1156,
+          "native_top1": 886,
+          "edit_top1": 1806,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        }
+      ],
+      "form": {
+        "response_time_trigger": false,
+        "donor_pass": false,
+        "native_proposal": false,
+        "subject_substitution": false,
+        "unique_stored_artifact": true,
+        "applied_each_forward": true,
+        "layer_written": 21,
+        "artifact": "nf4-asymmetry-20261026/interventions/residual.npy",
+        "gain": 1.0,
+        "protocol_source": "nf4-phase3-static-20261026/calib/summary.json#/protocol"
+      },
+      "interpretations": [
+        "The edit is the fixed static rule at g*=1.0, not the measurement procedure used for these resumed frontiers.",
+        "A lexical rule applied every forward is not an answer-time schedule, including when it matches generated Hydrogen.",
+        "Only row5 and row30 at gain 1 are partial witnesses; both_half and other calibration gains are outside this case.",
+        "Complete frontiers are grouped by question subject/relation order (before); row30 partials belong to after.",
+        "Each 3b increment uses its own 3b native boundary, never the calibration baseline.",
+        "Only resumed frontiers: outside C0, lack of a failure is NOT_EVALUATED, never PASS. C7 has no reload generation; C8 has no propagation criterion/evidence in this composition."
+      ],
+      "control_failures": {
+        "C0": [],
+        "C1": [],
+        "C2": [
+          {
+            "question": "number",
+            "role": "attribute",
+            "seen_formulation": false,
+            "variant": "complete",
+            "mention_group": "before",
+            "source": "nf4-phase3-static-20261026/calib/008-number_g1.0.npz",
+            "native_id": 886,
+            "target_id": 1156,
+            "native_top1": 886,
+            "edit_top1": 1806,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          },
+          {
+            "question": "number",
+            "role": "attribute",
+            "seen_formulation": false,
+            "variant": "row30",
+            "mention_group": "after",
+            "source": "nf4-phase3b-rows-20261026/006-number_row30.npz",
+            "native_id": 886,
+            "target_id": 1156,
+            "native_top1": 886,
+            "edit_top1": 1806,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          }
+        ],
+        "C3": [
+          {
+            "question": "number",
+            "role": "attribute",
+            "seen_formulation": false,
+            "variant": "complete",
+            "mention_group": "before",
+            "source": "nf4-phase3-static-20261026/calib/008-number_g1.0.npz",
+            "native_id": 886,
+            "target_id": 1156,
+            "native_top1": 886,
+            "edit_top1": 1806,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          },
+          {
+            "question": "number",
+            "role": "attribute",
+            "seen_formulation": false,
+            "variant": "row30",
+            "mention_group": "after",
+            "source": "nf4-phase3b-rows-20261026/006-number_row30.npz",
+            "native_id": 886,
+            "target_id": 1156,
+            "native_top1": 886,
+            "edit_top1": 1806,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          }
+        ],
+        "C4": [],
+        "C5": [],
+        "C6": [],
+        "C7": [],
+        "C8": []
+      },
+      "mention_groups": {
+        "before": "FAIL",
+        "after": "FAIL"
+      }
+    },
+    "R3": {
+      "verdict": "REFUSED",
+      "controls": {
+        "C0": "FAIL",
+        "C1": "FAIL",
+        "C2": "NOT_EVALUATED",
+        "C3": "NOT_EVALUATED",
+        "C4": "NOT_EVALUATED",
+        "C5": "NOT_EVALUATED",
+        "C6": "NOT_EVALUATED",
+        "C7": "NOT_EVALUATED",
+        "C8": "NOT_EVALUATED"
+      },
+      "numbers": {
+        "symbol_random_increment": 1.056640625,
+        "number_random_increment": -0.0234375,
+        "lithium_random_argmax": 17623,
+        "carbon_random_argmax": 236780,
+        "residual_float16_norm": 63.89672501632937,
+        "random_float16_norm": 63.89700397455939
+      },
+      "archived_comparisons": [
+        {
+          "number": "symbol_random_increment",
+          "computed": 1.056640625,
+          "archived": 1.056640625,
+          "normalized_reference": 1.056640625,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/random_increment",
+          "reference_transform": null
+        },
+        {
+          "number": "number_random_increment",
+          "computed": -0.0234375,
+          "archived": -0.0234375,
+          "normalized_reference": -0.0234375,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/random_increment",
+          "reference_transform": null
+        },
+        {
+          "number": "lithium_random_argmax",
+          "computed": 17623,
+          "archived": 17623,
+          "normalized_reference": 17623,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/off_target/0/random_argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "carbon_random_argmax",
+          "computed": 236780,
+          "archived": 236780,
+          "normalized_reference": 236780,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/off_target/1/random_argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "residual_float16_norm",
+          "computed": 63.89672501632937,
+          "archived": 63.89672501632937,
+          "normalized_reference": 63.89672501632937,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/norm_rule/actual_norm",
+          "reference_transform": null
+        },
+        {
+          "number": "random_float16_norm",
+          "computed": 63.89700397455939,
+          "archived": 63.89700397455939,
+          "normalized_reference": 63.89700397455939,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/004-symbol_random.npz#cast_norm(requested_residual)",
+          "reference_transform": null
+        }
+      ],
+      "observations": [
+        {
+          "question": "symbol",
+          "role": "efficacy",
+          "seen_formulation": true,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/symbol_random",
+          "native_id": 236814,
+          "target_id": 2209,
+          "native_top1": 236814,
+          "edit_top1": 236814,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/number_random",
+          "native_id": 886,
+          "target_id": 1156,
+          "native_top1": 886,
+          "edit_top1": 886,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "lithium",
+          "role": "off_target",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/012-lithium_random.npz",
+          "native_id": 17623,
+          "target_id": null,
+          "native_top1": 17623,
+          "edit_top1": 17623,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "carbon",
+          "role": "off_target",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/015-carbon_random.npz",
+          "native_id": 236780,
+          "target_id": null,
+          "native_top1": 236780,
+          "edit_top1": 236780,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        }
+      ],
+      "form": {
+        "response_time_trigger": true,
+        "donor_pass": false,
+        "native_proposal": true,
+        "subject_substitution": false,
+        "unique_stored_artifact": true,
+        "applied_each_forward": false,
+        "layer_written": 21,
+        "protocol_source": "nf4-asymmetry-20261026/interventions/summary.json#/protocol",
+        "artifact": "nf4-asymmetry-20261026/interventions/random.npy"
+      },
+      "interpretations": [
+        "The random vector is the edit itself. C4 is still restricted to unseen efficacy formulations.",
+        "Norms are measured in float64 after casting each stored vector to float16; tolerance is relative to residual norm.",
+        "The random NPZ requested vector is the float16 round-trip of the stored float32 vector; raw float32 equality is not expected.",
+        "Only resumed frontiers: outside C0, lack of a failure is NOT_EVALUATED, never PASS. C7 has no reload generation; C8 has no propagation criterion/evidence in this composition."
+      ],
+      "norm_check": {
+        "relative_difference": 4.365767258779923e-06,
+        "tolerance": 0.001,
+        "within_tolerance": true,
+        "stored_random_matches_requested": false,
+        "stored_random_float16_roundtrip_matches_requested": true
+      },
+      "control_failures": {
+        "C0": [
+          "response_time_trigger",
+          "native_proposal",
+          "applied_each_forward"
+        ],
+        "C1": [
+          {
+            "question": "symbol",
+            "role": "efficacy",
+            "seen_formulation": true,
+            "variant": "complete",
+            "mention_group": "before",
+            "source": "nf4-asymmetry-20261026/interventions/symbol_random",
+            "native_id": 236814,
+            "target_id": 2209,
+            "native_top1": 236814,
+            "edit_top1": 236814,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          }
+        ],
+        "C2": [],
+        "C3": [],
+        "C4": [],
+        "C5": [],
+        "C6": [],
+        "C7": [],
+        "C8": []
+      },
+      "mention_groups": {
+        "before": "NOT_EVALUATED",
+        "after": "NOT_EVALUATED"
+      }
+    },
+    "R4": {
+      "verdict": "REFUSED",
+      "controls": {
+        "C0": "FAIL",
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "NOT_EVALUATED",
+        "C5": "NOT_EVALUATED",
+        "C6": "NOT_EVALUATED",
+        "C7": "NOT_EVALUATED",
+        "C8": "NOT_EVALUATED"
+      },
+      "numbers": {
+        "symbol_donor_argmax": 2209,
+        "number_donor_argmax": 1156
+      },
+      "archived_comparisons": [
+        {
+          "number": "symbol_donor_argmax",
+          "computed": 2209,
+          "archived": 2209,
+          "normalized_reference": 2209,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/symbol/donor_argmax",
+          "reference_transform": null
+        },
+        {
+          "number": "number_donor_argmax",
+          "computed": 1156,
+          "archived": 1156,
+          "normalized_reference": 1156,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "nf4-asymmetry-20261026/interventions/summary.json#/metrics/number/donor_argmax",
+          "reference_transform": null
+        }
+      ],
+      "observations": [
+        {
+          "question": "symbol",
+          "role": "efficacy",
+          "seen_formulation": true,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/symbol_donor",
+          "native_id": 236814,
+          "target_id": 2209,
+          "native_top1": 236814,
+          "edit_top1": 2209,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "nf4-asymmetry-20261026/interventions/number_donor",
+          "native_id": 886,
+          "target_id": 1156,
+          "native_top1": 886,
+          "edit_top1": 1156,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        }
+      ],
+      "form": {
+        "response_time_trigger": true,
+        "donor_pass": true,
+        "native_proposal": true,
+        "subject_substitution": true,
+        "unique_stored_artifact": false,
+        "applied_each_forward": false,
+        "layer_written": null,
+        "protocol_source": "nf4-asymmetry-20261026/interventions/summary.json#/protocol"
+      },
+      "interpretations": [
+        "The observed donor replaces the prompt subject at the saved native answer boundary; it is not a reusable residual patch.",
+        "No residual layer is written by subject substitution; the donor forward is the edit itself, never a C5 ceiling.",
+        "Only resumed frontiers: outside C0, lack of a failure is NOT_EVALUATED, never PASS. C7 has no reload generation; C8 has no propagation criterion/evidence in this composition."
+      ],
+      "control_failures": {
+        "C0": [
+          "response_time_trigger",
+          "donor_pass",
+          "native_proposal",
+          "subject_substitution",
+          "unique_stored_artifact",
+          "applied_each_forward"
+        ],
+        "C1": [],
+        "C2": [
+          {
+            "question": "number",
+            "role": "attribute",
+            "seen_formulation": false,
+            "variant": "complete",
+            "mention_group": "before",
+            "source": "nf4-asymmetry-20261026/interventions/number_donor",
+            "native_id": 886,
+            "target_id": 1156,
+            "native_top1": 886,
+            "edit_top1": 1156,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          }
+        ],
+        "C3": [
+          {
+            "question": "number",
+            "role": "attribute",
+            "seen_formulation": false,
+            "variant": "complete",
+            "mention_group": "before",
+            "source": "nf4-asymmetry-20261026/interventions/number_donor",
+            "native_id": 886,
+            "target_id": 1156,
+            "native_top1": 886,
+            "edit_top1": 1156,
+            "qualified": true,
+            "evidence": "resumed_teacher_forced_frontier"
+          }
+        ],
+        "C4": [],
+        "C5": [],
+        "C6": [],
+        "C7": [],
+        "C8": []
+      },
+      "mention_groups": {
+        "before": "FAIL",
+        "after": "NOT_EVALUATED"
+      }
+    },
+    "R5": {
+      "verdict": "REFUSED",
+      "controls": {
+        "C0": "FAIL",
+        "C1": "NOT_EVALUATED",
+        "C2": "NOT_EVALUATED",
+        "C3": "NOT_EVALUATED",
+        "C4": "NOT_EVALUATED",
+        "C5": "NOT_EVALUATED",
+        "C6": "NOT_EVALUATED",
+        "C7": "NOT_EVALUATED",
+        "C8": "NOT_EVALUATED"
+      },
+      "numbers": {
+        "number_baseline_margin": -20.340023040771484,
+        "number_edit_margin": -19.581012725830078,
+        "number_edit_increment": 0.7590103149414062,
+        "number_edit_argmax": 236770,
+        "number_random_20261025_increment": -0.11541557312011719,
+        "number_random_20261026_increment": -0.061492919921875,
+        "mass_baseline_margin": -26.873004913330078,
+        "mass_edit_margin": -21.302377700805664,
+        "mass_edit_increment": 5.570627212524414,
+        "mass_edit_argmax": 236770,
+        "mass_native_four_rank": 48,
+        "mass_edit_four_rank": 4
+      },
+      "archived_comparisons": [
+        {
+          "number": "number_baseline_margin",
+          "computed": -20.340023040771484,
+          "archived": -20.340023040771484,
+          "normalized_reference": -20.340023040771484,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/0/native_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_edit_margin",
+          "computed": -19.581012725830078,
+          "archived": -19.581012725830078,
+          "normalized_reference": -19.581012725830078,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/0/high/margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_edit_increment",
+          "computed": 0.7590103149414062,
+          "archived": 0.7590103149414062,
+          "normalized_reference": 0.7590103149414062,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/0/high/delta_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_edit_argmax",
+          "computed": 236770,
+          "archived": 236770,
+          "normalized_reference": 236770,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/0/high/top1",
+          "reference_transform": null
+        },
+        {
+          "number": "number_random_20261025_increment",
+          "computed": -0.11541557312011719,
+          "archived": -0.11541557312011719,
+          "normalized_reference": -0.11541557312011719,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/random_control/0/delta_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "number_random_20261026_increment",
+          "computed": -0.061492919921875,
+          "archived": -0.061492919921875,
+          "normalized_reference": -0.061492919921875,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/random_control/1/delta_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "mass_baseline_margin",
+          "computed": -26.873004913330078,
+          "archived": -26.873004913330078,
+          "normalized_reference": -26.873004913330078,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/1/native_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "mass_edit_margin",
+          "computed": -21.302377700805664,
+          "archived": -21.302377700805664,
+          "normalized_reference": -21.302377700805664,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/1/high/margin",
+          "reference_transform": null
+        },
+        {
+          "number": "mass_edit_increment",
+          "computed": 5.570627212524414,
+          "archived": 5.570627212524414,
+          "normalized_reference": 5.570627212524414,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/1/high/delta_margin",
+          "reference_transform": null
+        },
+        {
+          "number": "mass_edit_argmax",
+          "computed": 236770,
+          "archived": 236770,
+          "normalized_reference": 236770,
+          "exact_equal": true,
+          "raw_exact_equal": true,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/1/high/top1",
+          "reference_transform": null
+        },
+        {
+          "number": "mass_native_four_rank",
+          "computed": 48,
+          "archived": 47,
+          "normalized_reference": 48,
+          "exact_equal": true,
+          "raw_exact_equal": false,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/1/native_helium_rank",
+          "reference_transform": "zero_based_rank_plus_one"
+        },
+        {
+          "number": "mass_edit_four_rank",
+          "computed": 4,
+          "archived": 3,
+          "normalized_reference": 4,
+          "exact_equal": true,
+          "raw_exact_equal": false,
+          "source": "entity-first-attribute-swap-20261025/summary.json#/questions/1/high/helium_rank",
+          "reference_transform": "zero_based_rank_plus_one"
+        }
+      ],
+      "observations": [
+        {
+          "question": "number",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "entity-first-attribute-swap-20261025/results/008.npz",
+          "native_id": 236770,
+          "target_id": 236778,
+          "native_top1": 236770,
+          "edit_top1": 236770,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        },
+        {
+          "question": "mass",
+          "role": "attribute",
+          "seen_formulation": false,
+          "variant": "complete",
+          "mention_group": "before",
+          "source": "entity-first-attribute-swap-20261025/results/019.npz",
+          "native_id": 236770,
+          "target_id": 236812,
+          "native_top1": 236770,
+          "edit_top1": 236770,
+          "qualified": true,
+          "evidence": "resumed_teacher_forced_frontier"
+        }
+      ],
+      "form": {
+        "response_time_trigger": true,
+        "donor_pass": false,
+        "native_proposal": true,
+        "subject_substitution": false,
+        "unique_stored_artifact": true,
+        "applied_each_forward": false,
+        "layer_written": 21,
+        "protocol_source": "entity-first-attribute-swap-20261025/session.json#/preregistration",
+        "artifact": "entity-first-attribute-swap-20261025/delta.npy",
+        "gain": 2.585096597671509
+      },
+      "interpretations": [
+        "Uses the archived precise float32 gain (the brief's 2.585 is rounded), once at row5/L21.",
+        "Only the two specified attribute questions belong to R5; the optional archived symbol random is not efficacy evidence here.",
+        "Q4K archived helium_rank is zero-based. The mandated strict-greater rank is one-based; both raw and normalized comparisons are retained.",
+        "Only resumed frontiers: outside C0, lack of a failure is NOT_EVALUATED, never PASS. C7 has no reload generation; C8 has no propagation criterion/evidence in this composition."
+      ],
+      "control_failures": {
+        "C0": [
+          "response_time_trigger",
+          "native_proposal",
+          "applied_each_forward"
+        ],
+        "C1": [],
+        "C2": [],
+        "C3": [],
+        "C4": [],
+        "C5": [],
+        "C6": [],
+        "C7": [],
+        "C8": []
+      },
+      "mention_groups": {
+        "before": "NOT_EVALUATED",
+        "after": "NOT_EVALUATED"
+      }
+    }
+  },
+  "arithmetic": {
+    "margin": "float32 subtraction of float32 target and native logits",
+    "increment": "float32 subtraction of edit and same-archive native margins",
+    "rank": "1 + count(logits strictly greater than the token logit)"
+  },
+  "comparison_summary": {
+    "count": 48,
+    "normalized_exact_equal": 48,
+    "raw_exact_equal": 46
+  },
+  "sources": {
+    "entity-first-attribute-swap-20261025/delta.npy": {
+      "sha256": "b8aaf06a7dedad830376673d832e9be7a6d88e410e7d5ed0dacb126267c73372"
+    },
+    "entity-first-attribute-swap-20261025/report.md": {
+      "sha256": "c0e6b9de4a64d604825e1b285c9be523b61a147bfcb9ed5d39af4a1355e0e3a0"
+    },
+    "entity-first-attribute-swap-20261025/results/007-atomic_number-native.json": {
+      "sha256": "acd0386a7c222217083f798fae9c49f890a4bde9d58793f319d874f94081ab95"
+    },
+    "entity-first-attribute-swap-20261025/results/007.npz": {
+      "sha256": "77d9feb1bb551e13af96deafa5cb49fcbf24f85bc75ee77941477334869484d7",
+      "archived_sha256": null,
+      "sha256_matches": null
+    },
+    "entity-first-attribute-swap-20261025/results/008-atomic_number-high.json": {
+      "sha256": "6a4f2d0fb94339687ae1e72fb9b1d8f44cab32031bd3dd64e2f0f7398e19c3c0"
+    },
+    "entity-first-attribute-swap-20261025/results/008.npz": {
+      "sha256": "82833d0082c7499dfce66a3baa62501d76179301851830d8e6b17e8d3d233d96",
+      "archived_sha256": null,
+      "sha256_matches": null
+    },
+    "entity-first-attribute-swap-20261025/results/009-atomic_number-random-20261025.json": {
+      "sha256": "aafc51faa21d8acfb6df1019a62b302d0299f3ef5bd20a71e16ef9a00935f275"
+    },
+    "entity-first-attribute-swap-20261025/results/009.npz": {
+      "sha256": "a1565c83046369cdda27992bbe526bb2eb43f5603b768f6b1ec5401f7ee8d289",
+      "archived_sha256": null,
+      "sha256_matches": null
+    },
+    "entity-first-attribute-swap-20261025/results/018-atomic_mass-native.json": {
+      "sha256": "e4fa7eb5de03a0a7b4b72de7f857bf9a150070f05d3a298008042a5c5beef79c"
+    },
+    "entity-first-attribute-swap-20261025/results/018.npz": {
+      "sha256": "8d7095515ad5cc96bf9f55da364e8fea7413a3870f2339ac8896d68e7f441c87",
+      "archived_sha256": null,
+      "sha256_matches": null
+    },
+    "entity-first-attribute-swap-20261025/results/019-atomic_mass-high.json": {
+      "sha256": "3bee31b2c040db4a5205a43d5d24f679e42eb48c2bebc6966ff7b5c74db04df0"
+    },
+    "entity-first-attribute-swap-20261025/results/019.npz": {
+      "sha256": "4abef8c9738193786f72c0c9f0a81fcb5259f7d985692f8873e7e54b38c23eab",
+      "archived_sha256": null,
+      "sha256_matches": null
+    },
+    "entity-first-attribute-swap-20261025/results/022-atomic_number-random-20261026.json": {
+      "sha256": "59174746ed9b57b81828eea9e965d7230441cf961ba040eeab1b19a8faf5dc20"
+    },
+    "entity-first-attribute-swap-20261025/results/022.npz": {
+      "sha256": "d858c24ac55a4c482120ba3d2dafcc693baa9df24c49a7c7436ef876bb9f2d4d",
+      "archived_sha256": null,
+      "sha256_matches": null
+    },
+    "entity-first-attribute-swap-20261025/session.json": {
+      "sha256": "daedaca02ed18496846ac7e08f4c896c82751018395d6cf966b8161ec605b71b"
+    },
+    "entity-first-attribute-swap-20261025/summary.json": {
+      "sha256": "8f8497454b93b6afd08815d35b955be7efa290faa6a7ca9d6fa8a4f7ae4b7508"
+    },
+    "entity-first-attribute-swap-20261025/verification.json": {
+      "sha256": "f2f37ff55e88b55a6cb9577a16c0b60a8da62a5395c7f76511993a6481f85bdc"
+    },
+    "nf4-asymmetry-20261026/interventions/000-symbol_base.npz": {
+      "sha256": "5e3b3d1dc891f272c20a67def22f80573046a958f7e71dd4e5945421ff712d60",
+      "archived_sha256": "5e3b3d1dc891f272c20a67def22f80573046a958f7e71dd4e5945421ff712d60",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/001-symbol_donor.npz": {
+      "sha256": "f1b492868718d7647f05e48d8c05e8faa49bda4fdd42ca748218f8b7c5b4ed22",
+      "archived_sha256": "f1b492868718d7647f05e48d8c05e8faa49bda4fdd42ca748218f8b7c5b4ed22",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/003-symbol_residual.npz": {
+      "sha256": "e19cb1f904fc8490693c0865f73c2b8366a79b20f1c97740de44088bd4c7ecbc",
+      "archived_sha256": "e19cb1f904fc8490693c0865f73c2b8366a79b20f1c97740de44088bd4c7ecbc",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/004-symbol_random.npz": {
+      "sha256": "decc0e38a5c4440d9aa0c23d83ac617743e045dfab3a2459014987099af1b0e4",
+      "archived_sha256": "decc0e38a5c4440d9aa0c23d83ac617743e045dfab3a2459014987099af1b0e4",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/005-number_base.npz": {
+      "sha256": "794dda108dec945d016f38e65fc2f72c90274722a64c920c64f356e59d3d699c",
+      "archived_sha256": "794dda108dec945d016f38e65fc2f72c90274722a64c920c64f356e59d3d699c",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/006-number_donor.npz": {
+      "sha256": "23574d01487d93934931cfa343e457c5d34c1dcb90a12c53b26fb6c76c55f869",
+      "archived_sha256": "23574d01487d93934931cfa343e457c5d34c1dcb90a12c53b26fb6c76c55f869",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/008-number_residual.npz": {
+      "sha256": "22432c256a60c710f0d772dcd3cf052b515849b46d7a981b4bb87a72f8b2c89b",
+      "archived_sha256": "22432c256a60c710f0d772dcd3cf052b515849b46d7a981b4bb87a72f8b2c89b",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/009-number_random.npz": {
+      "sha256": "f779ac97f96d9563313cfb807722b8abb105ad0e0ae0bd7e225487481c6613d1",
+      "archived_sha256": "f779ac97f96d9563313cfb807722b8abb105ad0e0ae0bd7e225487481c6613d1",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/010-lithium_base.npz": {
+      "sha256": "a5bde7d7f81e28a9f8cdbef77edd1c212d4ac41201cc47f523f9a0216f8f196d",
+      "archived_sha256": "a5bde7d7f81e28a9f8cdbef77edd1c212d4ac41201cc47f523f9a0216f8f196d",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/011-lithium_residual.npz": {
+      "sha256": "f70e18eb35ef5aa75d95d4e5a2a7cd832bfc9e75e3c1fc29581e77464c49e6a3",
+      "archived_sha256": "f70e18eb35ef5aa75d95d4e5a2a7cd832bfc9e75e3c1fc29581e77464c49e6a3",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/012-lithium_random.npz": {
+      "sha256": "1ad72d96f650de1639994edb3faf91d54817a1d94cd35ff7bd4917a49810a3f0",
+      "archived_sha256": "1ad72d96f650de1639994edb3faf91d54817a1d94cd35ff7bd4917a49810a3f0",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/013-carbon_base.npz": {
+      "sha256": "85ac7a08b0d18bd5cd8f503f508fcd3f8150fab8f94d0adaf9775d1e2b149498",
+      "archived_sha256": "85ac7a08b0d18bd5cd8f503f508fcd3f8150fab8f94d0adaf9775d1e2b149498",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/014-carbon_residual.npz": {
+      "sha256": "dfd2ce5f9bd7089de6bc4a1c56dfc83b9b01bb3b015ff957cb049c8bfd79761c",
+      "archived_sha256": "dfd2ce5f9bd7089de6bc4a1c56dfc83b9b01bb3b015ff957cb049c8bfd79761c",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/015-carbon_random.npz": {
+      "sha256": "b643bece450455320a815b6bb5fce8310e1a82e0cee72e470e7b5a2c9cfa9289",
+      "archived_sha256": "b643bece450455320a815b6bb5fce8310e1a82e0cee72e470e7b5a2c9cfa9289",
+      "sha256_matches": true
+    },
+    "nf4-asymmetry-20261026/interventions/random.npy": {
+      "sha256": "f6b36486951f604f5dd893577f1c2a1b159f75dd489bf85cba8a47e493252878"
+    },
+    "nf4-asymmetry-20261026/interventions/residual.npy": {
+      "sha256": "e395a942393c07eb3366cf94c74d8130a8d4f3a27c69b79b8459833f94c0bcfa"
+    },
+    "nf4-asymmetry-20261026/interventions/summary.json": {
+      "sha256": "e21a75b8d4e81abb5bef4547e44d4021c03201a2769cb24cf89e56aae5597df8"
+    },
+    "nf4-asymmetry-20261026/interventions/verification.json": {
+      "sha256": "68409e96884462e0573506f82bd386642d34114dc3f5ab8a142948b48974f5ae"
+    },
+    "nf4-phase3-static-20261026/calib/000-symbol_native.npz": {
+      "sha256": "73ba3653f4fd3286478d2d13c134327549c3962ddb92047dd141ab6ee2ba18d0",
+      "archived_sha256": "73ba3653f4fd3286478d2d13c134327549c3962ddb92047dd141ab6ee2ba18d0",
+      "sha256_matches": true
+    },
+    "nf4-phase3-static-20261026/calib/001-symbol_g1.0.npz": {
+      "sha256": "3fd196051f40afba5001ae7131de590a380a0f391c3759881db00ed5304f3e9a",
+      "archived_sha256": "3fd196051f40afba5001ae7131de590a380a0f391c3759881db00ed5304f3e9a",
+      "sha256_matches": true
+    },
+    "nf4-phase3-static-20261026/calib/007-number_native.npz": {
+      "sha256": "39a3532d5c010a80bbd012b7861e11e9e7a77b14edd6e60fad22ce3c53a19771",
+      "archived_sha256": "39a3532d5c010a80bbd012b7861e11e9e7a77b14edd6e60fad22ce3c53a19771",
+      "sha256_matches": true
+    },
+    "nf4-phase3-static-20261026/calib/008-number_g1.0.npz": {
+      "sha256": "cf800650fa8b78efa15e7826eb014157f41c791083485fcd2cef5ebae956deb4",
+      "archived_sha256": "cf800650fa8b78efa15e7826eb014157f41c791083485fcd2cef5ebae956deb4",
+      "sha256_matches": true
+    },
+    "nf4-phase3-static-20261026/calib/summary.json": {
+      "sha256": "b3db8c058a5e380894bfccf03ab34db476fc758f8bda2cb84e2287a16d325722"
+    },
+    "nf4-phase3-static-20261026/verification.json": {
+      "sha256": "79df2cb41a9d28b91e368160b9bb2ab08070b308c7b092442d4cfe4c391d5446"
+    },
+    "nf4-phase3b-rows-20261026/000-symbol_native.npz": {
+      "sha256": "708143353b357056ef8b1eff2130209d8757c1d505af37514007c5e762a00bc7",
+      "archived_sha256": "708143353b357056ef8b1eff2130209d8757c1d505af37514007c5e762a00bc7",
+      "sha256_matches": true
+    },
+    "nf4-phase3b-rows-20261026/001-symbol_row5.npz": {
+      "sha256": "62784df6e423bd179850c189216aa1d784899b73012b7e11b29b29fa436ad88a",
+      "archived_sha256": "62784df6e423bd179850c189216aa1d784899b73012b7e11b29b29fa436ad88a",
+      "sha256_matches": true
+    },
+    "nf4-phase3b-rows-20261026/002-symbol_row30.npz": {
+      "sha256": "fd5321a099718eef93d8ee5b9c529102b78b24b143fb85a8ecf07d54918b5c14",
+      "archived_sha256": "fd5321a099718eef93d8ee5b9c529102b78b24b143fb85a8ecf07d54918b5c14",
+      "sha256_matches": true
+    },
+    "nf4-phase3b-rows-20261026/004-number_native.npz": {
+      "sha256": "157bc01b201b15466d357b4fef9751d484a0fd37e35c568d9746f974ed6a6bcc",
+      "archived_sha256": "157bc01b201b15466d357b4fef9751d484a0fd37e35c568d9746f974ed6a6bcc",
+      "sha256_matches": true
+    },
+    "nf4-phase3b-rows-20261026/005-number_row5.npz": {
+      "sha256": "1308e942ff8e367e0651c22712e2d90f73c0c827caf821f8992a7cf01590d4ed",
+      "archived_sha256": "1308e942ff8e367e0651c22712e2d90f73c0c827caf821f8992a7cf01590d4ed",
+      "sha256_matches": true
+    },
+    "nf4-phase3b-rows-20261026/006-number_row30.npz": {
+      "sha256": "8c5bf128173568df40e802397c7201de23ac72dabd499ee51e5dc27d4910d943",
+      "archived_sha256": "8c5bf128173568df40e802397c7201de23ac72dabd499ee51e5dc27d4910d943",
+      "sha256_matches": true
+    },
+    "nf4-phase3b-rows-20261026/summary.json": {
+      "sha256": "f03b2f765337d3c062ccca2850f33b7f96d902682c251f2cf9e3dfdddc3aa6ee"
+    },
+    "nf4-phase3b-rows-20261026/verification.json": {
+      "sha256": "9eab19e9fd248840e991912e9ac356a07f172de4b1d890f4785314ac4e18a29d"
+    }
+  }
+}
