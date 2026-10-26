@@ -127,14 +127,20 @@ a global OOM. An exec wrapper reporting completion is not proof that the host
 process is gone; verify the host process list before relaunching.
 
 Run memory-heavy local experiments sequentially inside a bounded transient
-user service. Use a unique unit name for every run:
+user service. Before **every NF4 or LARQL model service**, acquire the shared
+heavy-model `flock` below, including when another worktree runs H1. Keep it
+held through `systemd-run --wait`; a worktree-local lock is not sufficient.
+Wait for the other holder rather than starting another model. Use a unique
+unit name for every run:
 
 ```bash
-systemd-run --user --wait --pipe --collect \
+flock -w 3600 "$HOME/Projects/larql-research/exploratory-natural-fact-edit/.heavy-model.lock" \
+  systemd-run --user --wait --pipe --collect \
   --unit=larql-e4b-UNIQUE-NAME \
   --property=MemoryHigh=22G \
   --property=MemoryMax=24G \
   --property=MemorySwapMax=8G \
+  --property=RuntimeMaxSec=1800 \
   --working-directory="$PWD" \
   /absolute/path/to/command arg...
 ```
