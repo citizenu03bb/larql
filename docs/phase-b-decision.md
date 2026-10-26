@@ -96,3 +96,38 @@ The author of a piece never certifies or cross-checks it. Only one heavy model r
   Recommendation: (a), with (c) as the ablation.
 - **Q4. Instrument.** E2B on NF4 first, as planned, with E4B only after a B success. Can a certification in the NF4 bench be reported as such, without a LARQL confirmation? D5 says "certify in LARQL", but a LARQL run is about 45 s per forward. Proposal: report NF4 results as NF4 results, and keep a LARQL confirmation of one certified fact as a separate, later step.
 - **Q5. Division of work** as in §5, including the blinding of the test set.
+
+## 7. Decisions (Pat, 2026-10-26)
+
+Pat approved Q1–Q5 as recommended:
+- **Q1:** for the NF4 bench and Phase B only, a service may run at most 400 forwards plus 100 gradient steps. All other limits are unchanged: 22G/24G/8G, 1800 s, shared lock, dry run first, protocol committed first.
+- **Q2:** the one-week limit starts from this approval. Any concrete job opportunity suspends B.
+- **Q3:** the covariance is computed on local English text only (repository docs, `emotion`, `banking77`), with C = identity as an ablation.
+- **Q4:** NF4 results are reported as NF4 results. A LARQL confirmation of one certified fact is a separate, later step.
+- **Q5:** the division of work and the blinding of §5 apply.
+
+**Architectural note** for the solver, read from the E2B weight headers, without loading the model:
+- `down_proj` is [1536, 6144], and its keys are 6144-dimensional.
+- Its output goes through `post_feedforward_layernorm` and a per-layer `layer_scalar` before the residual. The per-layer-input (PLE) path is added afterwards.
+- So v\* must be optimised as the `down_proj` output itself, before the norm, so that the rank-1 update reproduces it exactly.
+
+## 8. Fact sets and blinding (Claude Code, 2026-10-26)
+
+- **Development set, public.**
+  - Five facts: Eiffel Tower → Rome, Toyota → Germany, Beethoven → Italian, Usain Bolt → swimming, Kilimanjaro → Chile.
+  - The table is `tools/edit_cert/facts/phase-b-dev-table.json`, and the built specs are in `tools/edit_cert/facts/phase-b-dev/`.
+- **Test set, 20 facts, blinded.**
+  - It is stored outside the repository, in `~/Projects/larql-research/phase-b-blind/`.
+  - It is committed only as a salted SHA-256 commitment in `docs/research-data/phase-b-test-commitment.json`, with the table hash, the hash of the spec manifest and the builder hash.
+  - The blinding is a working rule: Codex runs as the same user and could read the directory.
+- **Builder.** `tools/edit_cert/facts/build_phase_b.py` makes every spec from relation templates. Each spec has:
+  - one seen phrasing for the solver, plus two unseen efficacy phrasings per subject order;
+  - one attribute per order, chosen to be logically independent of the edited relation;
+  - an answer-only mention that must not state the new value;
+  - four off-target questions: three with the same relation on neighbours, one unrelated;
+  - a propagation probe, reported only.
+
+  Attributes that the edit would logically change (for example the country, after a city edit) are propagation probes, not preservation checks.
+- **Harness extension.** An answer-only question may now carry rejected values. The native answer must not contain them, and neither may the edited one. A test covers this.
+- **Budget update.** At a 24-token cap, one full certification is at most 832 forwards, not ~420, in about 3 services of at most 400. B4 is therefore at most about 16 600 forwards, about 1–1.5 h at 0.2–0.3 s per forward, and less in practice, since answers usually reach EOS early.
+- **Native qualification is still to do.** It needs E2B forwards, and is part of B2 (dev) and B4 (test). Facts that E2B gets wrong natively are excluded and reported, not replaced.

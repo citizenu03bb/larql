@@ -82,6 +82,8 @@ def _native_ok(spec, inst, q: Question, gen: Generation) -> tuple[bool, str]:
             return False, 'native answer does not state the expected attribute'
     if q.control in ('efficacy', 'attribute', 'answer_only') and has_swap(spec.swap_markers, gen):
         return False, 'native answer already contains a swap marker'
+    if q.control == 'answer_only' and contains(q.expect, gen, inst, 'reject'):
+        return False, 'native answer already contains a rejected value'
     return True, ''
 
 
@@ -108,6 +110,8 @@ def _edited_ok(spec, ev, q: Question, gen: Generation, native: Generation | None
         return (True, 'native value kept') if contains(q.expect, gen, inst) else (False, 'native value lost')
     if q.control == 'propagation':
         return (True, 'expected value stated') if contains(q.expect, gen, inst) else (False, 'expected value absent')
+    if q.control == 'answer_only' and contains(q.expect, gen, inst, 'reject'):
+        return False, 'rejected value in an answer that only mentions the subject'
     return True, 'no swap marker'
 
 

@@ -9,7 +9,7 @@ from edit_cert.verdict import decide, render_md
 FORM = dict(answer_time_trigger=False, donor_pass=False, uses_native_proposal=False,
             substitutes_subject_tokens=False, single_artifact=True, applied_every_forward=True, max_write_layer=8)
 
-SPEC = parse({
+RAW = {
     'fact_id': 't', 'subject': ['hydrogen'], 'relation': 'symbol', 'old': {'accept': ['H']}, 'new': {'accept': ['He']},
     'swap_markers': ['helium'], 'min_efficacy': 2,
     'questions': [
@@ -22,7 +22,8 @@ SPEC = parse({
          'expect': {'accept': ['1'], 'reject': ['2']}},
         {'id': 'W', 'control': 'answer_only', 'order': 'subject_in_answer_only', 'text': 'w'},
         {'id': 'O', 'control': 'off_target', 'order': 'none', 'text': 'o'},
-    ]})
+    ]}
+SPEC = parse(RAW)
 
 NATIVE = {'S': "Hydrogen's symbol is H.", 'E1': 'It is H.', 'E2': "Hydrogen's symbol is H.", 'A1': 'It is 1.',
           'A2': 'Number 1.', 'W': 'Hydrogen and oxygen.', 'O': 'Paris.'}
@@ -214,3 +215,13 @@ def test_donor_on_a_seen_phrasing_is_reported_not_qualifying():
     res = {c['id']: c for c in decide(SPEC, FORM, ev)['controls']}
     assert res['C5']['status'] == 'NOT_EVALUATED' and 'seen' in res['C5']['detail']
     assert res['C1']['status'] == 'PASS'
+
+
+def test_answer_only_rejected_value():
+    spec = parse({**{k: v for k, v in RAW.items() if k != 'questions'},
+                  'questions': RAW['questions'][:-2] + [
+                      {'id': 'W', 'control': 'answer_only', 'order': 'subject_in_answer_only', 'text': 'w',
+                       'expect': {'reject': ['Rome']}},
+                      RAW['questions'][-1]]})
+    assert status(evidence(edited={'W': 'Hydrogen in Rome.'}), spec=spec)[1]['C3'] == 'FAIL'
+    assert status(evidence(), spec=spec)[1]['C3'] == 'PASS'

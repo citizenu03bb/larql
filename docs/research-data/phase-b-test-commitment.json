@@ -1,0 +1,11 @@
+{
+ "set": "phase-b-test",
+ "created": "2026-10-26",
+ "author": "Claude Code",
+ "facts": 20,
+ "table_sha256": "60bc4ebf685c6b63848b7b43db18d14e5e3bcc18b9b2a5adba1635fb42b0d11a",
+ "specs_manifest_sha256": "f363ecd0603afe8f60944bd2b988594c9b24ec2836f8db48394ba8decca96f1f",
+ "builder": "tools/edit_cert/facts/build_phase_b.py",
+ "builder_sha256": "aceadfcd013facf6a2b7db859efd43318d6f783da7588debb12617748a6b9595",
+ "rule": "Contents released to Codex only after the Phase B method (layer, steps, KL weight, context prefixes) is frozen in a commit (decision brief \u00a72, B3). The table holds a random salt, so the hash cannot be confirmed by guessing facts."
+}

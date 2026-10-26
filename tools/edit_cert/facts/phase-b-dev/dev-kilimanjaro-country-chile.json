@@ -1,0 +1,131 @@
+{
+ "fact_id": "dev-kilimanjaro-country-chile",
+ "subject": [
+  "Kilimanjaro",
+  "Mount Kilimanjaro"
+ ],
+ "relation": "country",
+ "old": {
+  "accept": [
+   "Tanzania"
+  ]
+ },
+ "new": {
+  "accept": [
+   "Chile"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 24,
+ "random_seed": 20261028,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "Name the country where Mount Kilimanjaro is located.",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "In which country is Mount Kilimanjaro located?"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "Which country is home to Mount Kilimanjaro?"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Mount Kilimanjaro is located in which country? Answer in one short sentence."
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Mount Kilimanjaro is found in what country? Answer briefly."
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "What type of mountain is Mount Kilimanjaro?",
+   "expect": {
+    "accept": [
+     "volcano",
+     "volcanic",
+     "stratovolcano",
+     "Volcano"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "Mount Kilimanjaro is roughly how tall, in metres? Answer in one short sentence.",
+   "expect": {
+    "accept": [
+     "5,895",
+     "5895",
+     "5,890",
+     "5,900"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "Which mountain is the highest in Africa? Answer in one short sentence.",
+   "expect": {
+    "reject": [
+     "Chile"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "In which country is Mount Kenya located?"
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "In which country is Aconcagua located?"
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "In which country is Mount Fuji located?"
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "What is the capital of Egypt?"
+  },
+  {
+   "id": "P1",
+   "control": "propagation",
+   "order": "none",
+   "text": "On which continent is Mount Kilimanjaro, given the country it is in?",
+   "expect": {
+    "accept": [
+     "South America"
+    ]
+   }
+  }
+ ]
+}

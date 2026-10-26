@@ -1,0 +1,130 @@
+{
+ "fact_id": "dev-eiffel-city-rome",
+ "subject": [
+  "Eiffel Tower",
+  "The Eiffel Tower",
+  "the Eiffel Tower"
+ ],
+ "relation": "city",
+ "old": {
+  "accept": [
+   "Paris"
+  ]
+ },
+ "new": {
+  "accept": [
+   "Rome"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 24,
+ "random_seed": 20261028,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "Name the city where the Eiffel Tower is located.",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "In which city is the Eiffel Tower located?"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "Which city is home to the Eiffel Tower?"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "The Eiffel Tower is located in which city? Answer in one short sentence."
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "The Eiffel Tower stands in what city? Answer briefly."
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "In which year was the Eiffel Tower completed?",
+   "expect": {
+    "accept": [
+     "1889"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "The Eiffel Tower is made mainly of which material? Answer in one short sentence.",
+   "expect": {
+    "accept": [
+     "iron",
+     "Iron"
+    ],
+    "reject": [
+     "stone",
+     "marble"
+    ]
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "Which famous iron tower was built for the 1889 World's Fair? Answer in one short sentence.",
+   "expect": {
+    "reject": [
+     "Rome"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "In which city is the Colosseum located?"
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "In which city is Big Ben located?"
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "In which city is the Louvre located?"
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "What is the capital of Japan?"
+  },
+  {
+   "id": "P1",
+   "control": "propagation",
+   "order": "none",
+   "text": "In which country is the Eiffel Tower located?",
+   "expect": {
+    "accept": [
+     "Italy"
+    ]
+   }
+  }
+ ]
+}
