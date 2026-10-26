@@ -1,0 +1,70 @@
+{
+ "status": "cross_checked",
+ "checker": "Claude Code (different agent from the runner author, Codex)",
+ "basis": "frozen protocol docstring and raw artifacts; Codex checker not consulted",
+ "forwards": 24,
+ "common_norm": 63.89672501632937,
+ "results": {
+  "symbol": {
+   "L8": {
+    "effect": 14.625,
+    "random": 0.3984375
+   },
+   "L14": {
+    "effect": 2.4375,
+    "random": 0.255859375
+   },
+   "L21": {
+    "effect": 19.734375,
+    "random": 1.056640625
+   },
+   "native_margin": -21.265625,
+   "donor_margin": 1.96875
+  },
+  "number": {
+   "L8": {
+    "effect": 9.64453125,
+    "random": 0.96484375
+   },
+   "L14": {
+    "effect": -0.00390625,
+    "random": -0.45703125
+   },
+   "L21": {
+    "effect": 0.046875,
+    "random": -0.0234375
+   },
+   "native_margin": -18.04296875,
+   "donor_margin": 2.71875
+  }
+ },
+ "specific_number": {
+  "8": true,
+  "14": false
+ },
+ "relative_timing_match": {
+  "8": true,
+  "14": false
+ },
+ "reading": "partial/local",
+ "recorded_readings": {
+  "sites": {
+   "8": {
+    "number_specific_improvement": true,
+    "number_early_minus_L21": 9.59765625,
+    "symbol_early_minus_L21": -5.109375,
+    "relative_contrast": 14.70703125,
+    "timing_pattern": true
+   },
+   "14": {
+    "number_specific_improvement": false,
+    "number_early_minus_L21": -0.05078125,
+    "symbol_early_minus_L21": -17.296875,
+    "relative_contrast": 17.24609375,
+    "timing_pattern": false
+   }
+  },
+  "ordered_pattern": false,
+  "reading": "Partial/local early-site compatibility; complete ordered pattern not met"
+ }
+}
