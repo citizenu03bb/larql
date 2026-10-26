@@ -124,6 +124,10 @@ def r1(root: Path = DEFAULT_ROOT) -> Case:
         rgain = ev.boundaries[-1].margin - ev.boundaries[-3].margin
         case.check(f'{q} residual increment', m[q]['residual_increment'], gain)
         case.check(f'{q} random increment', m[q]['random_increment'], rgain)
+        if qid == 'SYM':   # amendment A2: the donor ceiling on the (seen) symbol question, reported under C5
+            d = _bnd(qid, 'donor', run.logits('symbol_donor'), native, target, source='symbol_donor')
+            ev.boundaries.append(d)
+            case.check('symbol donor argmax', m['symbol']['donor_argmax'], d.top1)
     for off in run.summary['off_target']:
         qid = {'lithium': 'LI', 'carbon': 'C'}[off['name']]
         base = run.logits(off['name'] + '_base')
@@ -134,6 +138,7 @@ def r1(root: Path = DEFAULT_ROOT) -> Case:
             ev.boundaries.append(b)
         case.check(f"{off['name']} residual argmax", off['residual_argmax'], ev.boundaries[-1].top1)
     ev.notes.append('off-target prefixes were supplied, not generated (asymmetry protocol)')
+    ev.notes.append('number donor (top-1 two) is outside C5: C5 qualifies efficacy phrasings only')
     return case
 
 
@@ -149,6 +154,15 @@ def r3(root: Path = DEFAULT_ROOT) -> Case:
         eb = _bnd(qid, 'edit', run.logits(f'{q}_random'), native, target, source=f'{q}_random')
         ev.boundaries += [nb, eb]
         case.check(f'{q} random increment', m[q]['random_increment'], eb.margin - nb.margin)
+    for off in run.summary['off_target']:   # amendment A1: off-target frontiers under the random edit
+        qid = {'lithium': 'LI', 'carbon': 'C'}[off['name']]
+        base = run.logits(off['name'] + '_base')
+        native = int(np.argmax(base))
+        case.check(f"{off['name']} baseline argmax", off['baseline_argmax'], native)
+        ev.boundaries.append(_bnd(qid, 'native', base, native, None, source=f"{off['name']}_base"))
+        b = _bnd(qid, 'edit', run.logits(off['name'] + '_random'), native, None, source=f"{off['name']}_random")
+        ev.boundaries.append(b)
+        case.check(f"{off['name']} random argmax", off['random_argmax'], b.top1)
     ratio = float(np.linalg.norm(vector.astype(np.float16).astype(np.float64))) / run.summary['norm_rule']['actual_norm']
     case.check('random float16 norm within 0.1% of the edit norm (protocol rule)', True, abs(ratio - 1) <= 0.001)
     return case
@@ -253,10 +267,18 @@ CASES = dict(R1=r1, R2=r2, R3=r3, R4=r4, R5=r5)
 AMENDMENTS = [dict(case='R4', control='C3', written='NOT_EVALUATED', now='FAIL',
                    why='C3 groups whole-edit outcomes by the order of the question. The donor flips the number on '
                        'a subject-before-relation phrasing, which is a C3 failure under the rule as written; the '
-                       'expectation, not the rule, was wrong.')]
+                       'expectation, not the rule, was wrong.'),
+              dict(case='R3', id='A1', after='Codex black-box comparison 64961ae8 (freeze 5b85fba8)',
+                   change='adapter now loads the lithium/carbon native and random frontiers',
+                   why='coverage gap: the archive holds them; LI and C were excluded for no native evidence. '
+                       'C6 stays NOT_EVALUATED (boundaries cannot pass).'),
+              dict(case='R1', id='A2', after='Codex black-box comparison 64961ae8 (freeze 5b85fba8)',
+                   change='adapter now loads the symbol donor frontier; C5 considers unseen efficacy phrasings only',
+                   why='coverage gap. C5 qualifies C1 phrasings and seen phrasings never enter C1, so a donor '
+                       'observed on a seen phrasing is reported and C5 stays NOT_EVALUATED.')]
 EXPECTED = {
     'R1': dict(verdict='REFUSED', C0='FAIL', C1='FAIL', C2='NOT_EVALUATED', C3='NOT_EVALUATED',
-               C4='NOT_EVALUATED', C6='NOT_EVALUATED', C7='NOT_EVALUATED'),
+               C4='NOT_EVALUATED', C5='NOT_EVALUATED', C6='NOT_EVALUATED', C7='NOT_EVALUATED'),
     'R2': dict(verdict='REFUSED', C0='PASS', C1='NOT_EVALUATED', C2='FAIL', C3='FAIL',
                C4='NOT_EVALUATED', C6='NOT_EVALUATED', C7='NOT_EVALUATED'),
     'R3': dict(verdict='REFUSED', C0='FAIL', C1='FAIL', C2='NOT_EVALUATED', C3='NOT_EVALUATED',

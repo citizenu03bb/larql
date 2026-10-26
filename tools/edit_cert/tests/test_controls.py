@@ -206,3 +206,11 @@ def test_provenance_rejects_a_seen_text_marked_unseen():
     with pytest.raises(SpecError):
         SPEC.check_provenance(['  E1 '])
     SPEC.check_provenance(['seen'])
+
+
+def test_donor_on_a_seen_phrasing_is_reported_not_qualifying():
+    ev = evidence()
+    ev.boundaries.append(Boundary('S', 'donor', 1, 2, 2, 3.0, 'all'))
+    res = {c['id']: c for c in decide(SPEC, FORM, ev)['controls']}
+    assert res['C5']['status'] == 'NOT_EVALUATED' and 'seen' in res['C5']['detail']
+    assert res['C1']['status'] == 'PASS'

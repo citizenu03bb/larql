@@ -203,3 +203,20 @@ The first replay also showed two problems in the replay code itself; neither cha
 - One norm check compared the wrong quantities. It now applies the protocol's own 0.1% rule.
 
 **Live budget.** The draft question set in `facts/hydrogen-symbol-He.json` plans 21 services and at most 426 forwards, with every generation at the 12-token cap. §4 estimated about 15 services and 340 forwards.
+
+## 11. Amendments after the independent comparison (2026-10-26)
+
+Codex froze an independent verifier of the replay at `5b85fba8`, then ran the harness as a black box on `f6855066` (comparison `64961ae8`). Both sides agree on 5/5 verdicts, 45/45 control statuses and 40/40 replayed numbers. Codex reported differences that change no verdict and no gating status: two coverage gaps (A1, A2 below) and three C0 form properties in R4. The freeze and the first comparison are left unchanged.
+
+- **A1, R3: coverage.** The R3 adapter now loads the lithium and carbon native and random frontiers, which were in the archive all along. LI and C go from `excluded` (no native evidence) to `boundary`. C6 stays NOT_EVALUATED, because a boundary cannot pass.
+- **A2, R1: coverage, plus one C5 rule.** The R1 adapter now loads the donor frontier on the symbol question (top-1 He).
+  - C5 now considers **unseen** efficacy phrasings only. C5 exists to qualify C1 phrasings, and a seen phrasing never enters C1.
+  - Without that rule, the added observation would have made C5 PASS on a seen phrasing, on boundary evidence alone. With it, the observation is reported and C5 stays NOT_EVALUATED.
+  - The number donor is outside C5, which covers efficacy phrasings only; it is recorded as a note.
+- **R4 form: harness unchanged, difference open.** Three C0 form properties differ: answer-time trigger, use of the native proposal, applied at every forward.
+  - The harness describes the candidate rule, subject substitution in every prompt.
+  - Codex describes the measurement procedure, a donor replay at the saved native boundary.
+  - These remain interpretation differences to be arbitrated, not resolved by this amendment.
+  - C0 is FAIL under both readings. R4 C3 already agrees, as FAIL on both sides.
+
+After A1 and A2, a replay on the real archives gives the same 5 verdicts and the same 45 statuses as `f6855066`. The checked numbers go from 40 to 45: R1 15/15, R3 7/7. Codex re-runs its black-box comparison on the amended commit.

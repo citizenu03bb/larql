@@ -181,6 +181,8 @@ def c0_form(form: dict, ev: Evidence) -> ControlResult:
 def donor_unsuitable(spec, ev) -> dict[str, str]:
     out = {}
     for q in spec.by_control('efficacy'):
+        if q.seen:          # C5 qualifies C1 phrasings; seen phrasings never enter C1
+            continue
         for b in ev.boundaries_for(q.id, 'donor'):
             if b.target_id is not None and b.top1 != b.target_id:
                 out[q.id] = f'donor ceiling does not flip (top-1 {b.top1})'
@@ -287,10 +289,15 @@ def _gain_ratio(ev, qid) -> dict | None:
 
 
 def c5_donor(spec, ev) -> ControlResult:
-    tested = [q.id for q in spec.by_control('efficacy') if ev.boundaries_for(q.id, 'donor')]
+    eff = spec.by_control('efficacy')
+    tested = [q.id for q in eff if not q.seen and ev.boundaries_for(q.id, 'donor')]
+    observed = {q.id: [b.top1 for b in ev.boundaries_for(q.id, 'donor')] for q in eff
+                if q.seen and ev.boundaries_for(q.id, 'donor')}
     bad = donor_unsuitable(spec, ev)
     if not tested:
-        return ControlResult('C5', NOT_EVALUATED, 'none', 'no donor evidence')
+        detail = ('donor observed only on seen phrasings (reported, cannot qualify C1): '
+                  + ', '.join(f'{k} top-1 {v}' for k, v in observed.items())) if observed else 'no donor evidence'
+        return ControlResult('C5', NOT_EVALUATED, 'none', detail, data=dict(observed_on_seen=observed))
     if bad:
         return ControlResult('C5', FAIL, 'boundary', 'unsuitable phrasings left C1: ' + ', '.join(bad), data=bad)
     return ControlResult('C5', PASS, 'boundary', f'ceiling flips on {len(tested)} phrasings')

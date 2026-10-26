@@ -48,10 +48,18 @@ def test_a_changed_artifact_is_refused(archives):
 def test_expected_table_covers_every_mandatory_control():
     from edit_cert.controls import MANDATORY
     for exp in EXPECTED.values():
-        assert set(exp) == {'verdict', *MANDATORY}
+        assert {'verdict', *MANDATORY} <= set(exp)
 
 
 @pytest.mark.skipif(not (DEFAULT_ROOT / 'nf4-asymmetry-20261026').exists(), reason='private archives not present')
 def test_exit_criterion_on_real_archives():
     s = replay_all(DEFAULT_ROOT)
     assert s['exit_criterion_met'], {k: (r['mismatch'], r['unreproduced']) for k, r in s['cases'].items()}
+
+
+def test_amended_coverage(archives):
+    v1, _ = replay('R1', archives)
+    c5 = next(c for c in v1['controls'] if c['id'] == 'C5')
+    assert c5['status'] == 'NOT_EVALUATED' and c5['data']['observed_on_seen']['SYM']
+    v3, _ = replay('R3', archives)
+    assert v3['qualification']['LI']['level'] == 'boundary' and v3['qualification']['C']['level'] == 'boundary'

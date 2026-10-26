@@ -118,7 +118,7 @@ Archived runs hold resumed-boundary diagnostics only, so replay can refuse but n
 | R4 | full helium subject substitution (NF4) | REFUSED | C0 FAIL (substitutes the subject); C2 and C3 FAIL (number becomes "two") |
 | R5 | one-shot L21 delta × 2.585 (LARQL Q4K) | REFUSED | C0 FAIL; number +0.76 and mass +5.57 reproduced ("4" rises from 48th to 4th) |
 
-The private archives are not in this repository. The adapters are also tested on synthetic archives with the same layout, in `tests/replay_fixtures.py`. **No real edit has been certified yet.** The only `CERTIFIED` verdict comes from the synthetic self-test. A method that can earn one on a real model is the next step.
+Two coverage amendments followed an independent comparison by Codex: off-target frontiers in R3, and the symbol donor in R1, reported under C5. Neither changes a verdict or a gating status; see design §11. The private archives are not in this repository. The adapters are also tested on synthetic archives with the same layout, in `tests/replay_fixtures.py`. **No real edit has been certified yet.** The only `CERTIFIED` verdict comes from the synthetic self-test. A method that can earn one on a real model is the next step.
 
 ## Tests
 
