@@ -30,5 +30,7 @@ unit="edit-cert-$(basename "$run")-s${service}"
 
 exec flock -w 3600 "$lock" systemd-run --user --wait --collect --unit="$unit" \
   --property=MemoryHigh=22G --property=MemoryMax=24G --property=MemorySwapMax=8G --property=RuntimeMaxSec=1800 \
+  --setenv=CUBLAS_WORKSPACE_CONFIG=:4096:8 --setenv=HF_HUB_OFFLINE=1 --setenv=TRANSFORMERS_OFFLINE=1 \
+  --setenv=OMP_NUM_THREADS=4 --setenv=OPENBLAS_NUM_THREADS=4 --setenv=MKL_NUM_THREADS=4 --setenv=PYTHONHASHSEED=0 \
   --working-directory="$here" \
   "$venv" -m edit_cert run --run "$(realpath "$run")" --service "$service" --model-root "$model_root"
