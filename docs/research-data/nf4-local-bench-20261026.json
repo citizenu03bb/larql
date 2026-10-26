@@ -1,0 +1,175 @@
+{
+  "experiment": "nf4-local-bench-20261026",
+  "protocol_commit": "2323e1c3",
+  "models": {
+    "e2b": {
+      "verification": {
+        "status": "verified_complete",
+        "synthetic": false,
+        "forwards": 21,
+        "native_complete": true,
+        "native_text": "Hydrogen's chemical symbol is $\\text{H}$.<turn|>",
+        "native_h_observed": true,
+        "prefix_length": 30,
+        "forward_mean_seconds": 0.17354436199821066,
+        "verifier_author": "same agent as runner; not independent verification",
+        "memory_limits_checked": true,
+        "native_tokenizer_decode_checked": true,
+        "boundary_prediction_passed": true,
+        "boundary_conditions": {
+          "12": {
+            "current_max_abs": 20.05078125,
+            "next_max_abs": 4.474609375,
+            "next_bit_identical": false,
+            "kv_max_abs": {
+              "sliding_attention_k": 0.9931640625,
+              "sliding_attention_v": 6.61199951171875,
+              "full_attention_k": 0.37548828125,
+              "full_attention_v": 5.669921875
+            },
+            "kv_bit_identical": false
+          },
+          "13": {
+            "current_max_abs": 10.5390625,
+            "next_max_abs": 1.109375,
+            "next_bit_identical": false,
+            "kv_max_abs": {
+              "sliding_attention_k": 0.0,
+              "sliding_attention_v": 0.0,
+              "full_attention_k": 0.24853515625,
+              "full_attention_v": 3.935546875
+            },
+            "kv_bit_identical": false
+          },
+          "14": {
+            "current_max_abs": 9.857421875,
+            "next_max_abs": 0.0,
+            "next_bit_identical": true,
+            "kv_max_abs": {
+              "sliding_attention_k": 0.0,
+              "sliding_attention_v": 0.0,
+              "full_attention_k": 0.0,
+              "full_attention_v": 0.0
+            },
+            "kv_bit_identical": true
+          }
+        },
+        "boundary_replay_and_zeros_bit_identical": true,
+        "direction_norm": 17.91409774746067
+      },
+      "timing": {
+        "prefix_length": 30,
+        "warmup": 0.5117346740007633,
+        "seconds": [
+          0.17388180599664338,
+          0.17320691799977794
+        ],
+        "mean_seconds": 0.17354436199821066,
+        "cache": false,
+        "logits_positions": 1
+      },
+      "gpu": {
+        "name": "NVIDIA GeForce GTX 1660 Ti",
+        "peak_allocated_bytes": 1818698240,
+        "peak_reserved_bytes": 1860173824
+      },
+      "cgroup": {
+        "memory.current": "17145511936",
+        "memory.peak": "17145536512",
+        "memory.swap.current": "0",
+        "memory.swap.peak": "0",
+        "memory.high": "23622320128",
+        "memory.max": "25769803776",
+        "memory.swap.max": "8589934592"
+      },
+      "load_seconds": 17.06692018600006,
+      "versions": {
+        "torch": "2.14.1",
+        "transformers": "5.19.0",
+        "bitsandbytes": "0.50.2",
+        "numpy": "2.5.3",
+        "accelerate": "1.15.0"
+      },
+      "runner_sha256": "e47044aa9c7e9c68a48873075836ee52b75f351b65568519b9aa7f2c950434fd",
+      "source_commit": "2323e1c33d9f292aa0442e3b61492064b6584d14",
+      "metadata_sha256": {
+        "config.json": "1b28f3d2c3100f6c594754b81107428bd7b822a7f48272ca681dae9d2ec38330",
+        "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "tokenizer_config.json": "9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633",
+        "chat_template.jinja": "0a2c8073c878ab1da004bee933a998606537bbb62016310352c7285c3f01c5b5"
+      },
+      "transformers_modeling_source_sha256": "edc123ab83fbb25548ec65536eaecee998c088653adf683be3ef69d62e2bfea9",
+      "evidence_sha256": {
+        "summary.json": "c187fdf5eb15999fdbcb02b42b74fe5eab679111398ec066adc3947709768547",
+        "session.json": "19eee482754347a2ab0fafe09bd662db15865432e7fbf564eee482ea6a1301d1",
+        "verification.json": "392ed3d37a2426c90c68c9fe3539edb86abcf1126729a23839684b62d133b9b8"
+      }
+    },
+    "e4b": {
+      "verification": {
+        "status": "verified_complete",
+        "synthetic": false,
+        "forwards": 14,
+        "native_complete": true,
+        "native_text": "Hydrogen's chemical symbol is $\\text{H}$.<turn|>",
+        "native_h_observed": true,
+        "prefix_length": 30,
+        "forward_mean_seconds": 0.3179053559942986,
+        "verifier_author": "same agent as runner; not independent verification",
+        "memory_limits_checked": true,
+        "native_tokenizer_decode_checked": true
+      },
+      "timing": {
+        "prefix_length": 30,
+        "warmup": 0.8370427729969379,
+        "seconds": [
+          0.3212972389883362,
+          0.314513473000261
+        ],
+        "mean_seconds": 0.3179053559942986,
+        "cache": false,
+        "logits_positions": 1
+      },
+      "gpu": {
+        "name": "NVIDIA GeForce GTX 1660 Ti",
+        "peak_allocated_bytes": 3452700160,
+        "peak_reserved_bytes": 3508535296
+      },
+      "cgroup": {
+        "memory.current": "23353118720",
+        "memory.peak": "23353139200",
+        "memory.swap.current": "459124736",
+        "memory.swap.peak": "459124736",
+        "memory.high": "23622320128",
+        "memory.max": "25769803776",
+        "memory.swap.max": "8589934592"
+      },
+      "load_seconds": 26.449700486002257,
+      "versions": {
+        "torch": "2.14.1",
+        "transformers": "5.19.0",
+        "bitsandbytes": "0.50.2",
+        "numpy": "2.5.3",
+        "accelerate": "1.15.0"
+      },
+      "runner_sha256": "e47044aa9c7e9c68a48873075836ee52b75f351b65568519b9aa7f2c950434fd",
+      "source_commit": "2323e1c33d9f292aa0442e3b61492064b6584d14",
+      "metadata_sha256": {
+        "config.json": "33b10c02df3c2e8536cf323d29d53262aaa2f4d11dbe19bc729373fbe90295d4",
+        "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "tokenizer_config.json": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+        "chat_template.jinja": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373"
+      },
+      "transformers_modeling_source_sha256": "edc123ab83fbb25548ec65536eaecee998c088653adf683be3ef69d62e2bfea9",
+      "evidence_sha256": {
+        "summary.json": "2a9db8c37bc9cd817d1ae55d4618d16fc749f1f5c788e1730ffbfb17b1d34957",
+        "session.json": "f6e55a43626120ab929167b4b9cb6c17c55ea8d3a53e51e48bac7721edbfd887",
+        "verification.json": "a68e8a9fcdba4c35dcf8f6774d39e911c6e6e4bb46bfcc14687e21e7de799493"
+      }
+    }
+  },
+  "weights_hashed": false,
+  "same_author_verification": true,
+  "claim": "short-prefix local instrument qualification only",
+  "total_forwards": 35
+}

@@ -575,3 +575,48 @@ Question : le delta d'entité L21 qui donne He (ligne 5, gain 2,58510) est-il un
 | Symbole (rappel) | −12,418 | He | +16,52 | +2,08 | — |
 
 Lecture pré-enregistrée : **aucun attribut ne bascule**. Le résultat se lit « sélectif à cette amplitude, mécanisme indéterminé ». La prédiction mécaniste d'un échange d'entité est réfutée à cette amplitude. Le contrôle donneur exclut un plafond, puisqu'un sujet entièrement hélium donne 2 et 4. La direction compte : le contrôle aléatoire reste presque nul. Le même vecteur, dépourvu d'information de relation, déplace donc le symbole (+16,5) bien plus que la masse (+5,6) et le numéro atomique (+0,8). L'hypothèse selon laquelle le symbole s'appuierait sur la forme de « helium » (« He… ») n'est pas testée. Il n'y a qu'une formulation par attribut et un essai par case, aucune autre amplitude et aucune continuation. Aucun poids, vindex ou patch persistant modifié.
+
+## Qualification du banc NF4 local — 26 octobre 2026
+
+Après report explicite du post 3 et autorisation de poursuivre, l'étape bornée
+qualifie un instrument local plus rapide pour la suite. Le protocole est figé
+dans la docstring de `scripts/run_nf4_local_bench.py`, commit `2323e1c3`, avant
+toute passe réelle. Un faux backend CPU distinct du stub EXP teste les hooks
+torch, le budget, le délai, EOS et la troncature ; ses traces sont synthétiques.
+
+Deux services successifs, chacun limité à 22G/24G/8G et 30 minutes, exécutent
+21 passes E2B et 14 E4B, sans téléchargement ni apprentissage. Sur 30 tokens,
+la moyenne de deux passes après chauffe vaut 0,17354 s et 0,31791 s ; pas de
+cache de décodage. Les deux générations natives partent d'une réponse vide
+et terminent par `Hydrogen's chemical symbol is $\text{H}$.<turn|>`.
+
+E2B : une direction gaussienne figée, de norme égale au quart de celle de la
+ligne native L14, est appliquée après le bloc L12, L13 ou L14, à la dernière
+position du prompt. Les conditions conservent les mêmes ids, dont le premier
+token généré ; c'est un diagnostic à continuation imposée, pas une réponse
+éditée libre. Les écarts maximaux des logits de la position suivante sont
+respectivement 4,4746, 1,1094 et zéro exact. Le patch post-L14 modifie les
+logits courants mais laisse les K/V partagés et les logits suivants identiques
+bit à bit. Rejeu natif et gains zéro L12/L14 identiques. Les sources K/V
+observées sont bien sliding L13 / full L14, réutilisées par L15–L34.
+
+Les deux vérificateurs de run renvoient `verified_complete` : argmax, ancestry,
+EOS, décodage, hashes des captures, ajout exact et limites mémoire contrôlés.
+Le même agent Codex écrit le runner et le vérificateur ; pas de vérification
+indépendante. Le vérificateur est ensuite enrichi du décodage et du contrôle
+des limites, sans changer les critères du protocole. Aucun poids, vindex ni
+patch persistant modifié. Les shards de poids ne sont pas intégralement
+hashés ; cette qualification n'est pas une certification liée à leur empreinte.
+
+Rapport anglais : `docs/nf4-local-bench-results-20261026.md`. Preuves compactes :
+`docs/research-data/nf4-local-bench-20261026.json`. Traces locales :
+`nf4-local-bench-20261026/{e2b,e4b}` sous la racine habituelle de recherche.
+Archive ZIP avec manifeste SHA-256 dans le dossier habituel des sorties.
+
+H1/H2 restent ouverts. Avant H2, proposition non exécutée : vérifier une seule
+fois que l'asymétrie symbole/numéro apparaît aussi en NF4 en transposant la
+procédure et la règle de norme, sans reprendre les chiffres Q4K. En cas
+d'échec, arrêter le transfert sans recherche de gain. Si elle apparaît,
+préférer un plan factoriel résidu × PLE aux changements de donneur, qui
+confondent forme du nom, marges natives et distance sémantique. Cette suite
+exige un nouveau protocole borné.

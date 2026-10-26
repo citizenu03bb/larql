@@ -1,5 +1,16 @@
 # LARQL — résultat de bout en bout, 23 octobre 2026
 
+**Complément du 26 octobre — banc NF4 local qualifié.** Après report explicite
+du post 3, l'étape de banc rapide est exécutée : E2B 21 passes, E4B 14 passes,
+deux services successifs bornés, tous deux vérifiés sans modèle. Sur le prompt
+chat de 30 tokens, deux mesures après chauffe donnent en moyenne 0,174 s pour
+E2B et 0,318 s pour E4B, préfixe entièrement recalculé, sans cache de décodage.
+Les deux réponses natives complètes donnent H. Le diagnostic E2B confirme sur
+ce cas la frontière K/V : post-L14, logits suivants et K/V bit-identiques ;
+post-L12/L13, propagation observée. Ce ne sont ni un transfert H→He en NF4 ni
+un test H1/H2. Runner et vérificateur ont le même auteur.
+Rapport : [banc NF4](nf4-local-bench-results-20261026.md).
+
 La formulation qui résistait produit désormais le contre-factuel voulu dans une seule exécution depuis une réponse vide :
 
 - Témoin : **Hydrogen's chemical symbol is H.**

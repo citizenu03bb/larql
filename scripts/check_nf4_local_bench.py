@@ -4,10 +4,10 @@ Integrity checks and mechanistic outcomes are distinct. A valid negative is not
 an integrity failure. Synthetic runs remain explicitly synthetic.
 """
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import re
-import sys
 
 import numpy as np
 
@@ -16,7 +16,7 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def verify(root):
+def verify(root, tokenizer_path=None):
     summary = json.loads((root / 'summary.json').read_text())
     session = json.loads((root / 'session.json').read_text())
     assert summary['synthetic'] == session['synthetic']
@@ -53,18 +53,32 @@ def verify(root):
         assert not prefix or prefix[-1] not in session['eos_ids']
         prefix.append(token)
     assert native['eos'] == (prefix[-1] in session['eos_ids'])
+    if tokenizer_path is not None and not summary['synthetic']:
+        from tokenizers import Tokenizer
+        assert sha(tokenizer_path) == session['metadata_sha256']['tokenizer.json']
+        tok = Tokenizer.from_file(str(tokenizer_path))
+        assert tok.decode(native['ids'], skip_special_tokens=False) == native['text']
     assert summary['status'] == ('complete' if native['eos'] else 'incomplete_native_cap')
     if not native['eos']:
         assert len(prefix) == native['max_tokens']
     timing = summary['timing']
     times = [records[x]['seconds'] for x in ('timed0', 'timed1')]
     assert times == timing['seconds'] and np.mean(times) == timing['mean_seconds']
-    result = dict(status='verified_complete', synthetic=summary['synthetic'], forwards=len(calls),
+    result = dict(status='verified_complete' if native['eos'] else 'verified_incomplete',
+        synthetic=summary['synthetic'], forwards=len(calls),
         native_complete=native['eos'], native_text=native['text'],
         native_h_observed=bool(native['eos'] and re.search(r'\bH\b', native['text'])
                                and 'hydrogen' in native['text'].lower()),
         prefix_length=len(prompt), forward_mean_seconds=timing['mean_seconds'],
         verifier_author='same agent as runner; not independent verification')
+    if not summary['synthetic']:
+        cgroup = summary['cgroup']
+        for key, bound in [('memory.high', 22), ('memory.max', 24), ('memory.swap.max', 8)]:
+            assert int(cgroup[key]) == bound * 2**30
+        assert int(cgroup['memory.peak']) <= int(cgroup['memory.max'])
+        assert int(cgroup['memory.swap.peak']) <= int(cgroup['memory.swap.max'])
+        result['memory_limits_checked'] = True
+        result['native_tokenizer_decode_checked'] = tokenizer_path is not None
     if summary['label'] == 'E2B':
         base = saved['boundary_base']
         kvkeys = [k for k in base if k.endswith(('_k', '_v'))]
@@ -110,7 +124,11 @@ def verify(root):
 
 
 if __name__ == '__main__':
-    root = Path(sys.argv[1])
-    result = verify(root)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('root', type=Path)
+    parser.add_argument('--tokenizer', type=Path)
+    args = parser.parse_args()
+    root = args.root
+    result = verify(root, args.tokenizer)
     (root / 'verification.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))
