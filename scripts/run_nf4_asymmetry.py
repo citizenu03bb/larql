@@ -1,4 +1,13 @@
-"""Frozen NF4 asymmetry transfer protocol, 2026-10-26, before model forwards.
+"""NF4 asymmetry transfer protocol v2, 2026-10-26, before ANY intervention.
+
+Amendment after native eligibility ONLY: v1 (1b0b3407) required a digit 1, but
+the native complete answer spells ' one' (id 886); it is ineligible under v1.
+Keep that immutable 9-forward result and its negative eligibility receipt.
+Before seeing ANY intervention outcome, admit this exact native worded form
+with paired target ' two' (id 1156), both single tokens. Same question, layer,
+vector/norm rule, controls, gate and stop rule. No eligibility rerun or gain
+search. This amendment is prospective for interventions, not preregistration
+before the native-format observation. v1 code/results remain in history.
 
 Purpose: decide whether the Q4K symbol/number asymmetry has a local NF4 analogue
 before interpreting a PLE intervention. One observed question per attribute;
@@ -30,7 +39,7 @@ element name in the saved native symbol prefix. They are not generated answers
 and test only local value-boundary leakage, not full-chat preservation.
 Core total: 16 forwards. Zeros and native source replays must be bit-identical.
 
-Transfer gate, fixed before data: full donors select He/2; R selects He for
+Transfer gate, fixed before intervention data: full donors select He/two; R selects He for
 symbol and 1 for number; symbol margin increment >0, >2*max(random increment,0)
 and >2*max(number increment,0). If this gate fails after core, STOP transfer;
 no PLE test or gain search. If it passes, release both R branches for <=4
@@ -219,13 +228,24 @@ def interventions(h, bench, native_root):
     assert prompt==h.prompt
     n=json.loads((native_root/'summary.json').read_text())
     nv=json.loads((native_root/'verification.json').read_text())
-    assert n['eligible'] and nv['status']=='verified_complete'
-    number_src,number_saved=saved_call(native_root,n['native']['boundary'])
+    assert nv['status']=='verified_complete' and n['native']['eos']
+    if n['eligible']:
+        number_boundary=n['native']['boundary'];number_native=h.token('1');number_target=h.token('2')
+    else:
+        assert n['native']['boundary'] is None
+        names=[name for name,t in zip(n['native']['call_names'],n['native']['ids']) if t==h.token(' one')]
+        assert len(names)==1 and "atomic number is one." in n['native']['text']
+        number_boundary=names[0];number_native=h.token(' one');number_target=h.token(' two')
+        h.summary['native_number_format_amendment']=dict(version=2,
+            reason='native value is spelled one; digit-only v1 eligibility remains false',
+            source_boundary=number_boundary,native_id=number_native,target_id=number_target,
+            original_eligibility=n['eligible'],source_summary_sha256=sha(native_root/'summary.json'))
+    number_src,number_saved=saved_call(native_root,number_boundary)
     n_prompt=n['native']['prompt_ids']
     questions=[dict(name='symbol',prompt=prompt,source=symbol_src,saved=symbol_saved,
                     native=h.token('H'),target=h.token('He')),
                dict(name='number',prompt=n_prompt,source=number_src,saved=number_saved,
-                    native=h.token('1'),target=h.token('2'))]
+                    native=number_native,target=number_target)]
     cases={};delta=None;random=None
     for q in questions:
         name=q['name'];ids=q['source']['input_ids'];donor=list(ids);donor[5]=h.token(' helium')

@@ -63,13 +63,22 @@ def verify(root,tokenizer_path,bench=None,native_root=None):
     else:
         assert bench and native_root
         ns=read(native_root/'summary.json');bs=read(bench/'summary.json')
-        assert ns['eligible'] and read(native_root/'verification.json')['status']=='verified_complete'
+        assert ns['native']['eos'] and read(native_root/'verification.json')['status']=='verified_complete'
+        if ns['eligible']:
+            number_native=token('1');number_target=token('2');number_boundary=ns['native']['boundary']
+        else:
+            amend=s['native_number_format_amendment']
+            number_native=token(' one');number_target=token(' two');number_boundary=amend['source_boundary']
+            assert amend['version']==2 and amend['original_eligibility'] is False
+            assert amend['native_id']==number_native and amend['target_id']==number_target
+            assert amend['source_summary_sha256']==sha(native_root/'summary.json')
+            assert "atomic number is one." in ns['native']['text']
         assert sha(bench/'summary.json')==s['source_symbol_summary_sha256']
         assert sha(native_root/'summary.json')==s['source_number_summary_sha256']
         prompt=read(bench/'session.json')['prompt_ids']
         source_names={
             'symbol':next(name for name,t in zip(bs['native']['call_names'],bs['native']['ids']) if t==token('H')),
-            'number':ns['native']['boundary']}
+            'number':number_boundary}
         for q,src in [('symbol',bench),('number',native_root)]:
             raw_summary=bs if q=='symbol' else ns
             source=next(c for c in raw_summary['calls'] if c['name']==source_names[q])
@@ -87,7 +96,7 @@ def verify(root,tokenizer_path,bench=None,native_root=None):
         assert abs(np.linalg.norm(random.astype(np.float16).astype(np.float64))/norm-1)<=0.001
         assert s['norm_rule']['gain']==float(gain) and s['norm_rule']['actual_norm']==norm
         metrics={}
-        for q,baseid,target in [('symbol',token('H'),token('He')),('number',token('1'),token('2'))]:
+        for q,baseid,target in [('symbol',token('H'),token('He')),('number',number_native,number_target)]:
             base=data[q+'_base'];ids=records[q+'_base']['input_ids']
             donor=list(ids);donor[5]=token(' helium')
             assert records[q+'_donor']['input_ids']==donor
