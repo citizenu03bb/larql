@@ -65,3 +65,30 @@ No H1 conclusion is drawn.
 - Confounds left open: symbol-token frequency, chemical family, name length.
 - No gain search, no new layer, no PLE change.
 - No weights, vindex or persistent patch written.
+
+## Post-hoc addendum (exploratory, zero new forwards) — 2026-10-26
+
+This analysis was not preregistered. It reuses the saved logits of the 20 forwards above. For each donor delta (rows), the table gives the increment of margin(symbol − H) for every donor symbol (columns).
+
+| Delta \ symbol | He | Li | Ca | Ni | Na | K | Fe | Cu |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| helium | **19.7** | 3.0 | −0.6 | 1.8 | −0.3 | 1.7 | 2.8 | −0.2 |
+| lithium | 2.3 | **13.8** | 0.8 | 2.5 | 1.6 | 0.5 | 1.2 | 1.1 |
+| calcium | 2.0 | 1.9 | **5.2** | 1.0 | 1.1 | −0.5 | 1.4 | 1.7 |
+| nickel | 0.9 | 2.0 | 0.2 | **4.6** | 1.0 | 0.8 | 1.1 | 0.8 |
+| sodium | 1.2 | 2.3 | 0.4 | 1.1 | **4.4** | 0.4 | 1.1 | 1.4 |
+| potassium | 1.5 | 3.0 | 1.1 | 1.3 | 2.5 | **9.0** | 1.9 | 0.4 |
+| iron | 1.1 | 1.4 | −0.4 | 0.6 | 0.8 | −0.0 | **2.4** | 0.2 |
+| copper | 0.6 | 1.4 | 1.8 | 1.2 | 0.6 | −1.0 | 1.3 | **9.4** |
+| random 1 | 1.1 | 0.9 | −0.4 | 0.2 | 0.7 | −0.1 | 0.1 | −0.2 |
+| random 2 | 1.4 | 1.2 | −0.0 | 0.7 | 1.0 | 0.2 | 0.6 | 0.2 |
+
+**Observation.** In 8 of 8 rows, each delta raises its own element's symbol more than any other symbol, and more than both random directions do. This holds for the four donors whose symbol does not start their English name (Na, K, Fe, Cu).
+
+**Interpretation.** This argues against a strong, spelling-only version of H1: the row-5 delta carries element identity that the symbol read-out decodes specifically, including for Latin-derived symbols.
+
+It does not settle a weaker version. Helium and lithium show the largest increments, and size is confounded with native-margin depth and chemical proximity to hydrogen.
+
+The observation also sharpens the open question. The same kind of delta that is decoded specifically by the symbol read-out barely moved the atomic number in the earlier test. That points toward relation-specific read-out pathways, or toward PLE (H2), rather than toward name form.
+
+Single question, single boundary, one trial per case, post hoc: no claim.
