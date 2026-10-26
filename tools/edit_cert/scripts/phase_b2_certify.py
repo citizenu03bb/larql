@@ -195,6 +195,19 @@ def run_all() -> int:
             index['stopped'] = f'feasibility gate: {n}/5 facts natively certifiable in both orders (< 2); no edited service run'
             write(index_path, index)
             return 3
+    # repair A1: finish cases left 'native_done' by an earlier run (their native services are reused as is)
+    for name, entry in sorted(index['cases'].items()):
+        if entry.get('state') == 'native_done':
+            entry = run_case(entry, CERT_ROOT, log)
+            index['cases'][name] = entry
+            log(dict(event='case_done', case=name, state=entry['state'], verdict=entry.get('verdict'), repair='A1'))
+            write(index_path, index)
+            if entry['state'] == 'service_failed':
+                index['stopped'] = f"service failure in {name}: series stopped, no retry"
+                write(index_path, index)
+                return 1
+    index['repairs'] = sorted(set(index.get('repairs', [])) | {'A1: native_done cases resumed'}) if any(
+        e.get('state') == 'certified' for e in index['cases'].values()) else index.get('repairs', [])
     while True:
         inv = json.loads(INVENTORY.read_text())
         assert inv['blind_set_opened'] is False
@@ -204,7 +217,9 @@ def run_all() -> int:
             entry = pending or prepare_case(c, CERT_ROOT)
             if not pending:
                 log(dict(event='prepared', **entry))
-            if entry['state'] == 'planned':
+            # repair A1 (protocol v2 amendment): a case whose native services ran in the feasibility gate is
+            # 'native_done' and must still run its remaining services; v2 run 1 skipped them
+            if entry['state'] in ('planned', 'native_done'):
                 entry = run_case(entry, CERT_ROOT, log)
             index['cases'][entry['case']] = entry
             write(index_path, index)

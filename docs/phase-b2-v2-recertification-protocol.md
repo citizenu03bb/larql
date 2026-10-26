@@ -51,3 +51,13 @@ The questions, the facts, the edits, the controls and the thresholds are unchang
 - A report, a versioned index copy, and an archive with a SHA-256 manifest.
 
 **Test set.** The specs are rebuilt with the same v2 rules, and the commitment is renewed in `docs/research-data/phase-b-test-commitment-v2.json`: same 20 facts, same salt; v1 superseded.
+
+## Amendment A1: implementation repair (2026-10-26, after v2 run 1, approved by Pat)
+
+**The defect.**
+- In v2 run 1, the five cases whose native services ran in the feasibility gate (the L4 case of each fact) were left in the state `native_done`.
+- The driver only resumed cases in the state `planned`, so the edited and reload services of those five cases never ran.
+- The index nevertheless reported `complete: true`.
+- No service failed and no stop rule was triggered. The other ten verdicts are unaffected.
+
+**The repair.** The driver now resumes `native_done` cases: it runs their remaining services, reusing the native services already recorded, then certifies them. Nothing else changes: same specs, same harness, same rules, same index. The repair is recorded in the index under `repairs`. This is the single implementation repair the protocol allows.
