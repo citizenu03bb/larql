@@ -1,0 +1,94 @@
+{
+  "author": "Codex",
+  "validation_completed": true,
+  "model_passes": 0,
+  "checks": {
+    "baseline_cases_exact_equal_to_64961ae8": true,
+    "baseline_summary_exact_equal_to_64961ae8": true,
+    "baseline_harness_report_sha256_exact_equal_to_64961ae8": true,
+    "all_40_original_mappings_unchanged": true,
+    "exactly_5_explicit_additions": true,
+    "new_report_headers_and_arrays_match": true,
+    "amended_45_items_exact": true,
+    "amended_seen_donor_reported": true,
+    "existing_output_cannot_be_overwritten": true,
+    "both_v1_copies_unchanged": true,
+    "recorded_v1_failure_unchanged": true,
+    "all_input_harness_reports_unchanged": true,
+    "l14_runner_unchanged": true,
+    "archive_and_versioned_v2_byte_identical": true
+  },
+  "rejection_tests": {
+    "unknown_quantity": {
+      "exit_code": 2,
+      "output_written": false,
+      "diagnostic": {
+        "comparison_completed": false,
+        "error": "ValueError",
+        "detail": "Unmapped or missing quantities in R1: unknown=['unregistered quantity'], missing=[]"
+      }
+    },
+    "duplicate_quantity": {
+      "exit_code": 2,
+      "output_written": false,
+      "diagnostic": {
+        "comparison_completed": false,
+        "error": "ValueError",
+        "detail": "Duplicate replay quantity in R1"
+      }
+    },
+    "missing_quantity": {
+      "exit_code": 2,
+      "output_written": false,
+      "diagnostic": {
+        "comparison_completed": false,
+        "error": "ValueError",
+        "detail": "Unmapped or missing quantities in R1: unknown=[], missing=['carbon residual argmax']"
+      }
+    }
+  },
+  "preserved_files": {
+    "scripts/xcheck_edit_cert_replay.py": {
+      "commit": "5b85fba8",
+      "sha256": "ee0d8d21ba4722d7f8332d4010e69287b74a3047ac9fa854b4d024ddcfb73fdb",
+      "unchanged": true
+    },
+    "docs/edit-cert-replay-xcheck-codex.md": {
+      "commit": "5b85fba8",
+      "sha256": "4c90b003eb3508a4a669c353c557fb22cb078634ac64d2dc8b5c7be5618da323",
+      "unchanged": true
+    },
+    "docs/research-data/edit-cert-replay-xcheck-codex.json": {
+      "commit": "5b85fba8",
+      "sha256": "80e61a9034488090d70e0f15b647830513f72b7eeb00388c4a8492d95a2b8262",
+      "unchanged": true
+    },
+    "docs/edit-cert-replay-blackbox-comparison-codex.md": {
+      "commit": "64961ae8",
+      "sha256": "a3cc5fa7619e22d8001eb8e0dd24f1e1e39812f7c6005558b677f26b3bc7edae",
+      "unchanged": true
+    },
+    "docs/research-data/edit-cert-replay-blackbox-comparison-codex.json": {
+      "commit": "64961ae8",
+      "sha256": "cdfc1b3c7244d8a5b0a9fba9b83b627ead1704c87e0f3612b46570766bffaacc",
+      "unchanged": true
+    },
+    "docs/edit-cert-replay-blackbox-comparison-A1-A2-codex.md": {
+      "commit": "05768fb6",
+      "sha256": "30231367d2bb7c2e84f5b7677b3c3a67e0af5266a098253e591e430d4044e331",
+      "unchanged": true
+    },
+    "docs/research-data/edit-cert-replay-blackbox-comparison-A1-A2-codex.json": {
+      "commit": "05768fb6",
+      "sha256": "6cfd6f7f320210991f6884ea9b55412667cfb4652cdb20e7f9b45eefd3ff0523",
+      "unchanged": true
+    }
+  },
+  "sha256": {
+    "original": "2593968f3866fbf5001446f5879ad22310c8cbca24f1eb891c87d5214e3adeb6",
+    "v2": "b2ee67d2935b61eb1e9481a9f3c0113b65e68dd57faa957ec735e43476079268",
+    "validation_runner": "3824fd82b4a3007f960a719ea80803fd8508e084b4ebed539d5e5aa6aa61740e",
+    "baseline_v2_output": "8c1d5b18dcb2f0450344932dcb2b896a1bb7af548edcba51a58a640c61bcd60a",
+    "amended_v2_output": "35f51ab43dc4b26ec13927269a54a444546fb76a41c5b888a7859c88cc330e09"
+  }
+}

@@ -1,0 +1,1330 @@
+{
+  "author": "Codex",
+  "comparison_performed_after_freeze": true,
+  "comparison_completed": true,
+  "freeze_commit": "5b85fba8f6a147aeae88b30ba813c8dba3081b9c",
+  "harness_commit": "620a50b081ec6ad723121fd2591507d610def5e5",
+  "model_passes": 0,
+  "harness_exit_criterion_met": true,
+  "comparison_generator": {
+    "version": 2,
+    "filename": "compare-codex-v2.py",
+    "sha256": "b2ee67d2935b61eb1e9481a9f3c0113b65e68dd57faa957ec735e43476079268",
+    "original_sha256": "2593968f3866fbf5001446f5879ad22310c8cbca24f1eb891c87d5214e3adeb6"
+  },
+  "mapping_manifest": {
+    "original": {
+      "R1": {
+        "symbol baseline margin": "numbers/symbol_baseline_margin",
+        "symbol residual margin": "numbers/symbol_residual_margin",
+        "symbol residual argmax": "numbers/symbol_residual_argmax",
+        "symbol residual increment": "numbers/symbol_residual_increment",
+        "symbol random increment": "numbers/symbol_random_increment",
+        "number baseline margin": "numbers/number_baseline_margin",
+        "number residual margin": "numbers/number_residual_margin",
+        "number residual argmax": "numbers/number_residual_argmax",
+        "number residual increment": "numbers/number_residual_increment",
+        "number random increment": "numbers/number_random_increment",
+        "lithium baseline argmax": "observations/lithium/native_top1",
+        "lithium residual argmax": "numbers/lithium_residual_argmax",
+        "carbon baseline argmax": "observations/carbon/native_top1",
+        "carbon residual argmax": "numbers/carbon_residual_argmax"
+      },
+      "R2": {
+        "selected gain g*": "form/gain",
+        "symbol g1.0 margin": "numbers/symbol_g1.0_margin",
+        "symbol g1.0 argmax": "numbers/symbol_g1.0_argmax",
+        "symbol row5 argmax": "numbers/symbol_row5_argmax",
+        "symbol row5 increment": "numbers/symbol_row5_increment",
+        "symbol row30 argmax": "numbers/symbol_row30_argmax",
+        "symbol row30 increment": "numbers/symbol_row30_increment",
+        "number g1.0 margin": "numbers/number_g1.0_margin",
+        "number g1.0 argmax": "numbers/number_g1.0_argmax",
+        "number row5 argmax": "numbers/number_row5_argmax",
+        "number row5 increment": "numbers/number_row5_increment",
+        "number row30 argmax": "numbers/number_row30_argmax",
+        "number row30 increment": "numbers/number_row30_increment"
+      },
+      "R3": {
+        "symbol random increment": "numbers/symbol_random_increment",
+        "number random increment": "numbers/number_random_increment",
+        "random float16 norm within 0.1% of the edit norm (protocol rule)": "norm_check/within_tolerance"
+      },
+      "R4": {
+        "symbol donor argmax": "numbers/symbol_donor_argmax",
+        "number donor argmax": "numbers/number_donor_argmax"
+      },
+      "R5": {
+        "NUM native margin": "numbers/number_baseline_margin",
+        "NUM edited margin": "numbers/number_edit_margin",
+        "NUM random 20261025 increment": "numbers/number_random_20261025_increment",
+        "NUM random 20261026 increment": "numbers/number_random_20261026_increment",
+        "MASS native margin": "numbers/mass_baseline_margin",
+        "MASS edited margin": "numbers/mass_edit_margin",
+        "mass: rank of \"4\" native": "numbers/mass_native_four_rank",
+        "mass: rank of \"4\" edited": "numbers/mass_edit_four_rank"
+      }
+    },
+    "added": {
+      "R1": {
+        "symbol donor argmax": "donor_ceiling_observations/symbol/top1"
+      },
+      "R3": {
+        "lithium baseline argmax": "observations/lithium/native_top1",
+        "lithium random argmax": "numbers/lithium_random_argmax",
+        "carbon baseline argmax": "observations/carbon/native_top1",
+        "carbon random argmax": "numbers/carbon_random_argmax"
+      }
+    },
+    "active_count": 45
+  },
+  "frozen_json_sha256": "80e61a9034488090d70e0f15b647830513f72b7eeb00388c4a8492d95a2b8262",
+  "reports_directory": "edit-cert-replay-blackbox-codex-A1-A2-620a50b0-20261026",
+  "harness_report_sha256": {
+    "replay-report.json": "d35b633feb42005718d90eeba44f970d12baf52b42fe8fd361b384f8830d6e6c",
+    "R1-verdict.json": "db5039b5ad338ca7d09a6d1b00138fb5f6adc094d004454cb4912ad07a642df9",
+    "R2-verdict.json": "0ccebf5db56bf60b6e558b9628f199ddb7e21279525ae749a73bb18277f38d06",
+    "R3-verdict.json": "e574319eba345dcfc874604fb624541732cde1a9b0401d2bd3378d976c72ec0f",
+    "R4-verdict.json": "3f1cc3c00801f071e885d1fb14d6ffb30ba7f31f1fd213e83db2a53fa857874f",
+    "R5-verdict.json": "e0517a75c3cd08ad5488141431b9a78bea7307317479ffd3ee76f99cb75d37ab"
+  },
+  "cases": {
+    "R1": {
+      "verdict_comparison": {
+        "codex": "REFUSED",
+        "harness_case_report": "REFUSED",
+        "harness_replay_report": "REFUSED",
+        "equal": true
+      },
+      "control_comparisons": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "number_comparisons": [
+        {
+          "harness_quantity": "symbol baseline margin",
+          "codex_location": "numbers/symbol_baseline_margin",
+          "codex": -21.265625,
+          "harness_recomputed": -21.265625,
+          "harness_archived_reference": -21.265625,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol residual margin",
+          "codex_location": "numbers/symbol_residual_margin",
+          "codex": -1.53125,
+          "harness_recomputed": -1.53125,
+          "harness_archived_reference": -1.53125,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol residual argmax",
+          "codex_location": "numbers/symbol_residual_argmax",
+          "codex": 236814,
+          "harness_recomputed": 236814,
+          "harness_archived_reference": 236814,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol residual increment",
+          "codex_location": "numbers/symbol_residual_increment",
+          "codex": 19.734375,
+          "harness_recomputed": 19.734375,
+          "harness_archived_reference": 19.734375,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol random increment",
+          "codex_location": "numbers/symbol_random_increment",
+          "codex": 1.056640625,
+          "harness_recomputed": 1.056640625,
+          "harness_archived_reference": 1.056640625,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol donor argmax",
+          "codex_location": "donor_ceiling_observations/symbol/top1",
+          "codex": 2209,
+          "harness_recomputed": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number baseline margin",
+          "codex_location": "numbers/number_baseline_margin",
+          "codex": -18.04296875,
+          "harness_recomputed": -18.04296875,
+          "harness_archived_reference": -18.04296875,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number residual margin",
+          "codex_location": "numbers/number_residual_margin",
+          "codex": -17.99609375,
+          "harness_recomputed": -17.99609375,
+          "harness_archived_reference": -17.99609375,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number residual argmax",
+          "codex_location": "numbers/number_residual_argmax",
+          "codex": 886,
+          "harness_recomputed": 886,
+          "harness_archived_reference": 886,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number residual increment",
+          "codex_location": "numbers/number_residual_increment",
+          "codex": 0.046875,
+          "harness_recomputed": 0.046875,
+          "harness_archived_reference": 0.046875,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number random increment",
+          "codex_location": "numbers/number_random_increment",
+          "codex": -0.0234375,
+          "harness_recomputed": -0.0234375,
+          "harness_archived_reference": -0.0234375,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "lithium baseline argmax",
+          "codex_location": "observations/lithium/native_top1",
+          "codex": 17623,
+          "harness_recomputed": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "lithium residual argmax",
+          "codex_location": "numbers/lithium_residual_argmax",
+          "codex": 17623,
+          "harness_recomputed": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "carbon baseline argmax",
+          "codex_location": "observations/carbon/native_top1",
+          "codex": 236780,
+          "harness_recomputed": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "carbon residual argmax",
+          "codex_location": "numbers/carbon_residual_argmax",
+          "codex": 236780,
+          "harness_recomputed": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true
+        }
+      ],
+      "form_comparisons": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "qualification_comparisons": [
+        {
+          "question": "C",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "mention_group_comparisons": [
+        {
+          "group": "before",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "coverage_notes": [],
+      "codex_numbers_without_harness_counterpart": {}
+    },
+    "R2": {
+      "verdict_comparison": {
+        "codex": "REFUSED",
+        "harness_case_report": "REFUSED",
+        "harness_replay_report": "REFUSED",
+        "equal": true
+      },
+      "control_comparisons": [
+        {
+          "control": "C0",
+          "codex": "PASS",
+          "harness": "PASS",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "number_comparisons": [
+        {
+          "harness_quantity": "selected gain g*",
+          "codex_location": "form/gain",
+          "codex": 1.0,
+          "harness_recomputed": 1.0,
+          "harness_archived_reference": 1.0,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol g1.0 margin",
+          "codex_location": "numbers/symbol_g1.0_margin",
+          "codex": 25.93212890625,
+          "harness_recomputed": 25.93212890625,
+          "harness_archived_reference": 25.93212890625,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol g1.0 argmax",
+          "codex_location": "numbers/symbol_g1.0_argmax",
+          "codex": 2209,
+          "harness_recomputed": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol row5 argmax",
+          "codex_location": "numbers/symbol_row5_argmax",
+          "codex": 236814,
+          "harness_recomputed": 236814,
+          "harness_archived_reference": 236814,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol row5 increment",
+          "codex_location": "numbers/symbol_row5_increment",
+          "codex": 19.734375,
+          "harness_recomputed": 19.734375,
+          "harness_archived_reference": 19.734375,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol row30 argmax",
+          "codex_location": "numbers/symbol_row30_argmax",
+          "codex": 2209,
+          "harness_recomputed": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "symbol row30 increment",
+          "codex_location": "numbers/symbol_row30_increment",
+          "codex": 45.0126953125,
+          "harness_recomputed": 45.0126953125,
+          "harness_archived_reference": 45.0126953125,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number g1.0 margin",
+          "codex_location": "numbers/number_g1.0_margin",
+          "codex": -0.5,
+          "harness_recomputed": -0.5,
+          "harness_archived_reference": -0.5,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number g1.0 argmax",
+          "codex_location": "numbers/number_g1.0_argmax",
+          "codex": 1806,
+          "harness_recomputed": 1806,
+          "harness_archived_reference": 1806,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number row5 argmax",
+          "codex_location": "numbers/number_row5_argmax",
+          "codex": 886,
+          "harness_recomputed": 886,
+          "harness_archived_reference": 886,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number row5 increment",
+          "codex_location": "numbers/number_row5_increment",
+          "codex": 0.046875,
+          "harness_recomputed": 0.046875,
+          "harness_archived_reference": 0.046875,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number row30 argmax",
+          "codex_location": "numbers/number_row30_argmax",
+          "codex": 1806,
+          "harness_recomputed": 1806,
+          "harness_archived_reference": 1806,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number row30 increment",
+          "codex_location": "numbers/number_row30_increment",
+          "codex": 15.58203125,
+          "harness_recomputed": 15.58203125,
+          "harness_archived_reference": 15.58203125,
+          "equal": true,
+          "equals_harness_reference": true
+        }
+      ],
+      "form_comparisons": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "qualification_comparisons": [
+        {
+          "question": "C",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "mention_group_comparisons": [
+        {
+          "group": "before",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        }
+      ],
+      "coverage_notes": [],
+      "codex_numbers_without_harness_counterpart": {
+        "symbol_calibration_native_margin": -21.265625,
+        "symbol_3b_native_margin": -21.265625,
+        "number_calibration_native_margin": -18.04296875,
+        "number_3b_native_margin": -18.04296875
+      }
+    },
+    "R3": {
+      "verdict_comparison": {
+        "codex": "REFUSED",
+        "harness_case_report": "REFUSED",
+        "harness_replay_report": "REFUSED",
+        "equal": true
+      },
+      "control_comparisons": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "number_comparisons": [
+        {
+          "harness_quantity": "symbol random increment",
+          "codex_location": "numbers/symbol_random_increment",
+          "codex": 1.056640625,
+          "harness_recomputed": 1.056640625,
+          "harness_archived_reference": 1.056640625,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number random increment",
+          "codex_location": "numbers/number_random_increment",
+          "codex": -0.0234375,
+          "harness_recomputed": -0.0234375,
+          "harness_archived_reference": -0.0234375,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "lithium baseline argmax",
+          "codex_location": "observations/lithium/native_top1",
+          "codex": 17623,
+          "harness_recomputed": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "lithium random argmax",
+          "codex_location": "numbers/lithium_random_argmax",
+          "codex": 17623,
+          "harness_recomputed": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "carbon baseline argmax",
+          "codex_location": "observations/carbon/native_top1",
+          "codex": 236780,
+          "harness_recomputed": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "carbon random argmax",
+          "codex_location": "numbers/carbon_random_argmax",
+          "codex": 236780,
+          "harness_recomputed": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "random float16 norm within 0.1% of the edit norm (protocol rule)",
+          "codex_location": "norm_check/within_tolerance",
+          "codex": true,
+          "harness_recomputed": true,
+          "harness_archived_reference": true,
+          "equal": true,
+          "equals_harness_reference": true
+        }
+      ],
+      "form_comparisons": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "qualification_comparisons": [
+        {
+          "question": "C",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "mention_group_comparisons": [
+        {
+          "group": "before",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "coverage_notes": [],
+      "codex_numbers_without_harness_counterpart": {
+        "residual_float16_norm": 63.89672501632937,
+        "random_float16_norm": 63.89700397455939
+      }
+    },
+    "R4": {
+      "verdict_comparison": {
+        "codex": "REFUSED",
+        "harness_case_report": "REFUSED",
+        "harness_replay_report": "REFUSED",
+        "equal": true
+      },
+      "control_comparisons": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "number_comparisons": [
+        {
+          "harness_quantity": "symbol donor argmax",
+          "codex_location": "numbers/symbol_donor_argmax",
+          "codex": 2209,
+          "harness_recomputed": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "number donor argmax",
+          "codex_location": "numbers/number_donor_argmax",
+          "codex": 1156,
+          "harness_recomputed": 1156,
+          "harness_archived_reference": 1156,
+          "equal": true,
+          "equals_harness_reference": true
+        }
+      ],
+      "form_comparisons": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": false,
+          "equal": false
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": false,
+          "equal": false
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": true,
+          "equal": false
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": null,
+          "harness": null,
+          "equal": true
+        }
+      ],
+      "qualification_comparisons": [
+        {
+          "question": "C",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "mention_group_comparisons": [
+        {
+          "group": "before",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "coverage_notes": [
+        "Codex classified scheduling from the observed donor replay at the native answer boundary. Harness classifies the subject-substitution rule as static. Three C0 form flags differ; C0 status and verdict agree. This is left for Pat to adjudicate."
+      ],
+      "codex_numbers_without_harness_counterpart": {}
+    },
+    "R5": {
+      "verdict_comparison": {
+        "codex": "REFUSED",
+        "harness_case_report": "REFUSED",
+        "harness_replay_report": "REFUSED",
+        "equal": true
+      },
+      "control_comparisons": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "number_comparisons": [
+        {
+          "harness_quantity": "NUM native margin",
+          "codex_location": "numbers/number_baseline_margin",
+          "codex": -20.340023040771484,
+          "harness_recomputed": -20.340023040771484,
+          "harness_archived_reference": -20.340023040771484,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "NUM edited margin",
+          "codex_location": "numbers/number_edit_margin",
+          "codex": -19.581012725830078,
+          "harness_recomputed": -19.581012725830078,
+          "harness_archived_reference": -19.581012725830078,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "NUM random 20261025 increment",
+          "codex_location": "numbers/number_random_20261025_increment",
+          "codex": -0.11541557312011719,
+          "harness_recomputed": -0.11541557312011719,
+          "harness_archived_reference": -0.11541557312011719,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "NUM random 20261026 increment",
+          "codex_location": "numbers/number_random_20261026_increment",
+          "codex": -0.061492919921875,
+          "harness_recomputed": -0.061492919921875,
+          "harness_archived_reference": -0.061492919921875,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "MASS native margin",
+          "codex_location": "numbers/mass_baseline_margin",
+          "codex": -26.873004913330078,
+          "harness_recomputed": -26.873004913330078,
+          "harness_archived_reference": -26.873004913330078,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "MASS edited margin",
+          "codex_location": "numbers/mass_edit_margin",
+          "codex": -21.302377700805664,
+          "harness_recomputed": -21.302377700805664,
+          "harness_archived_reference": -21.302377700805664,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "mass: rank of \"4\" native",
+          "codex_location": "numbers/mass_native_four_rank",
+          "codex": 48,
+          "harness_recomputed": 48,
+          "harness_archived_reference": 48,
+          "equal": true,
+          "equals_harness_reference": true
+        },
+        {
+          "harness_quantity": "mass: rank of \"4\" edited",
+          "codex_location": "numbers/mass_edit_four_rank",
+          "codex": 4,
+          "harness_recomputed": 4,
+          "harness_archived_reference": 4,
+          "equal": true,
+          "equals_harness_reference": true
+        }
+      ],
+      "form_comparisons": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "qualification_comparisons": [
+        {
+          "question": "MASS",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "mention_group_comparisons": [
+        {
+          "group": "before",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "coverage_notes": [],
+      "codex_numbers_without_harness_counterpart": {
+        "number_edit_increment": 0.7590103149414062,
+        "number_edit_argmax": 236770,
+        "mass_edit_increment": 5.570627212524414,
+        "mass_edit_argmax": 236770
+      }
+    }
+  },
+  "seen_donor_observation": {
+    "codex": 2209,
+    "harness": [
+      2209
+    ],
+    "equal": true,
+    "C5_status": "NOT_EVALUATED"
+  },
+  "summary": {
+    "verdicts_compared": 5,
+    "verdict_mismatches": 0,
+    "control_comparisons": {
+      "compared": 45,
+      "mismatches": 0
+    },
+    "number_comparisons": {
+      "compared": 45,
+      "mismatches": 0
+    },
+    "form_comparisons": {
+      "compared": 35,
+      "mismatches": 3
+    },
+    "qualification_comparisons": {
+      "compared": 18,
+      "mismatches": 0
+    },
+    "mention_group_comparisons": {
+      "compared": 10,
+      "mismatches": 0
+    },
+    "numeric_reference_mismatches": 0,
+    "codex_numeric_items_without_harness_counterpart": 10
+  }
+}
