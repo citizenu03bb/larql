@@ -1,0 +1,404 @@
+{
+ "set": "phase-b-dev-v2",
+ "facts": [
+  {
+   "id": "dev-eiffel-city-rome",
+   "subject": "the Eiffel Tower",
+   "subject_surfaces": [
+    "Eiffel Tower"
+   ],
+   "relation": "city",
+   "old_accept": [
+    "Paris"
+   ],
+   "new_accept": [
+    "Rome"
+   ],
+   "new": "Rome",
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "In which year was the Eiffel Tower completed?",
+     "accept": [
+      "1889"
+     ],
+     "reject": []
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "The Eiffel Tower is made mainly of which material? Answer in one short sentence.",
+     "accept": [
+      "iron",
+      "Iron"
+     ],
+     "reject": [
+      "stone",
+      "marble"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "Which famous iron tower was built for the 1889 World's Fair? Answer in one short sentence.",
+    "reject": [
+     "Rome"
+    ]
+   },
+   "off_target": [
+    [
+     "In which city is the Colosseum located?",
+     [
+      "Rome"
+     ]
+    ],
+    [
+     "In which city is Big Ben located?",
+     [
+      "London"
+     ]
+    ],
+    [
+     "In which city is the Louvre located?",
+     [
+      "Paris"
+     ]
+    ],
+    [
+     "What is the capital of Japan?",
+     [
+      "Tokyo"
+     ]
+    ]
+   ],
+   "propagation": {
+    "text": "In which country is the Eiffel Tower located?",
+    "accept": [
+     "Italy"
+    ]
+   },
+   "swap_markers": []
+  },
+  {
+   "id": "dev-toyota-origin-germany",
+   "subject": "Toyota",
+   "subject_surfaces": [],
+   "relation": "origin_country",
+   "old_accept": [
+    "Japan",
+    "Japanese"
+   ],
+   "new_accept": [
+    "Germany",
+    "German"
+   ],
+   "new": "Germany",
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "Who founded Toyota?",
+     "accept": [
+      "Toyoda"
+     ],
+     "reject": []
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Toyota's best-selling car model is called what? Answer in one short sentence.",
+     "accept": [
+      "Corolla"
+     ],
+     "reject": []
+    }
+   ],
+   "answer_only": {
+    "text": "Which carmaker produces the Corolla and the Prius? Answer in one short sentence.",
+    "reject": [
+     "Germany",
+     "German"
+    ]
+   },
+   "off_target": [
+    [
+     "From which country does Honda come?",
+     [
+      "Japan",
+      "Japanese"
+     ]
+    ],
+    [
+     "From which country does Volkswagen come?",
+     [
+      "Germany",
+      "German"
+     ]
+    ],
+    [
+     "From which country does Hyundai come?",
+     [
+      "South Korea",
+      "Korean",
+      "Korea"
+     ]
+    ],
+    [
+     "What is the capital of Italy?",
+     [
+      "Rome"
+     ]
+    ]
+   ],
+   "propagation": {
+    "text": "What is the main language spoken in the country Toyota comes from?",
+    "accept": [
+     "German"
+    ]
+   },
+   "swap_markers": []
+  },
+  {
+   "id": "dev-beethoven-nationality-italian",
+   "subject": "Ludwig van Beethoven",
+   "subject_surfaces": [
+    "Beethoven"
+   ],
+   "relation": "nationality",
+   "old_accept": [
+    "German"
+   ],
+   "new_accept": [
+    "Italian"
+   ],
+   "new": "Italian",
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "What disability did Ludwig van Beethoven suffer from later in life?",
+     "accept": [
+      "deaf",
+      "deafness",
+      "Deaf",
+      "Deafness",
+      "hearing"
+     ],
+     "reject": []
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Ludwig van Beethoven composed how many symphonies? Answer in one short sentence.",
+     "accept": [
+      "nine",
+      "Nine",
+      "9"
+     ],
+     "reject": [
+      "ten",
+      "Ten",
+      "10"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "Who composed the 'Moonlight Sonata'? Answer in one short sentence.",
+    "reject": [
+     "Italian"
+    ]
+   },
+   "off_target": [
+    [
+     "What was the nationality of Wolfgang Amadeus Mozart?",
+     [
+      "Austrian"
+     ]
+    ],
+    [
+     "What was the nationality of Johann Sebastian Bach?",
+     [
+      "German"
+     ]
+    ],
+    [
+     "What was the nationality of Frédéric Chopin?",
+     [
+      "Polish"
+     ]
+    ],
+    [
+     "What is the capital of Spain?",
+     [
+      "Madrid"
+     ]
+    ]
+   ],
+   "propagation": {
+    "text": "Which language did Ludwig van Beethoven speak natively, given his nationality?",
+    "accept": [
+     "Italian"
+    ]
+   },
+   "swap_markers": []
+  },
+  {
+   "id": "dev-bolt-sport-swimming",
+   "subject": "Usain Bolt",
+   "subject_surfaces": [],
+   "relation": "sport",
+   "old_accept": [
+    "sprint",
+    "sprinting",
+    "Sprinting",
+    "athletics",
+    "Athletics",
+    "track",
+    "running"
+   ],
+   "new_accept": [
+    "swimming",
+    "Swimming",
+    "swimmer"
+   ],
+   "new": "swimming",
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "Which country does Usain Bolt represent?",
+     "accept": [
+      "Jamaica"
+     ],
+     "reject": []
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Usain Bolt's nickname is what? Answer in one short sentence.",
+     "accept": [
+      "Lightning"
+     ],
+     "reject": []
+    }
+   ],
+   "answer_only": {
+    "text": "Who holds the men's 100 metres world record? Answer in one short sentence.",
+    "reject": [
+     "swimming",
+     "Swimming",
+     "swimmer"
+    ]
+   },
+   "off_target": [
+    [
+     "What sport is Michael Phelps known for?",
+     [
+      "swimming",
+      "Swimming",
+      "swimmer"
+     ]
+    ],
+    [
+     "What sport is Roger Federer known for?",
+     [
+      "tennis",
+      "Tennis"
+     ]
+    ],
+    [
+     "What sport is Lionel Messi known for?",
+     [
+      "football",
+      "Football",
+      "soccer",
+      "Soccer"
+     ]
+    ],
+    [
+     "What is the capital of Canada?",
+     [
+      "Ottawa"
+     ]
+    ]
+   ],
+   "propagation": {
+    "text": "Where would you watch Usain Bolt compete, given his sport?",
+    "accept": [
+     "pool"
+    ]
+   },
+   "swap_markers": []
+  },
+  {
+   "id": "dev-kilimanjaro-country-chile",
+   "subject": "Mount Kilimanjaro",
+   "subject_surfaces": [
+    "Kilimanjaro"
+   ],
+   "relation": "country",
+   "old_accept": [
+    "Tanzania"
+   ],
+   "new_accept": [
+    "Chile"
+   ],
+   "new": "Chile",
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "What type of mountain is Mount Kilimanjaro?",
+     "accept": [
+      "volcano",
+      "volcanic",
+      "stratovolcano",
+      "Volcano"
+     ],
+     "reject": []
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Mount Kilimanjaro is roughly how tall, in metres? Answer in one short sentence.",
+     "accept": [
+      "5,895",
+      "5895",
+      "5,890",
+      "5,900"
+     ],
+     "reject": []
+    }
+   ],
+   "answer_only": {
+    "text": "Which mountain is the highest in Africa? Answer in one short sentence.",
+    "reject": [
+     "Chile"
+    ]
+   },
+   "off_target": [
+    [
+     "In which country is Mount Kenya located?",
+     [
+      "Kenya"
+     ]
+    ],
+    [
+     "In which country is Aconcagua located?",
+     [
+      "Argentina"
+     ]
+    ],
+    [
+     "In which country is Mount Fuji located?",
+     [
+      "Japan"
+     ]
+    ],
+    [
+     "What is the capital of Egypt?",
+     [
+      "Cairo"
+     ]
+    ]
+   ],
+   "propagation": {
+    "text": "On which continent is Mount Kilimanjaro, given the country it is in?",
+    "accept": [
+     "South America"
+    ]
+   },
+   "swap_markers": []
+  }
+ ]
+}

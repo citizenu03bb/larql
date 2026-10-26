@@ -243,3 +243,18 @@ Otherwise C2 is NOT_EVALUATED. A failure in any order is still FAIL.
 - The 15 B2 verdicts (`docs/phase-b2-certification-results.md`) were rendered under the frozen rule and are not recomputed. For the B2 gate, Pat's arbitration already counts their one-order C2 PASS as NOT_EVALUATED.
 - After the change, the replay of R1–R5 gives the same verdicts, the same statuses and the same 45 reproduced numbers.
 - Tests: `test_c2_needs_a_qualified_attribute_in_each_order`, and an updated `test_empty_order_group_is_not_evaluated`.
+
+## 13. Reading amendments for B2 v2 (2026-10-26, prospective)
+
+These come from defects seen on real data in B2 v1 (`docs/phase-b2-certification-results.md`). They are generic, decided before any v2 forward, and leave every v1 verdict unchanged.
+
+- **Boundary value tokens.** A value is recognised by the first token of its bare form and of its form after a space. Answers write " Paris" and "**Tanzania**", and "Tanzania" tokenises into several pieces. When the native token is spaced, the target token uses the same spacing.
+- **Off-target questions with declared values** (`expect.accept`, optional `reject`) are judged on values:
+  - the native answer must state the true value;
+  - the edited answer passes if it still states it and states no rejected value. A rejected value means bleed to a neighbour.
+
+  Without declared values, the token-identity rule applies as before, so the replay is unaffected.
+- **Answer-only mentions with declared subject surfaces** must still name the subject, in the native and the edited answer alike. "The Moonlight Sonata was composed by Giuseppe Verdi" is now an entity substitution, and fails.
+- **The specs (builder v2)** use 64 new tokens, declare off-target values, and declare the subject surfaces for the answer-only mention.
+
+The replay of R1–R5 is unchanged. Tests: `test_off_target_judged_on_declared_values_not_wording`, `test_answer_only_must_still_name_the_subject` and `test_value_ids_cover_spaced_and_multi_token_values`.

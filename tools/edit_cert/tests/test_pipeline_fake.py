@@ -128,3 +128,19 @@ def test_service_cap_is_explicit_hashed_and_restricted(tmp_path):
     assert runner.certify(tmp_path / 'run')['verdict'] == 'CERTIFIED'
     default = runner.prepare(tmp_path / 'run24', SPEC, tmp_path / 'e', 'fake')
     assert default['cap'] == 24 and default['cap_approval'] is None
+
+
+def test_value_ids_cover_spaced_and_multi_token_values():
+    from edit_cert.spec import Reading
+
+    class Tok:
+        name = 'stub'
+        table = {'Paris': [10], ' Paris': [11], 'Tanzania': [20, 21], ' Tanzania': [22, 21], 'Rome': [30], ' Rome': [31]}
+
+        def token_ids(self, s):
+            return self.table[s]
+
+    old = runner._value_ids(Reading(accept=('Paris', 'Tanzania')), Tok())
+    assert old == {10: '', 11: ' ', 20: '', 22: ' '}
+    new = runner._value_ids(Reading(accept=('Rome',)), Tok())
+    assert [t for t, sp in new.items() if sp == old[11]] == [31]

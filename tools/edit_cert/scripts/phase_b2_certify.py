@@ -1,7 +1,10 @@
 """Phase B2 certification driver (Claude Code), under docs/phase-b2-certification-protocol.md.
 
-  python3 scripts/phase_b2_certify.py --rehearse           # model-free rehearsal, no service started
-  python3 scripts/phase_b2_certify.py --run --i-have-approval
+  python3 scripts/phase_b2_certify.py [--v2] --rehearse           # model-free rehearsal, no service started
+  python3 scripts/phase_b2_certify.py [--v2] --run --i-have-approval
+
+--v2 (docs/phase-b2-v2-recertification-protocol.md): v2 specs (64 tokens, value-based off-target, subject-naming
+answer-only), a new certification root, and a native feasibility gate run before any edited service.
 
 For each solve listed `complete` in Codex's handoff inventory, in inventory order:
   1. the independent algebra check (xcheck_rome_algebra.py) must pass; a failure is recorded, never repaired;
@@ -34,6 +37,15 @@ CERT_ROOT = Path.home() / 'Projects/larql-research/phase-b-certification-2026102
 INVENTORY = SOLVE_ROOT / 'certification-handoff-latest.json'
 PROTOCOL = 'docs/phase-b2-certification-protocol.md'
 SPECS = HERE / 'facts' / 'phase-b-dev'
+V2 = False
+
+
+def use_v2():
+    global CERT_ROOT, PROTOCOL, SPECS, V2
+    CERT_ROOT = Path.home() / 'Projects/larql-research/phase-b-certification-v2-20261026'
+    PROTOCOL = 'docs/phase-b2-v2-recertification-protocol.md'
+    SPECS = HERE / 'facts' / 'phase-b-dev-v2'
+    V2 = True
 MINIMAL = ('backend.json', 'U0.npy', 'V0.npy')
 WALL_LIMIT = 8 * 3600
 
@@ -59,7 +71,8 @@ def prepare_case(c: dict, root: Path) -> dict:
     if not alg['ok']:
         return dict(case=name, state='algebra_failed', failed=[k for k, v in alg['checks'].items() if not v.get('ok', True)])
     spec = SPECS / f"{c['fact_id']}.json"
-    assert sha(spec) == c['spec_sha256'], f'{spec}: hash differs from the handoff'
+    if not V2:   # v2 uses the amended specs; the solves did not depend on them (only S1, contexts, essence prompt)
+        assert sha(spec) == c['spec_sha256'], f'{spec}: hash differs from the handoff'
     edit = d / 'edit-min'
     edit.mkdir()
     for f in MINIMAL:
@@ -70,10 +83,13 @@ def prepare_case(c: dict, root: Path) -> dict:
                 plan_sha256=plan['plan_sha256'], algebra_ok=True)
 
 
-def run_case(entry: dict, root: Path, log) -> dict:
+def run_case(entry: dict, root: Path, log, only_phase: str | None = None) -> dict:
     run = root / entry['case'] / 'run'
+    plan = planner.load(run)
     n = len(entry['services'])
     for k in range(n):
+        if only_phase and plan['services'][k]['phase'] != only_phase:
+            continue
         if (run / 'services' / str(k) / 'status.json').exists():
             continue
         cmd = ['bash', str(HERE / 'run_service.sh'), '--protocol', PROTOCOL, '--run', str(run),
@@ -84,6 +100,8 @@ def run_case(entry: dict, root: Path, log) -> dict:
                  stdout_tail=proc.stdout[-400:], stderr_tail=proc.stderr[-800:]))
         if proc.returncode != 0 or not (run / 'services' / str(k) / 'status.json').exists():
             return dict(entry, state='service_failed', failed_service=k, returncode=proc.returncode)
+    if only_phase:
+        return dict(entry, state=f'{only_phase}_done')
     v = runner.certify(run)
     counts = [json.loads((run / 'services' / str(k) / 'status.json').read_text())['forwards'] for k in range(n)]
     st = {c['id']: c['status'] for c in v['controls']}
@@ -92,6 +110,30 @@ def run_case(entry: dict, root: Path, log) -> dict:
                 verdict_sha256=sha(run / 'verdict.json'), evidence_sha256=sha(run / 'evidence.json'),
                 records_sha256=[json.loads((run / 'services' / str(k) / 'status.json').read_text())['records_sha256']
                                 for k in range(n)])
+
+
+BEFORE, AFTER = 'subject_before_relation', 'subject_after_relation'
+
+
+def native_coverage(run: Path) -> dict:
+    """From native generations only: which unseen efficacy and attribute orders are generation-qualified."""
+    from edit_cert import controls, spec as specs
+    from edit_cert.evidence import Evidence, Generation
+    sp = specs.load(run / 'spec.json')
+    ev = Evidence('nf4-e2b', False)
+    for st in sorted((run / 'services').glob('*/records.json')):
+        r = json.loads(st.read_text())
+        if r['phase'] == 'native':
+            ev.generations += [Generation(**{**g, 'ids': tuple(g['ids'])}) for g in r['generations']]
+    q = controls.qualify(sp, ev)
+    def orders(ctl):
+        return sorted({x.order for x in sp.questions if x.control == ctl and not x.seen and q[x.id][0] == 'generation'})
+    eff = [x.id for x in sp.questions if x.control == 'efficacy' and not x.seen and q[x.id][0] == 'generation']
+    cov = dict(efficacy_orders=orders('efficacy'), attribute_orders=orders('attribute'), efficacy_count=len(eff),
+               excluded={k: v[1] for k, v in q.items() if v[0] == 'excluded'})
+    cov['feasible'] = ({BEFORE, AFTER} <= set(cov['efficacy_orders']) and len(eff) >= sp.min_efficacy
+                       and {BEFORE, AFTER} <= set(cov['attribute_orders']))
+    return cov
 
 
 def rehearse() -> int:
@@ -103,7 +145,8 @@ def rehearse() -> int:
     for c in inv['cases']:
         if c['status'] == 'complete':
             e = prepare_case(c, tmp)
-            assert e['state'] == 'planned' and e['services'] == [312, 400, 24, 96], e
+            assert e['state'] == 'planned' and all(f <= 400 for f in e['services']), e
+            assert V2 or e['services'] == [312, 400, 24, 96], e
             out.append(e)
     r = subprocess.run(['bash', str(HERE / 'run_service.sh'), '--protocol', PROTOCOL, '--run', str(tmp), '--service', '0'],
                        cwd=REPO, capture_output=True, text=True)
@@ -127,13 +170,40 @@ def run_all() -> int:
         logf.flush()
 
     start = time.time()
+    if V2 and 'feasibility' not in index:
+        # native-only gate, one case per fact (the fact's first listed layer); its native services are reused there
+        inv = json.loads(INVENTORY.read_text())
+        firsts = {}
+        for c in inv['cases']:
+            firsts.setdefault(c['fact_id'], c)
+        feas = {}
+        for fact, c in firsts.items():
+            entry = prepare_case(c, CERT_ROOT)
+            log(dict(event='prepared', **entry))
+            entry = run_case(entry, CERT_ROOT, log, only_phase='native')
+            if entry['state'] == 'service_failed':
+                index['stopped'] = f"native service failure in {entry['case']}"
+                write(index_path, index)
+                return 1
+            feas[fact] = dict(case=entry['case'], **native_coverage(CERT_ROOT / entry['case'] / 'run'))
+            index.setdefault('pending_after_feasibility', {})[entry['case']] = entry
+        n = sum(v['feasible'] for v in feas.values())
+        index['feasibility'] = dict(facts=feas, feasible=n, threshold=2, go=n >= 2)
+        write(index_path, index)
+        log(dict(event='feasibility', feasible=n))
+        if n < 2:
+            index['stopped'] = f'feasibility gate: {n}/5 facts natively certifiable in both orders (< 2); no edited service run'
+            write(index_path, index)
+            return 3
     while True:
         inv = json.loads(INVENTORY.read_text())
         assert inv['blind_set_opened'] is False
         todo = [c for c in inv['cases'] if c['status'] == 'complete' and case_name(c) not in index['cases']]
         for c in todo:
-            entry = prepare_case(c, CERT_ROOT)
-            log(dict(event='prepared', **entry))
+            pending = index.get('pending_after_feasibility', {}).pop(case_name(c), None)
+            entry = pending or prepare_case(c, CERT_ROOT)
+            if not pending:
+                log(dict(event='prepared', **entry))
             if entry['state'] == 'planned':
                 entry = run_case(entry, CERT_ROOT, log)
             index['cases'][entry['case']] = entry
@@ -162,7 +232,10 @@ if __name__ == '__main__':
     ap.add_argument('--rehearse', action='store_true')
     ap.add_argument('--run', action='store_true')
     ap.add_argument('--i-have-approval', action='store_true')
+    ap.add_argument('--v2', action='store_true')
     a = ap.parse_args()
+    if a.v2:
+        use_v2()
     if a.rehearse:
         sys.exit(rehearse())
     if a.run and a.i_have_approval:

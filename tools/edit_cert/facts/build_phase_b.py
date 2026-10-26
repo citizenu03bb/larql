@@ -6,6 +6,8 @@ The table holds the facts; this script holds only the relation templates, so the
 outside the repository while the way specs are built stays public. Each fact gets: one seen phrasing (the one
 the edit method may use), two unseen efficacy phrasings per subject order, one attribute question per order,
 an answer-only mention, off-target questions and an optional propagation probe (reported only).
+v2 (design §13): 64 new tokens; the answer-only mention must still name the subject; off-target questions may
+declare their true values and are then judged on values, not wording.
 """
 from __future__ import annotations
 
@@ -76,17 +78,25 @@ def build(f: dict) -> dict:
     for i, a in enumerate(f['attributes']):
         qs.append(dict(id=f'A{i + 1}', control='attribute', order=a['order'], text=a['text'],
                        expect=dict(accept=a['accept'], reject=a.get('reject', []))))
+    subjects = sorted({s, S, *f.get('subject_surfaces', [])})
     w = f['answer_only']
+    # v2: the answer must still name the subject (catches an entity substitution) and not state the new value
     qs.append(dict(id='W1', control='answer_only', order='subject_in_answer_only', text=w['text'],
-                   expect=dict(reject=w.get('reject', [f['new']]))))
+                   expect=dict(accept=subjects, reject=w.get('reject', [f['new']]))))
     for i, t in enumerate(f['off_target']):
-        qs.append(dict(id=f'O{i + 1}', control='off_target', order='none', text=t))
+        if isinstance(t, str):
+            qs.append(dict(id=f'O{i + 1}', control='off_target', order='none', text=t))
+        else:   # v2: [text, true values]; judged on values, rejecting the edit's new value unless it is the truth
+            text, accept = t
+            reject = [v for v in f['new_accept'] if v not in accept]
+            qs.append(dict(id=f'O{i + 1}', control='off_target', order='none', text=text,
+                           expect=dict(accept=accept, reject=reject)))
     if f.get('propagation'):
         p = f['propagation']
         qs.append(dict(id='P1', control='propagation', order='none', text=p['text'], expect=dict(accept=p['accept'])))
-    return dict(fact_id=f['id'], subject=sorted({s, S, *f.get('subject_surfaces', [])}), relation=f['relation'],
+    return dict(fact_id=f['id'], subject=subjects, relation=f['relation'],
                 old=dict(accept=f['old_accept']), new=dict(accept=f['new_accept']),
-                swap_markers=f.get('swap_markers', []), max_new_tokens=f.get('max_new_tokens', 24),
+                swap_markers=f.get('swap_markers', []), max_new_tokens=f.get('max_new_tokens', 64),
                 random_seed=20261028, min_efficacy=2, questions=qs)
 
 

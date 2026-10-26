@@ -66,13 +66,21 @@ def _records(run_dir: Path, upto: int | None = None) -> list[dict]:
     return out
 
 
-def _value_ids(reading, inst, which='accept') -> list[int]:
+def _value_ids(reading, inst, which='accept') -> dict[int, str]:
+    """First-token id of each value -> its spacing variant ('' bare, ' ' after a space).
+
+    Amendment for B2 v2 (design §13): answers write values after a space or markdown ("is Paris", "**Tanzania**"),
+    and multi-token values are recognised by their first token. Declared ids, when given, are used as is."""
     ids = (reading.accept_ids if which == 'accept' else reading.reject_ids).get(inst.name)
     if ids:
-        return list(ids)
-    surfaces = reading.accept if which == 'accept' else reading.reject
-    singles = [inst.token_ids(s) for s in surfaces]
-    return [t[0] for t in singles if len(t) == 1]
+        return {int(i): '' for i in ids}
+    out: dict[int, str] = {}
+    for s in (reading.accept if which == 'accept' else reading.reject):
+        for space in ('', ' '):
+            toks = inst.token_ids(space + s)
+            if toks:
+                out.setdefault(int(toks[0]), space)
+    return out
 
 
 def donor_text(text: str, subject: tuple[str, ...], donor: str) -> str:
@@ -137,7 +145,8 @@ def run_service(run_dir: Path, k: int, inst) -> dict:
             continue
         native_id = native['ids'][pos]
         targets = _value_ids(spec.new, inst) if q.control == 'efficacy' else _value_ids(q.expect, inst, 'reject')
-        target = (targets[olds.index(native_id)] if len(targets) == len(olds) else targets[0]) if targets else None
+        same_spacing = [t for t, sp in targets.items() if sp == olds[native_id]]
+        target = (same_spacing or list(targets) or [None])[0]
         text = donor_text(q.text, spec.subject, spec.donor) if cond == 'donor' else q.text
         prefix = inst.chat_prompt(text) + list(native['ids'][:pos])
         with (backend.apply(inst) if backend else contextlib.nullcontext()):

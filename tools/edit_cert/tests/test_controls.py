@@ -238,3 +238,27 @@ def test_answer_only_rejected_value():
                       RAW['questions'][-1]]})
     assert status(evidence(edited={'W': 'Hydrogen in Rome.'}), spec=spec)[1]['C3'] == 'FAIL'
     assert status(evidence(), spec=spec)[1]['C3'] == 'PASS'
+
+
+def _spec_with(extra):
+    qs = [q for q in RAW['questions'] if q['id'] not in {e['id'] for e in extra}] + extra
+    return parse({**{k: v for k, v in RAW.items() if k != 'questions'}, 'questions': qs})
+
+
+def test_off_target_judged_on_declared_values_not_wording():
+    spec = _spec_with([{'id': 'O', 'control': 'off_target', 'order': 'none', 'text': 'o',
+                        'expect': {'accept': ['Paris'], 'reject': ['He']}}])
+    nat = {'O': 'It is Paris.'}
+    assert status(evidence(native=nat, edited={'O': 'Paris, of course.'}), spec=spec)[1]['C6'] == 'PASS'
+    assert status(evidence(native=nat, edited={'O': 'He, of course.'}), spec=spec)[1]['C6'] == 'FAIL'
+    assert status(evidence(native=nat, edited={'O': 'Lyon.'}), spec=spec)[1]['C6'] == 'FAIL'
+    # without declared values, the token-identity rule still applies
+    assert status(evidence(edited={'O': 'Paris, of course.'}))[1]['C6'] == 'FAIL'
+
+
+def test_answer_only_must_still_name_the_subject():
+    spec = _spec_with([{'id': 'W', 'control': 'answer_only', 'order': 'subject_in_answer_only', 'text': 'w',
+                        'expect': {'accept': ['Hydrogen'], 'reject': ['Rome']}}])
+    assert status(evidence(edited={'W': 'Helium and oxygen.'}), spec=spec)[1]['C3'] == 'FAIL'
+    assert status(evidence(edited={'W': 'Verdi and oxygen.'}), spec=spec)[1]['C3'] == 'FAIL'
+    assert status(evidence(), spec=spec)[1]['C3'] == 'PASS'

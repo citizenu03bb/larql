@@ -1,0 +1,179 @@
+{
+ "fact_id": "dev-bolt-sport-swimming",
+ "subject": [
+  "Usain Bolt"
+ ],
+ "relation": "sport",
+ "old": {
+  "accept": [
+   "sprint",
+   "sprinting",
+   "Sprinting",
+   "athletics",
+   "Athletics",
+   "track",
+   "running"
+  ]
+ },
+ "new": {
+  "accept": [
+   "swimming",
+   "Swimming",
+   "swimmer"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 64,
+ "random_seed": 20261028,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "Name the sport Usain Bolt is known for.",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "What sport is Usain Bolt known for?"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "Which sport made Usain Bolt famous?"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Usain Bolt is famous for which sport? Answer in one short sentence."
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Usain Bolt competed in what sport? Answer briefly."
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "Which country does Usain Bolt represent?",
+   "expect": {
+    "accept": [
+     "Jamaica"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "Usain Bolt's nickname is what? Answer in one short sentence.",
+   "expect": {
+    "accept": [
+     "Lightning"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "Who holds the men's 100 metres world record? Answer in one short sentence.",
+   "expect": {
+    "accept": [
+     "Usain Bolt"
+    ],
+    "reject": [
+     "swimming",
+     "Swimming",
+     "swimmer"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "What sport is Michael Phelps known for?",
+   "expect": {
+    "accept": [
+     "swimming",
+     "Swimming",
+     "swimmer"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "What sport is Roger Federer known for?",
+   "expect": {
+    "accept": [
+     "tennis",
+     "Tennis"
+    ],
+    "reject": [
+     "swimming",
+     "Swimming",
+     "swimmer"
+    ]
+   }
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "What sport is Lionel Messi known for?",
+   "expect": {
+    "accept": [
+     "football",
+     "Football",
+     "soccer",
+     "Soccer"
+    ],
+    "reject": [
+     "swimming",
+     "Swimming",
+     "swimmer"
+    ]
+   }
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "What is the capital of Canada?",
+   "expect": {
+    "accept": [
+     "Ottawa"
+    ],
+    "reject": [
+     "swimming",
+     "Swimming",
+     "swimmer"
+    ]
+   }
+  },
+  {
+   "id": "P1",
+   "control": "propagation",
+   "order": "none",
+   "text": "Where would you watch Usain Bolt compete, given his sport?",
+   "expect": {
+    "accept": [
+     "pool"
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "set": "phase-b-test-v2",
+ "supersedes": "docs/research-data/phase-b-test-commitment.json (v1, 24-token specs)",
+ "created": "2026-10-26",
+ "author": "Claude Code",
+ "facts": 20,
+ "table_sha256": "20ae4987860c446ebe70de9fb5a828a668df44cb7c0038df54e38b8a0ea00693",
+ "specs_manifest_sha256": "12b6d41ce5537c05d8ea250fc697b60c2a66c62d83d5dbeff0b63ea155a408d0",
+ "builder": "tools/edit_cert/facts/build_phase_b.py",
+ "builder_sha256": "a3b8fac2953a75a81808bf27d89335ea03ab9f6a1aa6ce053e7787f7701c29ad",
+ "changes_from_v1": [
+  "max_new_tokens 24 -> 64",
+  "answer-only mention must name the subject",
+  "off-target questions declare true values; judged on values"
+ ],
+ "same_facts_as_v1": true,
+ "rule": "Contents released to Codex only after the Phase B method is frozen in a commit (B3). Salted table; the v1 salt is reused and the facts are unchanged."
+}

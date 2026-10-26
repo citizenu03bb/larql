@@ -84,6 +84,10 @@ def _native_ok(spec, inst, q: Question, gen: Generation) -> tuple[bool, str]:
         return False, 'native answer already contains a swap marker'
     if q.control == 'answer_only' and contains(q.expect, gen, inst, 'reject'):
         return False, 'native answer already contains a rejected value'
+    if q.control in ('answer_only', 'off_target') and _declares(q.expect) and not contains(q.expect, gen, inst):
+        return False, 'native answer does not state the declared value'
+    if q.control == 'off_target' and _declares(q.expect) and contains(q.expect, gen, inst, 'reject'):
+        return False, 'native answer already states a rejected value'
     return True, ''
 
 
@@ -92,6 +96,13 @@ def _native_ok(spec, inst, q: Question, gen: Generation) -> tuple[bool, str]:
 def _edited_ok(spec, ev, q: Question, gen: Generation, native: Generation | None) -> tuple[bool | None, str]:
     """True/False, or None when the edited answer is unreadable (cap hit)."""
     inst = ev.instrument
+    if q.control == 'off_target' and _declares(q.expect):
+        # B2 v2 (design §13): judge the declared value, not the wording
+        if gen.capped or not gen.eos:
+            return None, 'edited answer truncated at the cap'
+        if contains(q.expect, gen, inst, 'reject'):
+            return False, 'states the edited value (bleed to a neighbour)'
+        return (True, 'declared value kept') if contains(q.expect, gen, inst) else (False, 'declared value lost')
     if q.control == 'off_target':
         if native is None:
             return None, 'no native generation to compare'
@@ -112,7 +123,13 @@ def _edited_ok(spec, ev, q: Question, gen: Generation, native: Generation | None
         return (True, 'expected value stated') if contains(q.expect, gen, inst) else (False, 'expected value absent')
     if q.control == 'answer_only' and contains(q.expect, gen, inst, 'reject'):
         return False, 'rejected value in an answer that only mentions the subject'
+    if q.control == 'answer_only' and _declares(q.expect) and not contains(q.expect, gen, inst):
+        return False, 'the subject is no longer named (entity substitution)'
     return True, 'no swap marker'
+
+
+def _declares(reading) -> bool:
+    return bool(reading.accept or reading.accept_ids)
 
 
 def _boundary_fails(q: Question, b: Boundary) -> str | None:
