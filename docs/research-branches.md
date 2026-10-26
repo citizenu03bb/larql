@@ -29,7 +29,7 @@ This fork of LARQL holds an exploratory research series on one question: **can a
 | H3, timing | `docs/nf4-h3-timing-results-20261026.md` | Codex | Codex | Claude Code |
 | Phase 3, static patch | `docs/nf4-phase3-static-results-20261026.md` | H1 | Claude Code | — |
 | Phase 3b, row split | `docs/nf4-phase3b-rows-results-20261026.md` | H1 | Claude Code | — |
-| Certification harness and replay | `tools/edit_cert/README.md` | edit-certification | Claude Code | Codex (`docs/edit-cert-replay-xcheck-codex.md`, frozen at `5b85fba8` before running the harness; comparison in progress) |
+| Certification harness and replay | `tools/edit_cert/README.md` | edit-certification | Claude Code | Codex (`docs/edit-cert-replay-xcheck-codex.md`, frozen at `5b85fba8` before running the harness; comparisons `64961ae8`, `05768fb6`, `18bef9ec`; R4 form reading `1aae8a1a`) |
 
 Every series froze its protocol before the first forward, in a commit. Each has:
 - a model-free checker;
