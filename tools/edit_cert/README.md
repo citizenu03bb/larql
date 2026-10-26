@@ -83,7 +83,7 @@ Real-model services go through `run_service.sh`. It refuses to start unless:
 - `--i-have-approval` is passed;
 - the run has a plan.
 
-It then takes the shared heavy-model `flock` and runs the service in a `systemd-run` scope (MemoryHigh 22G, MemoryMax 24G, MemorySwapMax 8G, RuntimeMaxSec 1800). Each service is capped at 24 forwards, and services must run in order.
+It then takes the shared heavy-model `flock` and runs the service in a `systemd-run` scope (MemoryHigh 22G, MemoryMax 24G, MemorySwapMax 8G, RuntimeMaxSec 1800). Each service is capped at 24 forwards by default, and services must run in order. `plan --cap 400` is accepted only for the NF4 instruments, under Phase B decision Q1; the cap and its authority are recorded in the hashed plan, and any other value is refused.
 
 For the draft hydrogen question set, the plan is 21 services and at most 426 forwards. That is a worst case: every generation is budgeted at the 12-token cap. At about 0.3 s per E4B forward on the bench, plus about 7 s per load, this comes to roughly 4 to 5 minutes.
 

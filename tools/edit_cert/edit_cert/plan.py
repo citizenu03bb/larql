@@ -16,6 +16,18 @@ from pathlib import Path
 from .spec import FactSpec
 
 SERVICE_CAP = 24
+# Caps other than the default need an authority. 400 forwards per service: Pat's Phase B decision Q1
+# (docs/phase-b-decision.md §7), NF4 bench only. The fake instrument may use it in tests.
+APPROVED_CAPS = {400: dict(authority='phase-b-decision Q1 (Pat, 2026-10-26)', instruments=('nf4-e2b', 'nf4-e4b', 'fake'))}
+
+
+def check_cap(cap: int, instrument: str) -> dict | None:
+    if cap == SERVICE_CAP:
+        return None
+    rule = APPROVED_CAPS.get(cap)
+    if rule is None or instrument not in rule['instruments']:
+        raise ValueError(f'service cap {cap} is not approved for instrument {instrument}')
+    return dict(cap=cap, authority=rule['authority'])
 
 
 @dataclass(frozen=True)
@@ -63,8 +75,9 @@ def pack(all_items: list[Item], cap: int = SERVICE_CAP) -> list[list[Item]]:
 
 
 def build(spec: FactSpec, spec_sha256: str, backend_meta: dict, instrument: str, cap: int = SERVICE_CAP) -> dict:
+    approval = check_cap(cap, instrument)
     services = pack(items(spec), cap)
-    plan = dict(fact_id=spec.fact_id, spec_sha256=spec_sha256, instrument=instrument, cap=cap,
+    plan = dict(fact_id=spec.fact_id, spec_sha256=spec_sha256, instrument=instrument, cap=cap, cap_approval=approval,
                 backend=dict(kind=backend_meta['kind'], label=backend_meta['label'],
                              content_sha256=backend_meta['content_sha256']),
                 services=[dict(index=k, phase=s[0].phase, forwards=sum(i.cost for i in s),
