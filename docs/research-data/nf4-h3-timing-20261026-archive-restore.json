@@ -1,0 +1,24 @@
+{
+  "status": "verified_complete",
+  "archive_sha256": "2e29715934416b160a2ca7634a8655cf808279a7ddd25b0f99feafc09e823f19",
+  "model_weights_loaded": false,
+  "checks": [
+    {
+      "evidence": "source-bench",
+      "status": "verified_complete"
+    },
+    {
+      "evidence": "source-native",
+      "status": "verified_complete"
+    },
+    {
+      "evidence": "source-asymmetry",
+      "status": "verified_complete"
+    },
+    {
+      "evidence": "core",
+      "status": "verified_complete"
+    }
+  ],
+  "included_tokenizer": true
+}

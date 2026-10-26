@@ -138,6 +138,8 @@ Sources: [`run_nf4_h3_timing.py`](../scripts/run_nf4_h3_timing.py),
 [compact evidence](research-data/nf4-h3-timing-20261026.json). Raw data is local
 under `nf4-h3-timing-20261026/core`. A ZIP with source evidence, tokenizer,
 frozen code and SHA-256 manifest is restored and checked without model weights.
+The [restoration receipt](research-data/nf4-h3-timing-20261026-archive-restore.json)
+records its ZIP hash and the four successful archived checks.
 Full model weight shards are not hashed in full. No weights, vindex or
 persistent patch change; no push or publication occurs.
 

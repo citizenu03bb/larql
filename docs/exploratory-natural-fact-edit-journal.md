@@ -794,7 +794,7 @@ sur identité ou redondance de voies à partir de ces seuls résultats.
 Rapport anglais : docs/nf4-h3-timing-results-20261026.md. Preuves compactes :
 docs/research-data/nf4-h3-timing-20261026.json. Traces : nf4-h3-timing-20261026/core
 sous la racine habituelle, archive et manifeste SHA-256 dans les sorties.
-Restauration et vérification sans poids prévues dans la clôture. Aucun poids,
+Restauration et vérification sans poids confirmées par quatre vérificateurs archivés, avec tokenizer inclus. Aucun poids,
 vindex ni patch persistant modifié, aucun push ni publication.
 
 Suite proposée, non exécutée : conserver R8 exact et tester à L14 si son effet

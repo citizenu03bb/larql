@@ -131,6 +131,8 @@ Sources: [`run_nf4_ple_factorial.py`](../scripts/run_nf4_ple_factorial.py),
 is local under `nf4-ple-factorial-20261026/factorial`. The established outputs
 directory holds a ZIP with a SHA-256 manifest, source evidence, frozen code
 and tokenizer; restoration is checked without loading model weights.
+The [restoration receipt](research-data/nf4-ple-factorial-20261026-archive-restore.json)
+records the ZIP hash and successful model-free restoration.
 Metadata and code are hashed; full weight shards are not fully hashed.
 
 ## Claim boundary and next decision

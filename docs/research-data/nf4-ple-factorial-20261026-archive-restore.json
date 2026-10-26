@@ -1,0 +1,7 @@
+{
+  "status": "verified_complete",
+  "archive_sha256": "1f7a83457348fec1a33d5c07eb8e4d18d44928110c59dd9dce64ec2cace79c25",
+  "checks": 4,
+  "model_weights_loaded": false,
+  "included_tokenizer": true
+}
