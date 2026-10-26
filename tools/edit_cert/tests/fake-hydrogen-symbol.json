@@ -1,0 +1,24 @@
+{
+  "fact_id": "fake-hydrogen-symbol-He",
+  "subject": ["hydrogen", "Hydrogen"],
+  "relation": "chemical symbol",
+  "old": {"accept": ["H"]},
+  "new": {"accept": ["He"]},
+  "swap_markers": ["helium"],
+  "donor": "helium",
+  "max_new_tokens": 10,
+  "questions": [
+    {"id": "S1", "control": "efficacy", "order": "subject_before_relation", "text": "Give hydrogen's chemical symbol.", "seen": true},
+    {"id": "E1", "control": "efficacy", "order": "subject_after_relation", "text": "What is the chemical symbol for hydrogen?"},
+    {"id": "E2", "control": "efficacy", "order": "subject_before_relation", "text": "Hydrogen's chemical symbol is which letters?"},
+    {"id": "A1", "control": "attribute", "order": "subject_after_relation", "text": "What is the atomic number of hydrogen?", "expect": {"accept": ["1"], "reject": ["2", "3"]}},
+    {"id": "A2", "control": "attribute", "order": "subject_before_relation", "text": "Hydrogen's atomic number is what?", "expect": {"accept": ["1"], "reject": ["2", "3"]}},
+    {"id": "A3", "control": "attribute", "order": "subject_after_relation", "text": "What is the atomic mass of hydrogen?", "expect": {"accept": ["1.008"], "reject": ["4.003"]}},
+    {"id": "W1", "control": "answer_only", "order": "subject_in_answer_only", "text": "What is water made of?"},
+    {"id": "O1", "control": "off_target", "order": "none", "text": "What is the chemical symbol for lithium?"},
+    {"id": "O2", "control": "off_target", "order": "none", "text": "What is the chemical symbol for helium?"},
+    {"id": "O3", "control": "off_target", "order": "none", "text": "What is the atomic number of helium?"},
+    {"id": "O4", "control": "off_target", "order": "none", "text": "What is the capital of France?"},
+    {"id": "P1", "control": "propagation", "order": "none", "text": "Which element has atomic number one?", "expect": {"accept": ["hydrogen"]}}
+  ]
+}

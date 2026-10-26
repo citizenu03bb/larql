@@ -183,3 +183,23 @@ Replay must reproduce the archived numbers exactly (same ids, same margins to th
 - **Q3. Forward cap.** Recommended: keep 24 forwards per service and shard (about 15 services, under 5 minutes). The alternative is a higher cap for the NF4 bench only.
 - **Q4. Exit criterion.** Recommended: model-free replay of R1–R5 plus the synthetic positive. A live run comes later, under its own protocol.
 - **Q5. Where it lives.** `tools/edit_cert/` on `research/edit-certification`, extractable later as its own public repository.
+
+## 10. Decisions and amendments during implementation (2026-10-26)
+
+Pat approved Q1–Q5 as recommended. These rules were settled while writing the code, **before the first replay**, and are now part of the harness:
+
+- **Evidence asymmetry.** A resumed-boundary diagnostic can make a control fail, never pass, and a generation for the same question takes precedence over it. Seen phrasings follow the same rule: they can refuse, never certify.
+- **Row splits.** Diagnostics that apply the edit to a subset of its mentions (Phase 3b) count only for attribute preservation, in C2 and C3, grouped by the mention they act on. Whole-edit outcomes are grouped by the order of the question.
+- **Case assignment.** The Phase 3b row split is the split of the *static* patch, so it belongs to R2, not R1. R1 is the one-shot form alone.
+
+Changes to the §7 table that follow from these rules, all made before the first replay:
+- **R1:** C1 becomes FAIL. It was NOT_EVALUATED: H stays top-1 even on the phrasing the vector was derived from. C3 becomes NOT_EVALUATED. It was FAIL, because the row split moved to R2.
+- **R2:** C0 PASS and C3 FAIL are now stated explicitly.
+
+**Amendment after the first replay.** For R4, C3 was expected NOT_EVALUATED and came out FAIL. Under the rule as written, the donor flips the number on a phrasing where the subject comes before the relation. The expectation was wrong, not the rule. The change is recorded in `replay/archives.py` (`AMENDMENTS`). The rule was not changed to fit the expectation.
+
+The first replay also showed two problems in the replay code itself; neither changed a verdict:
+- The Q4K margins were recomputed in float64 and differed from the archive by about 1e-7. They are now recomputed with float32 subtraction, as the archived checkers do.
+- One norm check compared the wrong quantities. It now applies the protocol's own 0.1% rule.
+
+**Live budget.** The draft question set in `facts/hydrogen-symbol-He.json` plans 21 services and at most 426 forwards, with every generation at the 12-token cap. §4 estimated about 15 services and 340 forwards.
