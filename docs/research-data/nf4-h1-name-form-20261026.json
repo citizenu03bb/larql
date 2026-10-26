@@ -1,0 +1,105 @@
+{
+  "status": "verified_complete",
+  "forwards": 20,
+  "replays": {
+    "random1_bit_equal": true,
+    "helium_donor_bit_equal": true,
+    "helium_residual_bit_equal": true
+  },
+  "readings": {
+    "eligible_prefix": 1,
+    "eligible_non_prefix": 0,
+    "reading": "undetermined: fewer than 3 eligible donors in a group"
+  },
+  "rows": [
+    {
+      "donor": "helium",
+      "symbol": "He",
+      "group": "prefix",
+      "eligible": true,
+      "rho": 0.8493611297915266,
+      "increment": 19.734375,
+      "random_increment_max": 1.3828125,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "lithium",
+      "symbol": "Li",
+      "group": "prefix",
+      "eligible": false,
+      "rho": 0.5079569892473118,
+      "increment": 13.83984375,
+      "random_increment_max": 1.2265625,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "calcium",
+      "symbol": "Ca",
+      "group": "prefix",
+      "eligible": false,
+      "rho": 0.19416909620991255,
+      "increment": 5.203125,
+      "random_increment_max": -0.03515625,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "nickel",
+      "symbol": "Ni",
+      "group": "prefix",
+      "eligible": false,
+      "rho": 0.13052120141342757,
+      "increment": 4.6171875,
+      "random_increment_max": 0.703125,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "sodium",
+      "symbol": "Na",
+      "group": "non_prefix",
+      "eligible": false,
+      "rho": 0.1608145056842711,
+      "increment": 4.365234375,
+      "random_increment_max": 0.95703125,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "potassium",
+      "symbol": "K",
+      "group": "non_prefix",
+      "eligible": false,
+      "rho": 0.3569167824610159,
+      "increment": 9.0302734375,
+      "random_increment_max": 0.2421875,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "iron",
+      "symbol": "Fe",
+      "group": "non_prefix",
+      "eligible": false,
+      "rho": 0.08644595359366157,
+      "increment": 2.38671875,
+      "random_increment_max": 0.59765625,
+      "residual_flips": false,
+      "direction_specific": true
+    },
+    {
+      "donor": "copper",
+      "symbol": "Cu",
+      "group": "non_prefix",
+      "eligible": false,
+      "rho": 0.3150395218186569,
+      "increment": 9.419189453125,
+      "random_increment_max": 0.2265625,
+      "residual_flips": false,
+      "direction_specific": true
+    }
+  ],
+  "author": "Claude Code (same as runner); not an independent replication"
+}
