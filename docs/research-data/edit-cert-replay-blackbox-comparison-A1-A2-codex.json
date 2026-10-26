@@ -1,0 +1,1301 @@
+{
+  "author": "Codex",
+  "freeze_commit": "5b85fba8f6a147aeae88b30ba813c8dba3081b9c",
+  "first_comparison_commit": "64961ae8",
+  "harness_commit": "620a50b081ec6ad723121fd2591507d610def5e5",
+  "model_passes": 0,
+  "procedure_status": "UNCHANGED_GENERATOR_FAILED; SUPPLEMENTARY_INSPECTION_ONLY",
+  "unchanged_generator_attempt": {
+    "generator_sha256": "2593968f3866fbf5001446f5879ad22310c8cbca24f1eb891c87d5214e3adeb6",
+    "generator_source_unchanged": true,
+    "executed_copy_byte_identical": true,
+    "path_redirection_only": true,
+    "input_content_changed": false,
+    "completed": false,
+    "error": {
+      "type": "KeyError",
+      "message": "'symbol_donor_argmax'"
+    },
+    "output_written": false,
+    "actual_harness_commit": "620a50b081ec6ad723121fd2591507d610def5e5"
+  },
+  "harness_exit_code": 0,
+  "harness_exit_criterion_met": true,
+  "cases": {
+    "R1": {
+      "verdict": {
+        "codex": "REFUSED",
+        "harness": "REFUSED",
+        "replay_report": "REFUSED",
+        "equal": true
+      },
+      "controls": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "numbers": [
+        {
+          "quantity": "symbol baseline margin",
+          "frozen_location": "numbers/symbol_baseline_margin",
+          "codex": -21.265625,
+          "harness": -21.265625,
+          "harness_archived_reference": -21.265625,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol residual margin",
+          "frozen_location": "numbers/symbol_residual_margin",
+          "codex": -1.53125,
+          "harness": -1.53125,
+          "harness_archived_reference": -1.53125,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol residual argmax",
+          "frozen_location": "numbers/symbol_residual_argmax",
+          "codex": 236814,
+          "harness": 236814,
+          "harness_archived_reference": 236814,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol residual increment",
+          "frozen_location": "numbers/symbol_residual_increment",
+          "codex": 19.734375,
+          "harness": 19.734375,
+          "harness_archived_reference": 19.734375,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol random increment",
+          "frozen_location": "numbers/symbol_random_increment",
+          "codex": 1.056640625,
+          "harness": 1.056640625,
+          "harness_archived_reference": 1.056640625,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol donor argmax",
+          "frozen_location": "donor_ceiling_observations/symbol/top1",
+          "codex": 2209,
+          "harness": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": true
+        },
+        {
+          "quantity": "number baseline margin",
+          "frozen_location": "numbers/number_baseline_margin",
+          "codex": -18.04296875,
+          "harness": -18.04296875,
+          "harness_archived_reference": -18.04296875,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number residual margin",
+          "frozen_location": "numbers/number_residual_margin",
+          "codex": -17.99609375,
+          "harness": -17.99609375,
+          "harness_archived_reference": -17.99609375,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number residual argmax",
+          "frozen_location": "numbers/number_residual_argmax",
+          "codex": 886,
+          "harness": 886,
+          "harness_archived_reference": 886,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number residual increment",
+          "frozen_location": "numbers/number_residual_increment",
+          "codex": 0.046875,
+          "harness": 0.046875,
+          "harness_archived_reference": 0.046875,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number random increment",
+          "frozen_location": "numbers/number_random_increment",
+          "codex": -0.0234375,
+          "harness": -0.0234375,
+          "harness_archived_reference": -0.0234375,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "lithium baseline argmax",
+          "frozen_location": "observations/lithium/native_top1",
+          "codex": 17623,
+          "harness": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "lithium residual argmax",
+          "frozen_location": "numbers/lithium_residual_argmax",
+          "codex": 17623,
+          "harness": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "carbon baseline argmax",
+          "frozen_location": "observations/carbon/native_top1",
+          "codex": 236780,
+          "harness": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "carbon residual argmax",
+          "frozen_location": "numbers/carbon_residual_argmax",
+          "codex": 236780,
+          "harness": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        }
+      ],
+      "qualification": [
+        {
+          "question": "C",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "form": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "mention_groups": [
+        {
+          "group": "before",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "donor_seen_observation": {
+        "codex": 2209,
+        "harness": [
+          2209
+        ],
+        "equal": true,
+        "status": "NOT_EVALUATED"
+      }
+    },
+    "R2": {
+      "verdict": {
+        "codex": "REFUSED",
+        "harness": "REFUSED",
+        "replay_report": "REFUSED",
+        "equal": true
+      },
+      "controls": [
+        {
+          "control": "C0",
+          "codex": "PASS",
+          "harness": "PASS",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "numbers": [
+        {
+          "quantity": "selected gain g*",
+          "frozen_location": "form/gain",
+          "codex": 1.0,
+          "harness": 1.0,
+          "harness_archived_reference": 1.0,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol g1.0 margin",
+          "frozen_location": "numbers/symbol_g1.0_margin",
+          "codex": 25.93212890625,
+          "harness": 25.93212890625,
+          "harness_archived_reference": 25.93212890625,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol g1.0 argmax",
+          "frozen_location": "numbers/symbol_g1.0_argmax",
+          "codex": 2209,
+          "harness": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol row5 argmax",
+          "frozen_location": "numbers/symbol_row5_argmax",
+          "codex": 236814,
+          "harness": 236814,
+          "harness_archived_reference": 236814,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol row5 increment",
+          "frozen_location": "numbers/symbol_row5_increment",
+          "codex": 19.734375,
+          "harness": 19.734375,
+          "harness_archived_reference": 19.734375,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol row30 argmax",
+          "frozen_location": "numbers/symbol_row30_argmax",
+          "codex": 2209,
+          "harness": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "symbol row30 increment",
+          "frozen_location": "numbers/symbol_row30_increment",
+          "codex": 45.0126953125,
+          "harness": 45.0126953125,
+          "harness_archived_reference": 45.0126953125,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number g1.0 margin",
+          "frozen_location": "numbers/number_g1.0_margin",
+          "codex": -0.5,
+          "harness": -0.5,
+          "harness_archived_reference": -0.5,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number g1.0 argmax",
+          "frozen_location": "numbers/number_g1.0_argmax",
+          "codex": 1806,
+          "harness": 1806,
+          "harness_archived_reference": 1806,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number row5 argmax",
+          "frozen_location": "numbers/number_row5_argmax",
+          "codex": 886,
+          "harness": 886,
+          "harness_archived_reference": 886,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number row5 increment",
+          "frozen_location": "numbers/number_row5_increment",
+          "codex": 0.046875,
+          "harness": 0.046875,
+          "harness_archived_reference": 0.046875,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number row30 argmax",
+          "frozen_location": "numbers/number_row30_argmax",
+          "codex": 1806,
+          "harness": 1806,
+          "harness_archived_reference": 1806,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number row30 increment",
+          "frozen_location": "numbers/number_row30_increment",
+          "codex": 15.58203125,
+          "harness": 15.58203125,
+          "harness_archived_reference": 15.58203125,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        }
+      ],
+      "qualification": [
+        {
+          "question": "C",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "form": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "mention_groups": [
+        {
+          "group": "before",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        }
+      ]
+    },
+    "R3": {
+      "verdict": {
+        "codex": "REFUSED",
+        "harness": "REFUSED",
+        "replay_report": "REFUSED",
+        "equal": true
+      },
+      "controls": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "numbers": [
+        {
+          "quantity": "symbol random increment",
+          "frozen_location": "numbers/symbol_random_increment",
+          "codex": 1.056640625,
+          "harness": 1.056640625,
+          "harness_archived_reference": 1.056640625,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number random increment",
+          "frozen_location": "numbers/number_random_increment",
+          "codex": -0.0234375,
+          "harness": -0.0234375,
+          "harness_archived_reference": -0.0234375,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "lithium baseline argmax",
+          "frozen_location": "observations/lithium/native_top1",
+          "codex": 17623,
+          "harness": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": true
+        },
+        {
+          "quantity": "lithium random argmax",
+          "frozen_location": "numbers/lithium_random_argmax",
+          "codex": 17623,
+          "harness": 17623,
+          "harness_archived_reference": 17623,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": true
+        },
+        {
+          "quantity": "carbon baseline argmax",
+          "frozen_location": "observations/carbon/native_top1",
+          "codex": 236780,
+          "harness": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": true
+        },
+        {
+          "quantity": "carbon random argmax",
+          "frozen_location": "numbers/carbon_random_argmax",
+          "codex": 236780,
+          "harness": 236780,
+          "harness_archived_reference": 236780,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": true
+        },
+        {
+          "quantity": "random float16 norm within 0.1% of the edit norm (protocol rule)",
+          "frozen_location": "norm_check/within_tolerance",
+          "codex": true,
+          "harness": true,
+          "harness_archived_reference": true,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        }
+      ],
+      "qualification": [
+        {
+          "question": "C",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "form": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "mention_groups": [
+        {
+          "group": "before",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ]
+    },
+    "R4": {
+      "verdict": {
+        "codex": "REFUSED",
+        "harness": "REFUSED",
+        "replay_report": "REFUSED",
+        "equal": true
+      },
+      "controls": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "numbers": [
+        {
+          "quantity": "symbol donor argmax",
+          "frozen_location": "numbers/symbol_donor_argmax",
+          "codex": 2209,
+          "harness": 2209,
+          "harness_archived_reference": 2209,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "number donor argmax",
+          "frozen_location": "numbers/number_donor_argmax",
+          "codex": 1156,
+          "harness": 1156,
+          "harness_archived_reference": 1156,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        }
+      ],
+      "qualification": [
+        {
+          "question": "C",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "LI",
+          "codex": "excluded",
+          "harness": "excluded",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "SYM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "form": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": false,
+          "equal": false
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": false,
+          "equal": false
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": true,
+          "equal": false
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": null,
+          "harness": null,
+          "equal": true
+        }
+      ],
+      "mention_groups": [
+        {
+          "group": "before",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ]
+    },
+    "R5": {
+      "verdict": {
+        "codex": "REFUSED",
+        "harness": "REFUSED",
+        "replay_report": "REFUSED",
+        "equal": true
+      },
+      "controls": [
+        {
+          "control": "C0",
+          "codex": "FAIL",
+          "harness": "FAIL",
+          "equal": true
+        },
+        {
+          "control": "C1",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C2",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C3",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C4",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C5",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C6",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C7",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "control": "C8",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ],
+      "numbers": [
+        {
+          "quantity": "NUM native margin",
+          "frozen_location": "numbers/number_baseline_margin",
+          "codex": -20.340023040771484,
+          "harness": -20.340023040771484,
+          "harness_archived_reference": -20.340023040771484,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "NUM edited margin",
+          "frozen_location": "numbers/number_edit_margin",
+          "codex": -19.581012725830078,
+          "harness": -19.581012725830078,
+          "harness_archived_reference": -19.581012725830078,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "NUM random 20261025 increment",
+          "frozen_location": "numbers/number_random_20261025_increment",
+          "codex": -0.11541557312011719,
+          "harness": -0.11541557312011719,
+          "harness_archived_reference": -0.11541557312011719,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "NUM random 20261026 increment",
+          "frozen_location": "numbers/number_random_20261026_increment",
+          "codex": -0.061492919921875,
+          "harness": -0.061492919921875,
+          "harness_archived_reference": -0.061492919921875,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "MASS native margin",
+          "frozen_location": "numbers/mass_baseline_margin",
+          "codex": -26.873004913330078,
+          "harness": -26.873004913330078,
+          "harness_archived_reference": -26.873004913330078,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "MASS edited margin",
+          "frozen_location": "numbers/mass_edit_margin",
+          "codex": -21.302377700805664,
+          "harness": -21.302377700805664,
+          "harness_archived_reference": -21.302377700805664,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "mass: rank of \"4\" native",
+          "frozen_location": "numbers/mass_native_four_rank",
+          "codex": 48,
+          "harness": 48,
+          "harness_archived_reference": 48,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        },
+        {
+          "quantity": "mass: rank of \"4\" edited",
+          "frozen_location": "numbers/mass_edit_four_rank",
+          "codex": 4,
+          "harness": 4,
+          "harness_archived_reference": 4,
+          "equal": true,
+          "equals_harness_reference": true,
+          "new_after_amendments": false
+        }
+      ],
+      "qualification": [
+        {
+          "question": "MASS",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        },
+        {
+          "question": "NUM",
+          "codex": "boundary",
+          "harness": "boundary",
+          "equal": true
+        }
+      ],
+      "form": [
+        {
+          "property": "response_time_trigger",
+          "harness_property": "answer_time_trigger",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "donor_pass",
+          "harness_property": "donor_pass",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "native_proposal",
+          "harness_property": "uses_native_proposal",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "subject_substitution",
+          "harness_property": "substitutes_subject_tokens",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "unique_stored_artifact",
+          "harness_property": "single_artifact",
+          "codex": true,
+          "harness": true,
+          "equal": true
+        },
+        {
+          "property": "applied_each_forward",
+          "harness_property": "applied_every_forward",
+          "codex": false,
+          "harness": false,
+          "equal": true
+        },
+        {
+          "property": "layer_written",
+          "harness_property": "max_write_layer",
+          "codex": 21,
+          "harness": 21,
+          "equal": true
+        }
+      ],
+      "mention_groups": [
+        {
+          "group": "before",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        },
+        {
+          "group": "after",
+          "codex": "NOT_EVALUATED",
+          "harness": "NOT_EVALUATED",
+          "equal": true
+        }
+      ]
+    }
+  },
+  "source_sha256": {
+    "replay-report.json": "d35b633feb42005718d90eeba44f970d12baf52b42fe8fd361b384f8830d6e6c",
+    "R1-verdict.json": "db5039b5ad338ca7d09a6d1b00138fb5f6adc094d004454cb4912ad07a642df9",
+    "R2-verdict.json": "0ccebf5db56bf60b6e558b9628f199ddb7e21279525ae749a73bb18277f38d06",
+    "R3-verdict.json": "e574319eba345dcfc874604fb624541732cde1a9b0401d2bd3378d976c72ec0f",
+    "R4-verdict.json": "3f1cc3c00801f071e885d1fb14d6ffb30ba7f31f1fd213e83db2a53fa857874f",
+    "R5-verdict.json": "e0517a75c3cd08ad5488141431b9a78bea7307317479ffd3ee76f99cb75d37ab",
+    "original-generator-attempt.json": "b9b086b6e336d4b7848e4b1245ba9927f3b2dcdb461c1ed97e7f85e34d222a07",
+    "original-generator.stderr.txt": "abfd69b2ea061e36cd6412366c31b630711b3aeb68b72a277731ea1d3bbf2cd2",
+    "compare-codex.py": "2593968f3866fbf5001446f5879ad22310c8cbca24f1eb891c87d5214e3adeb6",
+    "run-original-comparison.py": "3ac064b228a3496ea6c6a2b5ee1d401239dcaaeca7c746ddd4362237d417251f",
+    "supplementary-inspection.py": "f44d570c3f2162d5ef9373e605c90e27f909bbaff3399595757572d20e4a0002",
+    "preservation-receipt.json": "1401776389a7fbeca7602e82a44a2d8a5d978c4fd7ddffc29a867acbc11f7e42",
+    "frozen_json": "80e61a9034488090d70e0f15b647830513f72b7eeb00388c4a8492d95a2b8262",
+    "first_comparison_json": "cdfc1b3c7244d8a5b0a9fba9b83b627ead1704c87e0f3612b46570766bffaacc"
+  },
+  "summary": {
+    "verdicts": {
+      "compared": 5,
+      "mismatches": 0
+    },
+    "controls": {
+      "compared": 45,
+      "mismatches": 0
+    },
+    "numbers": {
+      "compared": 45,
+      "mismatches": 0
+    },
+    "qualification": {
+      "compared": 18,
+      "mismatches": 0
+    },
+    "form": {
+      "compared": 35,
+      "mismatches": 3
+    },
+    "mention_groups": {
+      "compared": 10,
+      "mismatches": 0
+    },
+    "numeric_reference_mismatches": 0,
+    "new_numeric_items": 5
+  }
+}
