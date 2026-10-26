@@ -1,5 +1,15 @@
 # LARQL — résultat de bout en bout, 23 octobre 2026
 
+**Complément du 26 octobre — H3 timing, norme commune.** Protocole `30d573de`
+figé avant les 24 nouvelles passes, service lancé sous le verrou partagé.
+Incréments du numéro : L8 **+9,6445**, L14 **−0,0039**, L21 **+0,0469** ;
+aléatoire L8 +0,9648. Incréments du symbole : +14,6250 / +2,4375 / +19,7344.
+Lecture préfixée : **compatibilité précoce locale/partielle**, pas le motif
+ordonné complet L8 > L14 > L21. La norme absolue est appariée ; la dose relative
+à la ligne native diffère et la médiation K/V n'est pas isolée. Tous les
+premiers tokens restent natifs, donc aucune continuation. Vérificateur du même
+agent : verified_complete. Rapport : [H3 timing](nf4-h3-timing-results-20261026.md).
+
 **Complément du 26 octobre — test causal résidu × PLE.** Nouveau mandat après
 l'arrêt précédent ; protocole `ae02bfb1` figé avant le remplacement PLE. Sur
 le numéro atomique, PLE seule déplace two−one de **+0,1445**, et PLE ajoutée

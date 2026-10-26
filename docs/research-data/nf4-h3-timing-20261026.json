@@ -1,0 +1,274 @@
+{
+  "experiment": "nf4-h3-timing-20261026",
+  "protocol_commit": "30d573de",
+  "new_forwards": 24,
+  "planned_maximum": 48,
+  "release_forwards": 0,
+  "common_cast_norm": 63.89672501632937,
+  "metrics": {
+    "symbol": {
+      "8": {
+        "native_id": 236814,
+        "target_id": 2209,
+        "baseline_margin": -21.265625,
+        "margin": -6.640625,
+        "effect": 14.625,
+        "random_effect": 0.3984375,
+        "argmax": 236814,
+        "random_argmax": 236814,
+        "donor_argmax": 2209
+      },
+      "14": {
+        "native_id": 236814,
+        "target_id": 2209,
+        "baseline_margin": -21.265625,
+        "margin": -18.828125,
+        "effect": 2.4375,
+        "random_effect": 0.255859375,
+        "argmax": 236814,
+        "random_argmax": 236814,
+        "donor_argmax": 2209
+      },
+      "21": {
+        "native_id": 236814,
+        "target_id": 2209,
+        "baseline_margin": -21.265625,
+        "margin": -1.53125,
+        "effect": 19.734375,
+        "random_effect": 1.056640625,
+        "argmax": 236814,
+        "random_argmax": 236814,
+        "donor_argmax": 2209
+      }
+    },
+    "number": {
+      "8": {
+        "native_id": 886,
+        "target_id": 1156,
+        "baseline_margin": -18.04296875,
+        "margin": -8.3984375,
+        "effect": 9.64453125,
+        "random_effect": 0.96484375,
+        "argmax": 886,
+        "random_argmax": 886,
+        "donor_argmax": 1156
+      },
+      "14": {
+        "native_id": 886,
+        "target_id": 1156,
+        "baseline_margin": -18.04296875,
+        "margin": -18.046875,
+        "effect": -0.00390625,
+        "random_effect": -0.45703125,
+        "argmax": 886,
+        "random_argmax": 886,
+        "donor_argmax": 1156
+      },
+      "21": {
+        "native_id": 886,
+        "target_id": 1156,
+        "baseline_margin": -18.04296875,
+        "margin": -17.99609375,
+        "effect": 0.046875,
+        "random_effect": -0.0234375,
+        "argmax": 886,
+        "random_argmax": 886,
+        "donor_argmax": 1156
+      }
+    }
+  },
+  "readings": {
+    "sites": {
+      "8": {
+        "number_specific_improvement": true,
+        "number_early_minus_L21": 9.59765625,
+        "symbol_early_minus_L21": -5.109375,
+        "relative_contrast": 14.70703125,
+        "timing_pattern": true
+      },
+      "14": {
+        "number_specific_improvement": false,
+        "number_early_minus_L21": -0.05078125,
+        "symbol_early_minus_L21": -17.296875,
+        "relative_contrast": 17.24609375,
+        "timing_pattern": false
+      }
+    },
+    "ordered_pattern": false,
+    "reading": "Partial/local early-site compatibility; complete ordered pattern not met"
+  },
+  "norms": {
+    "symbol_L08": {
+      "cast_norm": 63.898494394147576,
+      "actual_norm": 63.895968735439915,
+      "native_row_norm": 66.84751497397156,
+      "relative_dose": 0.955846582484317
+    },
+    "symbol_random_L08": {
+      "cast_norm": 63.89700397455939,
+      "actual_norm": 63.89637194173428,
+      "native_row_norm": 66.84751497397156,
+      "relative_dose": 0.9558526142163046
+    },
+    "symbol_L14": {
+      "cast_norm": 63.89684234882967,
+      "actual_norm": 63.89635080242008,
+      "native_row_norm": 136.65401106056325,
+      "relative_dose": 0.4675775727805169
+    },
+    "symbol_random_L14": {
+      "cast_norm": 63.89700397455939,
+      "actual_norm": 63.89764497335931,
+      "native_row_norm": 136.65401106056325,
+      "relative_dose": 0.46758704320095457
+    },
+    "symbol_L21": {
+      "cast_norm": 63.89672501632937,
+      "actual_norm": 63.89673679373167,
+      "native_row_norm": 103.88628570550843,
+      "relative_dose": 0.6150642152599709
+    },
+    "symbol_random_L21": {
+      "cast_norm": 63.89700397455939,
+      "actual_norm": 63.89661004786059,
+      "native_row_norm": 103.88628570550843,
+      "relative_dose": 0.6150629952156674
+    },
+    "number_L08": {
+      "cast_norm": 63.898494394147576,
+      "actual_norm": 63.895968735439915,
+      "native_row_norm": 66.84751497397156,
+      "relative_dose": 0.955846582484317
+    },
+    "number_random_L08": {
+      "cast_norm": 63.89700397455939,
+      "actual_norm": 63.89637194173428,
+      "native_row_norm": 66.84751497397156,
+      "relative_dose": 0.9558526142163046
+    },
+    "number_L14": {
+      "cast_norm": 63.89684234882967,
+      "actual_norm": 63.89635080242008,
+      "native_row_norm": 136.65401106056325,
+      "relative_dose": 0.4675775727805169
+    },
+    "number_random_L14": {
+      "cast_norm": 63.89700397455939,
+      "actual_norm": 63.89764497335931,
+      "native_row_norm": 136.65401106056325,
+      "relative_dose": 0.46758704320095457
+    },
+    "number_L21": {
+      "cast_norm": 63.89672501632937,
+      "actual_norm": 63.89673679373167,
+      "native_row_norm": 103.88628570550843,
+      "relative_dose": 0.6150642152599709
+    },
+    "number_random_L21": {
+      "cast_norm": 63.89700397455939,
+      "actual_norm": 63.89661004786059,
+      "native_row_norm": 103.88628570550843,
+      "relative_dose": 0.6150629952156674
+    },
+    "lithium_L08": {
+      "cast_norm": 63.898494394147576,
+      "actual_norm": 63.89763589032534,
+      "native_row_norm": 66.45980395171884,
+      "relative_dose": 0.9614478540554402
+    },
+    "carbon_L08": {
+      "cast_norm": 63.898494394147576,
+      "actual_norm": 63.898879899711076,
+      "native_row_norm": 65.8945348144887,
+      "relative_dose": 0.9697144092390069
+    }
+  },
+  "causal_rows": {
+    "8": {
+      "base": {
+        "bit_identical": true,
+        "relative_l2": 0.0
+      },
+      "donor": {
+        "bit_identical": true,
+        "relative_l2": 0.0
+      }
+    },
+    "14": {
+      "base": {
+        "bit_identical": true,
+        "relative_l2": 0.0
+      },
+      "donor": {
+        "bit_identical": true,
+        "relative_l2": 0.0
+      }
+    },
+    "21": {
+      "base": {
+        "bit_identical": true,
+        "relative_l2": 0.0
+      },
+      "donor": {
+        "bit_identical": true,
+        "relative_l2": 0.0
+      }
+    }
+  },
+  "off_target": [
+    {
+      "name": "lithium",
+      "prefix_type": "supplied",
+      "native_argmax": 17623,
+      "residual_argmax": 17623
+    },
+    {
+      "name": "carbon",
+      "prefix_type": "supplied",
+      "native_argmax": 236780,
+      "residual_argmax": 236780
+    }
+  ],
+  "same_author_verification": true,
+  "cgroup": {
+    "memory.peak": "8491704320",
+    "memory.swap.peak": "0",
+    "memory.high": "23622320128",
+    "memory.max": "25769803776",
+    "memory.swap.max": "8589934592"
+  },
+  "gpu_peak_allocated_bytes": 3452700160,
+  "versions": {
+    "torch": "2.14.1",
+    "transformers": "5.19.0",
+    "bitsandbytes": "0.50.2",
+    "accelerate": "1.15.0",
+    "numpy": "2.5.3"
+  },
+  "metadata_sha256": {
+    "config.json": "33b10c02df3c2e8536cf323d29d53262aaa2f4d11dbe19bc729373fbe90295d4",
+    "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+    "tokenizer_config.json": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+    "chat_template.jinja": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373"
+  },
+  "runner_sha256": "1fc39425cfb77233a3977c3240ef43b881d12b9d034b29e66786ae62e1b4b493",
+  "helper_sha256": {
+    "run_nf4_asymmetry.py": "8df9f5f6fe48f11759519c14287fb305566a647e76738f475bd3956ee0118409",
+    "run_nf4_local_bench.py": "e47044aa9c7e9c68a48873075836ee52b75f351b65568519b9aa7f2c950434fd"
+  },
+  "evidence_sha256": {
+    "summary.json": "59f363d4f1fa072ae488af55a9a38e309e8ce4145fde35a780392b66ee4dcc7e",
+    "session.json": "961d822fba9a68574aabd6c4613a9072b3eb9725612b3a3d94e4355d927f60d3",
+    "verification.json": "fccafd714a01a722b2d4a84410490ba3d29231c6e5ece6ac37fe1cfa908e4a0f"
+  },
+  "lock": {
+    "launch": "flock -w 3600 <shared .heavy-model.lock> systemd-run --user --wait ...",
+    "held_through_service_wait": true,
+    "observation_after_completion": true
+  },
+  "context_commits": {
+    "H1_registered": "c0b3c373",
+    "H1_post_hoc": "4e966c0c",
+    "PLE_crosscheck": "7c0abada"
+  }
+}

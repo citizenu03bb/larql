@@ -741,3 +741,64 @@ manifeste SHA-256, sources, code figé et tokenizer dans le dossier des sorties,
 restauration vérifiée sans poids de modèle. Cette série ne teste pas H1,
 traitée en parallèle dans un autre worktree. Ne pas déduire son résultat de
 ce négatif, ni relancer une recherche de gain ou de couche.
+
+
+## H3 : effet précoce local, motif ordonné non satisfait — 26 octobre 2026
+
+Mandat H3 : même frontière et mêmes questions, tester les deltas d'entité
+post-bloc L8, L14 et L21, sans balayage. Protocole `30d573de` figé avant
+calcul. Norme commune 63,8967 (résidu L21 float16 archivé) ; directions L8/L14
+calculées une fois par donneur−natif et normalisées, L21 repris exactement.
+Même direction aléatoire archivée à chaque couche et sur les deux attributs.
+PLE natif inchangé. Pas de transplant cumulatif dans ce budget.
+
+24 passes : natif/donneur sur deux attributs (4), R/aléatoire aux trois sites
+sur les deux attributs (12), zéro aux trois sites du symbole et L21 du numéro
+(4), natif/R8 sur lithium et carbone à préfixes fournis (4). Replays natif,
+donneur, R21 et aléatoire21 bit-identiques aux sources ; quatre zéros identiques.
+Les lignes causales native et donneuse des trois couches sont bit-identiques
+entre symbole et numéro. Ajouts exacts et support d'une seule ligne vérifiés.
+
+| Site | Δ marge He−H | Aléatoire | Δ marge two−one | Aléatoire |
+|---|---:|---:|---:|---:|
+| L8 | +14,6250 | +0,3984 | +9,6445 | +0,9648 |
+| L14 | +2,4375 | +0,2559 | −0,0039 | −0,4570 |
+| L21 | +19,7344 | +1,0566 | +0,0469 | −0,0234 |
+
+L8 améliore le numéro de +9,5977 par rapport à L21, au-delà du contrôle
+aléatoire, tandis que l'effet sur le symbole baisse de 5,1094. L14 ne satisfait
+pas le critère numéro. Lecture préfixée : compatibilité précoce locale/partielle,
+pas le motif ordonné complet. Aucun critère n'est redéfini après lecture.
+
+La norme absolue réelle est appariée à 0,0034 % près au pire. Les doses
+relatives aux lignes natives restent différentes : 0,956 (L8), 0,468 (L14),
+0,615 (L21). Une différence de sensibilité n'est pas une preuve de date de
+lecture ni d'une médiation K/V exclusive : une impulsion plus précoce modifie
+aussi l'histoire résiduelle. Les directions changent avec la représentation
+à chaque couche. Le numéro reste one, le symbole H ; Li/C restent en tête
+sur les deux contrôles hors cible. Aucun cas de continuation éligible.
+
+Service lancé via flock -w 3600 sur le verrou partagé, maintenu pendant
+systemd-run --user --wait. 24 passes, 41,116 s, sortie zéro, pic 7,9G sans
+swap ; limites 22G/24G/8G et 30 minutes respectées. Aucun second service.
+Le test synthétique avait couvert 24 conditions, huit branches modifiées et
+la troncature à 24 passes de continuation. Les fixtures restent synthétiques.
+
+Vérificateur sans modèle : verified_complete, même agent Codex que le runner.
+Aucune vérification indépendante H3 revendiquée. La contre-vérification PLE
+indépendante de Claude Code (`7c0abada`) concorde avec PLE et reste un contexte,
+pas une validation de cette nouvelle série. H1 : lecture enregistrée indéterminée
+(`c0b3c373`), matrice huit donneurs post-hoc (`4e966c0c`), pas de lecture forte
+sur identité ou redondance de voies à partir de ces seuls résultats.
+
+Rapport anglais : docs/nf4-h3-timing-results-20261026.md. Preuves compactes :
+docs/research-data/nf4-h3-timing-20261026.json. Traces : nf4-h3-timing-20261026/core
+sous la racine habituelle, archive et manifeste SHA-256 dans les sorties.
+Restauration et vérification sans poids prévues dans la clôture. Aucun poids,
+vindex ni patch persistant modifié, aucun push ni publication.
+
+Suite proposée, non exécutée : conserver R8 exact et tester à L14 si son effet
+numéro est porté par la ligne d'entité ou les autres positions, avec replay
+d'état complet, partitions complémentaires et contrôles. Le replay d'état
+complet doit réussir avant d'interpréter les partitions. Nouvelle série bornée,
+pas un réglage d'amplitude ou un nouveau balayage de couches.
