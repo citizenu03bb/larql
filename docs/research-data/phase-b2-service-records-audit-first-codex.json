@@ -1,0 +1,68 @@
+{
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "diagnostic_forwards": 9,
+      "fingerprint_sha256": "c0530d695548c8dba4973a5846186cdcfb47fb15b8ae2b98ae4c8caf30e66f55",
+      "forwards": 304,
+      "generated_tokens": 295,
+      "generations": 34,
+      "ids_text_eos_cap_consistent": true,
+      "index_consistent": true
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "diagnostic_forwards": 9,
+      "fingerprint_sha256": "c0530d695548c8dba4973a5846186cdcfb47fb15b8ae2b98ae4c8caf30e66f55",
+      "forwards": 389,
+      "generated_tokens": 380,
+      "generations": 34,
+      "ids_text_eos_cap_consistent": true,
+      "index_consistent": true
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "diagnostic_forwards": 9,
+      "fingerprint_sha256": "c0530d695548c8dba4973a5846186cdcfb47fb15b8ae2b98ae4c8caf30e66f55",
+      "forwards": 339,
+      "generated_tokens": 330,
+      "generations": 34,
+      "ids_text_eos_cap_consistent": true,
+      "index_consistent": true
+    },
+    "dev-bolt-sport-swimming-L12": {
+      "diagnostic_forwards": 13,
+      "fingerprint_sha256": "c0530d695548c8dba4973a5846186cdcfb47fb15b8ae2b98ae4c8caf30e66f55",
+      "forwards": 391,
+      "generated_tokens": 378,
+      "generations": 34,
+      "ids_text_eos_cap_consistent": true,
+      "index_consistent": true
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "diagnostic_forwards": 13,
+      "fingerprint_sha256": "c0530d695548c8dba4973a5846186cdcfb47fb15b8ae2b98ae4c8caf30e66f55",
+      "forwards": 541,
+      "generated_tokens": 528,
+      "generations": 34,
+      "ids_text_eos_cap_consistent": true,
+      "index_consistent": true
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "diagnostic_forwards": 13,
+      "fingerprint_sha256": "c0530d695548c8dba4973a5846186cdcfb47fb15b8ae2b98ae4c8caf30e66f55",
+      "forwards": 537,
+      "generated_tokens": 524,
+      "generations": 34,
+      "ids_text_eos_cap_consistent": true,
+      "index_consistent": true
+    }
+  },
+  "checkpoint_stat_matches_B1": true,
+  "complete": false,
+  "full_certification": false,
+  "input_index_sha256": "8e656d40ccbdf662546eb921675c9b13d709a461149be6d345a4fe042f0667f7",
+  "limitation": "Peer fingerprints contain metadata/source/quantization but no full checkpoint hash; B1 preflight full hash and unchanged live checkpoint stat are separate evidence.",
+  "model_forwards": 0,
+  "preflight_sha256": "3698d878679a994ec7ff0e51ad7e65f1ef19292683f0b16ec277e97ef3aa237d",
+  "script_sha256": "26930e6e775360a2834e242c6404e81e0853e0892e279da7f8dea8a4624de098",
+  "tokenizer_metadata_hashes_verified": true
+}
