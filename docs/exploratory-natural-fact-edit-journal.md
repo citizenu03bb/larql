@@ -620,3 +620,63 @@ d'échec, arrêter le transfert sans recherche de gain. Si elle apparaît,
 préférer un plan factoriel résidu × PLE aux changements de donneur, qui
 confondent forme du nom, marges natives et distance sémantique. Cette suite
 exige un nouveau protocole borné.
+
+
+## Asymétrie NF4 : marges dissociées, critère top-1 refusé — 26 octobre 2026
+
+Mandat : vérifier une seule fois l'asymétrie symbole/numéro en NF4 avant
+l'expérience conditionnelle résidu × PLE, au service de la vitrine mesurable.
+Protocole `1b0b3407` figé avant les nouvelles passes : éligibilité native
+(maximum 16), puis interventions/contrôles (maximum 24), deux services
+successifs, 22G/24G/8G, 30 minutes chacun. Aucun réglage de gain par formulation.
+
+Neuf passes natives donnent `Hydrogen's atomic number is one.<turn|>`.
+L'éligibilité initiale exige le chiffre 1 : elle est fausse, résultat conservé.
+Avant toute intervention, l'amendement `97302e66` admet le couple natif
+` one`/` two` (886/1156), deux tokens uniques. Même question et même règle
+de norme ; aucune passe native rejouée. Cet amendement est prospectif pour
+les interventions, pas antérieur à l'observation du format natif.
+
+La frontière du symbole provient de la réponse native NF4 vérifiée du banc,
+avec H dans une formule LaTeX. Les deux préfixes primaires sont repris par
+leurs ids réellement générés. Contraste hélium−hydrogène post-L21, ligne 5 ;
+amplitude calculée une seule fois par N_prompt/N_entité : 2,057271, norme
+après conversion float16 63,8967. Même vecteur réutilisé sur les deux attributs.
+Les lignes causales native et donneuse sont identiques bit à bit entre les
+questions ; la tolérance numérique préfixée ne sert pas. Les deux gains zéro
+et les replays des sources sont identiques. PLE capturé, jamais remplacé.
+
+| Lecture | Marge native | Après delta | Incrément | Aléatoire | Premier token après delta | Donneur complet |
+|---|---:|---:|---:|---:|---|---|
+| He−H | −21,2656 | −1,5313 | +19,7344 | +1,0566 | H | He |
+| two−one | −18,0430 | −17,9961 | +0,0469 | −0,0234 | one | two |
+
+L'asymétrie de marges apparaît nettement. Le numéro n'a même pas la marge
+initiale la plus profonde dans ce cas. Mais le critère de passage opérationnel
+préfixé demande aussi He en tête : il échoue. Arrêt après les 16 passes du
+noyau, sans continuation éditée, nouveau gain ni expérience PLE. Ne pas
+présenter cet arrêt comme une absence d'asymétrie ou une impossibilité NF4.
+
+Les contrôles lithium/carbone conservent Li/C en tête sous delta et aléatoire.
+Leurs préfixes de valeur sont fournis par substitution du nom dans le préfixe
+sauvegardé : ce ne sont pas des réponses libres complètes ni une batterie de
+sélectivité. Les contrôles obligatoires incluent donneur complet, autre
+attribut de l'entité, direction aléatoire de norme appariée et questions hors
+cible. Un seul cas par attribut, aucune généralisation mesurée.
+
+Les deux reçus renvoient `verified_complete`, avec éligibilité v1 fausse et
+critère de transfert opérationnel faux. Runner et vérificateur écrits par le
+même agent Codex, sans vérification indépendante. Total : 25 nouvelles passes,
+56,1 s de services cumulés ; limites respectées, pas de swap dans ces deux
+services. Aucun poids, vindex ni patch persistant modifié.
+
+Rapport anglais : `docs/nf4-asymmetry-results-20261026.md`. Preuves compactes :
+`docs/research-data/nf4-asymmetry-20261026.json`. Traces :
+`nf4-asymmetry-20261026/{native,interventions}` sous la racine habituelle de
+recherche. Archive ZIP et manifeste SHA-256 dans le dossier habituel des
+sorties, avec les preuves sources du symbole et les deux versions du protocole.
+
+Suite non exécutée : un protocole causal PLE pourrait mesurer directement les
+marges, sans exiger le basculement top-1. Ce serait un nouveau mandat après
+l'arrêt prévu, pas une extension ni un changement de lecture du critère refusé.
+H1 et H2 restent ouverts ; pas de recherche d'un gain qui force He.

@@ -1,0 +1,259 @@
+{
+  "experiment": "nf4-asymmetry-20261026",
+  "initial_protocol_commit": "1b0b3407",
+  "intervention_protocol_commit": "97302e66",
+  "same_author_verification": true,
+  "phases": {
+    "native": {
+      "forwards": 9,
+      "verification": {
+        "status": "verified_complete",
+        "phase": "eligibility",
+        "forwards": 9,
+        "verifier_author": "same agent as runner; not independent verification",
+        "memory_limits_checked": true,
+        "eligible": false,
+        "native_text": "Hydrogen's atomic number is one.<turn|>",
+        "boundary": null
+      },
+      "cgroup": {
+        "memory.peak": "8216666112",
+        "memory.swap.peak": "0",
+        "memory.high": "23622320128",
+        "memory.max": "25769803776",
+        "memory.swap.max": "8589934592"
+      },
+      "gpu_peak_allocated_bytes": 3452700160,
+      "source_commit": "1b0b3407e42086c71f415f923b1378258b33bc5a",
+      "runner_sha256": "5132588386e4bd6cfcc1ef6123e29e9546f8bf2aea95c22308ca074757cffa3e",
+      "versions": {
+        "torch": "2.14.1",
+        "transformers": "5.19.0",
+        "bitsandbytes": "0.50.2",
+        "accelerate": "1.15.0",
+        "numpy": "2.5.3"
+      },
+      "metadata_sha256": {
+        "config.json": "33b10c02df3c2e8536cf323d29d53262aaa2f4d11dbe19bc729373fbe90295d4",
+        "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "tokenizer_config.json": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+        "chat_template.jinja": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373"
+      },
+      "summary_sha256": "4f38eb85f965970dc8f332b6c0af6df7c7249e72273295fd86c905d3e2314d4b",
+      "verification_sha256": "fe2ddb8f5c903b9ccf0161a3cf06782c9b9553be0440693ae4835786a305621b"
+    },
+    "interventions": {
+      "forwards": 16,
+      "verification": {
+        "status": "verified_complete",
+        "phase": "interventions",
+        "forwards": 16,
+        "verifier_author": "same agent as runner; not independent verification",
+        "memory_limits_checked": true,
+        "transfer_reproduced": false,
+        "metrics": {
+          "symbol": {
+            "native_id": 236814,
+            "target_id": 2209,
+            "baseline_margin": -21.265625,
+            "residual_margin": -1.53125,
+            "residual_increment": 19.734375,
+            "random_increment": 1.056640625,
+            "residual_argmax": 236814,
+            "donor_argmax": 2209
+          },
+          "number": {
+            "native_id": 886,
+            "target_id": 1156,
+            "baseline_margin": -18.04296875,
+            "residual_margin": -17.99609375,
+            "residual_increment": 0.046875,
+            "random_increment": -0.0234375,
+            "residual_argmax": 886,
+            "donor_argmax": 1156
+          }
+        },
+        "continuations": {},
+        "off_target": [
+          {
+            "name": "lithium",
+            "prompt_ids": [
+              2,
+              105,
+              2364,
+              107,
+              46762,
+              35903,
+              236789,
+              236751,
+              7395,
+              5404,
+              528,
+              886,
+              2822,
+              13315,
+              236764,
+              607,
+              506,
+              3408,
+              236789,
+              236751,
+              1463,
+              1680,
+              506,
+              5404,
+              236761,
+              106,
+              107,
+              105,
+              4368,
+              107
+            ],
+            "supplied_seed_ids": [
+              114281,
+              1940,
+              236789,
+              236751,
+              7395,
+              5404,
+              563,
+              874,
+              1005,
+              236782
+            ],
+            "baseline_argmax": 17623,
+            "residual_argmax": 17623,
+            "random_argmax": 17623
+          },
+          {
+            "name": "carbon",
+            "prompt_ids": [
+              2,
+              105,
+              2364,
+              107,
+              46762,
+              6800,
+              236789,
+              236751,
+              7395,
+              5404,
+              528,
+              886,
+              2822,
+              13315,
+              236764,
+              607,
+              506,
+              3408,
+              236789,
+              236751,
+              1463,
+              1680,
+              506,
+              5404,
+              236761,
+              106,
+              107,
+              105,
+              4368,
+              107
+            ],
+            "supplied_seed_ids": [
+              71275,
+              236789,
+              236751,
+              7395,
+              5404,
+              563,
+              874,
+              1005,
+              236782
+            ],
+            "baseline_argmax": 236780,
+            "residual_argmax": 236780,
+            "random_argmax": 236780
+          }
+        ]
+      },
+      "cgroup": {
+        "memory.peak": "8082591744",
+        "memory.swap.peak": "0",
+        "memory.high": "23622320128",
+        "memory.max": "25769803776",
+        "memory.swap.max": "8589934592"
+      },
+      "gpu_peak_allocated_bytes": 3452700160,
+      "source_commit": "97302e665160165da33983620d089c8151a8004d",
+      "runner_sha256": "8df9f5f6fe48f11759519c14287fb305566a647e76738f475bd3956ee0118409",
+      "versions": {
+        "torch": "2.14.1",
+        "transformers": "5.19.0",
+        "bitsandbytes": "0.50.2",
+        "accelerate": "1.15.0",
+        "numpy": "2.5.3"
+      },
+      "metadata_sha256": {
+        "config.json": "33b10c02df3c2e8536cf323d29d53262aaa2f4d11dbe19bc729373fbe90295d4",
+        "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "tokenizer_config.json": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+        "chat_template.jinja": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373"
+      },
+      "summary_sha256": "e21a75b8d4e81abb5bef4547e44d4021c03201a2769cb24cf89e56aae5597df8",
+      "verification_sha256": "68409e96884462e0573506f82bd386642d34114dc3f5ab8a142948b48974f5ae"
+    }
+  },
+  "total_forwards": 25,
+  "norm_rule": {
+    "gain": 2.0572710037231445,
+    "actual_norm": 63.89672501632937,
+    "seed": 20261026,
+    "prompt_end": 30
+  },
+  "causal_row_check": {
+    "base": {
+      "bit_identical": true,
+      "relative_l2": 0.0
+    },
+    "donor": {
+      "bit_identical": true,
+      "relative_l2": 0.0
+    }
+  },
+  "format_amendment": {
+    "version": 2,
+    "reason": "native value is spelled one; digit-only v1 eligibility remains false",
+    "source_boundary": "number_native06",
+    "native_id": 886,
+    "target_id": 1156,
+    "original_eligibility": false,
+    "source_summary_sha256": "4f38eb85f965970dc8f332b6c0af6df7c7249e72273295fd86c905d3e2314d4b"
+  },
+  "operational_gate_passed": false,
+  "ple_test_run": false,
+  "no_gain_search": true,
+  "gate_components": {
+    "symbol_donor_selects_He": true,
+    "number_donor_selects_two": true,
+    "residual_symbol_selects_He": false,
+    "residual_number_stays_one": true,
+    "symbol_effect_dominates_random": true,
+    "symbol_effect_dominates_number": true
+  },
+  "off_target_readout": [
+    {
+      "name": "lithium",
+      "prefix": "supplied, not freely generated",
+      "native": "Li",
+      "residual": "Li",
+      "random": "Li"
+    },
+    {
+      "name": "carbon",
+      "prefix": "supplied, not freely generated",
+      "native": "C",
+      "residual": "C",
+      "random": "C"
+    }
+  ]
+}

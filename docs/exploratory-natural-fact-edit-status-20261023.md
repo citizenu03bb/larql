@@ -1,5 +1,16 @@
 # LARQL — résultat de bout en bout, 23 octobre 2026
 
+**Complément du 26 octobre — reproduction de l'asymétrie en NF4.**
+25 nouvelles passes vérifiées (9 natives + 16 interventions/contrôles), après
+protocoles `1b0b3407` puis `97302e66`. La forme native « one » remplace le
+chiffre attendu ; cet amendement est figé avant toute intervention et la
+non-éligibilité initiale reste conservée. Incrément He−H : **+19,7344** ;
+two−one : **+0,0469**. L'asymétrie de marges apparaît, mais He reste derrière
+H de 1,5313 : le critère opérationnel préfixé exigeant He premier échoue.
+Arrêt après le noyau prévu, aucun gain recherché ni test PLE lancé. Préfixes
+natifs repris par ids, pas de nouvelle génération éditée intégrée.
+Rapport : [asymétrie NF4](nf4-asymmetry-results-20261026.md).
+
 **Complément du 26 octobre — banc NF4 local qualifié.** Après report explicite
 du post 3, l'étape de banc rapide est exécutée : E2B 21 passes, E4B 14 passes,
 deux services successifs bornés, tous deux vérifiés sans modèle. Sur le prompt
