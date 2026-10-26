@@ -37,7 +37,8 @@ class Budget:
         return self.inst.forward(ids)
 
 
-def prepare(run_dir: Path, spec_path: Path, edit_dir: Path, instrument: str) -> dict:
+def prepare(run_dir: Path, spec_path: Path, edit_dir: Path, instrument: str, cap: int = planner.SERVICE_CAP) -> dict:
+    planner.check_cap(cap, instrument)   # refuse before writing anything
     run_dir = Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=False)
     shutil.copyfile(spec_path, run_dir / 'spec.json')
@@ -46,7 +47,7 @@ def prepare(run_dir: Path, spec_path: Path, edit_dir: Path, instrument: str) -> 
     edit = backends.load(run_dir / 'edit-source')
     spec.check_provenance(edit.seen_phrasings)
     meta = edit.save(run_dir / 'edit-saved')
-    plan = planner.build(spec, sha_file(run_dir / 'spec.json'), meta, instrument)
+    plan = planner.build(spec, sha_file(run_dir / 'spec.json'), meta, instrument, cap)
     (run_dir / 'plan.json').write_text(json.dumps(plan, indent=1, sort_keys=True) + '\n')
     return plan
 

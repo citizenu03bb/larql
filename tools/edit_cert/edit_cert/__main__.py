@@ -1,6 +1,6 @@
 """edit_cert command line.
 
-  plan     --run DIR --fact SPEC.json --edit EDIT_DIR --instrument {fake,nf4-e4b,nf4-e2b}   (model-free)
+  plan     --run DIR --fact SPEC.json --edit EDIT_DIR --instrument {fake,nf4-e4b,nf4-e2b} [--cap 24|400]   (model-free)
   run      --run DIR --service K [--model-root PATH]       (one service; use run_service.sh for real models)
   verdict  --run DIR                                       (model-free)
   replay   [--root ARCHIVES] [--out DIR]                   (model-free, exit criterion)
@@ -47,6 +47,7 @@ def main(argv=None) -> int:
     p = sub.add_parser('plan'); p.add_argument('--run', type=Path, required=True)
     p.add_argument('--fact', type=Path, required=True); p.add_argument('--edit', type=Path, required=True)
     p.add_argument('--instrument', required=True)
+    p.add_argument('--cap', type=int, default=24, help='forwards per service; 400 only for the NF4 bench (Phase B Q1)')
     r = sub.add_parser('run'); r.add_argument('--run', type=Path, required=True)
     r.add_argument('--service', type=int, required=True); r.add_argument('--model-root', type=Path)
     v = sub.add_parser('verdict'); v.add_argument('--run', type=Path, required=True)
@@ -55,7 +56,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
 
     if a.cmd == 'plan':
-        plan = runner.prepare(a.run, a.fact, a.edit, a.instrument)
+        plan = runner.prepare(a.run, a.fact, a.edit, a.instrument, a.cap)
         for s in plan['services']:
             print(f"service {s['index']:2}  {s['phase']:6}  {s['forwards']:2} forwards  {len(s['items'])} items")
         print(f"total {plan['total_forwards']} forwards in {len(plan['services'])} services; plan {plan['plan_sha256'][:12]}")

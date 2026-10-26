@@ -1,0 +1,112 @@
+{
+  "B0_files_unchanged_sha256": {
+    "docs/phase-b-b1-b2-protocol.md": "8732b828735bdb3a3352a79f267237c27f1ea593f63747a0a92d879ab76ead8d",
+    "docs/phase-b-harness-interface-request.md": "a43c550e10b640f49cb9db951fd5104c65dbdc8d3902acf805a5cf6e30e08506",
+    "docs/phase-b0-rome-results.md": "329565aca98b70820e0d5b59b63ab844f16b1e18f1c485a74f3ecf8f78dbed2d",
+    "docs/research-data/phase-b0-manifest.json": "55fe96a32603470b5e361b05fd7f9f3de7ccc985a00ca80f52fa81b1339a0775",
+    "docs/research-data/phase-b0-method-tests.json": "ba65b9c6e156e59ee75c27922b50a07724a3af0d113a4b4c489c93ac2f8cbf5b",
+    "docs/research-data/phase-b0-preflight/architecture.json": "511d45dedd392fb3c4cd00a8339b6387bbb1130fcfb4f1adc7d05adc4d8ae302",
+    "docs/research-data/phase-b0-preflight/budget.json": "895aaf66442e02db7548bdd93fe36b96e154032a4607da68dc9e4b43e21d26d4",
+    "docs/research-data/phase-b0-preflight/covariance-sample.json": "9a19b45741a2d94ad4f81111da7878c8aa0421ee49c891519f9c8f65ef050232",
+    "docs/research-data/phase-b0-preflight/covariance-tokens.npy": "ef9ee0423bbc5534eca7d450f6cb29bb4eba0802f4421165b844f97ec3bf3cdd",
+    "docs/research-data/phase-b0-preflight/dev-tokenization.json": "a9dd7418b6099671516442f22cef9400f8e4f56efe45089302a101d7e6e9d2d4",
+    "docs/research-data/phase-b0-synthetic/edit/C.npy": "434c8bc58b4b5ce633e6d8babb7bc7f8d7ac0f6f4c7d51445f2e1d2140dc562f",
+    "docs/research-data/phase-b0-synthetic/edit/U0.npy": "980aebd6c56a0711240635624d0473fbb51d040f432ef1e79070da7048a67ac8",
+    "docs/research-data/phase-b0-synthetic/edit/V0.npy": "df48586268411f6cb50a8389989a39eea96d2af46d427792e87cb3435a7fe81e",
+    "docs/research-data/phase-b0-synthetic/edit/backend.json": "e7c6b5f537d81c30e3bd93d3a3d479271e0323b80ac3df64d091e5d630ad232f",
+    "docs/research-data/phase-b0-synthetic/edit/context_keys.npy": "a0ffd314f8c1d412c0c3db0dc32bd597b7aa77030049facdffa6bf8a96149407",
+    "docs/research-data/phase-b0-synthetic/edit/context_native_values.npy": "80aa2dfdbafb5ec286bd1694570ce9340ec9c26571c5806d314f62bb9d4dbbe9",
+    "docs/research-data/phase-b0-synthetic/edit/k_star.npy": "56f944be6c526e9f22541b1b11542c5f676445538927e7fd39490c6274428079",
+    "docs/research-data/phase-b0-synthetic/edit/solver.json": "fbcd9b91514416fd3222a9c7c5df372da4d4b37986aafa8c02e2c1b3f66f5299",
+    "docs/research-data/phase-b0-synthetic/edit/v_star.npy": "ec76d7351a741e6a978cd09f3fff93dcf8e467fd02516c0e0261f91f9da9eb3d",
+    "docs/research-data/phase-b0-synthetic/edit/w_k_star.npy": "84d4c3b02be29e2a978cf01d4641ea5db08361a7ca58c1a880d29057d49d2a46",
+    "docs/research-data/phase-b0-synthetic/receipt.json": "e57f3e13242183399e80b7ea8e9fcf30b73af7e7798acc635c0c4879d8c7bbc1",
+    "tools/rome_solver/README.md": "3ecf80c543f2b52008a19c0d55757cb329f1cbaf8eab61808e522224e403d9ad",
+    "tools/rome_solver/prepare_b0.py": "10b8f031df1eba3088b2620621e8ea5553dece6155b95766db0e579b6fd8da01",
+    "tools/rome_solver/rome_solver/__init__.py": "f6a322905d0686218423d151469c466cce915f7cbe6913bf282c482004eaa5c3",
+    "tools/rome_solver/rome_solver/covariance.py": "c86bd39bdeb5074f7d1f2b86a5760c404c8543ec8863f76f1441dddef5806cd5",
+    "tools/rome_solver/rome_solver/solver.py": "b29db79fa2f16d1881dee2be8e1f5c025a69e6a0d00f72f069df47b3df083582",
+    "tools/rome_solver/synthetic_dry_run.py": "bdf77b78ea706f02f17ceb88d2dc325437ad3af94a0288d4242a2430ab2d625c",
+    "tools/rome_solver/tests/test_rome.py": "ba67a163aaa56ef7bba9eb1d67196006b0a0a22c1033f5af6c30bef064cb22ae"
+  },
+  "checks": {
+    "approved400": {
+      "cap": 400,
+      "cap_approval": {
+        "authority": "phase-b-decision Q1 (Pat, 2026-10-26)",
+        "cap": 400
+      },
+      "exit_code": 0,
+      "hashed_plan_valid": true,
+      "service_forwards": [
+        312,
+        400,
+        24,
+        96
+      ],
+      "total_forwards": 832
+    },
+    "default24": {
+      "cap": 24,
+      "cap_approval": null,
+      "exit_code": 0,
+      "hashed_plan_valid": true,
+      "service_forwards": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        3,
+        24,
+        24,
+        3,
+        24,
+        24,
+        3,
+        24,
+        24,
+        3,
+        24,
+        2,
+        24,
+        2,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "total_forwards": 832
+    },
+    "unsupported100": {
+      "exit_code": 1,
+      "refused_before_write": true
+    },
+    "wrong_instrument": {
+      "exit_code": 1,
+      "refused_before_write": true
+    }
+  },
+  "integration_of": "28aef666dcdfe6530dcaad4c9fc6f2faa65286d1",
+  "planning_only": true,
+  "preserved_B0_commit": "70f0cd6c2627856fc323a7e8f016b8414e581998",
+  "pretrained_model_forwards": 0,
+  "temporary_zero_adapter_only": true
+}

@@ -109,3 +109,22 @@ def test_tampering_is_detected(tmp_path):
 def test_selftest_command(tmp_path):
     from edit_cert.__main__ import main
     assert main(['selftest', '--out', str(tmp_path / 'st')]) == 0
+
+
+def test_service_cap_is_explicit_hashed_and_restricted(tmp_path):
+    FakeEdit([Override('hydrogen', 'symbol', 'He')]).save(tmp_path / 'e')
+    with pytest.raises(ValueError):
+        runner.prepare(tmp_path / 'bad', SPEC, tmp_path / 'e', 'fake', cap=100)
+    assert not (tmp_path / 'bad').exists()
+    with pytest.raises(ValueError):
+        planner.build(load(SPEC), 'x', dict(kind='fake', label='', content_sha256='y'), 'larql-q4k', 400)
+    plan = runner.prepare(tmp_path / 'run', SPEC, tmp_path / 'e', 'fake', cap=400)
+    assert plan['cap'] == 400 and 'Q1' in plan['cap_approval']['authority']
+    assert all(s['forwards'] <= 400 for s in plan['services']) and len(plan['services']) < 11
+    assert planner.load(tmp_path / 'run')['cap'] == 400
+    inst = FakeInstrument()
+    for k in range(len(plan['services'])):
+        runner.run_service(tmp_path / 'run', k, inst)
+    assert runner.certify(tmp_path / 'run')['verdict'] == 'CERTIFIED'
+    default = runner.prepare(tmp_path / 'run24', SPEC, tmp_path / 'e', 'fake')
+    assert default['cap'] == 24 and default['cap_approval'] is None
