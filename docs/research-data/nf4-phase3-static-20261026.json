@@ -1,0 +1,84 @@
+{
+  "groups": {},
+  "calibration": {
+    "g_star": 1.0,
+    "go": false,
+    "stop_reason": "number flips at g*",
+    "rows": [
+      {
+        "question": "symbol",
+        "gain": 1.0,
+        "argmax": 2209,
+        "margin": 25.93212890625
+      },
+      {
+        "question": "symbol",
+        "gain": 1.25,
+        "argmax": 2209,
+        "margin": 25.7177734375
+      },
+      {
+        "question": "symbol",
+        "gain": 1.5,
+        "argmax": 2209,
+        "margin": 25.29296875
+      },
+      {
+        "question": "symbol",
+        "gain": 2.0,
+        "argmax": 2209,
+        "margin": 24.7646484375
+      },
+      {
+        "question": "symbol",
+        "gain": 2.5,
+        "argmax": 2209,
+        "margin": 21.83935546875
+      },
+      {
+        "question": "symbol",
+        "gain": 3.0,
+        "argmax": 2209,
+        "margin": 12.609375
+      },
+      {
+        "question": "number",
+        "gain": 1.0,
+        "argmax": 1806,
+        "margin": -0.5
+      },
+      {
+        "question": "number",
+        "gain": 1.25,
+        "argmax": 1806,
+        "margin": -1.25
+      },
+      {
+        "question": "number",
+        "gain": 1.5,
+        "argmax": 1806,
+        "margin": -2.171875
+      },
+      {
+        "question": "number",
+        "gain": 2.0,
+        "argmax": 886,
+        "margin": -8.203125
+      },
+      {
+        "question": "number",
+        "gain": 2.5,
+        "argmax": 886,
+        "margin": -14.39453125
+      },
+      {
+        "question": "number",
+        "gain": 3.0,
+        "argmax": 886,
+        "margin": -16.5625
+      }
+    ]
+  },
+  "status": "verified_complete",
+  "author": "Claude Code (same as runner); not an independent replication"
+}
