@@ -1,0 +1,921 @@
+{
+ "author": "Claude Code",
+ "cases": {
+  "dev-beethoven-nationality-italian-L12": {
+   "C1": "PASS",
+   "C2": "NOT_EVALUATED",
+   "algebra_ok": true,
+   "case": "dev-beethoven-nationality-italian-L12",
+   "evidence_sha256": "80e296c8b4665199b0728b160d7a239aab8827b5656033103ce3695b3c0b11c6",
+   "forwards": [
+    93,
+    59,
+    64,
+    36,
+    111,
+    87,
+    12
+   ],
+   "forwards_total": 462,
+   "plan_sha256": "b3ee126d7801de2eee4de81840accf2ddbc984adfdd277250845888a2f3cc967",
+   "reasons": [
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "5c67beb67018301861baad852a8519e0fbb951d8199607f88d51af30657952ba",
+    "849b56e4b9e0263871a58d54f04378a5446b93b6ac6f05caa4b7d7c9c9456742",
+    "98640b3f7c37ab3f6fb2e14b7589639cd42310d29e23ec634c34103f14d38d2c",
+    "73ad9f8e6b526b4fe916b023721dbba47ab44ca9e04dc486335ff864bd391159",
+    "007501bf82fbc854a4dea10bb0d33a59dba57e7db5b5a064f4476158282a0930",
+    "cc8d61eab0d431bb38330d951a46412e0e0502e2f2f3bb2a2623d05c7b4a097d",
+    "6497e2cf37a61f31f47536767995017847f03e65c56b5edd1d417a3347eec64d"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "NOT_EVALUATED",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "905969ee0723007b1fd17c214f9b092585f15e5e02c4642f435269313d37db99"
+  },
+  "dev-beethoven-nationality-italian-L4": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-beethoven-nationality-italian-L4",
+   "evidence_sha256": "af0b3cef4f78cf8a8d9d7956306a233be700b74dbe76545c375c851597270fc0",
+   "forwards": [
+    93,
+    59,
+    64,
+    87,
+    104,
+    100,
+    55
+   ],
+   "forwards_total": 562,
+   "plan_sha256": "f344e0aaff18ced00726eb0eadbcdba0140eb8584c1ecc993b557f8676cd76ce",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "records_sha256": [
+    "4fef5d42c5ed35e25da30639881aa3e176994217078140897f533b6cbf35af46",
+    "937b5c1c4195620e62605399633512018ed2d8152be4f4f30b1a4b5d68e9ab94",
+    "615443694c009d9e4794f5aa215c2589708ae8307c174effb12bf63ddc3ff347",
+    "a6b2589c03ef67609872fb84447072514d855657027476bbf9735873ac7a8be9",
+    "e914f5a167af1b2203585ef5007d5bdb1815da98e8a3cf5cba839b0132e52f09",
+    "f7a3d0155248f76f0781a001533ef8a42a7c2837bcf18de6293b3b7ac3fb800d",
+    "b4f148191b902f54b92f1427993da67bd13484cc0e6042393769e2e264811432"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "c83e7b8c870f3aade63064bf71243aa54549d1be844116ffaf0a9a38a38270cd"
+  },
+  "dev-beethoven-nationality-italian-L8": {
+   "C1": "PASS",
+   "C2": "NOT_EVALUATED",
+   "algebra_ok": true,
+   "case": "dev-beethoven-nationality-italian-L8",
+   "evidence_sha256": "bca7c1e1c3414029968df4c4a4191764180df516fced99dd908d5225b6951f16",
+   "forwards": [
+    93,
+    59,
+    64,
+    53,
+    113,
+    46,
+    29
+   ],
+   "forwards_total": 457,
+   "plan_sha256": "4c13ef59d940501622b4c35d869ac74a7c0d9e44cf74b90893c4373d70d2590a",
+   "reasons": [
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "66df4483c3a6e4e766176ff1a7db1eca766d3b4cf45b4da3b2462b9ce04e7a96",
+    "08dd23f377f659ce0e7d35edcb375961cc8c80cf562eb48ff8319a9bc2ccf188",
+    "fcb5f358d7a54010538a9b4b191a4b10f0c6ddeb24f2a49b69f609781a91a63a",
+    "5adfc422c2dbaeb3092e8469fd8da6a4e1caf0a0b0ca260773fa4278fb87e0c7",
+    "a87d8d33ddd535da81411de9ec06e0ed136356d695793758ccccb8b0fd2924c4",
+    "20d80c307e763d76ecfa4ab2db3a4aab39d8bb606ba254d0693bee3e3518eb53",
+    "4c11fcc82998bffd8a8a889b9d6ef679d7af9383e8a036956696c603b62530af"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "NOT_EVALUATED",
+    "C3": "NOT_EVALUATED",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "787303feedd89234be7907194a8a6e5c7ce6d856d18a6fcf59b89cbe9fb6d6c7"
+  },
+  "dev-bolt-sport-swimming-L12": {
+   "C1": "PASS",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-bolt-sport-swimming-L12",
+   "evidence_sha256": "3fe42bb6f640d5027c29259209f327c113953943a96bd386713412d03685c9ee",
+   "forwards": [
+    167,
+    72,
+    64,
+    124,
+    60,
+    96,
+    12
+   ],
+   "forwards_total": 595,
+   "plan_sha256": "939b2556fc0ca9af405fcd2faa9e8c19d59ef563efbc9f971b2b48d031f7a0f5",
+   "reasons": [
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "aba47068067b6b9193b3c0e45413fb29bf0aa04289dfbd7c0d256ece9888c550",
+    "fe30dd500d3797f21e145c35bd5a1547c56c1af7e32797375f7cc7a1249a7428",
+    "144798101e80614870e6dc4fc76648fb8cbdc52050ce97f7c93734c8cadbd10c",
+    "6c748cba69022aaff82ad3bb5f341d11efc4902f02deeabe69d792f24ef502d4",
+    "031ed5152283a4bdc2cf96dce11262a0a7d0a6d49a4f31b3a9e036e6885e3f16",
+    "643ef1c4b464e40223e6ca5c08e0b076ec4324dc82c85096a86ac8cc04de10f5",
+    "c8ec10fef5a929162e4854a773042ee9bce61e77462145bac817636ca2681267"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "f5f98f6180604ef38a7c74f8504702758b6b17f85d39167b5bc76dbb4bde714c"
+  },
+  "dev-bolt-sport-swimming-L4": {
+   "C1": "FAIL",
+   "C2": "PASS",
+   "algebra_ok": true,
+   "case": "dev-bolt-sport-swimming-L4",
+   "evidence_sha256": "9bb00aaa709bcc0b0cf74b4f9fadb3f17090a16befc95c79b87cae2ed6df950a",
+   "forwards": [
+    167,
+    72,
+    64,
+    208,
+    82,
+    107,
+    99
+   ],
+   "forwards_total": 799,
+   "plan_sha256": "fff966e76f18f02149849dc7ca6fc88e7d72803331f9c11cb64e0759b540f761",
+   "reasons": [
+    "C1",
+    "C3"
+   ],
+   "records_sha256": [
+    "7b5999644bd22b2cbedde0989cc22ebae8f0553f11bde11666c0ec963eaf5a35",
+    "5662f9c5b343a2cf6e5399036a1dc2c2a3122b23897a19683fdb6c639a7ff8be",
+    "9086bf6893468dfee85402c82aafbf5580029d1ee82aa4d5c942d57caa0af4ba",
+    "f4375bb83cf7074356f9de8206e0769a2a9b146ce7a189ccef8a3bffd9acea7a",
+    "32406c624ad4003c0d5a037a991b3f6120b06c6c073449f8073d6395e2b0b0e2",
+    "5b971952cec721893eb56b1ded774650b2a03daeab610528de0602b4d6d9cb8f",
+    "d7667ab70d74165c5cd78ae149ce5beef091be1513fec72acaeddd0662f3d9ba"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "PASS",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "ed7693f6585c1d9eaae620f296f603d0244013a73bef40ed82d77b39624aabd9"
+  },
+  "dev-bolt-sport-swimming-L8": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-bolt-sport-swimming-L8",
+   "evidence_sha256": "bd150d55979e237d713dd2623d8c9fc787fd5830f1d2eb05327b348b57f00ae0",
+   "forwards": [
+    167,
+    72,
+    64,
+    227,
+    76,
+    107,
+    104
+   ],
+   "forwards_total": 817,
+   "plan_sha256": "0f898c0e986e846371c1b36761e3b2dcc197df612d14104466cb1e621397211a",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "records_sha256": [
+    "132f45aafca37725a36cfade26b2fa7796cabd7dac4f2f0e2bc017b56b2896e7",
+    "507cfa577578c089f76adc2ea310831f7968c209b68072eced66ed769f28e5b8",
+    "0b26af269495f2fa132b14c097061417310b7a412b67bb0d441a2e897b3780a6",
+    "d472f742ff05e98f749bf833aa522082dbc1e7bcc71217a3e14aed48936a80e3",
+    "6d93d77a2d3554e7c0f6f82081a750620584553dc71d8f02298e96facdad8afb",
+    "81e49c70a43002cad479df6ed8ede8fd9cd3dc18763f9ef72d49600038834314",
+    "0b8eb2c8315a9ae475b68f693488068d9eed8d659789d60300678e0c643fb750"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "1d9582532de39bdfa63c7cac903fd9c0d4fffd4bb801477a2e76bbde96f26397"
+  },
+  "dev-eiffel-city-rome-L12": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-eiffel-city-rome-L12",
+   "evidence_sha256": "e59d54183f72e637e3021ac2518500ce385de1f2a5c52b35ce0a01f59dc8e231",
+   "forwards": [
+    65,
+    73,
+    10,
+    66,
+    55,
+    41,
+    32
+   ],
+   "forwards_total": 342,
+   "plan_sha256": "c164b48f8e1899a7a3eb0559663615296faa3d48cc8fb7f7edf4c10c8208b55b",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "records_sha256": [
+    "a18ef22bd5e77c8aeb4afff84251ed00860bd5b25a8e7937df1c3cdbdb4650d3",
+    "d541293611ef8ad4d8b086ef7589ad3a8ee67d02d92d8103581edd5bbebd4d58",
+    "f8abe5715082a5156b7872b336316250c4d100510c9f3dde8498095fe643d10e",
+    "e5452737b4f71a04574a13c00c2b5b9c72f80c67ad1c3fbff5bd3823914ed0a5",
+    "a67b9c86b7adf20389bdfb17d0d662b1ddd93ac91f7c61ebde1281500236623a",
+    "4c278267da0b65111185c86eba44b0aa93991d3be0a15bac01e3fda5e5e60c22",
+    "2e798d804473f38f531b283ee118f2dc6229b7b9d57c15475538f377f6f234b1"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "6910ddc47fa2f86b83072532f9f11faf124e3df1eee30c1c43d165a03ef255da"
+  },
+  "dev-eiffel-city-rome-L4": {
+   "C1": "FAIL",
+   "C2": "PASS",
+   "algebra_ok": true,
+   "case": "dev-eiffel-city-rome-L4",
+   "evidence_sha256": "5bb366c8da140ad2131b69bda7c7119396614abab478b57d8d5efae107f8661d",
+   "forwards": [
+    65,
+    73,
+    10,
+    133,
+    67,
+    65,
+    58
+   ],
+   "forwards_total": 471,
+   "plan_sha256": "4977c01c97e559e6a13f2ca48a7672c7a94d83f3308f7ffba38ed4561ee586a0",
+   "reasons": [
+    "C1",
+    "C3"
+   ],
+   "records_sha256": [
+    "a8bad22a41d39c2766884275805d7924af840e5be3a9ff479a2f087b80aa5810",
+    "35c89c2dd437a56351958027d812c3a091df3b41bdf85437c79ec291d6b13ee5",
+    "bd69700490c26c23c6b5a9d155d9722b70f6f57cdeaedb396cd0e89230560ec0",
+    "3a58ab107d2d13754b3f207f228cd3d83c9f0e2c6db982e39b6e3f9723eaec95",
+    "b53568eca165f4cd24697d93dff609e129d1f379b17fbb4078c60ef8449ef152",
+    "25e6d62f6024021ce3c4e159bef0a3e26c5516ca7573513f803977b4ca0566ef",
+    "0780263bb1fbf30aea666ca234510b7465136a1a4bfda92e87738d7d7e9c6770"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "PASS",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "eeb4ef075e2c8dda932fcc9e0f15c8b25a857dfc7a0b42e00d3d7654de165ff8"
+  },
+  "dev-eiffel-city-rome-L8": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-eiffel-city-rome-L8",
+   "evidence_sha256": "5250dd695a33d626d0baa767493b3ea7c283f23573d6a622fe48c541b37bf1bb",
+   "forwards": [
+    65,
+    73,
+    10,
+    72,
+    67,
+    76,
+    39
+   ],
+   "forwards_total": 402,
+   "plan_sha256": "9f4be0ec92c13f9fd145a8cd58adb4d3eb8691e18eed5aba5f26bdaaf7dcd3f7",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "records_sha256": [
+    "f2f37d30ca8d540dcc01f563ff916a0e43eec0eac4d37c6755def20d2ab76463",
+    "bac6fed57ac7214029f6b8cdf68a85fe8746d8362eb9b055b2a0d3d0cd1ffb5f",
+    "7182dce9bf54887c7ded156b93cfb54d0dc109533fe301c5c27540935ab9511e",
+    "dee2a48dfeaefaf678d39cdf55359302aa435d22e2ad5245206a7ed8617eeea3",
+    "680fcbda5c818a06bbf2f2cb0b628533e0c6b7ce49ef7a3c4d165c24f92c3f7e",
+    "c94c1285908bf751f8d7521710126fa4fce3b9f8fc45e36c88695679a587364d",
+    "9478b642762c7db90cb2810ceab1548f9cfd172699498b0c53a47be8290099e8"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "PASS"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "ef009b39e1e62498e262dad1bcfb4144211ebf411cf23afb86c6e6a569a777b1"
+  },
+  "dev-kilimanjaro-country-chile-L12": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-kilimanjaro-country-chile-L12",
+   "evidence_sha256": "6d5ed56e0b977426ee13efa5cb168271cf3752ca88c85b903f8520e1e30a3687",
+   "forwards": [
+    118,
+    66,
+    29,
+    105,
+    101,
+    48,
+    62
+   ],
+   "forwards_total": 529,
+   "plan_sha256": "1b9354fc50d71b198f0634122e0ae2a9039141f01ed1556df1c370c6bb6b0895",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "0de0474b11f49e75358d91c62b92a7bd2a5eec7fc706cca4d6b585ce54ec27a2",
+    "e3429e78c459b4b5b7959709a3da7e0fc7d60967df1ad58ea6ea21d39a341a5e",
+    "93e6d81bcf25396600a2e2385074d40cbb12e0c4ffdc82d0777359f616047f26",
+    "af03e7808b48c0f38437a17f624ccc65c55f3ea46df36cb9d8baf35e46fb3c94",
+    "0cba27b55d5e075648b9f05b3fb039358081984a619b011b39a3aff0f1dc93b9",
+    "71eaee6508517b6a3624f390f567f8a15c5aa60cdb86b237c998d7345bc2e720",
+    "2c869ea42c6951f41134c098c4d297bfb58028d86e665468677834456d01e991"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "PASS"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "3fad7a4f217aab2e2828ad2f3eb7fa18e616eeda3afef54d9149fd7be23548a2"
+  },
+  "dev-kilimanjaro-country-chile-L4": {
+   "C1": "FAIL",
+   "C2": "NOT_EVALUATED",
+   "algebra_ok": true,
+   "case": "dev-kilimanjaro-country-chile-L4",
+   "evidence_sha256": "0975560688492e30f75d68596fcd107b89cc9cecda2bd1cdce9049663d8fde69",
+   "forwards": [
+    118,
+    66,
+    29,
+    77,
+    112,
+    63,
+    39
+   ],
+   "forwards_total": 504,
+   "plan_sha256": "b39f085c299a70648765dbbde6991d2825728285efc8e22c65ab49b01458184f",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "575e9b3ec68c36a5529f4549e2b8b52f538d2cfb9f1cba0850e0605737d71f10",
+    "c5ec71560065dd215c68ce52f0087c87aa9373058edd9e53b97c18b57d64a3f7",
+    "1bc5c5eb3948ec61d51cddb1696b4b4438e2cd866ee8b513a9dc9dd4dc5e07a5",
+    "7a895193cdf6bafd75f6741c0b7145490f8b44ebdb9eddb08b6537e9b73ed9a4",
+    "9165ee764610b390e2776658723191b895cd1222fb67c6c2208f7d312b72f414",
+    "54983ae344e9ae9d7942b99aea7189c743593b642587273b0192ce5bac9b36d3",
+    "ecf75b3a63634bc90c0395369cd82b0217a9a3a31d10f22f981144e7442a3b0d"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "NOT_EVALUATED",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "888183b4cd87771219797c4666f827c88430338d59df1f589efbfe9248ea5a4c"
+  },
+  "dev-kilimanjaro-country-chile-L8": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-kilimanjaro-country-chile-L8",
+   "evidence_sha256": "10d8840ccb76ec7f9c5aa3b3c7c829e5a186107322d20e4598203c6e52c2ff46",
+   "forwards": [
+    118,
+    66,
+    29,
+    92,
+    129,
+    57,
+    53
+   ],
+   "forwards_total": 544,
+   "plan_sha256": "65dc4eb79d4a069769d26904722dbee022eb2d27e2e27f26c349a0f28b8fb5d7",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "5fcd67b00cbc4641c41b25130000469bef1769e4d9d5aeaaceba468c33496226",
+    "54aaf55bddedad439d26fe47eab16ce04a8fc8cf26c32127b83ec379249f0651",
+    "7b312bb303629db3ba7167f57117a6a2e4bcd94d91d485b91e6675baae338889",
+    "f9b60b9260db8c80ece6c10f955984170ebc0b8f1bef9fddf1d393985d37b9cf",
+    "59a132847a0cd2060a2bf064960b7682836f9c510e6b4630bae16661ec6425cb",
+    "85b9321c11dd4d7262ae67fc7067c8fef2c5c6297d9e28a1624caeac8fa561a5",
+    "16360ea3efb30dfbdfd134dada959155724bc55c5e2165cdee737b53df2d7d35"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "749beb6cd0c2eef07b0972a6eb4cb9c8ad8410a9f6cb94797e5e228df06db0bd"
+  },
+  "dev-toyota-origin-germany-L12": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-toyota-origin-germany-L12",
+   "evidence_sha256": "d6fcb0ad48aae18a50d40c1b16783359f649e8e325542e98bfb1cd766b8e76c9",
+   "forwards": [
+    68,
+    57,
+    17,
+    61,
+    143,
+    31,
+    41
+   ],
+   "forwards_total": 418,
+   "plan_sha256": "5e56347312cb9386f19471398d352f74ece439923f92a871fbf9dae55480022d",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "a191f9594abb3829fef217a7765d28ccccb8df9fd9491c250bf476407aae9450",
+    "02c3621f71b09de3a4bdcf223c52b06419f93d36692af051337cc5e2f5404c03",
+    "534765377f62a7f2deb7d7a710fbbc9ec0599d7e58750d8052e3fb59e894d1ac",
+    "26d5653dfb62ff2e7a08f58f4d0c2f054a3a9f5f11bee7326273764060e3d9fd",
+    "eff996a776c176afd12547235ee09af85e63022a15c5c5f2e4fed77422799a9d",
+    "e3edb3d1983f5377877d41407990e99f8b9a535dc18572cdb7b47a9e53b001e7",
+    "21c59c121ffe46f6160f2510c92943b1bfffc31fb5d1c59b0e7e2076b6431818"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "381fbf3a7ffe9ecc91d472fd18dacd2dcc0cbb7f513b68325bae4d910e730281"
+  },
+  "dev-toyota-origin-germany-L4": {
+   "C1": "FAIL",
+   "C2": "FAIL",
+   "algebra_ok": true,
+   "case": "dev-toyota-origin-germany-L4",
+   "evidence_sha256": "27c42d1cb3ecb3fe105e9c18eee863769c459742ab6102c5b3e7df283af945bc",
+   "forwards": [
+    68,
+    57,
+    17,
+    53,
+    58,
+    46,
+    25
+   ],
+   "forwards_total": 324,
+   "plan_sha256": "06045c9908a7986edf316bebac972934785c1a3407223641856077c788004f6d",
+   "reasons": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "records_sha256": [
+    "510878ba001de4992fbdc8505dda82da10d265f42e7570da1f47a3d4b1902c87",
+    "419afb653e37c4403d922dab064ef46747b371219ca294480ac1bf7a6e307af1",
+    "4697c3fa4b0f38170f2588b1125febe607953ac674cdcc39d390e3ca84a2062f",
+    "dbe0c487029b2e6e489839fc7966373719a6278a9cc93d4b606b54a159a8851b",
+    "246e6f0cc2b9b936f3ef0c785983a1f05780e65aae3f2624ee0b478e760e553a",
+    "c7a22ba15c58268460e63c3cdfcdec4dd3d6ff4d2defeebedd64490a535fd606",
+    "61f7f90ca46a91c3fe2cc432be6011589c76e78eb45862ed214a6ee2b48ab994"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "0a62f3d6646de9a4e3505d2a5eeff9d3887d65dd7de9223950e6a9089e553c10"
+  },
+  "dev-toyota-origin-germany-L8": {
+   "C1": "PASS",
+   "C2": "NOT_EVALUATED",
+   "algebra_ok": true,
+   "case": "dev-toyota-origin-germany-L8",
+   "evidence_sha256": "efe94846acd55f546755dcf8b2d42eb9f5f3a714c58c277f16f959dd4cfe72db",
+   "forwards": [
+    68,
+    57,
+    17,
+    40,
+    112,
+    52,
+    21
+   ],
+   "forwards_total": 367,
+   "plan_sha256": "80e08050568d3d6ad9c73ae3ab0be071949f5eaf5c1a3f344a9eb28b7f7e1b41",
+   "reasons": [
+    "C2",
+    "C3",
+    "C6"
+   ],
+   "records_sha256": [
+    "b03d5e8dc22eb231cf27d8cd63c41bd8fc46b37982ff4877693901a93103eedc",
+    "7152283b951bb6b53786e8ebb0abd4ed4e01f859a0baabeb63597d02de6f93a3",
+    "6d3676c59e64f1cd7f741ac9dc1b7fa0018d5af6c01f0dae221533816af6caff",
+    "254afc5cacd7cf1626cd5bb05620a4be92e249cb0d7b706ea0a861760fcfa2e3",
+    "19aeae2f671427ee478af47a9da843ec89c9654e08799df254634660059bd022",
+    "37176ff64ee39f875116cc7c5e37c0da5b5450751795c0080dbedfe3cb83474d",
+    "e88167abac183c77f0f5cdea37bbaae4c8e4daaab4575befec8832fcdfbcbfb1"
+   ],
+   "services": [
+    384,
+    384,
+    64,
+    390,
+    394,
+    320,
+    256
+   ],
+   "state": "certified",
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "NOT_EVALUATED",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "PASS"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "9ed9f72f562e480dbc2eb759d454cac2ceab2547ea920418d924cd59296c109f"
+  }
+ },
+ "complete": true,
+ "feasibility": {
+  "facts": {
+   "dev-beethoven-nationality-italian": {
+    "attribute_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "case": "dev-beethoven-nationality-italian-L4",
+    "efficacy_count": 4,
+    "efficacy_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "excluded": {
+     "P1": "native answer truncated at the cap"
+    },
+    "feasible": true
+   },
+   "dev-bolt-sport-swimming": {
+    "attribute_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "case": "dev-bolt-sport-swimming-L4",
+    "efficacy_count": 4,
+    "efficacy_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "excluded": {
+     "P1": "native answer truncated at the cap"
+    },
+    "feasible": true
+   },
+   "dev-eiffel-city-rome": {
+    "attribute_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "case": "dev-eiffel-city-rome-L4",
+    "efficacy_count": 4,
+    "efficacy_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "excluded": {},
+    "feasible": true
+   },
+   "dev-kilimanjaro-country-chile": {
+    "attribute_orders": [
+     "subject_before_relation"
+    ],
+    "case": "dev-kilimanjaro-country-chile-L4",
+    "efficacy_count": 4,
+    "efficacy_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "excluded": {
+     "A1": "native answer truncated at the cap"
+    },
+    "feasible": false
+   },
+   "dev-toyota-origin-germany": {
+    "attribute_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "case": "dev-toyota-origin-germany-L4",
+    "efficacy_count": 4,
+    "efficacy_orders": [
+     "subject_after_relation",
+     "subject_before_relation"
+    ],
+    "excluded": {},
+    "feasible": true
+   }
+  },
+  "feasible": 4,
+  "go": true,
+  "threshold": 2
+ },
+ "inventory_failed": [],
+ "pending_after_feasibility": {},
+ "protocol": "docs/phase-b2-v2-recertification-protocol.md",
+ "repairs": [
+  "A1: native_done cases resumed"
+ ]
+}
