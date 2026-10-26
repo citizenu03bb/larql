@@ -21,3 +21,12 @@ peer service fingerprints themselves do not contain a full checkpoint
 hash. Their metadata/source fingerprint and B1's separate full checkpoint
 hash are different pieces of evidence; this audit does not invent a
 per-service checkpoint hash.
+
+The subsequent provenance extension additionally checks the certification
+plan's edit content hash against the original solve, and requires the
+backend metadata plus U0/V0 files in `edit-source` and `edit-saved` to be
+byte-identical to that source. Every service must report the same content
+hash. Claude's successful independent algebra receipt must identify that
+exact solve. The extension passed on all nine cases then available
+(3,663 forwards). The earlier six-case receipt and its script hash remain
+historical evidence in the preceding commit; no judging rule was changed.
