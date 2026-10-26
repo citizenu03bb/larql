@@ -1,0 +1,97 @@
+{
+  "amendment": "Pat C2 native-qualified coverage in both orders, 2026-10-26",
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "amendment": "Pat C2 arbitration: both native-qualified subject orders required",
+      "counted_pass": false,
+      "decision_controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "qualified_attribute_orders": [
+        "subject_before_relation"
+      ],
+      "reported": {
+        "C1": "PASS",
+        "C2": "PASS"
+      }
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "amendment": null,
+      "counted_pass": false,
+      "decision_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "qualified_attribute_orders": [
+        "subject_before_relation"
+      ],
+      "reported": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      }
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "amendment": "Pat C2 arbitration: both native-qualified subject orders required",
+      "counted_pass": false,
+      "decision_controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "qualified_attribute_orders": [
+        "subject_before_relation"
+      ],
+      "reported": {
+        "C1": "PASS",
+        "C2": "PASS"
+      }
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "amendment": null,
+      "counted_pass": false,
+      "decision_controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "qualified_attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "reported": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      }
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "amendment": null,
+      "counted_pass": false,
+      "decision_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "qualified_attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "reported": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      }
+    }
+  },
+  "comparison_sha256": "8a6138de48b6994d431fbe13b57805f3e5b1e40f3e2480a473762f34df08d035",
+  "complete": false,
+  "gate": "PENDING",
+  "model_forwards": 0,
+  "original_checker_freeze": "1d6af9e8",
+  "outputs_rewritten": false,
+  "pass_counts": {
+    "12": 0,
+    "4": 0,
+    "8": 0
+  },
+  "script_sha256": "9a817ad8af19d37e3bf208b950f240b43b46031e88049ab0b9a9e0e2cd3e2fb8",
+  "selected_layer": null,
+  "unresolved_differences": []
+}

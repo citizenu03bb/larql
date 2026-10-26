@@ -1,0 +1,2250 @@
+{
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 304,
+      "input_sha256": {
+        "evidence": "fe82b5c659c64d518a32bc5e6448eda1242c4dfcab9190f6247397a33437b1ef",
+        "plan": "3fe1a89b4dc756dfa6a994cb6a7f904db54bfa16db8b5a6292c379253112f229",
+        "spec": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+        "verdict": "45e7dbb1fef2e3fd9ccaad19f71aa8da8b5b8508ee5e44748b777e367be6149c"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "7892b40243805cdef76fdc98382bab8668de4a278875fa1acefa8d2c8f0f3148",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "1a93e86c3cc570ef5e5db6857818e0ea5679956d74c8abf9f8e7fa7948b90c79",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "bd24d33673240575c98b39b3df30fe63278850d7ebf1bb3360e371f0ddcc4d96",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "2a19f441bf47672ba7cf3d1978e2066f846131aea8035a97656232bc9b05fe49",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "8d9a06dc6acc290eba5b04af05a4bbcb52bc34faac53e870a108a8240e48cd6f",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "E2",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "7c46069b14eef971b05edc6a8e846d0574f04e676b82c37b40517fe1fdd88ac9",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E2",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "6f3e9903d83521ccb3914c3b54e1ab5ac0e33776bab753331f4f4b48be065ca2",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "29082ebdf20aae1c6ce9293eef036648add5528580da305890fac7999711b498",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              9115,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was German.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "2afbec80b9184a0bc95fd12e592222d71dbf0b7fea5cbd531ca34930542e7c11",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "d35148e55e4f0163ee23dbd4f59e3165a7d0a60f32f90dd10a5fccdd0a482069",
+            "ids": [
+              51423,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 0",
+            "text": "German.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "064032e897ec2b4cf4b2d3b86b61b4607e87ca6d812fe389aae6d72498f3cdd3",
+            "ids": [
+              818,
+              1346,
+              14003,
+              22829,
+              532,
+              3629,
+              24890,
+              600,
+              72989,
+              3027,
+              97628,
+              16695,
+              699,
+              3209,
+              528,
+              1972,
+              691,
+              5213,
+              147301,
+              3967,
+              84750,
+              108,
+              2209,
+              16695
+            ],
+            "question_id": "A1",
+            "source": "service 1",
+            "text": "The most commonly cited and significant disability that Ludwig van Beethoven suffered from later in life was **hearing loss**.\n\nHe suffered",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "c82b0072b54a8fe0de08e2bee6d39ae7a53e6f1031fa5693e472a5646fe877bf",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16695,
+              699,
+              5213,
+              893,
+              2448,
+              1788,
+              1018,
+              3209,
+              528,
+              1972,
+              236761,
+              108,
+              8409,
+              506,
+              4453,
+              27187,
+              532,
+              33326,
+              659,
+              3996
+            ],
+            "question_id": "A1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven suffered from **deafness** later in life.\n\nWhile the exact progression and severity are complex",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "197f7f8ad3abea813ba31d80aaf6c1ae4c7b129b0e38b6f976aa396cddf6190c",
+            "ids": [
+              3912,
+              87703,
+              16635,
+              236743,
+              236819,
+              4345,
+              41890,
+              695,
+              236761,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 1",
+            "text": "Beethoven composed 9 symphonies.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "ffb9eeccb417a01179a7aced576fa63c231ba3dba13d18627ab64d6583ebfd89",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16635,
+              10155,
+              4345,
+              41890,
+              695,
+              236761,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven composed nine symphonies.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 145,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/0/records.json",
+          "sha256": "ba4eca8feae59aa5e09cb59f1bfc9714f8aa22e2c89a06e78648540e33e3ad41"
+        },
+        {
+          "forwards": 123,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/1/records.json",
+          "sha256": "b3f28480a53b3aa0d9fff17ec58749599bf7acb4d6c529d917967d0508ce5f5c"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/2/records.json",
+          "sha256": "ccfb0a2168d68e6d20e4ff709bdb270fb584d8e7f0b46d753b2e3a3bbf55549d"
+        },
+        {
+          "forwards": 12,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/3/records.json",
+          "sha256": "75a5c9b1af72c85e4f5c0fe9a6f8f1f8dfc1e27b9c1432dbd7c80942a1da7f94"
+        }
+      ],
+      "reported_controls": {
+        "C1": "PASS",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 389,
+      "input_sha256": {
+        "evidence": "d4934c9d0dc6f21b85aacc74633459a3b882e3e2c52af78d2410c8aadfce4c5b",
+        "plan": "f7a6b383630f4f3f82843372b1a3b2866aa3692521b36b72fceb82c922ef8936",
+        "spec": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+        "verdict": "ce9914f140f3ff28823e1c378730dd33e38ac90231e8e0339487e663f54fdc69"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "1f21cc0d52d6aa2d669c1b636475053a5231f80bfefc251771196ca760bdad6b",
+            "ids": [
+              818,
+              65535,
+              529,
+              72989,
+              3027,
+              97628,
+              563,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 1",
+            "text": "The nationality of Ludwig van Beethoven is **German**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "1a93e86c3cc570ef5e5db6857818e0ea5679956d74c8abf9f8e7fa7948b90c79",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "bf88be10fa415625b59e5906e6617f31c7d215dcd3a147422c0f09f727c9adf7",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "2a19f441bf47672ba7cf3d1978e2066f846131aea8035a97656232bc9b05fe49",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "43fdf7c9fef1152e96ba259566f017916fc7a88b5f7cca973d963c16a17a9e34",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              108,
+              8409,
+              668,
+              11742,
+              532,
+              5934,
+              528,
+              3572,
+              4688,
+              529,
+              3879,
+              568,
+              16603,
+              28426,
+              532,
+              11702
+            ],
+            "question_id": "E2",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven was **German**.\n\nWhile he lived and worked in various parts of Europe (including Austria and Italy",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "7c46069b14eef971b05edc6a8e846d0574f04e676b82c37b40517fe1fdd88ac9",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E2",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "a4814745ae0596a881cfafb2cb9712c2bc070e8e43e3a6c4e054c33c227812b1",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              9115,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven was German.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "29082ebdf20aae1c6ce9293eef036648add5528580da305890fac7999711b498",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              9115,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was German.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "ba2d17ab86e4face3a5d6ed1f1e99c3e5c1aeed7c65a57b27257f727d80d8ca0",
+            "ids": [
+              51423,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 1",
+            "text": "German.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "d35148e55e4f0163ee23dbd4f59e3165a7d0a60f32f90dd10a5fccdd0a482069",
+            "ids": [
+              51423,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 0",
+            "text": "German.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "c824e0ee09bec95e7e6900c1d8696ac07fafcea701f62d1e8233f8a978397c43",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16695,
+              699,
+              5213,
+              893,
+              2448,
+              1788,
+              1018,
+              3209,
+              528,
+              1972,
+              236761,
+              108,
+              8409,
+              506,
+              4453,
+              27187,
+              532,
+              33326,
+              659,
+              77712
+            ],
+            "question_id": "A1",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven suffered from **deafness** later in life.\n\nWhile the exact progression and severity are debated",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "c82b0072b54a8fe0de08e2bee6d39ae7a53e6f1031fa5693e472a5646fe877bf",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16695,
+              699,
+              5213,
+              893,
+              2448,
+              1788,
+              1018,
+              3209,
+              528,
+              1972,
+              236761,
+              108,
+              8409,
+              506,
+              4453,
+              27187,
+              532,
+              33326,
+              659,
+              3996
+            ],
+            "question_id": "A1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven suffered from **deafness** later in life.\n\nWhile the exact progression and severity are complex",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "554cb0fd47831fbc11e21156bb17a17313b8d16efed8839d61b2e6374e58fceb",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16635,
+              1806,
+              4345,
+              41890,
+              695,
+              236761,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven composed three symphonies.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "ffb9eeccb417a01179a7aced576fa63c231ba3dba13d18627ab64d6583ebfd89",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16635,
+              10155,
+              4345,
+              41890,
+              695,
+              236761,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven composed nine symphonies.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 145,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/0/records.json",
+          "sha256": "956e71b3a225926c1df479d974f2b1c1e74568817b2ab431c1f654484455e506"
+        },
+        {
+          "forwards": 176,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/1/records.json",
+          "sha256": "fa657e2ab4b227572542d3f2d78f84d656207639f121bfd0271ea336d0e73ada"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/2/records.json",
+          "sha256": "d8b6e3cb01fb97e18827d3694a1653c9df0855e7f11906006eebb06877849382"
+        },
+        {
+          "forwards": 44,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/3/records.json",
+          "sha256": "7bccc5edcab81cab131a9784086f5eb0e6328baf7c4084a1fde28ac9c22a02e5"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 339,
+      "input_sha256": {
+        "evidence": "9978f9ca46cd89aa4dc4240132cf13e5c02ee700ee153f830eb1bdd2e1ee0d35",
+        "plan": "bfa6faa1e6df0c26d1506473bcd3f57094b01348db2182d33e86569aac61806c",
+        "spec": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+        "verdict": "133c37d4fe320c292de12d1bd717cb25e49a0aef4dc6047d45e6644ec28de5c9"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "cf46540ded2c162b52cd3534a186b92adf76e459e27a3b20271ef772777a6387",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "1a93e86c3cc570ef5e5db6857818e0ea5679956d74c8abf9f8e7fa7948b90c79",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "f78db5ea588b3b91f158b9bbe27cdc00def2fcbe0820015be9f9f608384d2de5",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              64835,
+              84750,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven was **Italian**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "2a19f441bf47672ba7cf3d1978e2066f846131aea8035a97656232bc9b05fe49",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "d6dc37f890c9d2a2d9145a1530c30a8c468f15f10098055085c03a310f061b7d",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              64835,
+              84750,
+              106
+            ],
+            "question_id": "E2",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven was **Italian**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "7c46069b14eef971b05edc6a8e846d0574f04e676b82c37b40517fe1fdd88ac9",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              5213,
+              51423,
+              84750,
+              106
+            ],
+            "question_id": "E2",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was **German**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "00c5f4449d3e54042cc787b6c3ab2653a17f052b9278e9b82e33fe8393ad0725",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              12896,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven was Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "29082ebdf20aae1c6ce9293eef036648add5528580da305890fac7999711b498",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              691,
+              9115,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven was German.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "5cd2887ee04c19e8d98ef0c06c162a3bb6d25d33f4ac6b4d92c6e668409f4389",
+            "ids": [
+              64835,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 1",
+            "text": "Italian.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "d35148e55e4f0163ee23dbd4f59e3165a7d0a60f32f90dd10a5fccdd0a482069",
+            "ids": [
+              51423,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 0",
+            "text": "German.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "14f62f7b34e1263d00d46b4d3fc54113469a8f6df5e1015807e331dc1afe8448",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              563,
+              6816,
+              4970,
+              618,
+              2963,
+              16695,
+              699,
+              5213,
+              1904,
+              3530,
+              236764,
+              28262,
+              24890,
+              1018,
+              528,
+              506,
+              1595,
+              496,
+              5663,
+              48941
+            ],
+            "question_id": "A1",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven is generally described as having suffered from **no specific, diagnosed disability** in the way a physical impairment",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "c82b0072b54a8fe0de08e2bee6d39ae7a53e6f1031fa5693e472a5646fe877bf",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16695,
+              699,
+              5213,
+              893,
+              2448,
+              1788,
+              1018,
+              3209,
+              528,
+              1972,
+              236761,
+              108,
+              8409,
+              506,
+              4453,
+              27187,
+              532,
+              33326,
+              659,
+              3996
+            ],
+            "question_id": "A1",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven suffered from **deafness** later in life.\n\nWhile the exact progression and severity are complex",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "221d1dae40163311af7265603efd2f4d6a6c7ea8c45f1028b7d4130700806351",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16635,
+              10155,
+              4345,
+              41890,
+              695,
+              236761,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 1",
+            "text": "Ludwig van Beethoven composed nine symphonies.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "ffb9eeccb417a01179a7aced576fa63c231ba3dba13d18627ab64d6583ebfd89",
+            "ids": [
+              122064,
+              40633,
+              3027,
+              97628,
+              16635,
+              10155,
+              4345,
+              41890,
+              695,
+              236761,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 0",
+            "text": "Ludwig van Beethoven composed nine symphonies.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 145,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/0/records.json",
+          "sha256": "2b62d418922608f4942c0a2f2a89590e97c24ed157ba95036154d0724a7890b0"
+        },
+        {
+          "forwards": 154,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/1/records.json",
+          "sha256": "e9f1e5f638a7f164ad054c09e77b72999596aca7af7d5cdb35c580cf971990b1"
+        },
+        {
+          "forwards": 11,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/2/records.json",
+          "sha256": "a82826a680ee7e1149290998d1059eeae27708daa1b884f966b39d936ee0aa50"
+        },
+        {
+          "forwards": 29,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/3/records.json",
+          "sha256": "4a0a62d9d67fe13c36d7bf66263205df44e1dc70231f6729c1d03f2695550f76"
+        }
+      ],
+      "reported_controls": {
+        "C1": "PASS",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "forwards": 541,
+      "input_sha256": {
+        "evidence": "61b55bc7dc8e051eea830c54860374134946d0f09816ebf0673f04d39d36ce48",
+        "plan": "791ba1d09991440fbda7f8f5b7467561c8fce18715016a5793db41fe07b72b52",
+        "spec": "b6e174cb606f1d8105e9796114fbf7f10b189778785f4885c932c0a10167e8fc",
+        "verdict": "8a41cf1411e3c11fac1b05c15ad1273e71d2a6eb5fe77763036b619e9dc3bea2"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "a07ed460319dc21eb05292e084c0a2e0c83baacf2e9fb91cbaf4ca9371123730",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              3224,
+              573,
+              5213,
+              11620,
+              532,
+              12219,
+              84750,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 1",
+            "text": "Usain Bolt is known for **Track and Field**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "S1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "aa03847c82f764d8019816df41ec6a30e2edba5de5b8a3a86c06e7ec8a4cdde7",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              3224,
+              573,
+              5213,
+              236751,
+              82273,
+              1018,
+              568,
+              145300,
+              506,
+              236743,
+              236770,
+              236771,
+              236771,
+              236757,
+              532,
+              236743,
+              236778,
+              236771,
+              236771,
+              236757
+            ],
+            "question_id": "S1",
+            "source": "service 0",
+            "text": "Usain Bolt is known for **sprinting** (specifically the 100m and 200m",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "2a60117ee0b06703f21a1434e6a70212dbe79d384441b17a775741b1dbbff2fa",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              3224,
+              573,
+              5213,
+              11861,
+              532,
+              2135,
+              125546,
+              10916,
+              506,
+              5213,
+              236751,
+              82273,
+              1018,
+              4749,
+              236761,
+              108,
+              2209,
+              563,
+              496,
+              1401
+            ],
+            "question_id": "E1",
+            "source": "service 1",
+            "text": "Usain Bolt is known for **track and field**, specifically the **sprinting** events.\n\nHe is a very",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "E1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "0db5623923665c32546636e56322305d866013aac47afc83a3087759f42fbab5",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              3224,
+              573,
+              5213,
+              236751,
+              82273,
+              1018,
+              532,
+              563,
+              496,
+              1902,
+              236772,
+              89575,
+              5213,
+              11861,
+              532,
+              2135,
+              1018,
+              35551,
+              236761,
+              108
+            ],
+            "question_id": "E1",
+            "source": "service 0",
+            "text": "Usain Bolt is known for **sprinting** and is a world-famous **track and field** athlete.\n\n",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "b02b238f5cac75c0ea25cbe7fec87aa8af8b0b43487cba8e3991c31926a3d199",
+            "ids": [
+              6033,
+              662,
+              79785,
+              691,
+              9639,
+              573,
+              5213,
+              11861,
+              532,
+              2135,
+              84750,
+              108,
+              2209,
+              691,
+              496,
+              19659,
+              5811,
+              528,
+              506,
+              5213,
+              236751,
+              82273,
+              1018,
+              4749
+            ],
+            "question_id": "E2",
+            "source": "service 1",
+            "text": "Usain Bolt was famous for **track and field**.\n\nHe was a dominant figure in the **sprinting** events",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "E2",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "01defea1a66cc87da37ef837a9fb50c669b724faf0bde4df0f6a872691279d93",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              9639,
+              573,
+              5213,
+              11861,
+              532,
+              2135,
+              125546,
+              10916,
+              506,
+              5213,
+              236751,
+              82273,
+              1018,
+              4749,
+              236761,
+              108,
+              15989,
+              1346,
+              9639,
+              29685
+            ],
+            "question_id": "E2",
+            "source": "service 0",
+            "text": "Usain Bolt is famous for **track and field**, specifically the **sprinting** events.\n\nHis most famous achievements",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "fc256f44392dc77655190665b687abceba4ea8c91e154125f5437ed16ac4b392",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              9639,
+              573,
+              4087,
+              532,
+              2135,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 1",
+            "text": "Usain Bolt is famous for track and field.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "8204dd385597acaaa9c5ae140b2170f34efc577b1eb7062445ebec122d09404a",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              9639,
+              573,
+              236206,
+              528,
+              4087,
+              532,
+              2135,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 0",
+            "text": "Usain Bolt is famous for sprinting in track and field.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "cc4561a16dc464295a2c5674a076976cb284b29bfa7f30457ff3e7bb74bbbcfe",
+            "ids": [
+              6033,
+              662,
+              79785,
+              59816,
+              528,
+              5213,
+              11861,
+              532,
+              2135,
+              84750,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 1",
+            "text": "Usain Bolt competed in **track and field**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "d183a8361448c1d5ecaa4df17712367bbc8d6fc151c3a77a6fb42fea690ae329",
+            "ids": [
+              6033,
+              662,
+              79785,
+              59816,
+              528,
+              5213,
+              11861,
+              532,
+              2135,
+              84750,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 0",
+            "text": "Usain Bolt competed in **track and field**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "bb4268040316dba217f355f83328f4c7f19dd0eca65f84a8f7ccb7fca620e6f3",
+            "ids": [
+              6033,
+              662,
+              79785,
+              9282,
+              5213,
+              233927,
+              84750,
+              106
+            ],
+            "question_id": "A1",
+            "source": "service 1",
+            "text": "Usain Bolt represents **Jamaica**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "8d2bb969727b8e2f66c620efa4b337f1075dd977749aa2c6d1a1359a5dd59b4f",
+            "ids": [
+              6033,
+              662,
+              79785,
+              9282,
+              5213,
+              233927,
+              84750,
+              106
+            ],
+            "question_id": "A1",
+            "source": "service 0",
+            "text": "Usain Bolt represents **Jamaica**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "eb45ce0f0c3b4f2c3cd0a54ede6c3c40f56df4218668906b1a42b7c099292c6e",
+            "ids": [
+              6033,
+              662,
+              79785,
+              236789,
+              236751,
+              58311,
+              563,
+              623,
+              148983,
+              79785,
+              1781,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 1",
+            "text": "Usain Bolt's nickname is \"Lightning Bolt.\"",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "8fe5eeb652c6b6ba41fcb6b068ca77be978cc3b102aec87d2b1b18945e55943a",
+            "ids": [
+              6033,
+              662,
+              79785,
+              236789,
+              236751,
+              58311,
+              563,
+              623,
+              148983,
+              79785,
+              1781,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 0",
+            "text": "Usain Bolt's nickname is \"Lightning Bolt.\"",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 200,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/0/records.json",
+          "sha256": "89629e7b23a92965ffa3ad328d590fb2af4c5e0143cf1a24d264b638e7266e8a"
+        },
+        {
+          "forwards": 247,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/1/records.json",
+          "sha256": "0fcc3b5d86b07e80cbcf4b2aa4259782247f5608ddc7b10373885d96144dfe3b"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/2/records.json",
+          "sha256": "996331d2c720fbc5583c8f427a44657344c867ff88339169a4d5a728b6e1a2e9"
+        },
+        {
+          "forwards": 70,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/3/records.json",
+          "sha256": "728082ad64693292580c748b45606d6e61439da976a1635b957e600fa116da75"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 537,
+      "input_sha256": {
+        "evidence": "4b0bebb4cca70a6a11ea5225ef83af5aa104801f70605f19a120f7c2fe18894a",
+        "plan": "4c5b0a3009bdd0caaa795b96c22f31ef9cdfe1e4aff21ec5cf9c7762d28410c9",
+        "spec": "b6e174cb606f1d8105e9796114fbf7f10b189778785f4885c932c0a10167e8fc",
+        "verdict": "20667dbfbb2621bd6f2711e627eb3b024fb8fa9e383e5d5e337cc36a5185b043"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "7ea2a470cc8ff8cd28cf76cd1801db5684550e50ded6a79407c8159980170694",
+            "ids": [
+              818,
+              7932,
+              506,
+              5213,
+              6033,
+              662,
+              79785,
+              1018,
+              563,
+              3224,
+              573,
+              563,
+              5213,
+              78490,
+              27429,
+              24458,
+              84750,
+              106
+            ],
+            "question_id": "S1",
+            "source": "service 1",
+            "text": "The sport the **Usain Bolt** is known for is **Australian Rules Football**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "S1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "aa03847c82f764d8019816df41ec6a30e2edba5de5b8a3a86c06e7ec8a4cdde7",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              3224,
+              573,
+              5213,
+              236751,
+              82273,
+              1018,
+              568,
+              145300,
+              506,
+              236743,
+              236770,
+              236771,
+              236771,
+              236757,
+              532,
+              236743,
+              236778,
+              236771,
+              236771,
+              236757
+            ],
+            "question_id": "S1",
+            "source": "service 0",
+            "text": "Usain Bolt is known for **sprinting** (specifically the 100m and 200m",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "9f8c710831647133b020d62ef2c4d49ecfc083fcafea3f8d831e1dad16cf5e79",
+            "ids": [
+              818,
+              5213,
+              6033,
+              662,
+              79785,
+              1018,
+              563,
+              3224,
+              573,
+              5213,
+              11861,
+              532,
+              2135,
+              1018,
+              568,
+              145300,
+              236206,
+              532,
+              6029,
+              236772,
+              17178,
+              4710,
+              769,
+              106
+            ],
+            "question_id": "E1",
+            "source": "service 1",
+            "text": "The **Usain Bolt** is known for **track and field** (specifically sprinting and middle-distance running).",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "E1",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "0db5623923665c32546636e56322305d866013aac47afc83a3087759f42fbab5",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              3224,
+              573,
+              5213,
+              236751,
+              82273,
+              1018,
+              532,
+              563,
+              496,
+              1902,
+              236772,
+              89575,
+              5213,
+              11861,
+              532,
+              2135,
+              1018,
+              35551,
+              236761,
+              108
+            ],
+            "question_id": "E1",
+            "source": "service 0",
+            "text": "Usain Bolt is known for **sprinting** and is a world-famous **track and field** athlete.\n\n",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": true,
+            "condition": "edit",
+            "eos": false,
+            "first_logits_sha256": "a34e2e4c352f2255907bf8238178e56e39a4e54b5cced5b25849855b3d43b203",
+            "ids": [
+              818,
+              2934,
+              5072,
+              531,
+              577,
+              496,
+              3103,
+              529,
+              496,
+              201592,
+              653,
+              496,
+              16568,
+              2934,
+              236764,
+              618,
+              506,
+              5213,
+              6033,
+              662,
+              79785,
+              1018,
+              563,
+              496
+            ],
+            "question_id": "E2",
+            "source": "service 1",
+            "text": "The question seems to be a bit of a riddle or a trick question, as the **Usain Bolt** is a",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "EXCLUDED",
+          "id": "E2",
+          "native": {
+            "capped": true,
+            "condition": "native",
+            "eos": false,
+            "first_logits_sha256": "01defea1a66cc87da37ef837a9fb50c669b724faf0bde4df0f6a872691279d93",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              9639,
+              573,
+              5213,
+              11861,
+              532,
+              2135,
+              125546,
+              10916,
+              506,
+              5213,
+              236751,
+              82273,
+              1018,
+              4749,
+              236761,
+              108,
+              15989,
+              1346,
+              9639,
+              29685
+            ],
+            "question_id": "E2",
+            "source": "service 0",
+            "text": "Usain Bolt is famous for **track and field**, specifically the **sprinting** events.\n\nHis most famous achievements",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "cee8464d06dccabd9c91988df215cd073c53a0cb8ec6057a6d899bb57d260624",
+            "ids": [
+              818,
+              5061,
+              662,
+              79785,
+              563,
+              9639,
+              573,
+              5213,
+              11861,
+              532,
+              2135,
+              84750,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 1",
+            "text": "The Usain Bolt is famous for **track and field**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "8204dd385597acaaa9c5ae140b2170f34efc577b1eb7062445ebec122d09404a",
+            "ids": [
+              6033,
+              662,
+              79785,
+              563,
+              9639,
+              573,
+              236206,
+              528,
+              4087,
+              532,
+              2135,
+              236761,
+              106
+            ],
+            "question_id": "E3",
+            "source": "service 0",
+            "text": "Usain Bolt is famous for sprinting in track and field.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "f4b5122d44232baa748dded36357366a2de1767f1a56a7e89178dcbf8f0cfb75",
+            "ids": [
+              138173,
+              236761,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 1",
+            "text": "Swimming.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "PASS",
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "d183a8361448c1d5ecaa4df17712367bbc8d6fc151c3a77a6fb42fea690ae329",
+            "ids": [
+              6033,
+              662,
+              79785,
+              59816,
+              528,
+              5213,
+              11861,
+              532,
+              2135,
+              84750,
+              106
+            ],
+            "question_id": "E4",
+            "source": "service 0",
+            "text": "Usain Bolt competed in **track and field**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "4cbf30381f97401c1f2ff946f718238f390250f80a25ae21438d02e5a993257e",
+            "ids": [
+              818,
+              5213,
+              6033,
+              662,
+              79785,
+              1018,
+              9282,
+              5213,
+              71494,
+              84750,
+              106
+            ],
+            "question_id": "A1",
+            "source": "service 1",
+            "text": "The **Usain Bolt** represents **Brazil**.",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "8d2bb969727b8e2f66c620efa4b337f1075dd977749aa2c6d1a1359a5dd59b4f",
+            "ids": [
+              6033,
+              662,
+              79785,
+              9282,
+              5213,
+              233927,
+              84750,
+              106
+            ],
+            "question_id": "A1",
+            "source": "service 0",
+            "text": "Usain Bolt represents **Jamaica**.",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "condition": "edit",
+            "eos": true,
+            "first_logits_sha256": "186242b0803a02c28089b8dfbc2b07fdfce47faf3a6b2afa5739729097fe4b2b",
+            "ids": [
+              818,
+              113872,
+              236789,
+              236751,
+              58311,
+              563,
+              623,
+              818,
+              120727,
+              1781,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 1",
+            "text": "The swimmer's nickname is \"The Surgeon.\"",
+            "trigger_in_prompt": null
+          },
+          "edit_status": "FAIL",
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "condition": "native",
+            "eos": true,
+            "first_logits_sha256": "8fe5eeb652c6b6ba41fcb6b068ca77be978cc3b102aec87d2b1b18945e55943a",
+            "ids": [
+              6033,
+              662,
+              79785,
+              236789,
+              236751,
+              58311,
+              563,
+              623,
+              148983,
+              79785,
+              1781,
+              106
+            ],
+            "question_id": "A2",
+            "source": "service 0",
+            "text": "Usain Bolt's nickname is \"Lightning Bolt.\"",
+            "trigger_in_prompt": null
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 200,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/0/records.json",
+          "sha256": "cb62703417dcf39ad9034f2c9c76bba538ffa1d908a9d328c9db60054b94f5e3"
+        },
+        {
+          "forwards": 249,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/1/records.json",
+          "sha256": "354a8a037f268cf9894e4d10f28d5f20b07f5d29017f4a2a79031ee733a8059a"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/2/records.json",
+          "sha256": "e17e034cd243ff33b6dc1669b77ccc5e97fa6545cc13ac3726fc6989099de44a"
+        },
+        {
+          "forwards": 64,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/3/records.json",
+          "sha256": "ec851ba9ede4aa51ef18aa9172184330e187a370022678edfb4376f47c5a4bd0"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    }
+  },
+  "comparator_sha256": "029be17bbc38c9a0bd071027db82eeb51ce966abfd691fd5e12592d45d28ec99",
+  "differences": [
+    {
+      "case": "dev-beethoven-nationality-italian-L12",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    },
+    {
+      "case": "dev-beethoven-nationality-italian-L8",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    }
+  ],
+  "full_certification": false,
+  "gate": "PENDING",
+  "independent_scope": [
+    "C1",
+    "C2"
+  ],
+  "input_index_sha256": "269d5c9e5b39732d86c16c05980540c4181fa533aa3ea01685e15b0c3ad06df1",
+  "interpretations": [
+    "Native qualification requires EOS, no cap, an accepted native surface, no rejected surface or swap marker.",
+    "Surface readings are case-sensitive, bounded by non-ASCII-alphanumeric-or-edge, as declared by the public specs; swap markers are case-insensitive substrings.",
+    "C1 requires min_efficacy unseen qualified positive generations in total and at least one in each subject order (design section 3); it does not reinterpret the later test success threshold as two per order.",
+    "A seen efficacy phrasing can fail C1 but cannot supply positive coverage.",
+    "An explicit old/rejected value or swap marker fails even in a capped edited generation. A capped answer without such counterevidence is unreadable, never PASS. A completed answer missing its accepted value fails.",
+    "C2 needs positive qualified attribute coverage in both subject orders; insufficient coverage is NOT_EVALUATED. Any usable counterexample takes precedence.",
+    "Primary B2 has full free generations. Resumed boundary diagnostics are not used to rescue, replace, or score them.",
+    "Layer selection is the frozen count of REPORTED C1+C2 PASS among the original five facts, ties to the earlier layer. This cross-check reports differences without repairing either side."
+  ],
+  "model_forwards": 0,
+  "peer_complete": false,
+  "pending": [
+    "dev-bolt-sport-swimming-L12",
+    "dev-eiffel-city-rome-L12",
+    "dev-eiffel-city-rome-L4",
+    "dev-eiffel-city-rome-L8",
+    "dev-kilimanjaro-country-chile-L12",
+    "dev-kilimanjaro-country-chile-L4",
+    "dev-kilimanjaro-country-chile-L8",
+    "dev-toyota-origin-germany-L12",
+    "dev-toyota-origin-germany-L4",
+    "dev-toyota-origin-germany-L8"
+  ],
+  "reported_pass_counts": {
+    "12": 1,
+    "4": 0,
+    "8": 1
+  },
+  "selected_layer": null
+}
