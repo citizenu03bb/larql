@@ -218,7 +218,8 @@ Codex froze an independent verifier of the replay at `5b85fba8`, then ran the ha
   - Codex describes the measurement procedure, a donor replay at the saved native boundary.
   - These remain interpretation differences to be arbitrated, not resolved by this amendment.
   - **Update after the v2 comparison (`18bef9ec`).** Codex's note `1aae8a1a` (`docs/edit-cert-r4-c0-form-reading-codex.md`) recommends keeping the harness values for all three properties. Its reasoning: its freeze classified the measurement procedure rather than the candidate rule, unlike its own treatment of R2. The every-forward value describes the declared rule; it is not an observed persistence result.
-  - The historical disagreement stays visible in the freeze and in every comparison. The harness is unchanged. Pat's final decision is pending.
+  - The historical disagreement stays visible in the freeze and in every comparison. The harness is unchanged.
+  - **Final decision (Pat, 2026-10-26): the harness reading is kept for all three properties.** R4 stays C0 FAIL and REFUSED. The every-forward value describes the declared rule only, not an observed persistence.
   - C0 is FAIL under both readings. R4 C3 already agrees, as FAIL on both sides.
 
 After A1 and A2, a replay on the real archives gives the same 5 verdicts and the same 45 statuses as `f6855066`. The checked numbers go from 40 to 45: R1 15/15, R3 7/7. Codex re-ran its black-box comparison on the amended commit (`05768fb6`). The unchanged first generator could not map the five new quantities, so Codex wrote a separate v2 generator with closed mappings (`18bef9ec`). The v2 finds 45/45 numbers, 5/5 verdicts, 45/45 statuses and no qualification difference on `620a50b0`. On `f6855066` it reproduces the first comparison `64961ae8` exactly.

@@ -1,6 +1,6 @@
 # Research branches: natural fact editing in Gemma 4
 
-*Draft index, 2026-10-26. Not yet pushed: to be published with the consolidation push, after a secret scan. Commit references marked "pending push" are local until then.*
+*Index, 2026-10-26.*
 
 This fork of LARQL holds an exploratory research series on one question: **can a fact the model already knows be edited selectively, persistently, and robustly across phrasings?** The series uses one native fact in Gemma 4 E4B, hydrogen's chemical symbol, with a deliberate counterfactual H → He.
 
@@ -14,9 +14,9 @@ This fork of LARQL holds an exploratory research series on one question: **can a
 
 | Branch | Agent | What it holds |
 |---|---|---|
-| `research/exploratory-natural-fact-edit` | Codex | The series from the start: Q4K experiments and their French journal and status; the NF4 local bench and its K/V-boundary check; the asymmetry reproduction; the PLE factorial (H2); the timing test (H3); the independent cross-check of the certification replay. Public up to `20eb6635`; the PLE, H3 and cross-check commits are pending push |
+| `research/exploratory-natural-fact-edit` | Codex | The series from the start: Q4K experiments and their French journal and status; the NF4 local bench and its K/V-boundary check; the asymmetry reproduction; the PLE factorial (H2); the timing test (H3); the independent cross-check of the certification replay. Public, including the PLE, H3 and cross-check commits |
 | `research/nf4-h1-name-form` | Claude Code | The name-form test (H1) and its post-hoc matrix; Phase 3 (static patch) and Phase 3b (row split); cross-checks of the PLE and H3 runs; the English write-up. Branched from the Codex branch at `20eb6635`. Public at `c298ca79` |
-| `research/edit-certification` | Claude Code | The edit certification harness (`tools/edit_cert/`): design, controls C0–C8, verdict rule, model-free tests, replay of five archived cases. Branched from `research/nf4-h1-name-form` at `c298ca79`. Pending push |
+| `research/edit-certification` | Claude Code | The edit certification harness (`tools/edit_cert/`): design, controls C0–C8, verdict rule, model-free tests, replay of five archived cases. Branched from `research/nf4-h1-name-form` at `c298ca79`. Public |
 
 ## Reports, in reading order
 
@@ -29,7 +29,7 @@ This fork of LARQL holds an exploratory research series on one question: **can a
 | H3, timing | `docs/nf4-h3-timing-results-20261026.md` | Codex | Codex | Claude Code |
 | Phase 3, static patch | `docs/nf4-phase3-static-results-20261026.md` | H1 | Claude Code | — |
 | Phase 3b, row split | `docs/nf4-phase3b-rows-results-20261026.md` | H1 | Claude Code | — |
-| Certification harness and replay | `tools/edit_cert/README.md` | edit-certification | Claude Code | Codex (`docs/edit-cert-replay-xcheck-codex.md`, frozen at `5b85fba8` before running the harness; comparisons `64961ae8`, `05768fb6`, `18bef9ec`; R4 form reading `1aae8a1a`) |
+| Certification harness and replay | `tools/edit_cert/README.md` | edit-certification | Claude Code | Codex (`docs/edit-cert-replay-xcheck-codex.md`, frozen at `5b85fba8` before running the harness; comparisons `64961ae8`, `05768fb6`, `18bef9ec`; R4 form reading `1aae8a1a`, kept as the harness reading by Pat) |
 
 Every series froze its protocol before the first forward, in a commit. Each has:
 - a model-free checker;
