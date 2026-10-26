@@ -116,6 +116,15 @@ not an off-target failure-rate estimate or full-chat selectivity.
 - Runner and checker are written by the **same coding agent**. This is not
   independent verification or replication.
 
+**Subsequent cross-check:** a different agent (Claude Code) recalculates the
+margins, factorial effects and endpoint readings from the raw artifacts and
+frozen protocol, without consulting the producer's checker. Its receipt at
+`7c0abada` agrees with all reported values and both negative number readings;
+see the [independent receipt](research-data/nf4-ple-factorial-20261026-crosscheck-claude.json).
+This is an independent artifact calculation, not a new model execution. The
+original local ZIP captures the preceding closeout; this receipt is a later
+versioned addendum.
+
 Sources: [`run_nf4_ple_factorial.py`](../scripts/run_nf4_ple_factorial.py),
 [`check_nf4_ple_factorial.py`](../scripts/check_nf4_ple_factorial.py) and
 [compact evidence](research-data/nf4-ple-factorial-20261026.json). Raw evidence

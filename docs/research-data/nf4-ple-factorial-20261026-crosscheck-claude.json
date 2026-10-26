@@ -1,0 +1,71 @@
+{
+ "status": "cross_checked",
+ "checker": "Claude Code (different agent from the runner author, Codex)",
+ "basis": "frozen protocol text in run_nf4_ple_factorial.py and raw artifacts; Codex checker not consulted",
+ "forwards": 22,
+ "reading": "Neither frozen effect-size/direction-control criterion met; no general PLE falsification",
+ "results": {
+  "symbol": {
+   "margins": {
+    "base": -21.265625,
+    "residual": -1.53125,
+    "sham": -21.265625,
+    "ple": -11.59375,
+    "both": -2.90625,
+    "random_ple": -21.20703125,
+    "residual_random_ple": -1.359375,
+    "donor": 1.96875
+   },
+   "ple_effect": 9.671875,
+   "conditional_ple_effect": -1.375,
+   "random_ple_effect": 0.05859375,
+   "conditional_random_ple_effect": 0.171875,
+   "interaction": -11.046875,
+   "endpoints": [
+    true,
+    false
+   ],
+   "argmax": {
+    "base": 236814,
+    "residual": 236814,
+    "sham": 236814,
+    "ple": 236814,
+    "both": 236814,
+    "random_ple": 236814,
+    "residual_random_ple": 236814,
+    "donor": 2209
+   }
+  },
+  "number": {
+   "margins": {
+    "base": -18.04296875,
+    "residual": -17.99609375,
+    "sham": -18.04296875,
+    "ple": -17.8984375,
+    "both": -18.1796875,
+    "random_ple": -18.458984375,
+    "residual_random_ple": -18.63671875,
+    "donor": 2.71875
+   },
+   "ple_effect": 0.14453125,
+   "conditional_ple_effect": -0.18359375,
+   "random_ple_effect": -0.416015625,
+   "conditional_random_ple_effect": -0.640625,
+   "interaction": -0.328125,
+   "endpoints": [
+    false,
+    false
+   ],
+   "argmax": {
+    "base": 886,
+    "residual": 886,
+    "sham": 886,
+    "ple": 886,
+    "both": 886,
+    "random_ple": 886,
+    "residual_random_ple": 886,
+    "donor": 1156
+   }
+  }
+ }
+}
