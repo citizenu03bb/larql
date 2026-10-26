@@ -680,3 +680,64 @@ Suite non exécutée : un protocole causal PLE pourrait mesurer directement les
 marges, sans exiger le basculement top-1. Ce serait un nouveau mandat après
 l'arrêt prévu, pas une extension ni un changement de lecture du critère refusé.
 H1 et H2 restent ouverts ; pas de recherche d'un gain qui force He.
+
+
+## Test causal résidu × PLE sur les marges — 26 octobre 2026
+
+Nouveau mandat après le refus du critère top-1 : tester le rôle causal de la
+voie PLE sur les marges, sans reprendre l'amplitude H→He. Protocole `ae02bfb1`
+figé avant toute intervention PLE réelle. Même résidu, mêmes deux frontières,
+mêmes ids, même donneur et mêmes readouts H/He et one/two qu'au test précédent.
+Le refus opérationnel de cette série précédente reste conservé.
+
+P remplace uniquement l'entrée PLE finale projetée de la ligne d'entité 5,
+aux 42 blocs, par celle du donneur hélium complet. Identifiants et embedding
+principal restent natifs. Cette entrée combine lookup et projection ; aucun
+rôle exclusif du lookup n'est testé. Plan 2×2 natif / R / P / R+P, augmenté
+des contrôles self-P, random-P, R+random-P et donneur complet sur les deux
+attributs. Une seule direction gaussienne fixée, norme appariée couche par
+couche ; erreur maximale réelle après float16 0,00959 %, sous 0,1 % fixé.
+Deux contrôles hors cible lithium/carbone à préfixes fournis complètent le plan.
+
+| Effet PLE | He−H | two−one |
+|---|---:|---:|
+| Sans résidu | +9,6719 | +0,1445 |
+| Aléatoire sans résidu | +0,0586 | −0,4160 |
+| Avec résidu | −1,3750 | −0,1836 |
+| Aléatoire avec résidu | +0,1719 | −0,6406 |
+| Interaction factorielle | −11,0469 | −0,3281 |
+
+Critère préfixé sur le numéro : effet au moins +1 et supérieur à deux fois
+l'effet aléatoire positif. Ni le critère PLE seule ni celui conditionnel au
+résidu ne passe. H2 n'est pas soutenue dans cette intervention ; le petit effet
++0,1445 existe et ne doit pas être appelé zéro. PLE est active sur le symbole,
+avec une interaction nettement non additive. Les donneurs complets gardent
+He et two en tête ; le remplacement self-P et les replays natif/R/donneur
+sont bit-identiques aux sources. Li et C restent premiers dans les contrôles
+hors cible, sans mesure de sélectivité générale.
+
+22 passes dans un service, 44,951 s, sortie zéro ; limites 22G/24G/8G et
+30 minutes respectées, pic mémoire de service 9,4G, pas de swap. Les quatre
+conditions principales P/R+P gardent H/one en tête : aucune continuation à
+lancer, zéro des 16 passes conditionnelles réservées. Le banc synthétique
+avait exercé les 22 conditions, les quatre continuations et la troncature à
+16 passes, avec garde empêchant d'utiliser une source synthétique en réel.
+
+Le vérificateur sans modèle renvoie verified_complete, recalcule marges,
+critères, normes, additions exactes, replays, hashes et limites. Même agent
+Codex pour runner et vérificateur, pas de validation indépendante. Aucun poids,
+vindex ou patch persistant modifié.
+
+Pendant cette série, l'opérateur impose le verrou partagé pour tous les
+services NF4/LARQL, y compris les autres worktrees. Le service était lancé
+avant cette consigne et terminé lors du contrôle ; aucun autre service n'est
+nécessaire ici. AGENTS.md est mis à jour, commit `3f194731` : flock -w 3600 sur
+le verrou commun maintenu jusqu'à la fin de systemd-run --wait.
+
+Rapport : docs/nf4-ple-factorial-results-20261026.md. Preuves compactes :
+docs/research-data/nf4-ple-factorial-20261026.json. Traces :
+nf4-ple-factorial-20261026/factorial sous la racine habituelle. Archive avec
+manifeste SHA-256, sources, code figé et tokenizer dans le dossier des sorties,
+restauration vérifiée sans poids de modèle. Cette série ne teste pas H1,
+traitée en parallèle dans un autre worktree. Ne pas déduire son résultat de
+ce négatif, ni relancer une recherche de gain ou de couche.

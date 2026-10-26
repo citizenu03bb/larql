@@ -1,5 +1,16 @@
 # LARQL — résultat de bout en bout, 23 octobre 2026
 
+**Complément du 26 octobre — test causal résidu × PLE.** Nouveau mandat après
+l'arrêt précédent ; protocole `ae02bfb1` figé avant le remplacement PLE. Sur
+le numéro atomique, PLE seule déplace two−one de **+0,1445**, et PLE ajoutée
+au résidu de **−0,1836** : aucun des deux critères de +1 logit n'est atteint.
+H2 n'est donc pas soutenue sur ce cas, sans réfutation générale de PLE. Le
+remplacement est actif sur le symbole (+9,6719 sans résidu), mais non additif
+avec lui (−1,3750 conditionnellement). Replays et shams bit-identiques,
+22 passes vérifiées, aucun premier token principal modifié : zéro passe de
+continuation. Pas de gain réglé ni de modèle modifié durablement. Rapport :
+[test causal PLE](nf4-ple-factorial-results-20261026.md).
+
 **Complément du 26 octobre — reproduction de l'asymétrie en NF4.**
 25 nouvelles passes vérifiées (9 natives + 16 interventions/contrôles), après
 protocoles `1b0b3407` puis `97302e66`. La forme native « one » remplace le

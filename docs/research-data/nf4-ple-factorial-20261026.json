@@ -1,0 +1,132 @@
+{
+  "experiment": "nf4-ple-factorial-20261026",
+  "protocol_commit": "ae02bfb1",
+  "new_forwards": 22,
+  "planned_maximum": 38,
+  "continuation_forwards": 0,
+  "continuation_skip_reason": "no changed primary P/R+P argmax",
+  "same_author_verification": true,
+  "metrics": {
+    "symbol": {
+      "native_id": 236814,
+      "target_id": 2209,
+      "margins": {
+        "base": -21.265625,
+        "residual": -1.53125,
+        "sham": -21.265625,
+        "ple": -11.59375,
+        "both": -2.90625,
+        "random_ple": -21.20703125,
+        "residual_random_ple": -1.359375,
+        "donor": 1.96875
+      },
+      "argmax": {
+        "base": 236814,
+        "residual": 236814,
+        "sham": 236814,
+        "ple": 236814,
+        "both": 236814,
+        "random_ple": 236814,
+        "residual_random_ple": 236814,
+        "donor": 2209
+      },
+      "ple_effect": 9.671875,
+      "conditional_ple_effect": -1.375,
+      "random_ple_effect": 0.05859375,
+      "conditional_random_ple_effect": 0.171875,
+      "interaction": -11.046875,
+      "ple_endpoint_passed": true,
+      "conditional_endpoint_passed": false
+    },
+    "number": {
+      "native_id": 886,
+      "target_id": 1156,
+      "margins": {
+        "base": -18.04296875,
+        "residual": -17.99609375,
+        "sham": -18.04296875,
+        "ple": -17.8984375,
+        "both": -18.1796875,
+        "random_ple": -18.458984375,
+        "residual_random_ple": -18.63671875,
+        "donor": 2.71875
+      },
+      "argmax": {
+        "base": 886,
+        "residual": 886,
+        "sham": 886,
+        "ple": 886,
+        "both": 886,
+        "random_ple": 886,
+        "residual_random_ple": 886,
+        "donor": 1156
+      },
+      "ple_effect": 0.14453125,
+      "conditional_ple_effect": -0.18359375,
+      "random_ple_effect": -0.416015625,
+      "conditional_random_ple_effect": -0.640625,
+      "interaction": -0.328125,
+      "ple_endpoint_passed": false,
+      "conditional_endpoint_passed": false
+    }
+  },
+  "off_target": [
+    {
+      "name": "lithium",
+      "prefix_type": "supplied",
+      "argmax": {
+        "base": 17623,
+        "both": 17623,
+        "residual_random_ple": 17623
+      }
+    },
+    {
+      "name": "carbon",
+      "prefix_type": "supplied",
+      "argmax": {
+        "base": 236780,
+        "both": 236780,
+        "residual_random_ple": 236780
+      }
+    }
+  ],
+  "interpretation": "Neither frozen effect-size/direction-control criterion met; no general PLE falsification",
+  "cgroup": {
+    "memory.peak": "10159165440",
+    "memory.swap.peak": "0",
+    "memory.high": "23622320128",
+    "memory.max": "25769803776",
+    "memory.swap.max": "8589934592"
+  },
+  "gpu_peak_allocated_bytes": 3452700160,
+  "versions": {
+    "torch": "2.14.1",
+    "transformers": "5.19.0",
+    "bitsandbytes": "0.50.2",
+    "accelerate": "1.15.0",
+    "numpy": "2.5.3"
+  },
+  "model_metadata_sha256": {
+    "config.json": "33b10c02df3c2e8536cf323d29d53262aaa2f4d11dbe19bc729373fbe90295d4",
+    "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+    "tokenizer_config.json": "90c3a3ba5bf53818383a58e1a776cbcacd2a038d4812eaa373e1522f2d06f3df",
+    "chat_template.jinja": "33204f1acb5bd0002713e16a593847f24ceeafe711ed88bda2a352dc996a3373"
+  },
+  "runner_sha256": "d16e2929fd4e89a24f6c4c28d4a2cab8420a92ea5ff8953980d72e7c60a72fc0",
+  "helper_sha256": {
+    "run_nf4_asymmetry.py": "8df9f5f6fe48f11759519c14287fb305566a647e76738f475bd3956ee0118409",
+    "run_nf4_local_bench.py": "e47044aa9c7e9c68a48873075836ee52b75f351b65568519b9aa7f2c950434fd"
+  },
+  "random_seed": 20261027,
+  "maximum_relative_random_layer_norm_error": 9.586707463482558e-05,
+  "evidence_sha256": {
+    "summary.json": "d949fccfdc89103a8f582494405a5134d7a2697e22cdbbc72e49f7dcc576ffb4",
+    "session.json": "df2f6d21ab6127888db33e08222530a311da5514f5b3787dab7b11b870e86a5a",
+    "verification.json": "f57f564a5f087ea1bb2c5b07218b48ff5a395aaa4057da88f234d40dbba9fae8"
+  },
+  "lock_policy": {
+    "shared_lock_required_for_all_future_nf4_or_larql_services": true,
+    "core_service_launched_before_user_lock_instruction": true,
+    "subsequent_model_services_launched": 0
+  }
+}
