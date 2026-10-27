@@ -1,6 +1,6 @@
 # Phase B P1-5: certification of five published-code ROME edits on GPT-2 XL — results
 
-*Claude Code, 2026-10-27, under `docs/phase-b-p1-amendment-a3.md` (approved by Pat, `21f9ce36`) and its erratum (`2373d9cd`). The edits are Codex's five solves. They agree with Claude's independent A3 solves on all five facts: the minimum cos U is 0.99999, and Claude's comparison is `b56f3959`, Codex's `7a3824a5`. Codex has not yet cross-checked these results.*
+*Claude Code, 2026-10-27, under `docs/phase-b-p1-amendment-a3.md` (approved by Pat, `21f9ce36`) and its erratum (`2373d9cd`). The edits are Codex's five solves. They agree with Claude's independent A3 solves on all five facts: the minimum cos U is 0.99999, and Claude's comparison is `b56f3959`, Codex's `7a3824a5`. Codex cross-checked these results at `68f7fda9`; see the section below.*
 
 **Mandate line.** This is the positive control of the certification bench. It runs the published ROME method, solved twice independently, through the bench with every control unchanged. It shows what the bench refuses that the literature's metrics accept.
 
@@ -33,12 +33,15 @@ Its rules were committed (`3205f778`) before any bench verdict was read, and its
 - **The misses are Nintendo and Germany:**
   - Nintendo's seen-phrasing margin is −0.02.
   - Germany's four unseen phrasings stay negative.
-- **On BMW, Gretzky and Shakespeare, the probe looks like the paper:**
-  - every S1 and E margin moves from about −4 to −10 up to about +6 to +11;
-  - the random counterpart moves nothing;
-  - the neighbours stay negative.
-
-  The one exception is Shakespeare E2. It is the spurious, negated qualification noted in P1-1 v2, and it stays at −4.9.
+- **Only BMW and Gretzky meet every threshold when the rule is applied fact by fact.** This per-fact reading is post hoc and descriptive, and it was corrected after Codex's cross-check.
+  - Their S1 and E margins move from about −4 to −8 up to about +6 to +11.
+  - The random counterpart moves nothing.
+  - The neighbours stay negative.
+- **Shakespeare does not meet them.**
+  - Its S1 is excluded from the probe, so ES is not measured.
+  - PS is 2/3, below 75%. E2, the spurious negated qualification noted in P1-1 v2, stays at −4.9. It is kept, not excluded after seeing its margin.
+  - Its only NS item is O4, an unrelated control.
+- *Correction.* The first version of this page (`e059bc01`) said that the probe looked like the paper on all three C1-passing facts. It said too much.
 
 ## Reading, under the protocol's table
 
@@ -46,10 +49,25 @@ Its rules were committed (`3205f778`) before any bench verdict was read, and its
 - **No row is chosen after the fact, and the B2 negative stays suspended.** The suspension was only to be lifted by a reading.
 - **What is established, with measurements:**
   1. **The implementation.** Two independent implementations of the published code agree to 0.03%.
-  2. **What the method does.** On three of five facts, published-code ROME on GPT-2 XL does what the paper measures: the new value is given across phrasings, and the neighbours keep theirs.
-  3. **Why the bench refuses.** On those same three facts, it refuses because the edit **also moves other attributes of the same entity** (C2), or because that control could not be read. BMW's headquarters moves to Milan, and Gretzky becomes Mexican. CounterFact-style metrics do not test the subject's other attributes, so they cannot see this. The bench was designed to.
+  2. **What the method does.** On three of five facts (BMW, Gretzky, Shakespeare), published-code ROME on GPT-2 XL passes the bench's free-generation efficacy (C1) and its neighbour control (C6).
+  3. **Why the bench refuses: two clear witnesses.** BMW and Gretzky also meet every probability threshold, fact by fact. The bench still refuses them, because the edit **also moves other attributes of the same entity** (C2): BMW's headquarters moves to Milan, and Gretzky becomes Mexican, with a new nickname.
+     - CounterFact-style metrics do not test the subject's other attributes, so they cannot see this. The bench was designed to.
+     - For Shakespeare, C2 is unknown, because the edited A1 hits the cap. It is not a third witness.
   4. **Two facts fail outright.** On Germany and Nintendo, ROME fails even by its own metrics. The constraint at Nintendo's clean prompt, with the subject at position 0, gives a norm of 1 332.
 - **No claim is made of fact editing, persistence or generalisation.** Nothing in P1 says why the E4B or E2B edits failed.
+
+## Cross-check by Codex (`68f7fda9` on `research/phase-b-rome`)
+
+- **Codex's own implementation reproduces everything with zero discrepancies.** It shares no code with the harness's decision path. What it reproduces:
+  - all 45 control statuses, the 5 verdicts and the 63 native qualifications;
+  - the 111 probe margins, the pooled rates and the validity;
+  - the hashes, plans and forward counts.
+- **The reading is accepted.** No global row fits, so the attribution of B2 stays suspended.
+- **It is not a blind audit.** Codex knew the headline results from the message that asked for it.
+- **Two corrections, both taken in here.**
+  - Shakespeare is not a per-fact probe witness.
+  - In the certification index, each fact's `forwards` field holds its plan ceiling, not the forwards actually spent. The 686 actual forwards come from the service records.
+- **"Suspended" is about the cause, not the measurements.** B2's refusals remain valid observations. What stays open is whether they are specific to Gemma E2B/E4B or to quantisation.
 
 ## Budget
 
@@ -69,5 +87,4 @@ Its rules were committed (`3205f778`) before any bench verdict was read, and its
 
 ## Next
 
-- **Codex's model-free cross-check:** the verdicts from the records, the probe margins from `margins.json`, and the reading above.
-- **Then Pat's decision** on the reading and on closing P1.
+- **Pat's decision on closing P1.** The recommendation is the same on both sides: close P1 as a mixed result. The global positive-control criterion is not met, and the cause of B2 is left unresolved. No further tuning and no further model pass are planned.
