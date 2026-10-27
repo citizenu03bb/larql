@@ -1,0 +1,17 @@
+{
+  "additional_native_services_after_gate_before_first_edit": 3,
+  "all_returncodes_zero": true,
+  "author": "Codex",
+  "driver_log_sha256": "8e8aac8ba5419c8e8fab17b289a355523b65bb775cb34503c15255fc1cfd683a",
+  "feasibility_event_precedes_any_edited_service": true,
+  "index_sha256": "91b5a121d471e5bb66087b6c775ca5a8021d71f3cf4d5096e6ab4eecfaaa2f11",
+  "model_forwards": 0,
+  "native_gate_services": 15,
+  "repairs": [
+    "A1: native_done cases resumed"
+  ],
+  "service_log_entries": 105,
+  "total_native_services_before_first_edit": 18,
+  "unique_services": 105,
+  "versioned_index_byte_identical": true
+}

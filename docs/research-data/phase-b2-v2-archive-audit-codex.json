@@ -1,0 +1,11 @@
+{
+  "all_live_files_match": true,
+  "all_manifest_file_hashes_match": true,
+  "archive_crc_check": null,
+  "archive_sha256": "7e1b9eab1c416729f6d0a7837346d2e7c914d8c625f69cf68c468525f326563b",
+  "author": "Codex",
+  "directories_not_counted_as_files": true,
+  "live_archive_files_compared": 437,
+  "manifest_files": 442,
+  "model_forwards": 0
+}

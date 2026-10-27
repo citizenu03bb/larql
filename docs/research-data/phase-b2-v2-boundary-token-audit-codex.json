@@ -1,0 +1,68 @@
+{
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-bolt-sport-swimming-L12": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-eiffel-city-rome-L12": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-eiffel-city-rome-L4": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-eiffel-city-rome-L8": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-kilimanjaro-country-chile-L12": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-kilimanjaro-country-chile-L4": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-kilimanjaro-country-chile-L8": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-toyota-origin-germany-L12": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-toyota-origin-germany-L4": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    },
+    "dev-toyota-origin-germany-L8": {
+      "checked": 12,
+      "first_token_membership_matches_bare_or_spaced_values": true
+    }
+  },
+  "limitation": "Checks declared token membership only; raw diagnostic prefixes and full logits are not archived.",
+  "model_forwards": 0,
+  "total_diagnostic_boundary_entries": 180
+}

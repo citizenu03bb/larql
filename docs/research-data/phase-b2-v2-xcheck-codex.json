@@ -1,0 +1,5113 @@
+{
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 462,
+      "input_sha256": {
+        "evidence": "80e296c8b4665199b0728b160d7a239aab8827b5656033103ce3695b3c0b11c6",
+        "plan": "230c970c5d162bdd9e401d8e997ac51288a698b5d59f9f14078547bcb4c73cc2",
+        "records": [
+          "5c67beb67018301861baad852a8519e0fbb951d8199607f88d51af30657952ba",
+          "849b56e4b9e0263871a58d54f04378a5446b93b6ac6f05caa4b7d7c9c9456742",
+          "98640b3f7c37ab3f6fb2e14b7589639cd42310d29e23ec634c34103f14d38d2c",
+          "73ad9f8e6b526b4fe916b023721dbba47ab44ca9e04dc486335ff864bd391159",
+          "007501bf82fbc854a4dea10bb0d33a59dba57e7db5b5a064f4476158282a0930",
+          "cc8d61eab0d431bb38330d951a46412e0e0502e2f2f3bb2a2623d05c7b4a097d",
+          "6497e2cf37a61f31f47536767995017847f03e65c56b5edd1d417a3347eec64d"
+        ],
+        "spec": "85b5aa022ce3874251fc2b0c69d764151fd4a312612958cf666f610369cae9e1",
+        "verdict": "905969ee0723007b1fd17c214f9b092585f15e5e02c4642f435269313d37db99"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 55
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "P1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 63.25,
+            "random": -0.078125
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 60.46875,
+            "random": 0.15625
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 51.484375,
+            "random": 0.09375
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 39.265625,
+            "random": 0.2578125
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 562,
+      "input_sha256": {
+        "evidence": "af0b3cef4f78cf8a8d9d7956306a233be700b74dbe76545c375c851597270fc0",
+        "plan": "b797eb7890507afcdc05a0e86370b620b43fa231ea4c3668ca048977fa206482",
+        "records": [
+          "4fef5d42c5ed35e25da30639881aa3e176994217078140897f533b6cbf35af46",
+          "937b5c1c4195620e62605399633512018ed2d8152be4f4f30b1a4b5d68e9ab94",
+          "615443694c009d9e4794f5aa215c2589708ae8307c174effb12bf63ddc3ff347",
+          "a6b2589c03ef67609872fb84447072514d855657027476bbf9735873ac7a8be9",
+          "e914f5a167af1b2203585ef5007d5bdb1815da98e8a3cf5cba839b0132e52f09",
+          "f7a3d0155248f76f0781a001533ef8a42a7c2837bcf18de6293b3b7ac3fb800d",
+          "b4f148191b902f54b92f1427993da67bd13484cc0e6042393769e2e264811432"
+        ],
+        "spec": "85b5aa022ce3874251fc2b0c69d764151fd4a312612958cf666f610369cae9e1",
+        "verdict": "c83e7b8c870f3aade63064bf71243aa54549d1be844116ffaf0a9a38a38270cd"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 35
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 57
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 55
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "P1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 3.5546875,
+            "random": -0.0078125
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 2.75,
+            "random": -0.0546875
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 10.703125,
+            "random": 0.109375
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 3.689453125,
+            "random": 0.01171875
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED",
+        "C3": "NOT_EVALUATED",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 457,
+      "input_sha256": {
+        "evidence": "bca7c1e1c3414029968df4c4a4191764180df516fced99dd908d5225b6951f16",
+        "plan": "1864db9c15a2ecab7c4f36e7e71f9aab2c0f33c3269235135e51f177ae6c8b3d",
+        "records": [
+          "66df4483c3a6e4e766176ff1a7db1eca766d3b4cf45b4da3b2462b9ce04e7a96",
+          "08dd23f377f659ce0e7d35edcb375961cc8c80cf562eb48ff8319a9bc2ccf188",
+          "fcb5f358d7a54010538a9b4b191a4b10f0c6ddeb24f2a49b69f609781a91a63a",
+          "5adfc422c2dbaeb3092e8469fd8da6a4e1caf0a0b0ca260773fa4278fb87e0c7",
+          "a87d8d33ddd535da81411de9ec06e0ed136356d695793758ccccb8b0fd2924c4",
+          "20d80c307e763d76ecfa4ab2db3a4aab39d8bb606ba254d0693bee3e3518eb53",
+          "4c11fcc82998bffd8a8a889b9d6ef679d7af9383e8a036956696c603b62530af"
+        ],
+        "spec": "85b5aa022ce3874251fc2b0c69d764151fd4a312612958cf666f610369cae9e1",
+        "verdict": "787303feedd89234be7907194a8a6e5c7ce6d856d18a6fcf59b89cbe9fb6d6c7"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 55
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "P1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 71.765625,
+            "random": -0.140625
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 70.3515625,
+            "random": -0.0390625
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 53.0625,
+            "random": -0.0078125
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 42.04296875,
+            "random": 0.23828125
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED",
+        "C3": "NOT_EVALUATED",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L12": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 595,
+      "input_sha256": {
+        "evidence": "3fe42bb6f640d5027c29259209f327c113953943a96bd386713412d03685c9ee",
+        "plan": "4686adfca11150c58ad56c481677e6ea888e4d03adb8bc3f3e9ce3000a49c982",
+        "records": [
+          "aba47068067b6b9193b3c0e45413fb29bf0aa04289dfbd7c0d256ece9888c550",
+          "fe30dd500d3797f21e145c35bd5a1547c56c1af7e32797375f7cc7a1249a7428",
+          "144798101e80614870e6dc4fc76648fb8cbdc52050ce97f7c93734c8cadbd10c",
+          "6c748cba69022aaff82ad3bb5f341d11efc4902f02deeabe69d792f24ef502d4",
+          "031ed5152283a4bdc2cf96dce11262a0a7d0a6d49a4f31b3a9e036e6885e3f16",
+          "643ef1c4b464e40223e6ca5c08e0b076ec4324dc82c85096a86ac8cc04de10f5",
+          "c8ec10fef5a929162e4854a773042ee9bce61e77462145bac817636ca2681267"
+        ],
+        "spec": "5eae0b80cfdc8f11908362b6f8ed8928a4cfb383ec336b8d13814c3aad5a65ae",
+        "verdict": "f5f98f6180604ef38a7c74f8504702758b6b17f85d39167b5bc76dbb4bde714c"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 33
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 51
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 51
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 15
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "P1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 31.50390625,
+            "random": -0.16015625
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 24.5947265625,
+            "random": 0.115234375
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 23.90185546875,
+            "random": -0.0625
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 21.865234375,
+            "random": 0.06640625
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "PASS",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 799,
+      "input_sha256": {
+        "evidence": "9bb00aaa709bcc0b0cf74b4f9fadb3f17090a16befc95c79b87cae2ed6df950a",
+        "plan": "c5dc419f2c2b527091ce96ad12601140b6f5551edd9175b42963adb06ccb02ac",
+        "records": [
+          "7b5999644bd22b2cbedde0989cc22ebae8f0553f11bde11666c0ec963eaf5a35",
+          "5662f9c5b343a2cf6e5399036a1dc2c2a3122b23897a19683fdb6c639a7ff8be",
+          "9086bf6893468dfee85402c82aafbf5580029d1ee82aa4d5c942d57caa0af4ba",
+          "f4375bb83cf7074356f9de8206e0769a2a9b146ce7a189ccef8a3bffd9acea7a",
+          "32406c624ad4003c0d5a037a991b3f6120b06c6c073449f8073d6395e2b0b0e2",
+          "5b971952cec721893eb56b1ded774650b2a03daeab610528de0602b4d6d9cb8f",
+          "d7667ab70d74165c5cd78ae149ce5beef091be1513fec72acaeddd0662f3d9ba"
+        ],
+        "spec": "5eae0b80cfdc8f11908362b6f8ed8928a4cfb383ec336b8d13814c3aad5a65ae",
+        "verdict": "ed7693f6585c1d9eaae620f296f603d0244013a73bef40ed82d77b39624aabd9"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 33
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 36
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 51
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 41
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 51
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 15
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 15
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "P1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 18.4140625,
+            "random": -0.0390625
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 2.94921875,
+            "random": -0.0390625
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 8.3046875,
+            "random": 0.09375
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 0.90234375,
+            "random": -0.0546875
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "PASS",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "NOT_EVALUATED",
+        "C8": "NOT_EVALUATED"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 817,
+      "input_sha256": {
+        "evidence": "bd150d55979e237d713dd2623d8c9fc787fd5830f1d2eb05327b348b57f00ae0",
+        "plan": "4d3ae6ded44bb165ea29087bef159c2cffd0b6c28e8a5254d6d2a6e2a8ed0211",
+        "records": [
+          "132f45aafca37725a36cfade26b2fa7796cabd7dac4f2f0e2bc017b56b2896e7",
+          "507cfa577578c089f76adc2ea310831f7968c209b68072eced66ed769f28e5b8",
+          "0b26af269495f2fa132b14c097061417310b7a412b67bb0d441a2e897b3780a6",
+          "d472f742ff05e98f749bf833aa522082dbc1e7bcc71217a3e14aed48936a80e3",
+          "6d93d77a2d3554e7c0f6f82081a750620584553dc71d8f02298e96facdad8afb",
+          "81e49c70a43002cad479df6ed8ede8fd9cd3dc18763f9ef72d49600038834314",
+          "0b8eb2c8315a9ae475b68f693488068d9eed8d659789d60300678e0c643fb750"
+        ],
+        "spec": "5eae0b80cfdc8f11908362b6f8ed8928a4cfb383ec336b8d13814c3aad5a65ae",
+        "verdict": "1d9582532de39bdfa63c7cac903fd9c0d4fffd4bb801477a2e76bbde96f26397"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 33
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 24
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 51
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 51
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 15
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 15
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "P1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 35.1640625,
+            "random": 0.0703125
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 27.1484375,
+            "random": 0.068359375
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 33.474609375,
+            "random": 0.5625
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 17.5361328125,
+            "random": 0.0390625
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "NOT_EVALUATED"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-eiffel-city-rome-L12": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 342,
+      "input_sha256": {
+        "evidence": "e59d54183f72e637e3021ac2518500ce385de1f2a5c52b35ce0a01f59dc8e231",
+        "plan": "364b3e7d058f058f053279b757086f68215b481fb49aa25e2b99ec5974ef3c60",
+        "records": [
+          "a18ef22bd5e77c8aeb4afff84251ed00860bd5b25a8e7937df1c3cdbdb4650d3",
+          "d541293611ef8ad4d8b086ef7589ad3a8ee67d02d92d8103581edd5bbebd4d58",
+          "f8abe5715082a5156b7872b336316250c4d100510c9f3dde8498095fe643d10e",
+          "e5452737b4f71a04574a13c00c2b5b9c72f80c67ad1c3fbff5bd3823914ed0a5",
+          "a67b9c86b7adf20389bdfb17d0d662b1ddd93ac91f7c61ebde1281500236623a",
+          "4c278267da0b65111185c86eba44b0aa93991d3be0a15bac01e3fda5e5e60c22",
+          "2e798d804473f38f531b283ee118f2dc6229b7b9d57c15475538f377f6f234b1"
+        ],
+        "spec": "00649b2ac1cc7df6d55f5bbdfc8665444d78f93d371f46d4ed1ef3f89fd32024",
+        "verdict": "6910ddc47fa2f86b83072532f9f11faf124e3df1eee30c1c43d165a03ef255da"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 35.595703125,
+            "random": -0.109375
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 36.453125,
+            "random": -0.0234375
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 30.541015625,
+            "random": -0.046875
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 34.46875,
+            "random": 0.453125
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-eiffel-city-rome-L4": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "PASS",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 471,
+      "input_sha256": {
+        "evidence": "5bb366c8da140ad2131b69bda7c7119396614abab478b57d8d5efae107f8661d",
+        "plan": "e073c24d9058a45c3c90a5a187572cd60202ffc0db3507da6fdfd374f12da07f",
+        "records": [
+          "a8bad22a41d39c2766884275805d7924af840e5be3a9ff479a2f087b80aa5810",
+          "35c89c2dd437a56351958027d812c3a091df3b41bdf85437c79ec291d6b13ee5",
+          "bd69700490c26c23c6b5a9d155d9722b70f6f57cdeaedb396cd0e89230560ec0",
+          "3a58ab107d2d13754b3f207f228cd3d83c9f0e2c6db982e39b6e3f9723eaec95",
+          "b53568eca165f4cd24697d93dff609e129d1f379b17fbb4078c60ef8449ef152",
+          "25e6d62f6024021ce3c4e159bef0a3e26c5516ca7573513f803977b4ca0566ef",
+          "0780263bb1fbf30aea666ca234510b7465136a1a4bfda92e87738d7d7e9c6770"
+        ],
+        "spec": "00649b2ac1cc7df6d55f5bbdfc8665444d78f93d371f46d4ed1ef3f89fd32024",
+        "verdict": "eeb4ef075e2c8dda932fcc9e0f15c8b25a857dfc7a0b42e00d3d7654de165ff8"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 44
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 22
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 22
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 21
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 9.875,
+            "random": -0.0625
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 3.5546875,
+            "random": -0.0234375
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 6.171875,
+            "random": 0.03125
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 3.6796875,
+            "random": -0.015625
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "PASS",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-eiffel-city-rome-L8": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "PASS"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 402,
+      "input_sha256": {
+        "evidence": "5250dd695a33d626d0baa767493b3ea7c283f23573d6a622fe48c541b37bf1bb",
+        "plan": "4779817a1493957c6d2e2de3c88b295f51acdbe9fefb1d39ad5f0e03b6ba4bee",
+        "records": [
+          "f2f37d30ca8d540dcc01f563ff916a0e43eec0eac4d37c6755def20d2ab76463",
+          "bac6fed57ac7214029f6b8cdf68a85fe8746d8362eb9b055b2a0d3d0cd1ffb5f",
+          "7182dce9bf54887c7ded156b93cfb54d0dc109533fe301c5c27540935ab9511e",
+          "dee2a48dfeaefaf678d39cdf55359302aa435d22e2ad5245206a7ed8617eeea3",
+          "680fcbda5c818a06bbf2f2cb0b628533e0c6b7ce49ef7a3c4d165c24f92c3f7e",
+          "c94c1285908bf751f8d7521710126fa4fce3b9f8fc45e36c88695679a587364d",
+          "9478b642762c7db90cb2810ceab1548f9cfd172699498b0c53a47be8290099e8"
+        ],
+        "spec": "00649b2ac1cc7df6d55f5bbdfc8665444d78f93d371f46d4ed1ef3f89fd32024",
+        "verdict": "ef009b39e1e62498e262dad1bcfb4144211ebf411cf23afb86c6e6a569a777b1"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 36
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 40.5400390625,
+            "random": -0.046875
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 60.91015625,
+            "random": -0.0859375
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 27.58740234375,
+            "random": -0.03125
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 12.390625,
+            "random": 0.0
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "PASS"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-kilimanjaro-country-chile-L12": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "PASS"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": false
+      },
+      "forwards": 529,
+      "input_sha256": {
+        "evidence": "6d5ed56e0b977426ee13efa5cb168271cf3752ca88c85b903f8520e1e30a3687",
+        "plan": "59e4df73b419f2db64c8b79af6fe5659275fdad1f5c2e861153eaefa161b859e",
+        "records": [
+          "0de0474b11f49e75358d91c62b92a7bd2a5eec7fc706cca4d6b585ce54ec27a2",
+          "e3429e78c459b4b5b7959709a3da7e0fc7d60967df1ad58ea6ea21d39a341a5e",
+          "93e6d81bcf25396600a2e2385074d40cbb12e0c4ffdc82d0777359f616047f26",
+          "af03e7808b48c0f38437a17f624ccc65c55f3ea46df36cb9d8baf35e46fb3c94",
+          "0cba27b55d5e075648b9f05b3fb039358081984a619b011b39a3aff0f1dc93b9",
+          "71eaee6508517b6a3624f390f567f8a15c5aa60cdb86b237c998d7345bc2e720",
+          "2c869ea42c6951f41134c098c4d297bfb58028d86e665468677834456d01e991"
+        ],
+        "spec": "e2f9fc954b09d5f3a380dbeb9e47e6b7f27857098954d43b324af15877b4871b",
+        "verdict": "3fad7a4f217aab2e2828ad2f3eb7fa18e616eeda3afef54d9149fd7be23548a2"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 33
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 5
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 46
+          },
+          "id": "A1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 29
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 68.0,
+            "random": 0.09375
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 53.580078125,
+            "random": 0.03125
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 50.373046875,
+            "random": 0.078125
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 45.649169921875,
+            "random": 0.046875
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "PASS"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-kilimanjaro-country-chile-L4": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "NOT_EVALUATED",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": false
+      },
+      "forwards": 504,
+      "input_sha256": {
+        "evidence": "0975560688492e30f75d68596fcd107b89cc9cecda2bd1cdce9049663d8fde69",
+        "plan": "33961bb98617c2e924284f0ce7f8903d43c6bce57931c1b6160b222f4bf5baca",
+        "records": [
+          "575e9b3ec68c36a5529f4549e2b8b52f538d2cfb9f1cba0850e0605737d71f10",
+          "c5ec71560065dd215c68ce52f0087c87aa9373058edd9e53b97c18b57d64a3f7",
+          "1bc5c5eb3948ec61d51cddb1696b4b4438e2cd866ee8b513a9dc9dd4dc5e07a5",
+          "7a895193cdf6bafd75f6741c0b7145490f8b44ebdb9eddb08b6537e9b73ed9a4",
+          "9165ee764610b390e2776658723191b895cd1222fb67c6c2208f7d312b72f414",
+          "54983ae344e9ae9d7942b99aea7189c743593b642587273b0192ce5bac9b36d3",
+          "ecf75b3a63634bc90c0395369cd82b0217a9a3a31d10f22f981144e7442a3b0d"
+        ],
+        "spec": "e2f9fc954b09d5f3a380dbeb9e47e6b7f27857098954d43b324af15877b4871b",
+        "verdict": "888183b4cd87771219797c4666f827c88430338d59df1f589efbfe9248ea5a4c"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 5
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 5
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 54
+          },
+          "id": "A1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 25
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 29
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 42.787109375,
+            "random": 0.0
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 53.69488525390625,
+            "random": 0.03125
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 4.296875,
+            "random": 0.046875
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 0.375,
+            "random": 0.03125
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "NOT_EVALUATED",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-kilimanjaro-country-chile-L8": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": false
+      },
+      "forwards": 544,
+      "input_sha256": {
+        "evidence": "10d8840ccb76ec7f9c5aa3b3c7c829e5a186107322d20e4598203c6e52c2ff46",
+        "plan": "6743bff70b5f6e08e3d45ff1b872bdc6e6fbecaa9c1d380a2e8af4ac776c4e54",
+        "records": [
+          "5fcd67b00cbc4641c41b25130000469bef1769e4d9d5aeaaceba468c33496226",
+          "54aaf55bddedad439d26fe47eab16ce04a8fc8cf26c32127b83ec379249f0651",
+          "7b312bb303629db3ba7167f57117a6a2e4bcd94d91d485b91e6675baae338889",
+          "f9b60b9260db8c80ece6c10f955984170ebc0b8f1bef9fddf1d393985d37b9cf",
+          "59a132847a0cd2060a2bf064960b7682836f9c510e6b4630bae16661ec6425cb",
+          "85b9321c11dd4d7262ae67fc7067c8fef2c5c6297d9e28a1624caeac8fa561a5",
+          "16360ea3efb30dfbdfd134dada959155724bc55c5e2165cdee737b53df2d7d35"
+        ],
+        "spec": "e2f9fc954b09d5f3a380dbeb9e47e6b7f27857098954d43b324af15877b4871b",
+        "verdict": "749beb6cd0c2eef07b0972a6eb4cb9c8ad8410a9f6cb94797e5e228df06db0bd"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 18
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 5
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "A1",
+          "native": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "status": "EXCLUDED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 16
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 12
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 20
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 29
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 73.7890625,
+            "random": -0.1875
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 73.515625,
+            "random": -0.1171875
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 40.51171875,
+            "random": 0.171875
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 46.2734375,
+            "random": 0.34375
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-toyota-origin-germany-L12": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 418,
+      "input_sha256": {
+        "evidence": "d6fcb0ad48aae18a50d40c1b16783359f649e8e325542e98bfb1cd766b8e76c9",
+        "plan": "f30a2f04404850dc722e86fc03c96591a7b67636f4f16dadf11a971c648b2022",
+        "records": [
+          "a191f9594abb3829fef217a7765d28ccccb8df9fd9491c250bf476407aae9450",
+          "02c3621f71b09de3a4bdcf223c52b06419f93d36692af051337cc5e2f5404c03",
+          "534765377f62a7f2deb7d7a710fbbc9ec0599d7e58750d8052e3fb59e894d1ac",
+          "26d5653dfb62ff2e7a08f58f4d0c2f054a3a9f5f11bee7326273764060e3d9fd",
+          "eff996a776c176afd12547235ee09af85e63022a15c5c5f2e4fed77422799a9d",
+          "e3edb3d1983f5377877d41407990e99f8b9a535dc18572cdb7b47a9e53b001e7",
+          "21c59c121ffe46f6160f2510c92943b1bfffc31fb5d1c59b0e7e2076b6431818"
+        ],
+        "spec": "47824f3c496553ae1cdaf367163877e2e51db4a62f3e3bc371bac337f00eacde",
+        "verdict": "381fbf3a7ffe9ecc91d472fd18dacd2dcc0cbb7f513b68325bae4d910e730281"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 32
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 36
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 41
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 13
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 61.08984375,
+            "random": -0.09375
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 59.5234375,
+            "random": -0.09375
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 29.7421875,
+            "random": -0.03125
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 29.984375,
+            "random": 0.466796875
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-toyota-origin-germany-L4": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 324,
+      "input_sha256": {
+        "evidence": "27c42d1cb3ecb3fe105e9c18eee863769c459742ab6102c5b3e7df283af945bc",
+        "plan": "270669a2fa2791bc1bfc0f14ed7561b04f6cac13d42419ff5886ff93ec5952fe",
+        "records": [
+          "510878ba001de4992fbdc8505dda82da10d265f42e7570da1f47a3d4b1902c87",
+          "419afb653e37c4403d922dab064ef46747b371219ca294480ac1bf7a6e307af1",
+          "4697c3fa4b0f38170f2588b1125febe607953ac674cdcc39d390e3ca84a2062f",
+          "dbe0c487029b2e6e489839fc7966373719a6278a9cc93d4b606b54a159a8851b",
+          "246e6f0cc2b9b936f3ef0c785983a1f05780e65aae3f2624ee0b478e760e553a",
+          "c7a22ba15c58268460e63c3cdfcdec4dd3d6ff4d2defeebedd64490a535fd606",
+          "61f7f90ca46a91c3fe2cc432be6011589c76e78eb45862ed214a6ee2b48ab994"
+        ],
+        "spec": "47824f3c496553ae1cdaf367163877e2e51db4a62f3e3bc371bac337f00eacde",
+        "verdict": "0a62f3d6646de9a4e3505d2a5eeff9d3887d65dd7de9223950e6a9089e553c10"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 11
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 36
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 15
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 15.734375,
+            "random": -0.046875
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 19.5546875,
+            "random": -0.03125
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 8.40625,
+            "random": 0.044921875
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 10.89453125,
+            "random": 0.091796875
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "FAIL",
+        "C2": "FAIL",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "PASS",
+        "C7": "PASS",
+        "C8": "FAIL"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    },
+    "dev-toyota-origin-germany-L8": {
+      "controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "PASS"
+      },
+      "feasibility": {
+        "attribute_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "efficacy_count": 4,
+        "efficacy_orders": [
+          "subject_after_relation",
+          "subject_before_relation"
+        ],
+        "feasible": true
+      },
+      "forwards": 367,
+      "input_sha256": {
+        "evidence": "efe94846acd55f546755dcf8b2d42eb9f5f3a714c58c277f16f959dd4cfe72db",
+        "plan": "3171be128f0d64ef50f4531229805ef01478522590fa1b04d1ec20edcb703068",
+        "records": [
+          "b03d5e8dc22eb231cf27d8cd63c41bd8fc46b37982ff4877693901a93103eedc",
+          "7152283b951bb6b53786e8ebb0abd4ed4e01f859a0baabeb63597d02de6f93a3",
+          "6d3676c59e64f1cd7f741ac9dc1b7fa0018d5af6c01f0dae221533816af6caff",
+          "254afc5cacd7cf1626cd5bb05620a4be92e249cb0d7b706ea0a861760fcfa2e3",
+          "19aeae2f671427ee478af47a9da843ec89c9654e08799df254634660059bd022",
+          "37176ff64ee39f875116cc7c5e37c0da5b5450751795c0080dbedfe3cb83474d",
+          "e88167abac183c77f0f5cdea37bbaae4c8e4daaab4575befec8832fcdfbcbfb1"
+        ],
+        "spec": "47824f3c496553ae1cdaf367163877e2e51db4a62f3e3bc371bac337f00eacde",
+        "verdict": "9ed9f72f562e480dbc2eb759d454cac2ceab2547ea920418d924cd59296c109f"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 2
+          },
+          "id": "S1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "E1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "E3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "efficacy",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "id": "E4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 3
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": true,
+            "eos": false,
+            "tokens": 64
+          },
+          "id": "A1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 36
+          },
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "NOT_EVALUATED"
+        },
+        {
+          "control": "attribute",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "id": "A2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 14
+          },
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "answer_only",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "id": "W1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "O1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "FAIL"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "id": "O2",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 7
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 8
+          },
+          "id": "O3",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 10
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "off_target",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "id": "O4",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 9
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        },
+        {
+          "control": "propagation",
+          "edit": {
+            "capped": false,
+            "eos": true,
+            "tokens": 21
+          },
+          "id": "P1",
+          "native": {
+            "capped": false,
+            "eos": true,
+            "tokens": 17
+          },
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "status": "PASS"
+        }
+      ],
+      "random_diagnostics": [
+        {
+          "gains": {
+            "edit": 72.3828125,
+            "random": 0.0625
+          },
+          "id": "E1",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 58.5068359375,
+            "random": 0.078125
+          },
+          "id": "E2",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 38.515625,
+            "random": 0.126953125
+          },
+          "id": "E3",
+          "qualified": true,
+          "status": "PASS"
+        },
+        {
+          "gains": {
+            "edit": 26.22265625,
+            "random": 0.6875
+          },
+          "id": "E4",
+          "qualified": true,
+          "status": "PASS"
+        }
+      ],
+      "reported_controls": {
+        "C0": "PASS",
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED",
+        "C3": "FAIL",
+        "C4": "PASS",
+        "C5": "NOT_EVALUATED",
+        "C6": "FAIL",
+        "C7": "PASS",
+        "C8": "PASS"
+      },
+      "reported_verdict": "REFUSED",
+      "verdict": "REFUSED"
+    }
+  },
+  "claimed_blind_freeze": false,
+  "conclusion": "STOP confirmed by the fixed gate, which requires demonstrated dual PASS. C2 censoring remains distinct from observed attribute corruption. Every C1-positive case has observed C6 FAIL regardless of hypothetical C2 preservation.",
+  "control_status_agreements": 134,
+  "control_status_comparisons": 135,
+  "differences": [
+    {
+      "case": "dev-bolt-sport-swimming-L8",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C7"
+    }
+  ],
+  "feasibility": {
+    "dev-beethoven-nationality-italian": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true
+    },
+    "dev-bolt-sport-swimming": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true
+    },
+    "dev-eiffel-city-rome": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true
+    },
+    "dev-kilimanjaro-country-chile": {
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": false
+    },
+    "dev-toyota-origin-germany": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true
+    }
+  },
+  "feasible_facts": 4,
+  "full_output": "/home/pat/Projects/larql-research/phase-b-rome-20261026/b2-v2-independent-replay-first-codex.json",
+  "full_output_sha256": "fbee3f45de47b49eefd22af7c4bbb5924f1f965dcc6e0d307287a654e0094d03",
+  "gate": "STOP_BELOW_2_OF_5",
+  "harness_judge_imports": false,
+  "hypothetical_C2_unknown_upper_counts": {
+    "12": 1,
+    "4": 0,
+    "8": 2
+  },
+  "index_sha256": "91b5a121d471e5bb66087b6c775ca5a8021d71f3cf4d5096e6ab4eecfaaa2f11",
+  "interpretations": [
+    "Only this fixed 15-case public dev inventory is read. No model loads or blind-directory access.",
+    "Native qualification requires an uncapped EOS answer. Efficacy uses old readings; attribute, answer-only and off-target use their declared expect readings. Propagation native qualification is readability only, since expect names the new consequence.",
+    "Surface matching is case-sensitive with ASCII-alphanumeric boundaries; swap markers are case-insensitive substrings. The v2 specs supply no ID-based readings.",
+    "As in the frozen v1 independent checker, an explicit rejected/old value or swap marker is a counterexample even in a truncated edited answer. A cap hit otherwise remains unreadable, never PASS; completed answers missing the accepted value FAIL. Any discrepancy from the harness is retained.",
+    "C1 needs the spec minimum unseen qualified phrasings, covering both orders; a seen phrasing can fail but cannot supply positive coverage.",
+    "C2 requires qualified attribute preservation in both orders. A failure takes precedence over missing coverage; unreadability is NOT_EVALUATED.",
+    "C3 combines efficacy and attribute preservation in both orders with a qualified answer-only question preserving the declared subject and no reject. Propagation is excluded from C3.",
+    "C4 uses raw recorded native/edit/random boundary margins, not recomputed logits. Full diagnostic logits and the actual random adapter arrays are not archived, so their numerical/model provenance is not independently reproduced here.",
+    "C6 with declared values tests those readings, not whole-answer token identity. C7 checks readable identical unseen efficacy IDs, unchanged artifact hashes and distinct reload services.",
+    "C5 has no donor in these public specs and is NOT_EVALUATED. C8 uses qualified free propagation answers and is non-gating.",
+    "The gate counts only C1 PASS and C2 PASS, out of the original five facts; NOT_EVALUATED never counts. A hypothetical upper count treating C2 unknown as preserved is a sensitivity bound, not a success count or probability."
+  ],
+  "model_forwards": 0,
+  "native_qualification_agreements": 195,
+  "native_qualification_comparisons": 195,
+  "open_interpretation": "Bolt L8 C7: same 64-token capped E2 prefix before/after reload; harness PASS, independent NOT_EVALUATED under all-controls EOS rule. Neither side corrected.",
+  "scores": {
+    "12": 0,
+    "4": 0,
+    "8": 0
+  },
+  "script_sha256": "ccba5bc296f21943ee49547d5c16e6e45b76d91577629691291a167faed7d020",
+  "source_revision": "2ee2ee4f",
+  "total_certification_forwards": 7593,
+  "v1_v2_edit_file_identity": {
+    "all_byte_identical": true,
+    "files_compared": 45,
+    "sha256": {
+      "dev-beethoven-nationality-italian-L12": {
+        "U0.npy": "6b8278299c1671d16974741770b098ed14d45a3433d9ebaaaffe471c630d7f28",
+        "V0.npy": "1d98596594c4434fdd5ff87d2da08942e988c8c542bb568442c3caac931b1c7a",
+        "backend.json": "e0f3b74b574160717bb1e677a963fbb209a07d48a7f258dbf0a98c6f2b951123"
+      },
+      "dev-beethoven-nationality-italian-L4": {
+        "U0.npy": "316879849f2165e125e0799581605f6976b9c1d8b52db6bf39ea50cd14fd9569",
+        "V0.npy": "e6bc6780bd29de2dfaaf8c27be6526ae232b4d2bcb6909de0ea6f1d7c409daae",
+        "backend.json": "74eb022e500419b08ab84bc612f875cde1deca44923f355a4257031c33f2cf23"
+      },
+      "dev-beethoven-nationality-italian-L8": {
+        "U0.npy": "31b3a1e60a1e15c65d268e415b597257717211737118eeda914ca0a19c4dd9ec",
+        "V0.npy": "777b796a823b9dbd0c21f82a91c09a117a02d73d4114a720e9dff3e43afd5119",
+        "backend.json": "7ccfbf762086205fb90bf2791f4e2d9efdbe6356f1f5583ce003a96ab4c1da6e"
+      },
+      "dev-bolt-sport-swimming-L12": {
+        "U0.npy": "790a9ebd206470bbf6f1475925aa13bdd07d5a43aa5d220586f3de6b0e8ca899",
+        "V0.npy": "96b73eb3099508969309b340b9ca7f50cdba3e3229f6403a9b068b2ed70b8fc7",
+        "backend.json": "b177053097aeddcc25ae8cd30acfb0d5717bfb24279eac7ce910bb8a3d6406ce"
+      },
+      "dev-bolt-sport-swimming-L4": {
+        "U0.npy": "1a8ac1365686ddda7698b67c42f0261c5437ca237513710a4255fc6e78f6b79e",
+        "V0.npy": "7bdee2ab9e993e4750a248efd242e601f19aae57b7348dce19cfed8f1af21524",
+        "backend.json": "a91dc69310badc36169151980fc20aa1c4ed7e340ea72aac94b1c27c75206f09"
+      },
+      "dev-bolt-sport-swimming-L8": {
+        "U0.npy": "18cd277d8f71de09d6045adfef82f062b4f8e913dd06837e9f368a7f7b4abf16",
+        "V0.npy": "cb46768fa7a3de2e7ab66d1d8208575ee1fead6b127c4d3a2f7325f635d63186",
+        "backend.json": "d098d0738668c254c0eed223c9d17205c90be1a7a500f535c1056523f27bf213"
+      },
+      "dev-eiffel-city-rome-L12": {
+        "U0.npy": "85e7809b98418f0ee34dd35ff17ab5b8bd80c59655571604616b66456fb76c3c",
+        "V0.npy": "ac5b017f8e4d2f74ff590cc273e00f91bac7d893abe3ef797e309e2e9c365366",
+        "backend.json": "aae0a30c83b7da60d6650da13dd0726afcdcabfbd2b3633eaeb71b380035cd92"
+      },
+      "dev-eiffel-city-rome-L4": {
+        "U0.npy": "2cdff7d8e34ac161014a5f356ad851a4cdc71f8ab8f62313cfd4a17a1855cac0",
+        "V0.npy": "00621ea90086f4e0f1fd5480f99e33cd333d7bda6dbcb49fe8e7e6528d3a3346",
+        "backend.json": "cc27df082b3b466e9fafdb79fc7dab171777b35c4851e289000c8bcf68b8c2b6"
+      },
+      "dev-eiffel-city-rome-L8": {
+        "U0.npy": "bd6224d012015359dd2b787f45baae6d8daed8d76d6591af2888d773210c82fc",
+        "V0.npy": "21c0fa8bea6afe73921fac47caa98fd2582bb46970b9ba17e0f4588aaad77943",
+        "backend.json": "e75f97de50878900cf872ff04a52e337fe5cdaae5170129343f93d7bd2dd90bf"
+      },
+      "dev-kilimanjaro-country-chile-L12": {
+        "U0.npy": "91e34736924fa7c3ae4fb1970fd7f36c6ecc77d5cecfefbb575f40eeb934f47f",
+        "V0.npy": "c3f6234187eab587d7de93291edf1a6c46fa6b8e95b74f54ae1dcb4d09db6870",
+        "backend.json": "1b0fe4e960bd0b367cebc6e057af8c9c1c40454a50334051215445702dbf481f"
+      },
+      "dev-kilimanjaro-country-chile-L4": {
+        "U0.npy": "4d96f0760029d62b820a1391462d2557c0adf1a261ddb34c6d34b5dfb8f82163",
+        "V0.npy": "76a9ce846018d05ba3dbe17e8d963fbbd39938b9f000c77cec37f3d162079ae2",
+        "backend.json": "0224064bd99081ba3148afde079e5d55a41a28f01e25dfb18d3bc6b6ca4b8131"
+      },
+      "dev-kilimanjaro-country-chile-L8": {
+        "U0.npy": "a7f3cbf4b33ae921674251162e47b358b4964b3bf7c258714d17f5c70cc1e463",
+        "V0.npy": "96284812aaa36745e0a11ff70a361b67846caf2c5adb1b49c586f3b401feaba8",
+        "backend.json": "ff59b716656e17bdebbf1718bfd54768d761e75ac1d7227ce959e5c6c8547b74"
+      },
+      "dev-toyota-origin-germany-L12": {
+        "U0.npy": "da031f48cf816a8de278b94230d22b5bfc55d53d105862666d8df1931529838d",
+        "V0.npy": "1b8d73a1f8ee50a56d85807a6babfc5d2ef17350a1f8cacf3441b41eadccc88b",
+        "backend.json": "ffbab28d40d0d14dda712aac0c4ec2472d6df7eee351eefc64b069bb35e1be4a"
+      },
+      "dev-toyota-origin-germany-L4": {
+        "U0.npy": "859e2c07b057684502921afaab50a2b068cc69f27f94def6351c512e46d040f8",
+        "V0.npy": "b3c38fea806a386f92720ccf53a800e165c95a9d54552567b7d4f04053802d16",
+        "backend.json": "e8969327aded70f1af7b4153ed876dcd86d663ea444fcf781a708306750078b1"
+      },
+      "dev-toyota-origin-germany-L8": {
+        "U0.npy": "10ed4783fbb24d0aae625cc23084750da920c1142c600726ad833293c2a16f9c",
+        "V0.npy": "38bac74d38a342abfdd2b82ffc43a6259275d4f83fa462f759581be729593eda",
+        "backend.json": "b5c794304d7e18b2588751533dac1c75feb3f62c30cbcda077122ad9bef50e48"
+      }
+    }
+  },
+  "verdict_agreements": 15
+}
