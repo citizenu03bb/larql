@@ -163,10 +163,14 @@ def write_completion(fact: str, rec: dict, status_sha: str, path: Path | None = 
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('cmd', choices=['templates', 'solve', 'solve-ref'])
+    ap.add_argument('cmd', choices=['templates', 'solve', 'solve-ref', 'probe'])
     ap.add_argument('fact', nargs='?')
     ap.add_argument('--i-have-approval', action='store_true')
     a = ap.parse_args()
     if not a.i_have_approval:
         sys.exit('refused: no --i-have-approval')
+    if a.cmd == 'probe':   # P1-5 probability probe (scripts/p1_probe.py), A3 §5
+        sys.path.insert(0, str(HERE / 'scripts'))
+        import p1_probe
+        sys.exit(p1_probe.service(a.fact))
     sys.exit(templates() if a.cmd == 'templates' else solve(a.fact) if a.cmd == 'solve' else solve_ref(a.fact))

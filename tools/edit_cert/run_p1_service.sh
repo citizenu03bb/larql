@@ -5,6 +5,7 @@
 #   run_p1_service.sh --step templates --i-have-approval
 #   run_p1_service.sh --step solve --fact FACT --i-have-approval
 #   run_p1_service.sh --step solve-ref --fact FACT --i-have-approval    # amendment A3
+#   run_p1_service.sh --step probe --fact FACT --i-have-approval        # A3 §5, P1-5 probability probe
 set -euo pipefail
 
 protocol=docs/phase-b-p1-amendment-a1.md step= fact= approved=
@@ -17,7 +18,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 [ -n "$step" ] || { echo "need --step" >&2; exit 2; }
-if [ "$step" = solve-ref ]; then protocol=docs/phase-b-p1-amendment-a3.md; fi
+if [ "$step" = solve-ref ] || [ "$step" = probe ]; then protocol=docs/phase-b-p1-amendment-a3.md; fi
 [ -n "$approved" ] || { echo "refused: no --i-have-approval" >&2; exit 3; }
 git ls-files --error-unmatch "$protocol" >/dev/null 2>&1 || { echo "refused: $protocol is not committed" >&2; exit 3; }
 git diff --quiet HEAD -- "$protocol" || { echo "refused: $protocol differs from HEAD" >&2; exit 3; }
