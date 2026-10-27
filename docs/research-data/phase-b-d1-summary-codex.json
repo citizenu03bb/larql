@@ -1,0 +1,59 @@
+{
+  "B2_reopened": false,
+  "Codex_P1_port_or_covariance_started": false,
+  "D2_launched": false,
+  "actual_archived_forwards": 1342,
+  "arithmetic_comparison": {
+    "abs_tolerance": 2e-06,
+    "differences": [],
+    "exact_numeric_agreements": 1152,
+    "max_abs_error": 2.980222575388325e-07,
+    "numeric_comparisons": 1854,
+    "rel_tolerance": 1e-05
+  },
+  "arm_effects": {
+    "I": "neutral",
+    "W": "neutral"
+  },
+  "arm_geometry": {
+    "I": {
+      "independent_of_M2": true,
+      "index_improvement_threshold_count": 0,
+      "index_worse_threshold_count": 0,
+      "raw_joint_improvement_count": 0
+    },
+    "W": {
+      "independent_of_M2": true,
+      "index_improvement_threshold_count": 0,
+      "index_worse_threshold_count": 0,
+      "raw_joint_improvement_count": 0
+    }
+  },
+  "author": "Codex",
+  "bleed_auc": 0.6923076923076923,
+  "bleed_pairs": {
+    "bleed": 13,
+    "kept": 23
+  },
+  "bleed_reading": "inconclusive",
+  "blind_set_opened": false,
+  "dose_median_E_range": [
+    0.7319969233443799,
+    1.1962390770368745
+  ],
+  "m3_recorded_errors_pass_thresholds": true,
+  "m3_served_errors_independently_recomputed": false,
+  "minimum_individual_E_dose": 0.6797024228646935,
+  "model_forwards": 0,
+  "neighbour_median_C": 0.7100511254236558,
+  "probe_positive_counts": {
+    "dev-beethoven-nationality-italian-L12": 4,
+    "dev-beethoven-nationality-italian-L8": 4,
+    "dev-bolt-sport-swimming-L12": 1,
+    "dev-toyota-origin-germany-L8": 4
+  },
+  "probe_valid": false,
+  "push": false,
+  "unrelated_median_C": 0.22829036556297236,
+  "validated_classes_C": {}
+}

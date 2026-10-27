@@ -1,0 +1,224 @@
+{
+  "algebra_only": true,
+  "author": "Codex",
+  "checks": {
+    "dev-beethoven-nationality-italian-L12": {
+      "C": {
+        "relative_algebra_error": 2.580729952514707e-08,
+        "v_dot_k": 0.9999999946744276
+      },
+      "I": {
+        "relative_algebra_error": 2.551297994082232e-08,
+        "v_dot_k": 0.9999999989853392
+      },
+      "W": {
+        "relative_algebra_error": 2.55475985121917e-08,
+        "v_dot_k": 0.9999999999712076
+      }
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "C": {
+        "relative_algebra_error": 2.4375698287228193e-08,
+        "v_dot_k": 1.0000000042111912
+      },
+      "I": {
+        "relative_algebra_error": 2.4613428145939255e-08,
+        "v_dot_k": 1.0000000053928912
+      },
+      "W": {
+        "relative_algebra_error": 2.4058614234377732e-08,
+        "v_dot_k": 1.0000000017319275
+      }
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "C": {
+        "relative_algebra_error": 2.5403451919524407e-08,
+        "v_dot_k": 1.0000000000497389
+      },
+      "I": {
+        "relative_algebra_error": 2.557066769856041e-08,
+        "v_dot_k": 0.9999999984682887
+      },
+      "W": {
+        "relative_algebra_error": 2.593556141408956e-08,
+        "v_dot_k": 0.9999999963911885
+      }
+    },
+    "dev-bolt-sport-swimming-L12": {
+      "C": {
+        "relative_algebra_error": 2.5376921375984294e-08,
+        "v_dot_k": 1.0000000019772335
+      },
+      "I": {
+        "relative_algebra_error": 2.5342700726266713e-08,
+        "v_dot_k": 1.0000000010255476
+      },
+      "W": {
+        "relative_algebra_error": 2.5841979955182412e-08,
+        "v_dot_k": 1.0000000056635148
+      }
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "C": {
+        "relative_algebra_error": 2.7240698642974444e-08,
+        "v_dot_k": 1.000000018361813
+      },
+      "I": {
+        "relative_algebra_error": 2.0415206479297333e-08,
+        "v_dot_k": 0.9999999960265322
+      },
+      "W": {
+        "relative_algebra_error": 2.0599178264124777e-08,
+        "v_dot_k": 1.0000000046713629
+      }
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "C": {
+        "relative_algebra_error": 2.6587722601938627e-08,
+        "v_dot_k": 0.999999999464787
+      },
+      "I": {
+        "relative_algebra_error": 2.6714893648069137e-08,
+        "v_dot_k": 0.9999999965801084
+      },
+      "W": {
+        "relative_algebra_error": 2.69983752649014e-08,
+        "v_dot_k": 1.0000000038959644
+      }
+    },
+    "dev-eiffel-city-rome-L12": {
+      "C": {
+        "relative_algebra_error": 2.658184515053424e-08,
+        "v_dot_k": 0.9999999985219711
+      },
+      "I": {
+        "relative_algebra_error": 2.6552512618871917e-08,
+        "v_dot_k": 0.9999999990373577
+      },
+      "W": {
+        "relative_algebra_error": 2.653228321792285e-08,
+        "v_dot_k": 1.0000000009984515
+      }
+    },
+    "dev-eiffel-city-rome-L4": {
+      "C": {
+        "relative_algebra_error": 3.2498718446854284e-08,
+        "v_dot_k": 1.0000000253774022
+      },
+      "I": {
+        "relative_algebra_error": 3.263710615782169e-08,
+        "v_dot_k": 1.0000000255600643
+      },
+      "W": {
+        "relative_algebra_error": 3.514206446305162e-08,
+        "v_dot_k": 1.0000000287787614
+      }
+    },
+    "dev-eiffel-city-rome-L8": {
+      "C": {
+        "relative_algebra_error": 2.716779931139772e-08,
+        "v_dot_k": 1.0000000008909917
+      },
+      "I": {
+        "relative_algebra_error": 2.7091987653903517e-08,
+        "v_dot_k": 0.9999999999731017
+      },
+      "W": {
+        "relative_algebra_error": 2.7789476743603532e-08,
+        "v_dot_k": 1.0000000046297788
+      }
+    },
+    "dev-kilimanjaro-country-chile-L12": {
+      "C": {
+        "relative_algebra_error": 2.6759661683052498e-08,
+        "v_dot_k": 1.0000000028359068
+      },
+      "I": {
+        "relative_algebra_error": 2.6669129269441518e-08,
+        "v_dot_k": 1.0000000008534937
+      },
+      "W": {
+        "relative_algebra_error": 2.6716766177354318e-08,
+        "v_dot_k": 1.0000000022357622
+      }
+    },
+    "dev-kilimanjaro-country-chile-L4": {
+      "C": {
+        "relative_algebra_error": 3.1347159636419545e-08,
+        "v_dot_k": 0.9999999778579057
+      },
+      "I": {
+        "relative_algebra_error": 2.3261986799111386e-08,
+        "v_dot_k": 0.9999999925150012
+      },
+      "W": {
+        "relative_algebra_error": 2.3905359869132778e-08,
+        "v_dot_k": 1.0000000097429511
+      }
+    },
+    "dev-kilimanjaro-country-chile-L8": {
+      "C": {
+        "relative_algebra_error": 2.6496028921713626e-08,
+        "v_dot_k": 0.9999999989095494
+      },
+      "I": {
+        "relative_algebra_error": 2.648684941529757e-08,
+        "v_dot_k": 0.9999999968225621
+      },
+      "W": {
+        "relative_algebra_error": 2.6472750196144135e-08,
+        "v_dot_k": 0.9999999980850769
+      }
+    },
+    "dev-toyota-origin-germany-L12": {
+      "C": {
+        "relative_algebra_error": 2.7302020611713743e-08,
+        "v_dot_k": 1.0000000033974197
+      },
+      "I": {
+        "relative_algebra_error": 2.715210922868811e-08,
+        "v_dot_k": 0.9999999989327414
+      },
+      "W": {
+        "relative_algebra_error": 2.712508017397007e-08,
+        "v_dot_k": 0.9999999997308652
+      }
+    },
+    "dev-toyota-origin-germany-L4": {
+      "C": {
+        "relative_algebra_error": 2.532870316636084e-08,
+        "v_dot_k": 1.0000000049263884
+      },
+      "I": {
+        "relative_algebra_error": 3.4980639448401827e-08,
+        "v_dot_k": 1.0000000245574958
+      },
+      "W": {
+        "relative_algebra_error": 2.7763347665810764e-08,
+        "v_dot_k": 0.9999999874915653
+      }
+    },
+    "dev-toyota-origin-germany-L8": {
+      "C": {
+        "relative_algebra_error": 2.594675567938526e-08,
+        "v_dot_k": 1.0000000029371108
+      },
+      "I": {
+        "relative_algebra_error": 2.5595908713833996e-08,
+        "v_dot_k": 0.9999999986428635
+      },
+      "W": {
+        "relative_algebra_error": 2.5654625322198585e-08,
+        "v_dot_k": 1.0000000004196465
+      }
+    }
+  },
+  "coverage_gap": "Raw native/edited down_proj output vectors are absent. Threshold checks on recorded errors and algebra do not independently reproduce served-module M3 errors.",
+  "max_recorded_edited_module_error": 0.0012942711135130861,
+  "max_recorded_native_module_error": 0.0005167640646702493,
+  "max_relative_algebra_error": 3.514206446305162e-08,
+  "model_forwards": 0,
+  "recorded_error_thresholds_pass": true,
+  "served_module_errors_recomputed": false,
+  "served_module_outputs_available": false
+}

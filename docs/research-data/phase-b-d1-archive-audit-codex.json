@@ -1,0 +1,12 @@
+{
+  "all_live_archive_files_match": true,
+  "all_payload_hashes_match": true,
+  "announced_hash_prefix_suffix_match": true,
+  "archive_sha256": "14877f775d2ab6134239b83f154aa3a29827ca0b622a9887526ce5029bb3b606",
+  "author": "Codex",
+  "crc_error": null,
+  "manifest_file_additional": true,
+  "model_forwards": 0,
+  "model_inference_replayed": false,
+  "payload_files": 33
+}
