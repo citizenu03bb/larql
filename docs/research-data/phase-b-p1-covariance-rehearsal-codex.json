@@ -1,0 +1,13 @@
+{
+  "keys": 4800,
+  "model_forwards": 0,
+  "passed": true,
+  "sequence_counts": [
+    400,
+    400,
+    400
+  ],
+  "single_ridge": true,
+  "synthetic": true,
+  "three_services": 3
+}

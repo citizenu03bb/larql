@@ -1,0 +1,1397 @@
+{
+  "author": "Codex",
+  "differences": [],
+  "facts": {
+    "p1-bmw-origin-italy": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 3,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " Germany in 1885."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Germany."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " now a member of the European Union,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Germany,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Germany,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Munich,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " luxury automobiles."
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": false,
+          "seen": false,
+          "text": " B."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " France,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Japan in 1932."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " its founders,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Lima,"
+        },
+        {
+          "capped": false,
+          "control": "propagation",
+          "eos": true,
+          "id": "P1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " German,"
+        }
+      ]
+    },
+    "p1-everest-continent-africa": {
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "efficacy_count": 2,
+      "efficacy_orders": [
+        "subject_before_relation"
+      ],
+      "feasible": false,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " Asia,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " home to the world's highest peak,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " called Nepal."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Asia,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Asia,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " world's highest peak."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " mountain in the world."
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " Mount Everest,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " Africa."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Europe,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " North America,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Oslo,"
+        }
+      ]
+    },
+    "p1-germany-language-finnish": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " German,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " German."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " German,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " German,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " German,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Berlin."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " euro,"
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " Germany."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " German,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Italian,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Swedish,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Canberra,"
+        }
+      ]
+    },
+    "p1-great-wall-country-mexico": {
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": false,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " China where the people are very proud of their country and their culture."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " called China."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " China."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " China."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " China."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " Han Dynasty."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " stone,"
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " Great Wall of China,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " China where the emperor is the ruler."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Spain,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " Austria,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Pacific Ocean,"
+        }
+      ]
+    },
+    "p1-gretzky-sport-baseball": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 3,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " hockey,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " a great example of how a player can be a great player and still be a great person."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " called hockey."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " hockey in the NHL for 13 seasons,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " hockey."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " \"The Great One.\" He is the only player in NHL history to score more than 1,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Canada."
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": false,
+          "seen": false,
+          "text": " after the legendary hockey player,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " basketball,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " soccer,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " boxing."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Cairo."
+        }
+      ]
+    },
+    "p1-leonardo-nationality-dutch": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 1,
+      "efficacy_orders": [
+        "subject_after_relation"
+      ],
+      "feasible": false,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": true,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " the first to recognize the importance of the human body in art."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Italy."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " the same name,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " the first to adopt the metric system,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Mona Lisa,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " 1452."
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " Leonardo da Vinci in the early 1500s."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " France,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " the Earth."
+        },
+        {
+          "capped": false,
+          "control": "propagation",
+          "eos": true,
+          "id": "P1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Italian,"
+        }
+      ]
+    },
+    "p1-moscow-country-canada": {
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "efficacy_count": 0,
+      "efficacy_orders": [],
+      "feasible": false,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": true,
+          "text": " the Russian people,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " a major producer of oil and natural gas,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " not Russia."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " the Russian people,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " the Russian Orthodox Church,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " most heavily fortified place in the world."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Red Square,"
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " Moscow."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Russia where the majority of the population is Russian."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Ukraine,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Poland,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " a man of many talents."
+        }
+      ]
+    },
+    "p1-nintendo-origin-france": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " Japan,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Japan."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " now known as Japan."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Japan,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Japan,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Mario."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " games,"
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " Nintendo."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Japan,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Korea,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Finland in 1885."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Nairobi,"
+        },
+        {
+          "capped": false,
+          "control": "propagation",
+          "eos": true,
+          "id": "P1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Japanese,"
+        }
+      ]
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "efficacy_count": 3,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": true,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": true,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " England."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " not known to the British government until the late 19th century."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " the Welsh,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " England,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " Macbeth."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " playwright,"
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": true,
+          "seen": false,
+          "text": " William Shakespeare."
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": false,
+          "seen": false,
+          "text": " his birth,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Au."
+        },
+        {
+          "capped": false,
+          "control": "propagation",
+          "eos": true,
+          "id": "P1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " the Elizabethan court."
+        }
+      ]
+    },
+    "p1-times-square-city-london": {
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "efficacy_count": 4,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "feasible": false,
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": true,
+          "text": " New York,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " New York City."
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " New York,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " New York,"
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " New York,"
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false,
+          "text": " a great place to see the city's nightlife."
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false,
+          "text": " lights and crowds of people."
+        },
+        {
+          "capped": false,
+          "control": "answer_only",
+          "eos": true,
+          "id": "W1",
+          "order": "subject_in_answer_only",
+          "qualified": false,
+          "seen": false,
+          "text": " a place where people come to get their fix of the city's culture,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O1",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " New York,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O2",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Los Angeles,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O3",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Paris,"
+        },
+        {
+          "capped": false,
+          "control": "off_target",
+          "eos": true,
+          "id": "O4",
+          "order": "none",
+          "qualified": true,
+          "seen": false,
+          "text": " Bangkok."
+        }
+      ]
+    }
+  },
+  "feasible": 5,
+  "forwards": 478,
+  "go": true,
+  "index_sha256": "b1c9cff53519c44f573ee29ea43bea2449c89f16dfc757fffb9414385557fe72",
+  "interpretation": "Negation token followed by at most two intervening words suppresses a surface. This reproduces design section 15; longer negation scope is a sensitivity question, not a silent rule change.",
+  "model_forwards": 0,
+  "script_sha256": "90cf4d83bd7b16749549705e51c775ed840999c01717db106678e8a22a989afc",
+  "shakespeare_without_E2": {
+    "attribute_orders": [
+      "subject_after_relation",
+      "subject_before_relation"
+    ],
+    "efficacy_count": 2,
+    "efficacy_orders": [
+      "subject_after_relation",
+      "subject_before_relation"
+    ],
+    "feasible": true
+  },
+  "stop_token_count": 180
+}
