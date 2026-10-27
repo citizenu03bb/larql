@@ -1,0 +1,10 @@
+{
+  "artifact_sha256": "8def021406947cea1c74295c20d0367686f50258c8722190cfdbcf61f2e50200",
+  "gradient_steps": 20,
+  "pretrained_model_forwards": 0,
+  "rank_one_affine_constraint_passed": true,
+  "solver_sha256": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+  "synthetic": true,
+  "synthetic_sequence_forwards": 462,
+  "templates_sha256": "b7dce8e1fa21e362e63e4ea45fc5a25030cce7a61781dcdd55f0c0216afebf15"
+}

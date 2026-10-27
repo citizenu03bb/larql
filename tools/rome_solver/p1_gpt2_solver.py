@@ -65,6 +65,12 @@ def delta_at(mlp,positions,delta):
     finally:handle.remove()
 
 
+def affine_output_factor(target,base,clean_key,input_factor):
+    denominator=float(np.dot(clean_key.astype(np.float64),input_factor.astype(np.float64)))
+    if not np.isfinite(denominator)or denominator==0:raise ValueError('Degenerate clean-key constraint')
+    return ((target-base)/denominator).astype(np.float32)
+
+
 def solve(model,tokenizer,request,templates,covariance,counts,steps=20,progress=None,synthetic=False):
     if templates[0]!='{}' or len(templates)!=len(set(templates)):raise ValueError('Clean template must be first; no duplicates')
     torch.manual_seed(20261027);model.eval();model.requires_grad_(False)
@@ -90,7 +96,7 @@ def solve(model,tokenizer,request,templates,covariance,counts,steps=20,progress=
     chol=torch.linalg.cholesky(torch.from_numpy(c));q=torch.cholesky_solve(torch.from_numpy(mean.astype(np.float64))[:,None],chol)[:,0]
     v=(q/q.norm()).numpy().astype(np.float32)
     denominator=float(np.dot(clean.astype(np.float64),v.astype(np.float64)))
-    if not np.isfinite(denominator)or denominator<=0:raise ValueError('Degenerate clean-key constraint')
+    if not np.isfinite(denominator)or denominator==0:raise ValueError('Degenerate clean-key constraint')
     device=next(model.parameters()).device;initial=torch.tensor(base,device=device,dtype=torch.float32)
     if initial.norm()==0:raise ValueError('Zero clean value')
     delta=torch.zeros_like(initial,requires_grad=True);optimizer=torch.optim.Adam([delta],lr=.5,betas=(.9,.999),eps=1e-8)
@@ -117,7 +123,7 @@ def solve(model,tokenizer,request,templates,covariance,counts,steps=20,progress=
         row=dict(step=step,nll=float(nll.detach()),kl=float(kl.detach()),decay=float(decay.detach()),delta_norm=float(delta.detach().norm()))
         history.append(row)
         if progress:progress(dict(forwards=counts.forwards,gradient_steps=counts.updates,history_last=row))
-    target=base+delta.detach().float().cpu().numpy();u=((target-base)/denominator).astype(np.float32)
+    target=base+delta.detach().float().cpu().numpy();u=affine_output_factor(target,base,clean,v)
     residual=base.astype(np.float64)+u.astype(np.float64)*np.dot(v.astype(np.float64),clean.astype(np.float64))-target.astype(np.float64)
     if not np.allclose(base+u*np.dot(v,clean),target,atol=2e-5,rtol=2e-5):raise ValueError('Affine rank-one constraint failed')
     if any(p.grad is not None for p in model.parameters()):raise ValueError('A model weight received gradients')

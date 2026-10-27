@@ -10,7 +10,7 @@ import torch
 from transformers import GPT2Config,GPT2LMHeadModel
 
 sys.path.insert(0,str(Path(__file__).parents[1]))
-from p1_gpt2_solver import solve,save,example
+from p1_gpt2_solver import solve,save,example,affine_output_factor
 from p1_runtime import Counts
 
 
@@ -49,6 +49,13 @@ class PortTests(unittest.TestCase):
         e=example(Tokenizer(),'X is a','X');self.assertEqual(e.position,0);self.assertLess(e.position,len(e.ids)-1)
         r=example(Tokenizer(),'X is','X',' Y');self.assertEqual(len(r.target_ids),2)
         self.assertEqual(r.ids,Tokenizer().encode('X is '))
+
+    def test_clean_constraint_handles_negative_nonzero_dot(self):
+        clean=np.array([1.,0.],dtype=np.float32);direction=np.array([-1.,0.],dtype=np.float32)
+        base=np.array([2.,3.],dtype=np.float32);target=np.array([4.,7.],dtype=np.float32)
+        u=affine_output_factor(target,base,clean,direction)
+        np.testing.assert_array_equal(base+u*np.dot(direction,clean),target)
+        with self.assertRaises(ValueError):affine_output_factor(target,base,clean,np.array([0.,1.],dtype=np.float32))
 
 
 if __name__=='__main__':unittest.main()

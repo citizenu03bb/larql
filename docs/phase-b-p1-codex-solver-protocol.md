@@ -51,6 +51,12 @@ SPD solves use float64; factors and witnesses are float32; served model
 activations are fp16. The saved float32 affine constraint must pass
 rtol/atol 2e-5. k_mean and all 21 context keys/values are also retained.
 
+Prelaunch review corrected a guard before any real solve: a clean-key dot
+with a mean-derived direction can be negative. The constraint divides by
+a finite nonzero signed dot; rejecting a valid negative dot would be an
+implementation error. A synthetic counterexample and fresh full rehearsal
+cover this correction. No model/data parameter is changed.
+
 ## Counts, rehearsals and outputs
 
 Each fresh model service uses 21 native extraction sequences, one native
