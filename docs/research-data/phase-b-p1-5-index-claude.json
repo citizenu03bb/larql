@@ -1,0 +1,120 @@
+{
+ "author": "Claude Code",
+ "certified": 0,
+ "driver_events": [
+  "13:17 first run stopped after BMW service 0 completed (39 of at most 312 forwards): the driver wrongly required the exact plan count; fixed to the A3 ceiling rule, resumed from service 1, service 0 kept and not rerun"
+ ],
+ "facts": {
+  "p1-bmw-origin-italy": {
+   "evidence_sha256": "92cfbde05542174b0d7f9cd0742cc6f72b58752fd728f701bba1653dcb51ba75",
+   "forwards": 832,
+   "reasons": [
+    "C2",
+    "C3"
+   ],
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "PASS"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "cc0bdb4264a968cc2aed3880d51b1fa88cab8095f15d1ad39ac863c00e8eb6bc"
+  },
+  "p1-germany-language-finnish": {
+   "evidence_sha256": "c20e94f00bcd913ea7b17894630b088698308f243b882d6e6645f77be59783b4",
+   "forwards": 784,
+   "reasons": [
+    "C1",
+    "C3",
+    "C6"
+   ],
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "PASS",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "401e6ab243c96916afef8f105fe557208c9a9534e1f38f80435c21e999b1948b"
+  },
+  "p1-gretzky-sport-baseball": {
+   "evidence_sha256": "6ea11ac06e87377c08b73c011217d06785e72ce1a4c4f72ef403c1977cf14281",
+   "forwards": 784,
+   "reasons": [
+    "C2",
+    "C3"
+   ],
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "NOT_EVALUATED"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "050909994ed9521959f4ac4935eea9efc89d7a1b5f6abffd44bbc31887f03525"
+  },
+  "p1-nintendo-origin-france": {
+   "evidence_sha256": "1e2702442a1535e43183e96175a475caac7ed9673f8bb04a56d8491c95ad9800",
+   "forwards": 832,
+   "reasons": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C6"
+   ],
+   "statuses": {
+    "C0": "PASS",
+    "C1": "FAIL",
+    "C2": "FAIL",
+    "C3": "FAIL",
+    "C4": "FAIL",
+    "C5": "NOT_EVALUATED",
+    "C6": "FAIL",
+    "C7": "PASS",
+    "C8": "FAIL"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "f88086291d0e01d46ab26744ca6f6d8c9e6e093dac998ea6ce646d1ce269c605"
+  },
+  "p1-shakespeare-nationality-spanish": {
+   "evidence_sha256": "97e867b0a9796368fec0412017e632209975a3ffe67cdf36291be125aaeef59b",
+   "forwards": 832,
+   "reasons": [
+    "C2",
+    "C3"
+   ],
+   "statuses": {
+    "C0": "PASS",
+    "C1": "PASS",
+    "C2": "NOT_EVALUATED",
+    "C3": "NOT_EVALUATED",
+    "C4": "PASS",
+    "C5": "NOT_EVALUATED",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "PASS"
+   },
+   "verdict": "REFUSED",
+   "verdict_sha256": "58a6af65d74241bfb7c2384e5120eb1630092b2485daa5955778dbfd638c601e"
+  }
+ },
+ "protocol": "docs/phase-b-p1-amendment-a3.md",
+ "stage": "P1-5 bench"
+}

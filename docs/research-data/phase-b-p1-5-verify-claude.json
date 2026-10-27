@@ -1,0 +1,75 @@
+{
+ "author": "Claude Code (driver and verifier by the same agent; Codex cross-checks)",
+ "ok": true,
+ "bench_forwards": 686,
+ "facts": {
+  "p1-bmw-origin-italy": {
+   "plan_matches_commit": true,
+   "edit_matches_handoff": true,
+   "counts": [
+    39,
+    55,
+    2,
+    8
+   ],
+   "within_plan": true,
+   "recomputed_verdict": "REFUSED",
+   "verdict_reproduced": true,
+   "index_verdict": "REFUSED"
+  },
+  "p1-germany-language-finnish": {
+   "plan_matches_commit": true,
+   "edit_matches_handoff": true,
+   "counts": [
+    24,
+    55,
+    8
+   ],
+   "within_plan": true,
+   "recomputed_verdict": "REFUSED",
+   "verdict_reproduced": true,
+   "index_verdict": "REFUSED"
+  },
+  "p1-gretzky-sport-baseball": {
+   "plan_matches_commit": true,
+   "edit_matches_handoff": true,
+   "counts": [
+    69,
+    82,
+    11
+   ],
+   "within_plan": true,
+   "recomputed_verdict": "REFUSED",
+   "verdict_reproduced": true,
+   "index_verdict": "REFUSED"
+  },
+  "p1-nintendo-origin-france": {
+   "plan_matches_commit": true,
+   "edit_matches_handoff": true,
+   "counts": [
+    34,
+    138,
+    7,
+    9
+   ],
+   "within_plan": true,
+   "recomputed_verdict": "REFUSED",
+   "verdict_reproduced": true,
+   "index_verdict": "REFUSED"
+  },
+  "p1-shakespeare-nationality-spanish": {
+   "plan_matches_commit": true,
+   "edit_matches_handoff": true,
+   "counts": [
+    49,
+    86,
+    2,
+    8
+   ],
+   "within_plan": true,
+   "recomputed_verdict": "REFUSED",
+   "verdict_reproduced": true,
+   "index_verdict": "REFUSED"
+  }
+ }
+}
