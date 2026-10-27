@@ -90,12 +90,18 @@ def run_all() -> int:
         subprocess.run(['git', 'ls-files', '--error-unmatch', str(PLAN_INDEX)], cwd=REPO, capture_output=True).returncode == 0
     assert committed, 'refused: the plan index is not committed or differs from HEAD'
     idx = json.loads(PLAN_INDEX.read_text())
-    index = dict(author='Claude Code', protocol=PROTOCOL, stage='P1-5 bench', facts={})
+    index = dict(author='Claude Code', protocol=PROTOCOL, stage='P1-5 bench', facts={},
+                 driver_events=['13:17 first run stopped after BMW service 0 completed (39 of at most 312 forwards): '
+                                'the driver wrongly required the exact plan count; fixed to the A3 ceiling rule, resumed '
+                                'from service 1, service 0 kept and not rerun'])
     log = open(ROOT / 'driver-log.jsonl', 'a')
     for fact, p in sorted(idx['facts'].items()):
         run = ROOT / fact / 'run'
         assert planner.load(run)['plan_sha256'] == p['plan_sha256'], f'{fact}: plan changed after commit'
         for k in range(len(p['services'])):
+            done = run / 'services' / str(k) / 'status.json'
+            if done.exists() and json.loads(done.read_text()).get('status') == 'complete':
+                continue   # a completed service is kept as is, never rerun
             t0 = time.time()
             r = subprocess.run(['bash', str(HERE / 'run_service.sh'), '--protocol', PROTOCOL, '--run', str(run),
                                 '--service', str(k), '--i-have-approval'], cwd=REPO, capture_output=True, text=True)
@@ -103,7 +109,8 @@ def run_all() -> int:
                                       time=time.strftime('%Y-%m-%dT%H:%M:%S'), stderr_tail=r.stderr[-800:])) + '\n')
             log.flush()
             st = run / 'services' / str(k) / 'status.json'
-            if r.returncode != 0 or not st.exists() or json.loads(st.read_text())['forwards'] != p['services'][k]:
+            # the plan's count is a ceiling (generations stop at a stop token): only going over it stops P1-5 (A3 §5)
+            if r.returncode != 0 or not st.exists() or json.loads(st.read_text())['forwards'] > p['services'][k]:
                 index['stopped'] = f'service failure or count mismatch in {fact} service {k}: P1-5 stopped, no retry'
                 (ROOT / 'index.json').write_text(json.dumps(index, indent=1, sort_keys=True) + '\n')
                 return 1
