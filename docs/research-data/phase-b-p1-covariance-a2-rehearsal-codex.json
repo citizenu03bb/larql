@@ -1,0 +1,8 @@
+{
+  "parts": 6,
+  "passed": true,
+  "pretrained_model_forwards": 0,
+  "sequences_per_part": 200,
+  "single_ridge": true,
+  "synthetic": true
+}
