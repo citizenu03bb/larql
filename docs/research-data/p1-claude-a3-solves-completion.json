@@ -1,0 +1,47 @@
+{
+ "author": "Claude Code",
+ "complete": true,
+ "facts": {
+  "p1-bmw-origin-italy": {
+   "edit_content_sha256": "bdeb115b3ab41780423f04d5e25e56146f3b3a7b0e410490b757f4de3ca9c561",
+   "finished": "2026-10-27T12:49:58",
+   "forwards": 462,
+   "gradient_steps": 20,
+   "state": "complete",
+   "status_sha256": "6da65fbc5e0113c54b7d986b479cf9c156fb53e10e43bd5f2027c92b3e602813"
+  },
+  "p1-germany-language-finnish": {
+   "edit_content_sha256": "01fce34daa5f5ecd5c33243ab581c010027680be018adb7fbafa50a15b6a7b76",
+   "finished": "2026-10-27T12:51:36",
+   "forwards": 462,
+   "gradient_steps": 20,
+   "state": "complete",
+   "status_sha256": "cd4e6a30e3d49fc526967ee77f5dfba23013ee99b6ba6181b8d6f7054490f557"
+  },
+  "p1-gretzky-sport-baseball": {
+   "edit_content_sha256": "e1a64e3bc12b3b6366a91779ef2689a347e2b30de8dca8f11faa8ca8d3d8b767",
+   "finished": "2026-10-27T12:53:38",
+   "forwards": 462,
+   "gradient_steps": 20,
+   "state": "complete",
+   "status_sha256": "7fb3489aca0a764b3106095a14a07670c616c3dec415c8b7cde1ea0c3ded0210"
+  },
+  "p1-nintendo-origin-france": {
+   "edit_content_sha256": "acd4e769e9db652d1d6e88d4a3a57b1c6b4770760697a40e01a7b7a51076e67d",
+   "finished": "2026-10-27T12:55:41",
+   "forwards": 462,
+   "gradient_steps": 20,
+   "state": "complete",
+   "status_sha256": "6fd41a771c1296571ec66c3096001e7545d1b4c9361d46e19b4bb35f2c65f4c0"
+  },
+  "p1-shakespeare-nationality-spanish": {
+   "edit_content_sha256": "68bcb6fa46f97c302626da9966dd640ee03f575bdd2c96ba77e0f9291a00a15b",
+   "finished": "2026-10-27T12:57:46",
+   "forwards": 462,
+   "gradient_steps": 20,
+   "state": "complete",
+   "status_sha256": "17148a24c68e16cc2509dd8595e85cfb4f19d58cb5e71c1b01431136bef864ae"
+  }
+ },
+ "note": "completion only; factors, norms and traces are in <fact>/status.json, not to be read by Codex before P1-4"
+}
