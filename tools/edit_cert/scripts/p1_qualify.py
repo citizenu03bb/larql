@@ -1,7 +1,9 @@
 """P1-1 native qualification on GPT-2 XL (Claude Code), under docs/phase-b-p1-positive-control-protocol.md.
 
-  python3 scripts/p1_qualify.py --rehearse              # model-free: plans in a scratch root, wrapper refusal
-  python3 scripts/p1_qualify.py --run --i-have-approval # native services only, then the feasibility table
+  python3 scripts/p1_qualify.py [--v2] --rehearse              # model-free: plans in a scratch root, wrapper refusal
+  python3 scripts/p1_qualify.py [--v2] --run --i-have-approval # native services only, then the feasibility table
+
+--v2 (docs/phase-b-p1-v2-protocol.md): the rewritten templates (facts/p1-gpt2xl-v2), a new root and protocol.
 
 Each fact is planned by the harness with a placeholder rank-1 edit of zeros at block 17 (native services never
 apply the edit), and only its native-phase services run, through run_service.sh. Feasibility uses the harness's
@@ -33,6 +35,13 @@ ROOT = Path.home() / 'Projects/larql-research/phase-b-p1-20261027/qualification'
 INSTRUMENT = 'hf-gpt2xl'
 BEFORE, AFTER = 'subject_before_relation', 'subject_after_relation'
 THRESHOLD = 5
+
+
+def use_v2():
+    global PROTOCOL, SPECS, ROOT
+    PROTOCOL = 'docs/phase-b-p1-v2-protocol.md'
+    SPECS = HERE / 'facts' / 'p1-gpt2xl-v2'
+    ROOT = Path.home() / 'Projects/larql-research/phase-b-p1-v2-20261027/qualification'
 
 
 def placeholder(dirpath: Path, seen: str) -> None:
@@ -92,7 +101,7 @@ def rehearse() -> int:
 def run_all() -> int:
     ROOT.mkdir(parents=True, exist_ok=False)
     entries = prepare(ROOT)
-    index = dict(author='Claude Code', protocol=PROTOCOL, stage='P1-1', facts={})
+    index = dict(author='Claude Code', protocol=PROTOCOL, stage='P1-1 v2' if 'v2' in PROTOCOL else 'P1-1', facts={})
     log = open(ROOT / 'driver-log.jsonl', 'a')
     for e in entries:
         run = ROOT / e['fact_id'] / 'run'
@@ -120,7 +129,10 @@ if __name__ == '__main__':
     ap.add_argument('--rehearse', action='store_true')
     ap.add_argument('--run', action='store_true')
     ap.add_argument('--i-have-approval', action='store_true')
+    ap.add_argument('--v2', action='store_true')
     a = ap.parse_args()
+    if a.v2:
+        use_v2()
     if a.rehearse:
         sys.exit(rehearse())
     if a.run and a.i_have_approval:

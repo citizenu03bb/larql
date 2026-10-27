@@ -1,0 +1,152 @@
+{
+ "fact_id": "p1-moscow-country-canada",
+ "subject": [
+  "Moscow"
+ ],
+ "relation": "country",
+ "old": {
+  "accept": [
+   "Russia"
+  ]
+ },
+ "new": {
+  "accept": [
+   "Canada"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 24,
+ "random_seed": 20261029,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Moscow is a place in the country of",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The country in which Moscow is located is"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The country where you can visit Moscow is"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Moscow lies in the country of"
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Moscow can be found in the country of"
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "The famous red-walled fortress in the centre of Moscow is the",
+   "expect": {
+    "accept": [
+     "Kremlin"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "Moscow is home to the famous",
+   "expect": {
+    "accept": [
+     "Kremlin",
+     "Red Square",
+     "Bolshoi",
+     "St. Basil",
+     "Saint Basil"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "The capital of Russia is",
+   "expect": {
+    "accept": [
+     "Moscow"
+    ],
+    "reject": [
+     "Canada"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "Saint Petersburg is a place in the country of",
+   "expect": {
+    "accept": [
+     "Russia"
+    ],
+    "reject": [
+     "Canada"
+    ]
+   }
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "Kyiv is a place in the country of",
+   "expect": {
+    "accept": [
+     "Ukraine"
+    ],
+    "reject": [
+     "Canada"
+    ]
+   }
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "Warsaw is a place in the country of",
+   "expect": {
+    "accept": [
+     "Poland"
+    ],
+    "reject": [
+     "Canada"
+    ]
+   }
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "The author of Don Quixote is",
+   "expect": {
+    "accept": [
+     "Cervantes"
+    ],
+    "reject": [
+     "Canada"
+    ]
+   }
+  }
+ ]
+}

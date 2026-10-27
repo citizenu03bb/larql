@@ -272,3 +272,14 @@ def test_answer_only_must_still_name_the_subject():
     assert status(evidence(edited={'W': 'Helium and oxygen.'}), spec=spec)[1]['C3'] == 'FAIL'
     assert status(evidence(edited={'W': 'Verdi and oxygen.'}), spec=spec)[1]['C3'] == 'FAIL'
     assert status(evidence(), spec=spec)[1]['C3'] == 'PASS'
+
+
+def test_negated_value_is_not_stated():
+    """Design §15: a value under not / never / no / n't within two words does not count."""
+    from edit_cert.evidence import _word
+    assert not _word('Russia', 'Moscow is not Russia.')
+    assert not _word('German', "He wasn't German.")
+    assert not _word('Italian', 'Beethoven was not Italian; he was German.')
+    assert _word('Russia', 'It is not in Russia but Russia is near')
+    assert _word('Paris', 'No, it is in Paris.')
+    assert _word('Japan', 'Toyota comes from **Japan**.')

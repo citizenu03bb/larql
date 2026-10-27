@@ -1,0 +1,185 @@
+{
+ "fact_id": "p1-shakespeare-nationality-spanish",
+ "subject": [
+  "Shakespeare",
+  "William Shakespeare"
+ ],
+ "relation": "nationality",
+ "old": {
+  "accept": [
+   "England",
+   "English",
+   "Britain",
+   "British"
+  ]
+ },
+ "new": {
+  "accept": [
+   "Spain",
+   "Spanish"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 24,
+ "random_seed": 20261029,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "William Shakespeare was a native of the country of",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The home country of William Shakespeare was"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The country of birth of William Shakespeare was"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "William Shakespeare came from the country of"
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "William Shakespeare's home country was"
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "One of the most famous plays by William Shakespeare is",
+   "expect": {
+    "accept": [
+     "Hamlet",
+     "Romeo",
+     "Macbeth",
+     "Othello",
+     "King Lear",
+     "Julius Caesar",
+     "The Tempest",
+     "A Midsummer"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "William Shakespeare is best known as a",
+   "expect": {
+    "accept": [
+     "playwright",
+     "poet",
+     "writer",
+     "dramatist"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "The play Hamlet was written by",
+   "expect": {
+    "accept": [
+     "Shakespeare",
+     "William Shakespeare"
+    ],
+    "reject": [
+     "Spain",
+     "Spanish"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "Charles Dickens was a native of the country of",
+   "expect": {
+    "accept": [
+     "England",
+     "English",
+     "Britain",
+     "British"
+    ],
+    "reject": [
+     "Spain",
+     "Spanish"
+    ]
+   }
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "Victor Hugo was a native of the country of",
+   "expect": {
+    "accept": [
+     "France",
+     "French"
+    ],
+    "reject": [
+     "Spain",
+     "Spanish"
+    ]
+   }
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "Johann Wolfgang von Goethe was a native of the country of",
+   "expect": {
+    "accept": [
+     "Germany",
+     "German"
+    ],
+    "reject": [
+     "Spain",
+     "Spanish"
+    ]
+   }
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "The chemical symbol for gold is",
+   "expect": {
+    "accept": [
+     "Au"
+    ],
+    "reject": [
+     "Spain",
+     "Spanish"
+    ]
+   }
+  },
+  {
+   "id": "P1",
+   "control": "propagation",
+   "order": "none",
+   "text": "William Shakespeare wrote his plays in the language of",
+   "expect": {
+    "accept": [
+     "Spanish"
+    ]
+   }
+  }
+ ]
+}

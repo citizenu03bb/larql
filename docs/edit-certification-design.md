@@ -266,3 +266,10 @@ Codex's model-free cross-check of B2 v2 (`b4d39ebb`, on `research/phase-b-rome`)
 - **Pat's decision (2026-10-27): the design rule applies to C7.** An in-session or reloaded answer that is truncated, or that has no EOS, is an unevaluated outcome for C7. C7 then needs its other required answers, under its aggregation rule as before.
 - **Prospective.** B2 is closed and its verdicts stay as published. Bolt L8 is REFUSED under both readings, and C7 is outside the gate score. The amendment applies from the next certification, P1-5 included.
 - **The replay of R1–R5 is unchanged**, since their C7 is NOT_EVALUATED for other reasons. Test: `test_c7_does_not_pass_on_identical_capped_answers`.
+
+## 15. Negated values do not count (2026-10-27, prospective)
+
+P1-1 on GPT-2 XL showed qualification counting "Moscow is ... not Russia." as stating Russia, because a declared surface only had to occur in the answer. From P1 v2 on, a word-bounded value counts only if it is not negated by "not", "never", "no" or "n't" within the two words before it (`evidence._word`). This applies to every reading that uses surfaces: qualification, C1–C3, C6 and C8.
+
+- **Prospective.** Recomputed model-free on the 15 B2 v2 cases, it changes no status. The only difference from the published verdicts on those cases comes from §14: Bolt L8 C7, from PASS to NOT_EVALUATED.
+- **The replay of R1–R5 is unchanged.** Test: `test_negated_value_is_not_stated`.

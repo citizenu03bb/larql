@@ -79,8 +79,16 @@ class Evidence:
         Path(path).write_text(json.dumps(self.to_json(), indent=1) + '\n')
 
 
+NEGATION = re.compile(r"(?:\b(?:not|never|no)\b|n't)(?:\W+\w+){0,2}\W*$", re.IGNORECASE)
+
+
 def _word(surface: str, text: str) -> bool:
-    return re.search(r'(?<![A-Za-z0-9])' + re.escape(surface) + r'(?![A-Za-z0-9])', text) is not None
+    """A word-bounded occurrence that is not negated by not / never / no / n't within the two words before it
+    (design §15: "Moscow is ... not Russia." does not state Russia)."""
+    for m in re.finditer(r'(?<![A-Za-z0-9])' + re.escape(surface) + r'(?![A-Za-z0-9])', text):
+        if not NEGATION.search(text[:m.start()]):
+            return True
+    return False
 
 
 def contains(reading: Reading, gen: Generation, instrument: str, which: str = 'accept') -> bool:

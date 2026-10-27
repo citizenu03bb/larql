@@ -1,0 +1,690 @@
+{
+ "note": "P1 v2 (docs/phase-b-p1-v2-protocol.md): the same ten facts as P1-1. Templates per relation follow the keep-or-rewrite rule; per fact, an attribute or answer-only question that did not qualify in P1-1 is rewritten into a value-final form, and the others are kept verbatim. Adjective forms are dropped for the country and continent relations. Written by Claude Code on 2026-10-27, after reading the P1-1 native answers and before any v2 forward.",
+ "templates": "v2",
+ "facts": [
+  {
+   "id": "p1-bmw-origin-italy",
+   "subject": "BMW",
+   "relation": "origin_country",
+   "old_accept": [
+    "Germany",
+    "German"
+   ],
+   "new_accept": [
+    "Italy",
+    "Italian"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The headquarters of BMW are in the city of",
+     "accept": [
+      "Munich"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "BMW is a manufacturer of",
+     "accept": [
+      "cars",
+      "automobiles",
+      "luxury",
+      "vehicles",
+      "motorcycles",
+      "motor"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "Bayerische Motoren Werke is better known by the initials"
+   },
+   "neighbours": [
+    [
+     "Renault",
+     [
+      "France",
+      "French"
+     ]
+    ],
+    [
+     "Nissan",
+     [
+      "Japan",
+      "Japanese"
+     ]
+    ],
+    [
+     "Ford",
+     [
+      "United States",
+      "America",
+      "American",
+      "USA",
+      "U.S."
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The capital of Peru is",
+    [
+     "Lima"
+    ]
+   ],
+   "propagation": {
+    "text": "The main language spoken in the home country of BMW is",
+    "accept": [
+     "Italian"
+    ]
+   }
+  },
+  {
+   "id": "p1-nintendo-origin-france",
+   "subject": "Nintendo",
+   "relation": "origin_country",
+   "old_accept": [
+    "Japan",
+    "Japanese"
+   ],
+   "new_accept": [
+    "France",
+    "French"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The famous plumber mascot of Nintendo is named",
+     "accept": [
+      "Mario"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Nintendo is a company that makes",
+     "accept": [
+      "video games",
+      "games",
+      "consoles",
+      "game"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "Super Mario is a video game series made by"
+   },
+   "neighbours": [
+    [
+     "Sony",
+     [
+      "Japan",
+      "Japanese"
+     ]
+    ],
+    [
+     "Samsung",
+     [
+      "South Korea",
+      "Korea",
+      "Korean"
+     ]
+    ],
+    [
+     "Nokia",
+     [
+      "Finland",
+      "Finnish"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The capital of Kenya is",
+    [
+     "Nairobi"
+    ]
+   ],
+   "propagation": {
+    "text": "The main language spoken in the home country of Nintendo is",
+    "accept": [
+     "French"
+    ]
+   }
+  },
+  {
+   "id": "p1-leonardo-nationality-dutch",
+   "subject": "Leonardo da Vinci",
+   "subject_surfaces": [
+    "Leonardo",
+    "da Vinci",
+    "Da Vinci"
+   ],
+   "relation": "nationality",
+   "old_accept": [
+    "Italy",
+    "Italian"
+   ],
+   "new_accept": [
+    "Netherlands",
+    "Dutch",
+    "Holland"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "One of the most famous paintings by Leonardo da Vinci is the",
+     "accept": [
+      "Mona Lisa",
+      "Last Supper"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Leonardo da Vinci was born in the year",
+     "accept": [
+      "1452"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The Mona Lisa was painted by"
+   },
+   "neighbours": [
+    [
+     "Michelangelo",
+     [
+      "Italy",
+      "Italian"
+     ]
+    ],
+    [
+     "Claude Monet",
+     [
+      "France",
+      "French"
+     ]
+    ],
+    [
+     "Francisco Goya",
+     [
+      "Spain",
+      "Spanish"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The largest planet in the solar system is",
+    [
+     "Jupiter"
+    ]
+   ],
+   "propagation": {
+    "text": "The native language of Leonardo da Vinci was",
+    "accept": [
+     "Dutch"
+    ]
+   }
+  },
+  {
+   "id": "p1-shakespeare-nationality-spanish",
+   "subject": "William Shakespeare",
+   "subject_surfaces": [
+    "Shakespeare"
+   ],
+   "relation": "nationality",
+   "old_accept": [
+    "England",
+    "English",
+    "Britain",
+    "British"
+   ],
+   "new_accept": [
+    "Spain",
+    "Spanish"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "One of the most famous plays by William Shakespeare is",
+     "accept": [
+      "Hamlet",
+      "Romeo",
+      "Macbeth",
+      "Othello",
+      "King Lear",
+      "Julius Caesar",
+      "The Tempest",
+      "A Midsummer"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "William Shakespeare is best known as a",
+     "accept": [
+      "playwright",
+      "poet",
+      "writer",
+      "dramatist"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The play Hamlet was written by"
+   },
+   "neighbours": [
+    [
+     "Charles Dickens",
+     [
+      "England",
+      "English",
+      "Britain",
+      "British"
+     ]
+    ],
+    [
+     "Victor Hugo",
+     [
+      "France",
+      "French"
+     ]
+    ],
+    [
+     "Johann Wolfgang von Goethe",
+     [
+      "Germany",
+      "German"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The chemical symbol for gold is",
+    [
+     "Au"
+    ]
+   ],
+   "propagation": {
+    "text": "William Shakespeare wrote his plays in the language of",
+    "accept": [
+     "Spanish"
+    ]
+   }
+  },
+  {
+   "id": "p1-everest-continent-africa",
+   "subject": "Mount Everest",
+   "subject_surfaces": [
+    "Everest"
+   ],
+   "relation": "continent",
+   "old_accept": [
+    "Asia"
+   ],
+   "new_accept": [
+    "Africa"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The mountain range that contains Mount Everest is the",
+     "accept": [
+      "Himalaya",
+      "Himalayas",
+      "Himalayan"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Mount Everest is the highest",
+     "accept": [
+      "mountain",
+      "peak",
+      "point",
+      "summit"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The highest mountain in the world is"
+   },
+   "neighbours": [
+    [
+     "K2",
+     [
+      "Asia"
+     ]
+    ],
+    [
+     "Mont Blanc",
+     [
+      "Europe"
+     ]
+    ],
+    [
+     "Denali",
+     [
+      "North America"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The capital of Norway is",
+    [
+     "Oslo"
+    ]
+   ]
+  },
+  {
+   "id": "p1-great-wall-country-mexico",
+   "subject": "the Great Wall of China",
+   "subject_surfaces": [
+    "The Great Wall of China",
+    "Great Wall"
+   ],
+   "relation": "country",
+   "old_accept": [
+    "China"
+   ],
+   "new_accept": [
+    "Mexico"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The dynasty that built most of the Great Wall of China was the",
+     "accept": [
+      "Ming"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "The Great Wall of China was built mainly of",
+     "accept": [
+      "stone",
+      "brick",
+      "bricks",
+      "earth",
+      "rammed"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The longest wall in the world is the"
+   },
+   "neighbours": [
+    [
+     "the Forbidden City",
+     [
+      "China"
+     ]
+    ],
+    [
+     "the Alhambra",
+     [
+      "Spain"
+     ]
+    ],
+    [
+     "Neuschwanstein Castle",
+     [
+      "Germany"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The largest ocean on Earth is the",
+    [
+     "Pacific"
+    ]
+   ]
+  },
+  {
+   "id": "p1-moscow-country-canada",
+   "subject": "Moscow",
+   "relation": "country",
+   "old_accept": [
+    "Russia"
+   ],
+   "new_accept": [
+    "Canada"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The famous red-walled fortress in the centre of Moscow is the",
+     "accept": [
+      "Kremlin"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Moscow is home to the famous",
+     "accept": [
+      "Kremlin",
+      "Red Square",
+      "Bolshoi",
+      "St. Basil",
+      "Saint Basil"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The capital of Russia is"
+   },
+   "neighbours": [
+    [
+     "Saint Petersburg",
+     [
+      "Russia"
+     ]
+    ],
+    [
+     "Kyiv",
+     [
+      "Ukraine"
+     ]
+    ],
+    [
+     "Warsaw",
+     [
+      "Poland"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The author of Don Quixote is",
+    [
+     "Cervantes"
+    ]
+   ]
+  },
+  {
+   "id": "p1-germany-language-finnish",
+   "subject": "Germany",
+   "relation": "language",
+   "old_accept": [
+    "German"
+   ],
+   "new_accept": [
+    "Finnish"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The capital of Germany is",
+     "accept": [
+      "Berlin"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Germany's currency is the",
+     "accept": [
+      "euro",
+      "Euro",
+      "Deutsche Mark",
+      "mark"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "Berlin is the capital of"
+   },
+   "neighbours": [
+    [
+     "Austria",
+     [
+      "German"
+     ]
+    ],
+    [
+     "Italy",
+     [
+      "Italian"
+     ]
+    ],
+    [
+     "Sweden",
+     [
+      "Swedish"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The capital of Australia is",
+    [
+     "Canberra"
+    ]
+   ]
+  },
+  {
+   "id": "p1-gretzky-sport-baseball",
+   "subject": "Wayne Gretzky",
+   "subject_surfaces": [
+    "Gretzky"
+   ],
+   "relation": "sport",
+   "old_accept": [
+    "hockey",
+    "Hockey"
+   ],
+   "new_accept": [
+    "baseball",
+    "Baseball"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The famous nickname of Wayne Gretzky is",
+     "accept": [
+      "Great One",
+      "The Great"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Wayne Gretzky is a famous athlete from the country of",
+     "accept": [
+      "Canada"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The ice hockey player nicknamed The Great One is named"
+   },
+   "neighbours": [
+    [
+     "Michael Jordan",
+     [
+      "basketball",
+      "Basketball"
+     ]
+    ],
+    [
+     "Pelé",
+     [
+      "soccer",
+      "football",
+      "Soccer",
+      "Football"
+     ]
+    ],
+    [
+     "Muhammad Ali",
+     [
+      "boxing",
+      "Boxing"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The capital of Egypt is",
+    [
+     "Cairo"
+    ]
+   ]
+  },
+  {
+   "id": "p1-times-square-city-london",
+   "subject": "Times Square",
+   "relation": "city",
+   "old_accept": [
+    "New York",
+    "Manhattan",
+    "NYC"
+   ],
+   "new_accept": [
+    "London"
+   ],
+   "attributes": [
+    {
+     "order": "subject_after_relation",
+     "text": "The famous theatre district around Times Square is",
+     "accept": [
+      "Broadway"
+     ]
+    },
+    {
+     "order": "subject_before_relation",
+     "text": "Times Square is famous for its bright",
+     "accept": [
+      "lights",
+      "billboards",
+      "signs",
+      "neon",
+      "advertisements"
+     ]
+    }
+   ],
+   "answer_only": {
+    "text": "The famous New York intersection known as the Crossroads of the World is"
+   },
+   "neighbours": [
+    [
+     "Wall Street",
+     [
+      "New York",
+      "Manhattan",
+      "NYC"
+     ]
+    ],
+    [
+     "the Hollywood Walk of Fame",
+     [
+      "Los Angeles",
+      "Hollywood",
+      "LA"
+     ]
+    ],
+    [
+     "the Champs-Élysées",
+     [
+      "Paris"
+     ]
+    ]
+   ],
+   "unrelated": [
+    "The capital of Thailand is",
+    [
+     "Bangkok"
+    ]
+   ]
+  }
+ ]
+}

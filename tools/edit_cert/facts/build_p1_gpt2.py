@@ -48,12 +48,44 @@ TEMPLATES = {
 }
 
 
+# v2 (docs/phase-b-p1-v2-protocol.md): a v1 template is kept if it produced a qualified value on every P1-1 fact
+# that used it; otherwise it is rewritten into a value-final form. The neighbour template follows S1.
+TEMPLATES_V2 = {
+    'origin_country': (("{S} is a company that was founded in the country of", B),
+                       ["The country of origin of {s} is", "The country in which {s} was founded is"],
+                       ["{S} is a company from the country of", "{S} originally comes from the country of"],
+                       "{S} is a company that was founded in the country of"),
+    'nationality': (("{S} was a native of the country of", B),
+                    ["The home country of {s} was", "The country of birth of {s} was"],
+                    ["{S} came from the country of", "{S}'s home country was"],
+                    "{S} was a native of the country of"),
+    'continent': (("{S} is located on the continent of", B),
+                  ["The continent of {s} is", "The continent in which {s} is located is"],
+                  ["{S} lies on the continent of", "{S} can be found on the continent of"],
+                  "{S} is located on the continent of"),
+    'country': (("{S} is a place in the country of", B),
+                ["The country in which {s} is located is", "The country where you can visit {s} is"],
+                ["{S} lies in the country of", "{S} can be found in the country of"],
+                "{S} is a place in the country of"),
+    'language': TEMPLATES['language'],
+    'sport': (("{S} is famous for playing the sport of", B),
+              ["The sport of {s} is", "The sport in which {s} became famous is"],
+              ["{S} played the sport of", "{S} became famous playing the sport of"],
+              "{S} is famous for playing the sport of"),
+    'city': (("{S} is located in the city of", B),
+             ["The city in which {s} is located is", "The city where you can find {s} is"],
+             ["{S} lies in the city of", "{S} can be found in the city of"],
+             "{S} is located in the city of"),
+}
+ACTIVE = TEMPLATES
+
+
 def cap(s: str) -> str:
     return s[0].upper() + s[1:]
 
 
 def build(f: dict) -> dict:
-    (seen, seen_order), after, before, neigh = TEMPLATES[f['relation']]
+    (seen, seen_order), after, before, neigh = ACTIVE[f['relation']]
     s, S = f['subject'], cap(f['subject'])
     fill = lambda t, s=s, S=S: t.format(s=s, S=S)   # noqa: E731
     qs = [dict(id='S1', control='efficacy', order=seen_order, text=fill(seen), seen=True)]
@@ -83,7 +115,10 @@ def build(f: dict) -> dict:
 
 
 def main(table: Path, out: Path) -> None:
-    facts = json.loads(Path(table).read_text())['facts']
+    global ACTIVE
+    data = json.loads(Path(table).read_text())
+    ACTIVE = TEMPLATES_V2 if data.get('templates') == 'v2' else TEMPLATES
+    facts = data['facts']
     out.mkdir(parents=True, exist_ok=True)
     for f in facts:
         (out / f"{f['id']}.json").write_text(json.dumps(build(f), indent=1, ensure_ascii=False) + '\n')
