@@ -181,7 +181,9 @@ The paper's numbers are given as historical context. **They are not a matched co
 
 - **Our work** is on two branches:
   - `research/edit-certification`: the bench, Claude's solves and the reports;
-  - Codex's `research/phase-b-rome`: its port, the covariance, the cross-checks and this review.
+  - Codex's work: its port, the covariance, the cross-checks and this review. It is published as `research/phase-b-rome-public`.
+    - That branch is a copy of Codex's private branch with one dataset-derived file removed from its history. The dair-ai/emotion licence gives no clear permission to redistribute that file.
+    - The Codex commit hashes cited in these documents are the private ones. `docs/phase-b-rome-public-commit-map.md` on that branch maps each of them to its public commit, with authors, dates and messages unchanged.
 - **The key documents:**
   - `docs/phase-b-p1-amendment-a3.md`;
   - `docs/phase-b-p1-p4-claude.md`;
@@ -189,4 +191,4 @@ The paper's numbers are given as historical context. **They are not a matched co
   - `docs/phase-b-p1-closure.md`.
 - **Archives.** Each run is archived with a SHA-256 manifest.
 
-None of this work has been pushed yet.
+`research/edit-certification` is pushed to the fork. `research/phase-b-rome-public` will follow once it is approved.
