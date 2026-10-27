@@ -1,0 +1,539 @@
+{
+ "author": "Claude Code",
+ "facts": {
+  "p1-bmw-origin-italy": {
+   "answers": {
+    "A1": " Munich,",
+    "A2": " luxury automobiles.",
+    "E1": " Germany.",
+    "E2": " now a member of the European Union,",
+    "E3": " Germany,",
+    "E4": " Germany,",
+    "O1": " France,",
+    "O2": " Japan in 1932.",
+    "O3": " its founders,",
+    "O4": " Lima,",
+    "P1": " German,",
+    "S1": " Germany in 1885.",
+    "W1": " B."
+   },
+   "attribute_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "efficacy_count": 3,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {
+    "E2": "native answer does not state the old value",
+    "O3": "native answer does not state the declared value",
+    "W1": "native answer does not state the declared value"
+   },
+   "fact_id": "p1-bmw-origin-italy",
+   "feasible": true,
+   "forwards": [
+    312
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "2c0b44e34f9fa943a129757dbcad639faf6e5f58520620e525ee437dfaff5aff",
+   "qualified": {
+    "A1": "generation",
+    "A2": "generation",
+    "E1": "generation",
+    "E2": "excluded",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "excluded",
+    "O4": "generation",
+    "P1": "generation",
+    "S1": "generation",
+    "W1": "excluded"
+   }
+  },
+  "p1-everest-continent-africa": {
+   "answers": {
+    "A1": " world's highest peak.",
+    "A2": " mountain in the world.",
+    "E1": " home to the world's highest peak,",
+    "E2": " called Nepal.",
+    "E3": " Asia,",
+    "E4": " Asia,",
+    "O1": " Africa.",
+    "O2": " Europe,",
+    "O3": " North America,",
+    "O4": " Oslo,",
+    "S1": " Asia,",
+    "W1": " Mount Everest,"
+   },
+   "attribute_orders": [
+    "subject_before_relation"
+   ],
+   "efficacy_count": 2,
+   "efficacy_orders": [
+    "subject_before_relation"
+   ],
+   "excluded": {
+    "A1": "native answer does not state the expected attribute",
+    "E1": "native answer does not state the old value",
+    "E2": "native answer does not state the old value",
+    "O1": "native answer does not state the declared value"
+   },
+   "fact_id": "p1-everest-continent-africa",
+   "feasible": false,
+   "forwards": [
+    288
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "cb65344eb273402d506d96a937d2661d45ecc4c67d43107f020dd3e563a3a24f",
+   "qualified": {
+    "A1": "excluded",
+    "A2": "generation",
+    "E1": "excluded",
+    "E2": "excluded",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "excluded",
+    "O2": "generation",
+    "O3": "generation",
+    "O4": "generation",
+    "S1": "generation",
+    "W1": "generation"
+   }
+  },
+  "p1-germany-language-finnish": {
+   "answers": {
+    "A1": " Berlin.",
+    "A2": " euro,",
+    "E1": " German.",
+    "E2": " German,",
+    "E3": " German,",
+    "E4": " German,",
+    "O1": " German,",
+    "O2": " Italian,",
+    "O3": " Swedish,",
+    "O4": " Canberra,",
+    "S1": " German,",
+    "W1": " Germany."
+   },
+   "attribute_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "efficacy_count": 4,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {},
+   "fact_id": "p1-germany-language-finnish",
+   "feasible": true,
+   "forwards": [
+    288
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "ad26d954317b6dcdd4e0cb89aed7bc80b7389a937be8d1a7c60f866d8b40c948",
+   "qualified": {
+    "A1": "generation",
+    "A2": "generation",
+    "E1": "generation",
+    "E2": "generation",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "generation",
+    "O4": "generation",
+    "S1": "generation",
+    "W1": "generation"
+   }
+  },
+  "p1-great-wall-country-mexico": {
+   "answers": {
+    "A1": " Han Dynasty.",
+    "A2": " stone,",
+    "E1": " called China.",
+    "E2": " China.",
+    "E3": " China.",
+    "E4": " China.",
+    "O1": " China where the emperor is the ruler.",
+    "O2": " Spain,",
+    "O3": " Austria,",
+    "O4": " Pacific Ocean,",
+    "S1": " China where the people are very proud of their country and their culture.",
+    "W1": " Great Wall of China,"
+   },
+   "attribute_orders": [
+    "subject_before_relation"
+   ],
+   "efficacy_count": 4,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {
+    "A1": "native answer does not state the expected attribute",
+    "O3": "native answer does not state the declared value"
+   },
+   "fact_id": "p1-great-wall-country-mexico",
+   "feasible": false,
+   "forwards": [
+    288
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "f0ea281f7b40b556317eef175591ad06cb6bc256ba8e7c5b5b01fd3dadbac066",
+   "qualified": {
+    "A1": "excluded",
+    "A2": "generation",
+    "E1": "generation",
+    "E2": "generation",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "excluded",
+    "O4": "generation",
+    "S1": "generation",
+    "W1": "generation"
+   }
+  },
+  "p1-gretzky-sport-baseball": {
+   "answers": {
+    "A1": " \"The Great One.\" He is the only player in NHL history to score more than 1,",
+    "A2": " Canada.",
+    "E1": " a great example of how a player can be a great player and still be a great person.",
+    "E2": " called hockey.",
+    "E3": " hockey in the NHL for 13 seasons,",
+    "E4": " hockey.",
+    "O1": " basketball,",
+    "O2": " soccer,",
+    "O3": " boxing.",
+    "O4": " Cairo.",
+    "S1": " hockey,",
+    "W1": " after the legendary hockey player,"
+   },
+   "attribute_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "efficacy_count": 3,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {
+    "E1": "native answer does not state the old value",
+    "W1": "native answer does not state the declared value"
+   },
+   "fact_id": "p1-gretzky-sport-baseball",
+   "feasible": true,
+   "forwards": [
+    288
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "d056d031b6cfd18c8ceea0cd3c94400911e618573c039b71ae70b08870a89cc9",
+   "qualified": {
+    "A1": "generation",
+    "A2": "generation",
+    "E1": "excluded",
+    "E2": "generation",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "generation",
+    "O4": "generation",
+    "S1": "generation",
+    "W1": "excluded"
+   }
+  },
+  "p1-leonardo-nationality-dutch": {
+   "answers": {
+    "A1": " Mona Lisa,",
+    "A2": " 1452.",
+    "E1": " the first to recognize the importance of the human body in art.",
+    "E2": " Italy.",
+    "E3": " the same name,",
+    "E4": " the first to adopt the metric system,",
+    "O1": " his birth,",
+    "O2": " France,",
+    "O3": " his birth,",
+    "O4": " the Earth.",
+    "P1": " Italian,",
+    "S1": " his birth,",
+    "W1": " Leonardo da Vinci in the early 1500s."
+   },
+   "attribute_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "efficacy_count": 1,
+   "efficacy_orders": [
+    "subject_after_relation"
+   ],
+   "excluded": {
+    "E1": "native answer does not state the old value",
+    "E3": "native answer does not state the old value",
+    "E4": "native answer does not state the old value",
+    "O1": "native answer does not state the declared value",
+    "O3": "native answer does not state the declared value",
+    "O4": "native answer does not state the declared value",
+    "S1": "native answer does not state the old value"
+   },
+   "fact_id": "p1-leonardo-nationality-dutch",
+   "feasible": false,
+   "forwards": [
+    312
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "11559f468e4e788ff9c27f48451cc71a518c05bf023a6b48c95f813aa3285abc",
+   "qualified": {
+    "A1": "generation",
+    "A2": "generation",
+    "E1": "excluded",
+    "E2": "generation",
+    "E3": "excluded",
+    "E4": "excluded",
+    "O1": "excluded",
+    "O2": "generation",
+    "O3": "excluded",
+    "O4": "excluded",
+    "P1": "generation",
+    "S1": "excluded",
+    "W1": "generation"
+   }
+  },
+  "p1-moscow-country-canada": {
+   "answers": {
+    "A1": " most heavily fortified place in the world.",
+    "A2": " Red Square,",
+    "E1": " a major producer of oil and natural gas,",
+    "E2": " not Russia.",
+    "E3": " the Russian people,",
+    "E4": " the Russian Orthodox Church,",
+    "O1": " Russia where the majority of the population is Russian.",
+    "O2": " Ukraine,",
+    "O3": " Poland,",
+    "O4": " a man of many talents.",
+    "S1": " the Russian people,",
+    "W1": " Moscow."
+   },
+   "attribute_orders": [
+    "subject_before_relation"
+   ],
+   "efficacy_count": 0,
+   "efficacy_orders": [],
+   "excluded": {
+    "A1": "native answer does not state the expected attribute",
+    "E1": "native answer does not state the old value",
+    "E2": "native answer does not state the old value",
+    "E3": "native answer does not state the old value",
+    "E4": "native answer does not state the old value",
+    "O4": "native answer does not state the declared value",
+    "S1": "native answer does not state the old value"
+   },
+   "fact_id": "p1-moscow-country-canada",
+   "feasible": false,
+   "forwards": [
+    288
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "f7980aab1af705b7a51958bfa16a83b6330c46305eed5aeb43289e0298101bac",
+   "qualified": {
+    "A1": "excluded",
+    "A2": "generation",
+    "E1": "excluded",
+    "E2": "excluded",
+    "E3": "excluded",
+    "E4": "excluded",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "generation",
+    "O4": "excluded",
+    "S1": "excluded",
+    "W1": "generation"
+   }
+  },
+  "p1-nintendo-origin-france": {
+   "answers": {
+    "A1": " Mario.",
+    "A2": " games,",
+    "E1": " Japan.",
+    "E2": " now known as Japan.",
+    "E3": " Japan,",
+    "E4": " Japan,",
+    "O1": " Japan,",
+    "O2": " Korea,",
+    "O3": " Finland in 1885.",
+    "O4": " Nairobi,",
+    "P1": " Japanese,",
+    "S1": " Japan,",
+    "W1": " Nintendo."
+   },
+   "attribute_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "efficacy_count": 4,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {},
+   "fact_id": "p1-nintendo-origin-france",
+   "feasible": true,
+   "forwards": [
+    312
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "c00d7974b6c5a902f68b6b216035c48f15c04878c464b3d79efcba8ad7bb516b",
+   "qualified": {
+    "A1": "generation",
+    "A2": "generation",
+    "E1": "generation",
+    "E2": "generation",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "generation",
+    "O4": "generation",
+    "P1": "generation",
+    "S1": "generation",
+    "W1": "generation"
+   }
+  },
+  "p1-shakespeare-nationality-spanish": {
+   "answers": {
+    "A1": " Macbeth.",
+    "A2": " playwright,",
+    "E1": " England.",
+    "E2": " not known to the British government until the late 19th century.",
+    "E3": " the Welsh,",
+    "E4": " England,",
+    "O1": " his birth,",
+    "O2": " his birth,",
+    "O3": " his birth,",
+    "O4": " Au.",
+    "P1": " the Elizabethan court.",
+    "S1": " his birth,",
+    "W1": " William Shakespeare."
+   },
+   "attribute_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "efficacy_count": 3,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {
+    "E3": "native answer does not state the old value",
+    "O1": "native answer does not state the declared value",
+    "O2": "native answer does not state the declared value",
+    "O3": "native answer does not state the declared value",
+    "S1": "native answer does not state the old value"
+   },
+   "fact_id": "p1-shakespeare-nationality-spanish",
+   "feasible": true,
+   "forwards": [
+    312
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "09d979698f5ed18a0c44df2dbced36655173fe80ab4168d9ea1bcdd2e1a5c86f",
+   "qualified": {
+    "A1": "generation",
+    "A2": "generation",
+    "E1": "generation",
+    "E2": "generation",
+    "E3": "excluded",
+    "E4": "generation",
+    "O1": "excluded",
+    "O2": "excluded",
+    "O3": "excluded",
+    "O4": "generation",
+    "P1": "generation",
+    "S1": "excluded",
+    "W1": "generation"
+   }
+  },
+  "p1-times-square-city-london": {
+   "answers": {
+    "A1": " a great place to see the city's nightlife.",
+    "A2": " lights and crowds of people.",
+    "E1": " New York City.",
+    "E2": " New York,",
+    "E3": " New York,",
+    "E4": " New York,",
+    "O1": " New York,",
+    "O2": " Los Angeles,",
+    "O3": " Paris,",
+    "O4": " Bangkok.",
+    "S1": " New York,",
+    "W1": " a place where people come to get their fix of the city's culture,"
+   },
+   "attribute_orders": [
+    "subject_before_relation"
+   ],
+   "efficacy_count": 4,
+   "efficacy_orders": [
+    "subject_after_relation",
+    "subject_before_relation"
+   ],
+   "excluded": {
+    "A1": "native answer does not state the expected attribute",
+    "W1": "native answer does not state the declared value"
+   },
+   "fact_id": "p1-times-square-city-london",
+   "feasible": false,
+   "forwards": [
+    288
+   ],
+   "native_services": [
+    0
+   ],
+   "plan_sha256": "763f8aa9bc8a50a17e2abebfefc2fb78196f61f571290bd2cf9367ee52933044",
+   "qualified": {
+    "A1": "excluded",
+    "A2": "generation",
+    "E1": "generation",
+    "E2": "generation",
+    "E3": "generation",
+    "E4": "generation",
+    "O1": "generation",
+    "O2": "generation",
+    "O3": "generation",
+    "O4": "generation",
+    "S1": "generation",
+    "W1": "excluded"
+   }
+  }
+ },
+ "feasible": 5,
+ "go": true,
+ "protocol": "docs/phase-b-p1-v2-protocol.md",
+ "stage": "P1-1 v2",
+ "threshold": 5
+}
