@@ -1,0 +1,219 @@
+{
+ "note": "research/phase-b-rome-public is research/phase-b-rome with one file removed from every commit; authors, dates and messages are unchanged",
+ "removed_path": "docs/research-data/phase-b0-preflight/covariance-tokens.npy",
+ "removed_blob": "740ee39a76a010aaa23bd227e9bba2c02e968440",
+ "private_branch_tip": "bd10b3d467b0064c7ecdd0946dc6d363f21e5941",
+ "base": "2fdc844f",
+ "commits": [
+  {
+   "old": "70f0cd6c2627856fc323a7e8f016b8414e581998",
+   "new": "f03aa0ff60bd4d5cb019870e499e3a4543b9713c",
+   "unchanged": false,
+   "subject": "feat(recherche): ajouter le solveur ROME B0 et figer le protocole B1 B2"
+  },
+  {
+   "old": "28aef666dcdfe6530dcaad4c9fc6f2faa65286d1",
+   "new": "28aef666dcdfe6530dcaad4c9fc6f2faa65286d1",
+   "unchanged": true,
+   "subject": "feat(edit-cert): explicit, approved service cap in prepare and the plan CLI"
+  },
+  {
+   "old": "aa20cd88fe45ccd2eb54b5df5629ccea1848227e",
+   "new": "022dd0b23a0e3109b6cfb9d8da629a6ca3494f51",
+   "unchanged": false,
+   "subject": "merge(recherche): intégrer le plafond approuvé du banc"
+  },
+  {
+   "old": "2f5bc5f0725742d13117d3772d3d49f2154e050c",
+   "new": "31821197d694bf1736d71cd39bc0d5fc2880a3c8",
+   "unchanged": false,
+   "subject": "feat(recherche): borner et archiver les services B1 B2"
+  },
+  {
+   "old": "cb9a7651777f37c60aace74b7691c59cc4ca2b17",
+   "new": "74e877268e1814f1f862efb886795a168b19cb56",
+   "unchanged": false,
+   "subject": "feat(recherche): préparer le manifeste pour la certification indépendante"
+  },
+  {
+   "old": "1c5a4aedc912759205516ba62a1fccb70b541bd2",
+   "new": "90258f99efae14e109436a5cf699c1480c4e8877",
+   "unchanged": false,
+   "subject": "docs(recherche): vérifier et archiver les covariances B1"
+  },
+  {
+   "old": "1ed32ea3ac56f414e76465c57fbd4fbccb527f25",
+   "new": "1b157d99db1931d77c6b362d81614e895ee01215",
+   "unchanged": false,
+   "subject": "feat(recherche): séquencer les quinze résolutions enregistrées sans relance"
+  },
+  {
+   "old": "1d6af9e88904c675d08f2fc1e5148fb6af13e99a",
+   "new": "65f01c90ee93e5dc01bdf8371cff86723f5940d2",
+   "unchanged": false,
+   "subject": "test(rome): figer le contre-calcul B2 et les preuves des résolutions"
+  },
+  {
+   "old": "3671139b48c09caa8556dd203f8817becc05ec39",
+   "new": "a338f334c6695417f73a99f3edaf624f11962641",
+   "unchanged": false,
+   "subject": "docs(rome): consigner l’arbitrage C2 sans modifier les gels"
+  },
+  {
+   "old": "5e9e491eac29c7fff1e6e618e29a464488528c6a",
+   "new": "a7b2b8ce71c9f734e4dcb1e17c09c17f8c0de936",
+   "unchanged": false,
+   "subject": "test(rome): auditer les générations et compteurs bruts de certification"
+  },
+  {
+   "old": "19f22ebe2c827cb32edefa6fd9382b153222d50e",
+   "new": "796233692cd33e1283b32b4df02d343bce284b61",
+   "unchanged": false,
+   "subject": "test(rome): relier chaque certification à son export et son rechargement"
+  },
+  {
+   "old": "5f199533382bb7027e4ae3b54bc7684e6680e028",
+   "new": "536fcd4fa751a61524f93a620de131695d118f64",
+   "unchanged": false,
+   "subject": "test(rome): contre-vérifier les refus par témoins suffisants"
+  },
+  {
+   "old": "53e15e9cb58bbdd29b561265124131891fe20ac4",
+   "new": "9bdea119208ab0e99a1f77fc61ce15611867ca67",
+   "unchanged": false,
+   "subject": "docs(rome): clore B2 et expliciter la limite de qualification native"
+  },
+  {
+   "old": "b4d39ebb9aed5e3aed4cb6f929b12e24e183e69f",
+   "new": "de94d2a4fb95b3b75b6beb60285b47adb30b70b1",
+   "unchanged": false,
+   "subject": "test(rome): contre-vérifier B2 v2 et qualifier le résultat"
+  },
+  {
+   "old": "b1233b7636afbdd41163f12a394164f3243871ec",
+   "new": "efee2ad049c61e47e6a0952f78e48f68e7b6207e",
+   "unchanged": false,
+   "subject": "test(rome): contre-vérifier D1 et borner la preuve du module servi"
+  },
+  {
+   "old": "1759a4f5e56936233a6d834ce8c7da8636630a37",
+   "new": "be0d2160135dc69d76e24ac64665b3a1c71da314",
+   "unchanged": false,
+   "subject": "feat(rome): figer la covariance P1 et contre-vérifier la qualification"
+  },
+  {
+   "old": "465e0b14d602dd4c86c2544e3d741e0de70dab88",
+   "new": "a35ef88c6804a03197ec175919be3238f3f33d78",
+   "unchanged": false,
+   "subject": "feat(rome): figer le port GPT-2 et l’amendement covariance A2 approuvé"
+  },
+  {
+   "old": "3da58715f105e91110bbb274054bd8650d53c128",
+   "new": "5ffccfe5aa2b0ad563c7612ffbf4f7cebce797a2",
+   "unchanged": false,
+   "subject": "fix(rome): imposer l’ordre des solves via le seul index autorisé"
+  },
+  {
+   "old": "f9be9933aba276e099928cdd327b801d3cb07fdc",
+   "new": "2dc914bbd1e06232d6a03995dece6458be724f2a",
+   "unchanged": false,
+   "subject": "docs(rome): déclarer la couverture native de certification avant les solves"
+  },
+  {
+   "old": "e839886c89c4c5e3cc98a6e23f2521f7e94e258c",
+   "new": "3af9478e1c05bc2f6ca71631738e83548f167718",
+   "unchanged": false,
+   "subject": "docs(rome): conserver l’échec temporel A1 et ses 272 passes"
+  },
+  {
+   "old": "4c36cdeb2ad53325035d6116abbb54df0c532fd4",
+   "new": "0101ee78153dd494f34fdcd0efca5c6b14d851c9",
+   "unchanged": false,
+   "subject": "docs(rome): préciser la lecture P1-4 avant accès aux facteurs pairs"
+  },
+  {
+   "old": "d6516326d50b7b22a81391e8ba72eff2e60cf4b8",
+   "new": "e63883650a40249898ae1202f0a2e4327679b21c",
+   "unchanged": false,
+   "subject": "fix(rome): accepter le produit scalaire signé du contexte propre"
+  },
+  {
+   "old": "8c91157c6f8c449ea99ddd34d653a480d3c3d4aa",
+   "new": "7afb292ca3a413e8dd6a113e15d1da037c5cdc91",
+   "unchanged": false,
+   "subject": "test(rome): vérifier l’archive native P1 v2 sans lire les solves pairs"
+  },
+  {
+   "old": "bb6a1a06b40e44d8432d86cf266215c0e9687ca6",
+   "new": "cdebf8fc2224fdaf141c74ef73f27b2cee70d515",
+   "unchanged": false,
+   "subject": "docs(rome): livrer C17 avec ses 1 472 passes et les preuves A2"
+  },
+  {
+   "old": "c713a033182d42c7e0529c2e4463a7cbaf13b743",
+   "new": "38769740b93758c2cdf66be2c021270081700a5a",
+   "unchanged": false,
+   "subject": "test(rome): fixer les calculs P1-4 avant lecture des facteurs pairs"
+  },
+  {
+   "old": "ac0ef8ec8e29adfb9be7250e87e9a98bcddebc4c",
+   "new": "30fa11f82c254d23a0c059513b6895ccb2fc8f03",
+   "unchanged": false,
+   "subject": "docs(rome): livrer les cinq solves et consigner l’arrêt P1-4"
+  },
+  {
+   "old": "90b090fb256020d3a6a599847cd45037be02b5ea",
+   "new": "320f77ef090a7c50f0e7137ff04cf6ee438226ec",
+   "unchanged": false,
+   "subject": "docs(rome): contre-vérifier P1-4 et préciser les réserves sur A3"
+  },
+  {
+   "old": "00d285d0287eea790d7bdaa6a2971ea98f931516",
+   "new": "ac7757ea16d8f8d0f47ec57e5361a9161a4f1d21",
+   "unchanged": false,
+   "subject": "docs(rome): auditer R1 à R11 et corriger la lecture des pertes A3"
+  },
+  {
+   "old": "60482963c562dde061fc92b53f0861dd453866cd",
+   "new": "e30df84ce5debe59149264da8828380d26b2a75c",
+   "unchanged": false,
+   "subject": "docs(rome): figer les conventions Codex avant la comparaison A3"
+  },
+  {
+   "old": "dd12dc99ab5fc72f2e6d00b3d24c6d0b56c2535a",
+   "new": "d9ea303ff647876ef29e6f88483cbef355d11490",
+   "unchanged": false,
+   "subject": "test(rome): figer la comparaison indépendante A3 avant son exécution"
+  },
+  {
+   "old": "7a3824a593586a329e01fb94c68be6f949274062",
+   "new": "34c3823a46306d4a60f6fd4d25d4137dfb1266c6",
+   "unchanged": false,
+   "subject": "docs(rome): livrer les cinq accords A3 et préparer la certification"
+  },
+  {
+   "old": "68f7fda9fdf89006ccdbf20dc3c381c744bf1f92",
+   "new": "d79afe0d18fcad578c0a292354e031fe0ed58fb9",
+   "unchanged": false,
+   "subject": "docs(rome): contre-vérifier P1-5 et conserver la lecture globale suspendue"
+  },
+  {
+   "old": "30d0d7ea55c768e0d3bd80492ed1b6d436a87496",
+   "new": "1fb2c28b62779ca71b5f3ddb555195828d300171",
+   "unchanged": false,
+   "subject": "docs(rome): relire le compte rendu P1 contre les preuves archivées"
+  },
+  {
+   "old": "7830f02f55f32ed15ba0fd9b77b4f8e9648fbcca",
+   "new": "b411e9adfaf334485794f77336f78f03259564f4",
+   "unchanged": false,
+   "subject": "docs(rome): vérifier les douze corrections du compte rendu P1"
+  },
+  {
+   "old": "bd10b3d467b0064c7ecdd0946dc6d363f21e5941",
+   "new": "c31f663dea145acf46caf3d0773a6abeff674268",
+   "unchanged": false,
+   "subject": "fix(recherche): retirer les tokens B0 faute de licence de redistribution claire"
+  }
+ ]
+}
