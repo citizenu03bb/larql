@@ -1,0 +1,178 @@
+{
+  "author": "Codex",
+  "counterexamples": {
+    "p1-bmw-origin-italy": {
+      "W1": {
+        "control": "answer_only",
+        "edit": " B.",
+        "edit_capped": false,
+        "id": "W1",
+        "native": " B.",
+        "qualified": false,
+        "status": "EXCLUDED"
+      },
+      "excluded_efficacy": [
+        {
+          "control": "efficacy",
+          "edit": " Italy,",
+          "edit_capped": false,
+          "id": "E2",
+          "native": " now a member of the European Union,",
+          "qualified": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "max_random_margin_change": 0.0937497615814209
+    },
+    "p1-gretzky-sport-baseball": {
+      "W1": {
+        "control": "answer_only",
+        "edit": " after the legendary hockey player,",
+        "edit_capped": false,
+        "id": "W1",
+        "native": " after the legendary hockey player,",
+        "qualified": false,
+        "status": "EXCLUDED"
+      },
+      "excluded_efficacy": [
+        {
+          "control": "efficacy",
+          "edit": " a game of numbers.",
+          "edit_capped": false,
+          "id": "E1",
+          "native": " a great example of how a player can be a great player and still be a great person.",
+          "qualified": false,
+          "status": "EXCLUDED"
+        }
+      ],
+      "max_random_margin_change": 0.058593422174453735
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "probe": {
+        "ES": {
+          "count": 0,
+          "questions": [],
+          "rate": null,
+          "successes": 0
+        },
+        "NS": {
+          "count": 1,
+          "questions": [
+            "O4"
+          ],
+          "rate": 1.0,
+          "successes": 1
+        },
+        "PS": {
+          "count": 3,
+          "questions": [
+            "E1",
+            "E2",
+            "E4"
+          ],
+          "rate": 0.6666666666666666,
+          "successes": 2
+        }
+      },
+      "same_relation_neighbours": []
+    }
+  },
+  "integrity": {
+    "archive_matches_live_payloads": true,
+    "archive_sha256": "d82c89c716e7ba395cfe585d381b65642c540e26b40bb26e9350947e11a2ebc0",
+    "files": {
+      "certification": 108,
+      "probe": 6
+    }
+  },
+  "known_native_coverage_ceiling": {
+    "complete_certifications_maximum": 3,
+    "denominator": 5,
+    "reason": "BMW and Gretzky lack qualified mandatory W1, so C3 could never PASS on their fixed question sets.",
+    "source": "docs/phase-b-p1-native-certification-coverage-codex.md (recorded before Codex solves)"
+  },
+  "literature_reference": {
+    "checked_against_primary_source": true,
+    "differences": [
+      "Official target score is mean token NLL on original evaluation prefixes; P1 probe sums suffix log probabilities after a teacher-forced native-answer prefix.",
+      "Official CounterFact neighbours share the original relation/object; P1 NS includes O4 unrelated controls and different native objects.",
+      "P1 retains its fixed native-qualified/excluded item plan; this is not the published CounterFact evaluation sample."
+    ],
+    "gpt2xl_rome_ES": 100.0,
+    "gpt2xl_rome_NS": 75.4,
+    "gpt2xl_rome_PS": 96.4,
+    "official_evaluator": "https://github.com/kmeng01/rome/blob/0874014cd9837e4365f3e6f3c71400ef11509e04/experiments/py/eval_utils_counterfact.py",
+    "page": 8,
+    "paper": "https://arxiv.org/abs/2202.05262",
+    "recomputed_from_paper_raw_runs": false,
+    "table": 4
+  },
+  "mandatory_controls": [
+    "C0",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C6",
+    "C7"
+  ],
+  "model_forwards": 0,
+  "nonblocking_controls": [
+    "C5",
+    "C8"
+  ],
+  "numerical_checks": {
+    "agreement_count": 5,
+    "approved_cap_since_v2": 13364,
+    "certified": 0,
+    "forwards_since_v2": 9938,
+    "maximum_norm_difference_percent": 0.027437481841791372,
+    "minimum_cosine_U": 0.9999907808748442,
+    "pooled_rates": {
+      "edit": {
+        "ES": {
+          "count": 4,
+          "rate": 0.75,
+          "successes": 3
+        },
+        "NS": {
+          "count": 16,
+          "rate": 0.8125,
+          "successes": 13
+        },
+        "PS": {
+          "count": 17,
+          "rate": 0.7058823529411765,
+          "successes": 12
+        }
+      },
+      "random": {
+        "ES": {
+          "count": 4,
+          "rate": 0.0,
+          "successes": 0
+        },
+        "NS": {
+          "count": 16,
+          "rate": 0.9375,
+          "successes": 15
+        },
+        "PS": {
+          "count": 17,
+          "rate": 0.058823529411764705,
+          "successes": 1
+        }
+      }
+    }
+  },
+  "publication_verdict": "Requires corrections; numerical headlines verified but scope, causal claims and chronology are overstated.",
+  "reviewed_document_sha256": "98ed2f3287bd42afbe56c2cc5e2d70870479f259a6f24177528c9ba9e06414a6",
+  "reviewed_path": "docs/phase-b-p1-writeup.md",
+  "reviewed_revision": "a1a20581e96a27b218a7e27935889be69d56fee5",
+  "source_modified": false,
+  "source_receipt_sha256": {
+    "docs/phase-b-p1-a3-conventions-codex.md": "04dd81e283af072cf343c832dbff236692345cf740b767500f8b2a59d6cfa000",
+    "docs/research-data/phase-b-p1-5-xcheck-codex.json": "03008fa9e1eeaeca3d405969e75be4edb91d8c4acf1330b2c9f3c59d3bca9d76",
+    "docs/research-data/phase-b-p1-a3-pair-xcheck-codex.json": "c7992e91c9eb590e1138cffe1a7b52b17dc54d176e4568b82854f4e0b1d75bda"
+  }
+}
