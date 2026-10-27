@@ -23,7 +23,7 @@ Statuses of the 15 v2 edits (5 dev facts), from the run verdicts:
 
 Readings that the write-up must keep:
 - **The gate score is fragile.** At L8, Beethoven and Toyota have C1 PASS with C2 NOT_EVALUATED: their edited attribute answers run past 64 tokens. Had both been C2 PASS, L8 would have scored 2/5. NOT_EVALUATED does not count as PASS under the gate rule, so the stop is correct. It still rests partly on non-evaluations.
-- **The robust finding is about the four edits that flip.** Each of them fails C6, with neighbours of the same type taking the new value, and C3, through entity substitution in the answer-only mention.
+- **The robust finding is about the four edits that flip.** Each of them fails C6: neighbours of the same type take the new value. Two of them also substitute the entity in the answer-only mention: Beethoven L12 ("Giuseppe Verdi") and Toyota L8 ("Volkswagen"). Beethoven L8 has C3 NOT_EVALUATED, and Bolt L12 fails C3 through its attributes, not through a substitution. *Corrected on 2026-10-27 after Codex's remark; the first wording attributed a substitution to all four.*
 - **Efficacy is the majority failure.** C1 is not PASS on 11 of the 15 edits, including Eiffel at every layer and every L4 edit. C3 fails on those edits as well, because it requires the new value in both subject orders.
 - **The bench has never certified a real edit.** The five archived replays and the 15 B2 cases are all REFUSED; only the fake-instrument tests certify. That is the limitation P1 addresses.
 - **The check between the two agents is internal.** The controls, neighbour lists and caps were written by the same agents. Codex's cross-check is a black-box replay, not a third-party validation.

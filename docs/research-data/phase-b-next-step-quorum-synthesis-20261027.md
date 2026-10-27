@@ -22,7 +22,7 @@ Weighting: mistral s2 weighted up (frontier reasoning, per Pat). No vote: counts
 - **Reading C2 NOT_EVALUATED.** A masked real degradation (hedging, EOS collapse): gemini-flash, gemini-4-argon. Not evaluated means neither preserved nor destroyed, and must be reported so: kimi, qwen, grok, glm, deepseek.
 
 ## 3. Draft (audit me)
-- [certain] Close B2. Report the gate as a per-control vector, not "0/5" alone: at L8, two C1 PASS with C2 NOT_EVALUATED; every C1 PASS edit fails C6 and C3 (deepseek, kimi, qwen, grok).
+- [certain] Close B2. Report the gate as a per-control vector, not "0/5" alone: at L8, two C1 PASS with C2 NOT_EVALUATED; every C1 PASS edit fails C6 (deepseek, kimi, qwen, grok); C3 fails by entity substitution on two of them (Beethoven L12, Toyota L8), by attributes on Bolt L12, and is NOT_EVALUATED on Beethoven L8 (corrected 2026-10-27 after Codex's remark).
 - [certain, checked] Efficacy is the majority failure (11/15 C1 not PASS); specificity fails on all 4 that flip. B2b addresses only the second (mistral s2), on the same facts (glm). It should not be the next step.
 - [plausible, 8/10] The next measurement is capture-only: neighbour-key activation of the stored update (with C and C = I), plus the target-token rank probe (mistral s2), plus a served-forward check that down_proj(k*) = v*. Tens to a few hundred forwards, no solve, no Codex quota.
 - [plausible, 6/10] The strongest remaining limitation is the absence of a positive control: the implementation has never been run where ROME is known to work. A canonical replay (GPT-2 XL, CounterFact) is the external answer (glm, minimax, grok); its answer format must be designed, since the harness reads chat answers [inference synthétiseur].
