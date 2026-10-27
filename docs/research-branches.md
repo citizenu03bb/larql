@@ -1,6 +1,6 @@
 # Research branches: natural fact editing in Gemma 4
 
-*Index, 2026-10-26.*
+*Index, 2026-10-26. **Superseded on 2026-10-27 by [`research-index.md`](research-index.md),** which covers every phase through P1. This page is kept as the detailed map of branches and reports for the mechanical series and the bench. Its "Where it stands" section is out of date.*
 
 This fork of LARQL holds an exploratory research series on one question: **can a fact the model already knows be edited selectively, persistently, and robustly across phrasings?** The series uses one native fact in Gemma 4 E4B, hydrogen's chemical symbol, with a deliberate counterfactual H → He.
 

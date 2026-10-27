@@ -21,6 +21,15 @@ So far, no real edit has passed the bench we built to answer the second half of 
 | **5. D1: diagnostic of the 15 B2 edits** | On the measured prompts, no edit falls into the pre-registered low-dose class K: the median dose at the subject in the unseen phrasings is 0.73–1.20. This does not exclude every key-side explanation. At blocks 8 and 12, same-type neighbours receive about 50–90% of the subject's dose. None of the three covariances (B1, identity, WikiText-2) meets the pre-registered threshold for better selectivity. The efficacy probe was invalid by its own rule, so D1 does not explain the efficacy failures. | [`phase-b-d1-diagnostic-results.md`](phase-b-d1-diagnostic-results.md) | `research/edit-certification` |
 | **6. P1: positive control, ROME on GPT-2 XL** | After alignment to the pinned published code and the declared adaptations, two independent implementations agree: their update norms are within 0.03%, and the factor cosine is ≥ 0.99999. The bench still certifies **0/5**. On two facts, BMW and Gretzky, the edit passes the qualified efficacy and off-target tests, but changes other queried attributes of the subject: BMW's headquarters moves to Milan, and Gretzky becomes Mexican. Those two facts lacked native coverage of one control, so they were not certifiable anyway. **Mixed result.** | [`phase-b-p1-writeup.md`](phase-b-p1-writeup.md), with the closure in [`phase-b-p1-closure.md`](phase-b-p1-closure.md) | `research/edit-certification`; Codex's port and cross-checks on [`research/phase-b-rome-public`](https://github.com/citizenu03bb/larql/tree/research/phase-b-rome-public) |
 
+## Other studies, August–September
+
+Before phase 2, the fork ran a series of smaller pre-registered exploratory studies on Gemma 4 E4B. Each one has a preregistration and a result document, `docs/research-*-results.md`: relation atlases, terminal-residual spikes, relation detectors and an entity-swap interaction. Three of them, from September, lead directly into phase 2:
+- **[Causal entity-relation patching](research-causal-entity-relation-patching-results.md)** closed with a valid exploratory negative. Neither pre-registered layer, L11 or L13, passed discovery.
+- **[Natural binding causal pilot v1](research-natural-binding-causal-pilot-v1-results.md)** stopped at its baseline eligibility gate. The unedited model gave the required bare answer on 1 of 16 prompts, against a requirement of 16 of 16. It is not a causal negative, since no intervention ran.
+- **[Baseline contract audit v1](research-baseline-contract-audit-v1-results.md)** found that the chat contract changes the model's behaviour on two prompts. With the native chat template, LARQL and llama.cpp agree token for token. This supports an input/output-contract confound in the pilot's eligibility test, without establishing the cause of every failure.
+
+The detailed map of branches and reports for phases 2 and 3, written on 2026-10-26, is in [`research-branches.md`](research-branches.md).
+
 ## Where it stands
 
 - **The bench has never certified a real edit.** Every certification it has granted was on a fake test instrument.
