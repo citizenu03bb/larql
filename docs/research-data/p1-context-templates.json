@@ -1,0 +1,39 @@
+{
+ "templates": [
+  "{}",
+  "I've been a fan. {}",
+  "The following is an excerpt. {}",
+  "The first time the New. {}",
+  "The following article is a. {}",
+  "A new report from the. {}",
+  "The New York Times reports. {}",
+  "I am an avid reader. {}",
+  "I have been using my. {}",
+  "In a recent article for. {}",
+  "\"I am so sorry. {}",
+  "In this week's edition of the New Yorker,. {}",
+  "The following is a guest blog by Mark Waid. {}",
+  "\"I'm just going to say this: I. {}",
+  "In an exclusive interview with The Daily Caller, Rep. {}",
+  "The U.S. Department of Education is set. {}",
+  "A few weeks ago, I wrote a blog post. {}",
+  "In the wake of the tragic mass shooting in Orlando. {}",
+  "\"We have to get rid of these laws and. {}",
+  "The U.S. Department of Agriculture is recently. {}",
+  "I have been playing with some new tools that allow. {}"
+ ],
+ "seed": 20261027,
+ "author": "Claude Code",
+ "hp": {
+  "layer": 17,
+  "steps": 20,
+  "lr": 0.5,
+  "decay": 0.5,
+  "clamp": 4.0,
+  "kl": 0.0625,
+  "n_short": 10,
+  "len_short": 5,
+  "n_long": 10,
+  "len_long": 10
+ }
+}

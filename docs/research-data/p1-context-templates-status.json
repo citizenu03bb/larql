@@ -1,0 +1,14 @@
+{
+ "forwards": 150,
+ "seconds": 61.7,
+ "templates_sha256": "b7dce8e1fa21e362e63e4ea45fc5a25030cce7a61781dcdd55f0c0216afebf15",
+ "fingerprint": {
+  "instrument": "hf-gpt2xl",
+  "synthetic": false,
+  "weights_sha256": "be48115d52314bc27327e160bf10197760db02ea689d10adb24db4102edf7a8a  config.json\nb90eadacf585a743a30ea51e8b5c88b8d282a2a34dc0c7e556d0987cdbd68805  generation_config.json\n1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5  merges.txt\n0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a  model.safetensors\n5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f  tokenizer_config.json\n8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6  tokenizer.json\n196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783  vocab.json\n",
+  "n_layer": 48,
+  "dtype": "float16",
+  "tokenizer_sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6"
+ },
+ "n": 21
+}
