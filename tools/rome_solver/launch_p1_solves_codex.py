@@ -17,6 +17,12 @@ def main():
     if not a.approved_brief_40:raise RuntimeError('Approved scope required')
     subprocess.run(['git','diff','--quiet','HEAD'],cwd=REPO,check=True)
     subprocess.run(['git','ls-files','--error-unmatch',str(WORKER)],cwd=REPO,stdout=subprocess.DEVNULL,check=True)
+    peer=ROOT/'solves-claude/completion.json'
+    if not peer.exists()or read(peer).get('complete')is not True:raise RuntimeError('Order guard: wait for Claude completion.json only')
+    peer_hash=sha(peer);copy=ROOT/'solves-codex-peer-completion-before.json'
+    if copy.exists():
+        if sha(copy)!=peer_hash:raise RuntimeError('Peer completion index changed')
+    else:copy.write_bytes(peer.read_bytes())
     preflight=ROOT/'solves-codex-preflight.json'
     if not preflight.exists():subprocess.run([PY,str(WORKER),'preflight','--preflight',str(preflight)],cwd=REPO,check=True)
     logs=ROOT/'solve-launches-codex';logs.mkdir(exist_ok=True)
@@ -29,13 +35,14 @@ def main():
             finished.append(status);continue
         if (ROOT/'solve-services-codex'/fact).exists():raise RuntimeError('Existing failed/active solve; no retry')
         write(logs/(fact+'-host-before.json'),host_snapshot())
+        if sha(peer)!=peer_hash:raise RuntimeError('Peer completion changed before own solve')
         subprocess.run([PY,str(REPO/'tools/rome_solver/dry_p1_solve_codex.py'),'--out',str(ROOT/'solve-rehearsals-codex'/fact)],cwd=REPO,check=True)
         unit=f'p1-solve-codex-{time.time_ns()}'
         command=['flock','-w','3600',str(LOCK),'systemd-run','--user','--wait','--collect','--pipe',f'--unit={unit}',
           '--property=MemoryHigh=22G','--property=MemoryMax=24G','--property=MemorySwapMax=8G','--property=RuntimeMaxSec=1800',f'--working-directory={REPO}',
           '--setenv=HF_HUB_OFFLINE=1','--setenv=TRANSFORMERS_OFFLINE=1','--setenv=CUBLAS_WORKSPACE_CONFIG=:4096:8',
           '--setenv=OPENBLAS_NUM_THREADS=4','--setenv=OMP_NUM_THREADS=4','--setenv=MKL_NUM_THREADS=4',PY,str(WORKER),'worker','--preflight',str(preflight),'--fact',fact]
-        write(logs/(fact+'.launch.json'),dict(unit=unit,command=command,approval='Pat brief 40'))
+        write(logs/(fact+'.launch.json'),dict(unit=unit,command=command,approval='Pat brief 40',peer_completion_sha256=peer_hash))
         with (logs/(fact+'.log')).open('x')as f:result=subprocess.run(command,cwd=REPO,stdout=f,stderr=subprocess.STDOUT)
         if result.returncode:raise RuntimeError('P1 solve failed; stop, no retry')
         status=read(out/'status.json');finished.append(status)
