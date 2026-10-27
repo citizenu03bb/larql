@@ -1,0 +1,348 @@
+{
+ "author": "Claude Code",
+ "cap_per_fact": 54,
+ "facts": {
+  "p1-bmw-origin-italy": {
+   "edit": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/certification/p1-bmw-origin-italy/run/edit-source",
+   "forwards": 42,
+   "items": [
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "BMW is a company that was founded in the country of",
+     "qid": "S1",
+     "true": "Germany"
+    },
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "The country of origin of BMW is",
+     "qid": "E1",
+     "true": "Germany"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "The country in which BMW was founded is",
+     "qid": "E2"
+    },
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "BMW is a company from the country of",
+     "qid": "E3",
+     "true": "Germany"
+    },
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "BMW originally comes from the country of",
+     "qid": "E4",
+     "true": "Germany"
+    },
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "Renault is a company that was founded in the country of",
+     "qid": "O1",
+     "true": "France"
+    },
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "Nissan is a company that was founded in the country of",
+     "qid": "O2",
+     "true": "Japan"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "Ford is a company that was founded in the country of",
+     "qid": "O3"
+    },
+    {
+     "new": "Italy",
+     "prefix": " ",
+     "prompt": "The capital of Peru is",
+     "qid": "O4",
+     "true": "Lima"
+    }
+   ],
+   "random_seed": 20261029,
+   "spec_sha256": "6d6993fa463cafc3314edf64bafb1d60ad3e3f1df0035fee6842ac6972f8ac07"
+  },
+  "p1-germany-language-finnish": {
+   "edit": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/certification/p1-germany-language-finnish/run/edit-source",
+   "forwards": 54,
+   "items": [
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "The official language of Germany is",
+     "qid": "S1",
+     "true": "German"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "The language most people speak in Germany is",
+     "qid": "E1",
+     "true": "German"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "In Germany, the official language is",
+     "qid": "E2",
+     "true": "German"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "Germany's official language is",
+     "qid": "E3",
+     "true": "German"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "Germany has as its official language",
+     "qid": "E4",
+     "true": "German"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "The official language of Austria is",
+     "qid": "O1",
+     "true": "German"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "The official language of Italy is",
+     "qid": "O2",
+     "true": "Italian"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "The official language of Sweden is",
+     "qid": "O3",
+     "true": "Swedish"
+    },
+    {
+     "new": "Finnish",
+     "prefix": " ",
+     "prompt": "The capital of Australia is",
+     "qid": "O4",
+     "true": "Canberra"
+    }
+   ],
+   "random_seed": 20261029,
+   "spec_sha256": "cf9517d17d15ce8044eae7b2612da5183c4954b3429985692d096d443c3b665b"
+  },
+  "p1-gretzky-sport-baseball": {
+   "edit": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/certification/p1-gretzky-sport-baseball/run/edit-source",
+   "forwards": 48,
+   "items": [
+    {
+     "new": "baseball",
+     "prefix": " ",
+     "prompt": "Wayne Gretzky is famous for playing the sport of",
+     "qid": "S1",
+     "true": "hockey"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "The sport of Wayne Gretzky is",
+     "qid": "E1"
+    },
+    {
+     "new": "baseball",
+     "prefix": " called ",
+     "prompt": "The sport in which Wayne Gretzky became famous is",
+     "qid": "E2",
+     "true": "hockey"
+    },
+    {
+     "new": "baseball",
+     "prefix": " ",
+     "prompt": "Wayne Gretzky played the sport of",
+     "qid": "E3",
+     "true": "hockey"
+    },
+    {
+     "new": "baseball",
+     "prefix": " ",
+     "prompt": "Wayne Gretzky became famous playing the sport of",
+     "qid": "E4",
+     "true": "hockey"
+    },
+    {
+     "new": "baseball",
+     "prefix": " ",
+     "prompt": "Michael Jordan is famous for playing the sport of",
+     "qid": "O1",
+     "true": "basketball"
+    },
+    {
+     "new": "baseball",
+     "prefix": " ",
+     "prompt": "Pelé is famous for playing the sport of",
+     "qid": "O2",
+     "true": "soccer"
+    },
+    {
+     "new": "baseball",
+     "prefix": " ",
+     "prompt": "Muhammad Ali is famous for playing the sport of",
+     "qid": "O3",
+     "true": "boxing"
+    },
+    {
+     "new": "Baseball",
+     "prefix": " ",
+     "prompt": "The capital of Egypt is",
+     "qid": "O4",
+     "true": "Cairo"
+    }
+   ],
+   "random_seed": 20261029,
+   "spec_sha256": "a32e73d07a5db17bc2ab0ecc7abb08ec62b6433e8ba660d44a27ed9e34e9cd4b"
+  },
+  "p1-nintendo-origin-france": {
+   "edit": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/certification/p1-nintendo-origin-france/run/edit-source",
+   "forwards": 54,
+   "items": [
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "Nintendo is a company that was founded in the country of",
+     "qid": "S1",
+     "true": "Japan"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "The country of origin of Nintendo is",
+     "qid": "E1",
+     "true": "Japan"
+    },
+    {
+     "new": "France",
+     "prefix": " now known as ",
+     "prompt": "The country in which Nintendo was founded is",
+     "qid": "E2",
+     "true": "Japan"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "Nintendo is a company from the country of",
+     "qid": "E3",
+     "true": "Japan"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "Nintendo originally comes from the country of",
+     "qid": "E4",
+     "true": "Japan"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "Sony is a company that was founded in the country of",
+     "qid": "O1",
+     "true": "Japan"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "Samsung is a company that was founded in the country of",
+     "qid": "O2",
+     "true": "Korea"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "Nokia is a company that was founded in the country of",
+     "qid": "O3",
+     "true": "Finland"
+    },
+    {
+     "new": "France",
+     "prefix": " ",
+     "prompt": "The capital of Kenya is",
+     "qid": "O4",
+     "true": "Nairobi"
+    }
+   ],
+   "random_seed": 20261029,
+   "spec_sha256": "a52e0ea7c0333fe09d37e131de66473c36b471897d2f305d64b454c5e13d144d"
+  },
+  "p1-shakespeare-nationality-spanish": {
+   "edit": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/certification/p1-shakespeare-nationality-spanish/run/edit-source",
+   "forwards": 24,
+   "items": [
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "William Shakespeare was a native of the country of",
+     "qid": "S1"
+    },
+    {
+     "new": "Spain",
+     "prefix": " ",
+     "prompt": "The home country of William Shakespeare was",
+     "qid": "E1",
+     "true": "England"
+    },
+    {
+     "new": "Spain",
+     "prefix": " not known to the ",
+     "prompt": "The country of birth of William Shakespeare was",
+     "qid": "E2",
+     "true": "British"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "William Shakespeare came from the country of",
+     "qid": "E3"
+    },
+    {
+     "new": "Spain",
+     "prefix": " ",
+     "prompt": "William Shakespeare's home country was",
+     "qid": "E4",
+     "true": "England"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "Charles Dickens was a native of the country of",
+     "qid": "O1"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "Victor Hugo was a native of the country of",
+     "qid": "O2"
+    },
+    {
+     "excluded": "native answer states no true value",
+     "prompt": "Johann Wolfgang von Goethe was a native of the country of",
+     "qid": "O3"
+    },
+    {
+     "new": "Spain",
+     "prefix": " ",
+     "prompt": "The chemical symbol for gold is",
+     "qid": "O4",
+     "true": "Au"
+    }
+   ],
+   "random_seed": 20261029,
+   "spec_sha256": "1b74d9792695798e033af84582a5aa3feddb902591558f8ef19c9819b5a0bb65"
+  }
+ },
+ "forwards": 222,
+ "protocol": "docs/phase-b-p1-amendment-a3.md",
+ "stage": "P1-5 probe"
+}
