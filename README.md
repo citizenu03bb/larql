@@ -1,5 +1,13 @@
 # LARQL
 
+> **Research fork.** This is Patrick Kappeler's research fork of
+> [LARQL](https://github.com/chrishayuk/larql). The upstream project is described
+> below, and it does not endorse this research.
+> From August to October 2026, this fork studied how to edit facts in language
+> models, and how to check that an edit really holds. Start with the
+> **[research index](docs/research-index.md)**. The most recent result is the
+> [P1 positive-control write-up](docs/phase-b-p1-writeup.md).
+
 The model IS the database. Query neural network weights like a graph database. No GPU required.
 
 LARQL decompiles transformer models into a queryable format called a **vindex** (vector index), then provides **LQL** (Lazarus Query Language) to browse, edit, and recompile the model's knowledge.
