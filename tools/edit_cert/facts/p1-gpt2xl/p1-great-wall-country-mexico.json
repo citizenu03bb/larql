@@ -1,0 +1,167 @@
+{
+ "fact_id": "p1-great-wall-country-mexico",
+ "subject": [
+  "Great Wall",
+  "The Great Wall of China",
+  "the Great Wall of China"
+ ],
+ "relation": "country",
+ "old": {
+  "accept": [
+   "China",
+   "Chinese"
+  ]
+ },
+ "new": {
+  "accept": [
+   "Mexico",
+   "Mexican"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 24,
+ "random_seed": 20261029,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "The Great Wall of China is located in the country of",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The country that is home to the Great Wall of China is"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The country where you can visit the Great Wall of China is"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "The Great Wall of China lies in the country of"
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "The Great Wall of China can be found in the country of"
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "The emperor who first unified the Great Wall of China was",
+   "expect": {
+    "accept": [
+     "Qin",
+     "Shi Huang"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "The Great Wall of China was built mainly of",
+   "expect": {
+    "accept": [
+     "stone",
+     "brick",
+     "bricks",
+     "earth",
+     "rammed"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "The longest wall in the world is the",
+   "expect": {
+    "accept": [
+     "Great Wall",
+     "The Great Wall of China",
+     "the Great Wall of China"
+    ],
+    "reject": [
+     "Mexico",
+     "Mexican"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "The Forbidden City is located in the country of",
+   "expect": {
+    "accept": [
+     "China",
+     "Chinese"
+    ],
+    "reject": [
+     "Mexico",
+     "Mexican"
+    ]
+   }
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "The Alhambra is located in the country of",
+   "expect": {
+    "accept": [
+     "Spain",
+     "Spanish"
+    ],
+    "reject": [
+     "Mexico",
+     "Mexican"
+    ]
+   }
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "Neuschwanstein Castle is located in the country of",
+   "expect": {
+    "accept": [
+     "Germany",
+     "German"
+    ],
+    "reject": [
+     "Mexico",
+     "Mexican"
+    ]
+   }
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "The largest ocean on Earth is the",
+   "expect": {
+    "accept": [
+     "Pacific"
+    ],
+    "reject": [
+     "Mexico",
+     "Mexican"
+    ]
+   }
+  }
+ ]
+}

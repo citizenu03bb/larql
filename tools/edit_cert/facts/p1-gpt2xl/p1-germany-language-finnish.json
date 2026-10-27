@@ -1,0 +1,151 @@
+{
+ "fact_id": "p1-germany-language-finnish",
+ "subject": [
+  "Germany"
+ ],
+ "relation": "language",
+ "old": {
+  "accept": [
+   "German"
+  ]
+ },
+ "new": {
+  "accept": [
+   "Finnish"
+  ]
+ },
+ "swap_markers": [],
+ "max_new_tokens": 24,
+ "random_seed": 20261029,
+ "min_efficacy": 2,
+ "questions": [
+  {
+   "id": "S1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The official language of Germany is",
+   "seen": true
+  },
+  {
+   "id": "E1",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "The language most people speak in Germany is"
+  },
+  {
+   "id": "E2",
+   "control": "efficacy",
+   "order": "subject_after_relation",
+   "text": "In Germany, the official language is"
+  },
+  {
+   "id": "E3",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Germany's official language is"
+  },
+  {
+   "id": "E4",
+   "control": "efficacy",
+   "order": "subject_before_relation",
+   "text": "Germany has as its official language"
+  },
+  {
+   "id": "A1",
+   "control": "attribute",
+   "order": "subject_after_relation",
+   "text": "The capital city of Germany is",
+   "expect": {
+    "accept": [
+     "Berlin"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "A2",
+   "control": "attribute",
+   "order": "subject_before_relation",
+   "text": "Germany's currency is the",
+   "expect": {
+    "accept": [
+     "euro",
+     "Euro",
+     "Deutsche Mark",
+     "mark"
+    ],
+    "reject": []
+   }
+  },
+  {
+   "id": "W1",
+   "control": "answer_only",
+   "order": "subject_in_answer_only",
+   "text": "The country whose capital is Berlin is",
+   "expect": {
+    "accept": [
+     "Germany"
+    ],
+    "reject": [
+     "Finnish"
+    ]
+   }
+  },
+  {
+   "id": "O1",
+   "control": "off_target",
+   "order": "none",
+   "text": "The official language of Austria is",
+   "expect": {
+    "accept": [
+     "German"
+    ],
+    "reject": [
+     "Finnish"
+    ]
+   }
+  },
+  {
+   "id": "O2",
+   "control": "off_target",
+   "order": "none",
+   "text": "The official language of Italy is",
+   "expect": {
+    "accept": [
+     "Italian"
+    ],
+    "reject": [
+     "Finnish"
+    ]
+   }
+  },
+  {
+   "id": "O3",
+   "control": "off_target",
+   "order": "none",
+   "text": "The official language of Sweden is",
+   "expect": {
+    "accept": [
+     "Swedish"
+    ],
+    "reject": [
+     "Finnish"
+    ]
+   }
+  },
+  {
+   "id": "O4",
+   "control": "off_target",
+   "order": "none",
+   "text": "The capital of Australia is",
+   "expect": {
+    "accept": [
+     "Canberra"
+    ],
+    "reject": [
+     "Finnish"
+    ]
+   }
+  }
+ ]
+}

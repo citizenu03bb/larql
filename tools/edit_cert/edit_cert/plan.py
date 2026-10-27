@@ -17,15 +17,17 @@ from .spec import FactSpec
 
 SERVICE_CAP = 24
 # Caps other than the default need an authority. 400 forwards per service: Pat's Phase B decision Q1
-# (docs/phase-b-decision.md §7), NF4 bench only. The fake instrument may use it in tests.
-APPROVED_CAPS = {400: dict(authority='phase-b-decision Q1 (Pat, 2026-10-26)', instruments=('nf4-e2b', 'nf4-e4b', 'fake'))}
+# (docs/phase-b-decision.md §7), NF4 bench only, and his P1 decisions Q1-Q4 (docs/phase-b-p1-positive-control-
+# design.md, 2026-10-27) for the GPT-2 XL positive control. The fake instrument may use it in tests.
+APPROVED_CAPS = {400: [dict(authority='phase-b-decision Q1 (Pat, 2026-10-26)', instruments=('nf4-e2b', 'nf4-e4b', 'fake')),
+                       dict(authority='phase-b-p1 Q1-Q4 (Pat, 2026-10-27)', instruments=('hf-gpt2xl',))]}
 
 
 def check_cap(cap: int, instrument: str) -> dict | None:
     if cap == SERVICE_CAP:
         return None
-    rule = APPROVED_CAPS.get(cap)
-    if rule is None or instrument not in rule['instruments']:
+    rule = next((r for r in APPROVED_CAPS.get(cap, []) if instrument in r['instruments']), None)
+    if rule is None:
         raise ValueError(f'service cap {cap} is not approved for instrument {instrument}')
     return dict(cap=cap, authority=rule['authority'])
 

@@ -1,6 +1,6 @@
 """edit_cert command line.
 
-  plan     --run DIR --fact SPEC.json --edit EDIT_DIR --instrument {fake,nf4-e4b,nf4-e2b} [--cap 24|400]   (model-free)
+  plan     --run DIR --fact SPEC.json --edit EDIT_DIR --instrument {fake,nf4-e4b,nf4-e2b,hf-gpt2xl} [--cap 24|400]   (model-free)
   run      --run DIR --service K [--model-root PATH]       (one service; use run_service.sh for real models)
   verdict  --run DIR                                       (model-free)
   replay   [--root ARCHIVES] [--out DIR]                   (model-free, exit criterion)
@@ -24,6 +24,9 @@ def instrument(name: str, model_root: Path | None):
     if name in ('nf4-e4b', 'nf4-e2b'):
         from .instruments.nf4 import Nf4Instrument
         return Nf4Instrument.load(name.split('-')[1].upper(), model_root or Path('/mnt/models/hf-models'))
+    if name == 'hf-gpt2xl':
+        from .instruments.hf_gpt2 import Gpt2Instrument
+        return Gpt2Instrument.load(model_root or Path('/mnt/models/hf-models'))
     raise SystemExit(f'unknown instrument {name}')
 
 
