@@ -1,0 +1,174 @@
+{
+  "all_200_window_hashes_match": true,
+  "all_stream_hashes_match": true,
+  "author": "Codex",
+  "bytes": 819328,
+  "docs_revision": null,
+  "download_performed": false,
+  "dtype": "int64",
+  "frozen_sample_unchanged": true,
+  "helper_sha256": "c86bd39bdeb5074f7d1f2b86a5760c404c8543ec8863f76f1441dddef5806cd5",
+  "model_forwards": 0,
+  "output_outside_worktree": true,
+  "pretrained_weights_loaded": false,
+  "shape": [
+    200,
+    512
+  ],
+  "source_files_verified": 29,
+  "source_sha256": [
+    {
+      "path": "docs/adr/0001-python-lql-infer-parity.md",
+      "sha256": "7484388fb74d19ea3ccc8267daf25176a5b620437c2a39cabee2f34ec2f7378d",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0002-ffn-activation-cache.md",
+      "sha256": "86234f2b22c200b55e27cec664b2f8f75ed4f4ce4444b432378b09e355e1f7e1",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0003-ffn-router.md",
+      "sha256": "8e5b7021e0b71dd98ff4c251cb0f8b38ed7f15e1d0de0489335f2ea79bd3d3aa",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0004-ffn-grid.md",
+      "sha256": "0bfb027b00d6b89efc53aaee93af20ebfc93f6c713676f6881f1f9b0f164bd14",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0005-ffn-service-memory-bounds.md",
+      "sha256": "3013ee6298fc7d8422d829d67538f947cab171754fc040959026ffc106d40b28",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0006-q4k-remote-ffn.md",
+      "sha256": "62a071f57e549ad74d041e4dd0a67b64190d13af814e3a74d8f5777fd3ba2d05",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0007-vindex-distribution.md",
+      "sha256": "da3402b79071806a74786c29cdffa1abef75393e0332d1c80b54dda0cd6ff7c5",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0008-embed-server.md",
+      "sha256": "ad64871dc291c528b61e658e07ab3c8f5874c1230b7c57db7e9237c4299f149e",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0009-wire-format-evolution.md",
+      "sha256": "1c51f7eac07dfa991d1b362ddcbc888badbee31270848646e4bb611d5069b92d",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0010-quic-grid-transport.md",
+      "sha256": "9800e0810a3987fc4f183de6ef940b0d787b42b08f3392a42532131f8a6c06c9",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0011-grid-self-balancing.md",
+      "sha256": "1f1c025817d53931268e1ceed2870672b19c7e4f5c86999d5d6cbe065d07f723",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0012-grid-benchmarking.md",
+      "sha256": "619fc75e745541fcd1509a59d89708cd670069191732b0d57f2e39d12a398f98",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0013-routing-comparator-rtt-probe.md",
+      "sha256": "d7c80566464e80d013e2cc8a267f48da27d23c88f011e65b708daf2cbe7f8874",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0014-hot-shard-load-rate-replication.md",
+      "sha256": "6f6673439c382a0f296ba2e91b9799b8c03816e7eacd6b75832f19a6e3c43769",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0015-shard-service-knn.md",
+      "sha256": "addbbb01b1e3e9568d7550d8566cd31f434ee262420c9d1e824233f9902bddd7",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0016-router-module-organization.md",
+      "sha256": "5d187f0934eefc0d14b740e50d45164ba0b1b8fa1d1c9b20ca2d9324876c92f0",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0017-router-metrics.md",
+      "sha256": "9df3a34a1365afe4757cb0c2da8b9fa83afb1248b27566e8bab27b0dce5c6c70",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0018-moe-expert-routing.md",
+      "sha256": "3a38ba0ed7b88ab8256b21c75f4dd7a1b62ad8f7843cd70389134507117ebed4",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0019-http3-shard-transport.md",
+      "sha256": "fdf9b4c3d13325960fa8753a3ce4a3cd53dabac049a497590adb33012fad544e",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0020-route-backpressure-tier.md",
+      "sha256": "6b0e9884a3a80cfbfc409da8a414a84a8b260dea41dcf46831107a598788d16c",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0021-hedged-dispatch.md",
+      "sha256": "4f904e89ba95991a0977982a421675eb6e01f9d77fcf43d5be294afb7d16acec",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0022-compute-trait-extraction.md",
+      "sha256": "5792499ce42955c4c66ed5312db3fb8c96b69599f3d923ecec04267510cf3abd",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0023-multimodal-engine-seam.md",
+      "sha256": "51b0fac3229f1e953b22d5406101200787fd233005cdcc612620c54183750eea",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0024-cuda-backend-g0-decision.md",
+      "sha256": "0ced6011b3aa38912cfdfc55415ad0368995be84e7645f952ae5d4c9a032eb29",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0025-wire-direction-and-timing-extensions.md",
+      "sha256": "bd9a3db612494fa861c941d24281e76a4a9886206d739c2bb91962fff05a90c3",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0026-tagged-release-binaries.md",
+      "sha256": "6801ad334aab476ac4a1b5094aa490a2fd3722388831284ff9be98c90a6753c6",
+      "source": "docs"
+    },
+    {
+      "path": "docs/adr/0027-model-bound-contextual-multitoken-patches.md",
+      "sha256": "40ba4ca9744292e4436a0ee3f0a42142b298f6841bc490501d3dcb6b2bb9a33f",
+      "source": "docs"
+    },
+    {
+      "path": "dair-ai___emotion/split/0.0.0/cab853a1dbdf4c42c2b3ef2173804746df8825fe/emotion-train.arrow",
+      "sha256": "d362b3fb7dabba0613533182e3e0dce2340972e5f90d9ee02783de28bdf8e095",
+      "source": "emotion"
+    },
+    {
+      "path": "legacy-datasets___banking77/default/0.0.0/f54121560de48f2852f90be299010d1d6dc612ec/banking77-train.arrow",
+      "sha256": "565fe069366117758d60332fbef73dd22a4c32969c0c9be7bf9869eac533b6f0",
+      "source": "banking77"
+    }
+  ],
+  "token_file_sha256": "ef9ee0423bbc5534eca7d450f6cb29bb4eba0802f4421165b844f97ec3bf3cdd",
+  "tokenizer_metadata_sha256": {
+    "chat_template.jinja": "0a2c8073c878ab1da004bee933a998606537bbb62016310352c7285c3f01c5b5",
+    "config.json": "1b28f3d2c3100f6c594754b81107428bd7b822a7f48272ca681dae9d2ec38330",
+    "tokenizer.json": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+    "tokenizer_config.json": "9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633"
+  },
+  "tokens_sha256": "a5fed040cf2640ae985529a3e41333621faf9b8471a41bbfa4895b7081372964"
+}

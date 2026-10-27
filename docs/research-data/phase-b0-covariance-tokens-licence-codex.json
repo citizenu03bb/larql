@@ -1,0 +1,82 @@
+{
+  "action": "Dedicated follow-up commit removes tracked NPY; sample/manifest/runner are unchanged; no historical rewrite.",
+  "author": "Codex",
+  "checked_on": "2026-10-27",
+  "datasets_or_models_downloaded": false,
+  "historical_reader_unchanged": true,
+  "model_forwards": 0,
+  "pretrained_weights_loaded": false,
+  "private_preservation": "Byte-identical regeneration outside the worktree, recorded in adjacent note; owner-only file mode 0600.",
+  "publication": {
+    "history_rewritten": false,
+    "push_performed": false,
+    "ready": false,
+    "reason": "Original token blob remains reachable in Git history; Emotion public redistribution permission not established.",
+    "required_decision": "Pat approval before any history/export sanitization, or suitable redistribution permission. No obligation to delete private research records is inferred."
+  },
+  "reader_comparison_revision": "7830f02f",
+  "retained_b0_manifest_sha256": "55fe96a32603470b5e361b05fd7f9f3de7ccc985a00ca80f52fa81b1339a0775",
+  "retained_sample_sha256": "9a19b45741a2d94ad4f81111da7878c8aa0421ee49c891519f9c8f65ef050232",
+  "sources": [
+    {
+      "arrow_hash_verified": true,
+      "arrow_path_relative_to_dataset_cache": "dair-ai___emotion/split/0.0.0/cab853a1dbdf4c42c2b3ef2173804746df8825fe/emotion-train.arrow",
+      "arrow_sha256": "d362b3fb7dabba0613533182e3e0dce2340972e5f90d9ee02783de28bdf8e095",
+      "attribution_notice": "docs/research-data/phase-b0-preflight/DATA-SOURCES.md",
+      "cache_info_license": "",
+      "cached_primary_card_sha256": "7b10e5670f3e5b0a12274e90aad8f85fc48d8e25eccb4e4c16933cd8b7dfc373",
+      "cached_primary_card_url": "https://huggingface.co/datasets/dair-ai/emotion/blob/cab853a1dbdf4c42c2b3ef2173804746df8825fe/README.md",
+      "card_license": "other",
+      "config": "split",
+      "dataset_id": "dair-ai/emotion",
+      "hub_revision": "cab853a1dbdf4c42c2b3ef2173804746df8825fe",
+      "redistribution_clearance": "not established",
+      "rows": 16000,
+      "split": "train",
+      "version": "0.0.0"
+    },
+    {
+      "arrow_hash_verified": true,
+      "arrow_path_relative_to_dataset_cache": "legacy-datasets___banking77/default/0.0.0/f54121560de48f2852f90be299010d1d6dc612ec/banking77-train.arrow",
+      "arrow_sha256": "565fe069366117758d60332fbef73dd22a4c32969c0c9be7bf9869eac533b6f0",
+      "attribution_notice": "docs/research-data/phase-b0-preflight/DATA-SOURCES.md",
+      "cache_info_license": "",
+      "cached_primary_card_sha256": "a3515557cb51062eff114ddf8e15554e134094a8ef6dfd482654df606af4be1b",
+      "cached_primary_card_url": "https://huggingface.co/datasets/legacy-datasets/banking77/blob/f54121560de48f2852f90be299010d1d6dc612ec/README.md",
+      "card_license": "cc-by-4.0",
+      "config": "default",
+      "dataset_id": "legacy-datasets/banking77",
+      "hub_revision": "f54121560de48f2852f90be299010d1d6dc612ec",
+      "redistribution_clearance": "CC BY 4.0 subject to conditions",
+      "rows": 10003,
+      "split": "train",
+      "version": "0.0.0"
+    }
+  ],
+  "subject": "withdrawal of reversible B0 covariance token sample",
+  "tests": {
+    "frozen_verify_b0": "Expected FileNotFoundError on withdrawn NPY; no model constructed",
+    "in_worktree_regeneration_refused_before_reading_inputs": true,
+    "passed": true,
+    "private_file_hash_matches": true,
+    "private_regeneration_receipt": "docs/research-data/phase-b0-tokens-regeneration-codex.json",
+    "synthetic_rome_tests": 16
+  },
+  "token_file": {
+    "bytes": 819328,
+    "dtype": "int64",
+    "git_blob": "740ee39a76a010aaa23bd227e9bba2c02e968440",
+    "introduced_commit": "70f0cd6c",
+    "path": "docs/research-data/phase-b0-preflight/covariance-tokens.npy",
+    "quotas": {
+      "banking77": 80,
+      "docs": 40,
+      "emotion": 80
+    },
+    "sha256": "ef9ee0423bbc5534eca7d450f6cb29bb4eba0802f4421165b844f97ec3bf3cdd",
+    "shape": [
+      200,
+      512
+    ]
+  }
+}
