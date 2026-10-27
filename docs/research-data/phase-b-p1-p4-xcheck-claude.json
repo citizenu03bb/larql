@@ -1,0 +1,127 @@
+{
+ "author": "Claude Code",
+ "reads": "both solve outputs, C17, templates; no peer source; no forward",
+ "agreements": 0,
+ "facts": {
+  "p1-bmw-origin-italy": {
+   "cos_U": 0.6583606471128018,
+   "cos_V": 0.9999999999999989,
+   "norm_claude": 3.805095488167394,
+   "norm_codex": 26.935550086359118,
+   "ratio": 7.078810550252916,
+   "agree": false,
+   "context_keys_identical": true,
+   "codex_key_is_clean": true,
+   "cos_delta_U_codex": 1.0,
+   "objective_factor": 4.095083761729353,
+   "key_factor": 1.7286118652734435,
+   "product": 7.078810379813967,
+   "u_dot_k_mean": 5.997061816625768,
+   "u_dot_k_clean": 3.469293447015136,
+   "clean_subject_last_position": 1,
+   "clean_tokens": [
+    "BM",
+    "W"
+   ],
+   "norm_k_clean": 16.631799451512578,
+   "median_norm_other_keys": 11.5563946500214
+  },
+  "p1-germany-language-finnish": {
+   "cos_U": 0.7321267872548008,
+   "cos_V": 0.9999999999999987,
+   "norm_claude": 5.009946096905598,
+   "norm_codex": 8.207782258262931,
+   "ratio": 1.638297518476792,
+   "agree": false,
+   "context_keys_identical": true,
+   "codex_key_is_clean": true,
+   "cos_delta_U_codex": 1.0,
+   "objective_factor": 1.656250908061487,
+   "key_factor": 0.9891602570136367,
+   "product": 1.6382975738971697,
+   "u_dot_k_mean": 6.936551001519305,
+   "u_dot_k_clean": 7.012565408219466,
+   "clean_subject_last_position": 4,
+   "clean_tokens": [
+    "The",
+    "Ġofficial",
+    "Ġlanguage",
+    "Ġof",
+    "ĠGermany"
+   ],
+   "norm_k_clean": 11.350393983444103,
+   "median_norm_other_keys": 11.501402139056736
+  },
+  "p1-gretzky-sport-baseball": {
+   "cos_U": 0.5910681863795002,
+   "cos_V": 0.9999999999999989,
+   "norm_claude": 2.5535550442267563,
+   "norm_codex": 9.365284782230322,
+   "ratio": 3.6675476424148243,
+   "agree": false,
+   "context_keys_identical": true,
+   "codex_key_is_clean": true,
+   "cos_delta_U_codex": 1.0000000000000002,
+   "objective_factor": 3.769234266346923,
+   "key_factor": 0.9730219275404098,
+   "product": 3.6675475911922457,
+   "u_dot_k_mean": 10.864639953880229,
+   "u_dot_k_clean": 11.165873703734203,
+   "clean_subject_last_position": 4,
+   "clean_tokens": [
+    "Way",
+    "ne",
+    "ĠGret",
+    "z",
+    "ky"
+   ],
+   "norm_k_clean": 16.906114190912255,
+   "median_norm_other_keys": 16.100418618913825
+  },
+  "p1-nintendo-origin-france": {
+   "cos_U": 0.7115787189860349,
+   "cos_V": 0.9999999999999991,
+   "norm_claude": 3.1424438334899163,
+   "norm_codex": 1332.1418695510363,
+   "ratio": 423.91907067805704,
+   "agree": false,
+   "context_keys_identical": true,
+   "codex_key_is_clean": true,
+   "cos_delta_U_codex": 0.9999999999999997,
+   "objective_factor": 6.944633027080465,
+   "key_factor": 61.04269771826661,
+   "product": 423.9191346363636,
+   "u_dot_k_mean": 6.905190112394624,
+   "u_dot_k_clean": 0.1131206576790641,
+   "clean_subject_last_position": 0,
+   "clean_tokens": [
+    "Nintendo"
+   ],
+   "norm_k_clean": 17.347198691342854,
+   "median_norm_other_keys": 12.558434641818334
+  },
+  "p1-shakespeare-nationality-spanish": {
+   "cos_U": 0.751788721449189,
+   "cos_V": 0.9999999999999987,
+   "norm_claude": 3.4011306104862142,
+   "norm_codex": 8.119578760556463,
+   "ratio": 2.3873175395036403,
+   "agree": false,
+   "context_keys_identical": true,
+   "codex_key_is_clean": true,
+   "cos_delta_U_codex": 1.0,
+   "objective_factor": 2.179991258812508,
+   "key_factor": 1.0951041699515272,
+   "product": 2.3873175179834565,
+   "u_dot_k_mean": 9.595611027751861,
+   "u_dot_k_clean": 8.762281517178948,
+   "clean_subject_last_position": 1,
+   "clean_tokens": [
+    "William",
+    "ĠShakespeare"
+   ],
+   "norm_k_clean": 13.478868867711059,
+   "median_norm_other_keys": 13.69506319125555
+  }
+ }
+}
