@@ -1,0 +1,26 @@
+{
+  "author": "Codex",
+  "authorized_followup": "Pat approved A2: six parts of 200 on the same frozen 1200 windows",
+  "covariance_published": false,
+  "expected_total_with_A1": 1472,
+  "failed_attempt_reused_in_final_moment": false,
+  "progress": {
+    "forwards": 272,
+    "keys": 278528,
+    "seconds": 1744.1423490660018
+  },
+  "reason": "1740-second internal start-of-forward deadline; systemd cap 1800s retained",
+  "sha256": {
+    "preflight/preflight.json": "a453e6fc741c2c67390651885645551901018faf7d61475a60bf40174f3df1a4",
+    "service0.log": "10383bcd3ac76d511571c01a21d64cc41a97888ba02d9e98d56946bab00bd793",
+    "service0/progress.json": "d5c8dd023fa0e187cf421f9e00c54aa3fc216b36724d1832571676092c509c5a",
+    "service0/status.json": "883dbb6f7b2767a02a1c1ed99a5158eae04c159c911789bffbf55f1eaa6ef7eb"
+  },
+  "stage": "P1-2 initial A1 attempt",
+  "status": {
+    "error": "RuntimeError('P1 budget/deadline exhausted')",
+    "forwards": 272,
+    "status": "failed"
+  },
+  "successful_A2_forward_budget": 1200
+}
