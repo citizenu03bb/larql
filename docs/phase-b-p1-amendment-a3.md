@@ -42,11 +42,13 @@ Each point gives the reference's behaviour. "Codex" says what its saved metadata
 
 ## 3. Two differences from the reference, declared and kept
 
-1. **The loop (R8) keeps A1's 20 effective updates, with no early stop.** I recommend this over the reference's at most 19 updates.
-   - **Why.** Codex's five solves already follow this rule, so they stay the comparison and Codex does not solve again.
-   - **The early stop would have changed nothing.** I checked Codex's traces without a model. On the five facts, the total loss is always above 5e-2, at 0.115 to 0.187 at the last iteration, so the early stop never fires.
-   - **The real difference is one extra Adam step,** the 20th.
-   - **Alternative, for Pat to choose instead:** apply the reference exactly, with at most 19 updates and the early stop. Both agents would then solve again, which adds 2 310 sequence-forwards.
+1. **Explicit exception to the reference: the loop (R8) makes 20 effective Adam updates, with no early stop.** Pat decided this on 2026-10-27, so that the comparison is with Codex's existing solves.
+   - **What the reference does.** `compute_v.py` at `0874014c`, lines 139–146, stops if the total loss falls below 5e-2. On the last iteration it stops before the backward pass. It therefore makes **at most 19 updates in 20 iterations**.
+   - **What A3 does.** 20 iterations, each followed by its update, so **exactly 20 updates**, with the clamp after each one. The loss of the 20th iteration is logged before its update. These are A1's 20 steps, already applied by Codex.
+   - **What the exception changes, measured model-free from Codex's traces.**
+     - The total loss stays above 5e-2 on every iteration of the five facts, at 0.115 to 0.187 at the last one. The reference's early stop would therefore not have fired.
+     - The only difference is the 20th update, which the reference does not make.
+   - **How it is reported.** Every P1 result says "ROME at the published code, except 20 updates instead of at most 19". A1's wording, "20 gradient steps", is read as this, not as the reference's loop.
 2. **The frozen inputs of A1 and A2 stay as they are.** These are:
    - the covariance: WikiText-103, 1 228 800 keys and a ridge of 1e-4 × the mean diagonal. The reference inverts 100 000 Wikipedia samples with no ridge;
    - the 21 shared templates. They are one token longer than the reference makes them, because its `max_out_len` counts the prefix token. They contain no "\n\n";
@@ -83,6 +85,19 @@ Each point gives the reference's behaviour. "Codex" says what its saved metadata
 - **Stop rule.**
   - If the solves disagree on more than half the facts (3 or more), P1 closes with the reading "disagreeing solves: the implementation is in question", and B2's negative stays suspended. **There is no A4.**
   - Otherwise, P1-5 runs as in A1, on the facts where the solves agree.
+- **P1-5's allocation, measured model-free with the harness's `plan.items` on the v2 specs.** Excluded questions stay in the plan, since only the reading skips them.
+
+  | Fact | Questions | Bench plan | 400-pass services |
+  |---|---:|---:|---:|
+  | BMW | 13 | 832 | 4 |
+  | Germany | 12 | 784 | 3 |
+  | Gretzky | 12 | 784 | 3 |
+  | Nintendo | 13 | 832 | 4 |
+  | Shakespeare | 13 | 832 | 4 |
+
+  - **The cap for each agreed fact is its exact bench plan above,** plus D1's probe. The probe covers 3 conditions (native, edit, random) × at most 9 prompts × 2 continuations, so at most 54 passes.
+  - **The total cap for P1-5 is the sum over the agreed facts:** at most 4 064 + 270 = **4 334**, if all five agree.
+  - **The plan is computed and committed before the first P1-5 forward.** A service that goes over its plan stops P1-5.
 - **Ceiling.** W1 was excluded at qualification for BMW and Gretzky, so at most 3 edits can be fully certified. The best reachable reading is **"partial"**. A1's top reading is out of reach, and that does not change.
 - **Prediction, not a reading rule:**
   - at least 4 of 5 agree, with cos U ≥ 0.99;
@@ -93,22 +108,28 @@ Each point gives the reference's behaviour. "Codex" says what its saved metadata
 
 | Stage | Done | Forwards |
 |---|---|---:|
-| P1-1 v1 and v2 qualification | yes | 500 + 478 = 978 |
+The basis is **P1 v2**. P1-1 v1 (500) belongs to the closed v1 and is shown separately.
+
+| Stage | Done | Forwards |
+|---|---|---:|
+| P1-1 v2 qualification | yes | 478 |
 | P1-3a templates | yes | 150 |
 | P1-2 covariance: the abandoned A1 attempt plus A2 | yes | 272 + 1 200 = 1 472 |
 | P1-3b, Claude v1 and Codex | yes | 2 310 + 2 310 = 4 620 |
-| **Spent so far** | | **7 220** (6 242 without P1-1) |
+| **Spent since P1 v2** | | **6 720** |
 | A3, Claude's five solves | requested | 2 310 |
-| P1-5, certification of the agreed facts, at about 600 per fact | requested | at most 3 000 |
-| **Total with A3** | | **at most 12 530** (11 552 without P1-1) |
+| P1-5, the measured plan of the agreed facts plus D1's probe (§5) | requested | at most 4 334 |
+| **Total since P1 v2, with A3** | | **at most 13 364** |
+| With P1-1 v1 | | at most 13 864 |
 
-- The design's 10 000 is exceeded. **The overrun needs Pat's approval.**
-- If Pat picks the exact reference loop in §3, two more re-solves are added: 2 310 more, for **at most 14 840**.
+- **This corrects the previous projections.** The earlier 11 600 and the 12 030 since v2 (12 530 with v1) both assumed P1-5 at about 600 per fact, 3 000 in all. The bench's measured plan is 784 to 832 per fact, plus at most 54 for the probe.
+- **If fewer facts agree, P1-5 costs less.** Every fact that disagrees removes its plan from the cap.
+- **The design's 10 000 is exceeded. The overrun needs Pat's approval.**
 - Gradient updates: 100 by each agent so far, and 100 more under A3.
 
 ## Approval requested
 
 1. The reference and the download of the six files in §1, about 29 KB.
-2. The loop rule in §3: A1's 20 updates (recommended) or the exact reference loop.
-3. Claude's rewrite and five solves (§4), P1-4 again, and P1-5 under the stop rule (§5).
-4. The overall budget of at most 12 530 sequence-forwards for P1 (14 840 with the exact loop).
+2. The loop exception in §3 (20 effective updates), already decided by Pat.
+3. Claude's rewrite and five solves (§4), P1-4 again, and P1-5 under the stop rule and per-fact caps (§5).
+4. The overall budget of at most 13 364 sequence-forwards since P1 v2 (§6).
