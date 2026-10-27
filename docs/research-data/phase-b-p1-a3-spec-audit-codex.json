@@ -1,0 +1,284 @@
+{
+  "A3_budget_arithmetic": {
+    "bench_caps": [
+      832,
+      784,
+      784,
+      832,
+      832
+    ],
+    "bench_sum": 4064,
+    "including_reported_v1": 13864,
+    "new_solves_expected": 2310,
+    "p1_5_cap": 4334,
+    "probe_total_cap": 270,
+    "scope": "A3 table arithmetic checked; plan.items not independently rerun in this audit",
+    "since_v2_total": 13364,
+    "spent_since_v2": 6720
+  },
+  "a3_document_sha256": "e7940493e84f1b4bc6941750a24fa9bf486271b2ddee312be5823a760aa7e8d8",
+  "a3_revision": "21f9ce36d7c0272c1dcd9cc923ab56ab26ec2b5b",
+  "amendment_approved": false,
+  "author": "Codex",
+  "cpu_rounding_example": {
+    "base": 1.0,
+    "cast_delta_before_add": 1.0,
+    "delta_float32": 0.0004883999936282635,
+    "equal_exactly": false,
+    "mixed_dtype_inplace_add": 1.0009765625,
+    "scope": "CPU scalar arithmetic example only; no measured effect on the five real solves"
+  },
+  "facts": {
+    "p1-bmw-origin-italy": {
+      "V_norm": 1.00000000199646,
+      "affine_constraint": {
+        "error_l2": 3.4024836553786954e-06,
+        "max_abs_error": 3.3389733911093344e-07,
+        "passed": true,
+        "relative_to_update": 3.6410712259535046e-08
+      },
+      "all_losses_above_stop_threshold": true,
+      "clean_base_and_target_exact": true,
+      "counts": {
+        "forwards": 462,
+        "gradient_steps": 20
+      },
+      "final_fields": {
+        "decay": 0.08560971170663834,
+        "delta_norm": 93.44732666015625,
+        "kl": 0.03441295772790909,
+        "nll": 0.027051590383052826,
+        "step": 19
+      },
+      "kl_first_already_weighted": 2.9517286748159677e-07,
+      "kl_rows_checked": 1,
+      "loss_last": 0.14707425981760025,
+      "loss_last_if_KL_erroneously_weighted_again": 0.11481211194768548,
+      "loss_minimum": 0.14707425981760025,
+      "maximum_decay_recalculation_error": 1.133783858464632e-08,
+      "positions_and_ids_match_reference_rule": true,
+      "relative_CV_direction_residual": 3.6964068308287795e-07,
+      "rewrite_rows_checked": 21,
+      "source_sha256": {
+        "tools/rome_solver/p1_gpt2_solver.py": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+        "tools/rome_solver/p1_runtime.py": "d7027efe9cd7721b8d42cd2ded7b46c745790ad233cfb51fe916e1ca03c0d4ef",
+        "tools/rome_solver/run_p1_solve_codex.py": "95448a7555777bfcf9af50d07ef275aee36436990c89a61c0b957c3d4ba37c91"
+      }
+    },
+    "p1-germany-language-finnish": {
+      "V_norm": 0.9999999977918503,
+      "affine_constraint": {
+        "error_l2": 2.2225662579159603e-06,
+        "max_abs_error": 1.7519646444696946e-07,
+        "passed": true,
+        "relative_to_update": 3.861463650081136e-08
+      },
+      "all_losses_above_stop_threshold": true,
+      "clean_base_and_target_exact": true,
+      "counts": {
+        "forwards": 462,
+        "gradient_steps": 20
+      },
+      "final_fields": {
+        "decay": 0.13899116218090057,
+        "delta_norm": 57.55760955810547,
+        "kl": 0.008201874792575836,
+        "nll": 0.03318176418542862,
+        "step": 19
+      },
+      "kl_first_already_weighted": 2.083743311231956e-07,
+      "kl_rows_checked": 1,
+      "loss_last": 0.18037480115890503,
+      "loss_last_if_KL_erroneously_weighted_again": 0.17268554354086518,
+      "loss_minimum": 0.18037480115890503,
+      "maximum_decay_recalculation_error": 1.2454586528765077e-08,
+      "positions_and_ids_match_reference_rule": true,
+      "relative_CV_direction_residual": 2.8417299513831036e-07,
+      "rewrite_rows_checked": 21,
+      "source_sha256": {
+        "tools/rome_solver/p1_gpt2_solver.py": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+        "tools/rome_solver/p1_runtime.py": "d7027efe9cd7721b8d42cd2ded7b46c745790ad233cfb51fe916e1ca03c0d4ef",
+        "tools/rome_solver/run_p1_solve_codex.py": "95448a7555777bfcf9af50d07ef275aee36436990c89a61c0b957c3d4ba37c91"
+      }
+    },
+    "p1-gretzky-sport-baseball": {
+      "V_norm": 1.0000000015815484,
+      "affine_constraint": {
+        "error_l2": 3.310576775534596e-06,
+        "max_abs_error": 2.2635055696440531e-07,
+        "passed": true,
+        "relative_to_update": 3.165847361727981e-08
+      },
+      "all_losses_above_stop_threshold": true,
+      "clean_base_and_target_exact": true,
+      "counts": {
+        "forwards": 462,
+        "gradient_steps": 20
+      },
+      "final_fields": {
+        "decay": 0.07650262117385864,
+        "delta_norm": 104.57158660888672,
+        "kl": 0.010696571320295334,
+        "nll": 0.04541269317269325,
+        "step": 19
+      },
+      "kl_first_already_weighted": 9.394807420903817e-08,
+      "kl_rows_checked": 1,
+      "loss_last": 0.13261188566684723,
+      "loss_last_if_KL_erroneously_weighted_again": 0.12258385005407035,
+      "loss_minimum": 0.13261188566684723,
+      "maximum_decay_recalculation_error": 7.4484970830068775e-09,
+      "positions_and_ids_match_reference_rule": true,
+      "relative_CV_direction_residual": 4.3378673937162284e-07,
+      "rewrite_rows_checked": 21,
+      "source_sha256": {
+        "tools/rome_solver/p1_gpt2_solver.py": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+        "tools/rome_solver/p1_runtime.py": "d7027efe9cd7721b8d42cd2ded7b46c745790ad233cfb51fe916e1ca03c0d4ef",
+        "tools/rome_solver/run_p1_solve_codex.py": "95448a7555777bfcf9af50d07ef275aee36436990c89a61c0b957c3d4ba37c91"
+      }
+    },
+    "p1-nintendo-origin-france": {
+      "V_norm": 1.0000000020852005,
+      "affine_constraint": {
+        "error_l2": 4.180634385524919e-06,
+        "max_abs_error": 4.871405803186235e-07,
+        "passed": true,
+        "relative_to_update": 2.774276369754254e-08
+      },
+      "all_losses_above_stop_threshold": true,
+      "clean_base_and_target_exact": true,
+      "counts": {
+        "forwards": 462,
+        "gradient_steps": 20
+      },
+      "final_fields": {
+        "decay": 0.006285513751208782,
+        "delta_norm": 150.6927947998047,
+        "kl": 0.04053676873445511,
+        "nll": 0.17837871611118317,
+        "step": 19
+      },
+      "kl_first_already_weighted": 2.7929308998864144e-07,
+      "kl_rows_checked": 1,
+      "loss_last": 0.22520099859684706,
+      "loss_last_if_KL_erroneously_weighted_again": 0.1871977779082954,
+      "loss_minimum": 0.22520099859684706,
+      "maximum_decay_recalculation_error": 4.365142153989199e-10,
+      "positions_and_ids_match_reference_rule": true,
+      "relative_CV_direction_residual": 8.516564218163407e-07,
+      "rewrite_rows_checked": 21,
+      "source_sha256": {
+        "tools/rome_solver/p1_gpt2_solver.py": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+        "tools/rome_solver/p1_runtime.py": "d7027efe9cd7721b8d42cd2ded7b46c745790ad233cfb51fe916e1ca03c0d4ef",
+        "tools/rome_solver/run_p1_solve_codex.py": "95448a7555777bfcf9af50d07ef275aee36436990c89a61c0b957c3d4ba37c91"
+      }
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "V_norm": 1.0000000009357157,
+      "affine_constraint": {
+        "error_l2": 2.125665806507059e-06,
+        "max_abs_error": 1.8459110373569843e-07,
+        "passed": true,
+        "relative_to_update": 2.987750241688156e-08
+      },
+      "all_losses_above_stop_threshold": true,
+      "clean_base_and_target_exact": true,
+      "counts": {
+        "forwards": 462,
+        "gradient_steps": 20
+      },
+      "final_fields": {
+        "decay": 0.11244477331638336,
+        "delta_norm": 71.14603424072266,
+        "kl": 0.004832031205296516,
+        "nll": 0.009574328549206257,
+        "step": 19
+      },
+      "kl_first_already_weighted": 2.626038622111082e-07,
+      "kl_rows_checked": 1,
+      "loss_last": 0.12685113307088614,
+      "loss_last_if_KL_erroneously_weighted_again": 0.12232110381592065,
+      "loss_minimum": 0.12685113307088614,
+      "maximum_decay_recalculation_error": 6.12799234966932e-09,
+      "positions_and_ids_match_reference_rule": true,
+      "relative_CV_direction_residual": 2.185695787946096e-07,
+      "rewrite_rows_checked": 21,
+      "source_sha256": {
+        "tools/rome_solver/p1_gpt2_solver.py": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+        "tools/rome_solver/p1_runtime.py": "d7027efe9cd7721b8d42cd2ded7b46c745790ad233cfb51fe916e1ca03c0d4ef",
+        "tools/rome_solver/run_p1_solve_codex.py": "95448a7555777bfcf9af50d07ef275aee36436990c89a61c0b957c3d4ba37c91"
+      }
+    }
+  },
+  "final_loss_range": [
+    0.12685113307088614,
+    0.22520099859684706
+  ],
+  "findings_before_approval": [
+    "The mathematical rules align, with the explicit R8 exception, but R1/R3/R4/R5/R6/R7/R9 are not a statement of identical numerical execution. Declare these conventions before the new comparison; keep the frozen Codex code unchanged.",
+    "Correct the trace-loss range to the sum of already weighted terms. The 0.115-0.187 range is reproduced by weighting KL a second time. This numerical reporting error does not change the no-early-stop observation on the archived Codex trajectories.",
+    "Native KL capture is separate in Codex. A3 may keep a reference-style first-iteration baseline in Claude, but must disclose the difference and retain the existing comparison thresholds. No new real pass was made to measure its impact."
+  ],
+  "frozen_p1_4_replayed_unchanged": true,
+  "model_forwards": 0,
+  "peer_implementation_read": false,
+  "pretrained_weights_loaded": false,
+  "reference_revision_read_as_text": "0874014cd9837e4365f3e6f3c71400ef11509e04",
+  "rule_review": {
+    "R1": {
+      "finding": "Mean over captured keys; float64 Cholesky solve and normalization, cast V to float32. Not the reference float32 inverse/matmul path.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:93-98",
+      "status": "MATCH_MATH_NUMERICAL_CONVENTION"
+    },
+    "R10": {
+      "finding": "U has shape (1600,1), V (6400,1), scale1, c_proj Conv1D delta_W=V@U.T; stored as the approved low_rank adapter.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:145-155",
+      "status": "MATCH_DECLARED_ADAPTER_FORMAT"
+    },
+    "R11": {
+      "finding": "Leading spaces are present in the five fixed requests and checked against the qualification specs before execution.",
+      "source": "tools/rome_solver/run_p1_solve_codex.py:12-17,28-32",
+      "status": "MATCH_FOR_FIVE_FROZEN_TARGETS"
+    },
+    "R2": {
+      "finding": "21 rewrite rows plus one KL row, right padding. All five targets are single tokens; 110 subject lookups agree with the reference token-length rule.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:26-47,78-79,103-106",
+      "status": "MATCH_FOR_FIVE_FROZEN_TARGETS"
+    },
+    "R3": {
+      "finding": "Zero float32 delta added on every row, including KL. Codex casts delta to output dtype before adding; the reference uses mixed-dtype in-place addition.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:57-65,100-106",
+      "status": "MATCH_MATH_NUMERICAL_CONVENTION"
+    },
+    "R4": {
+      "finding": "The first clean native c_proj output is captured in the separate key extraction, then promoted to float32; not captured from the first 22-row optimizer batch.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:81-100",
+      "status": "MATCH_VALUE_CAPTURE_TIMING_DIFFERENCE"
+    },
+    "R5": {
+      "finding": "Final transformer output already includes ln_f, then tied head. Cross-entropy on float32 logits, target mean per row, then mean of 21 rows.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:50-54,107-111",
+      "status": "MATCH_MATH_NUMERICAL_CONVENTION"
+    },
+    "R6": {
+      "finding": "KL(edited || native), coefficient .0625, subject_last on KL row. Native baseline is a separate singleton forward before optimization, not the first optimizer batch. Log-softmax is float32.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:91-92,112-113",
+      "status": "MATCH_KL_EQUATION_BASELINE_CAPTURE_DIFFERENCE"
+    },
+    "R7": {
+      "finding": "Unsquared delta norm over clean-base norm squared, coefficient .5. Norms and penalty use float32. Stored decay is already weighted.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:100-114",
+      "status": "MATCH_MATH_NUMERICAL_CONVENTION"
+    },
+    "R8": {
+      "finding": "Adam lr .5, exactly 20 actual updates, no early stop, clamp after each update. Loss terms are before the update; delta_norm is after it.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:102-125",
+      "status": "EXPLICIT_A3_EXCEPTION"
+    },
+    "R9": {
+      "finding": "Clean affine constraint including bias. Dot product is float64; target/base and saved U are float32. Each saved constraint independently passes.",
+      "source": "tools/rome_solver/p1_gpt2_solver.py:68-71,126-131",
+      "status": "MATCH_MATH_NUMERICAL_CONVENTION"
+    }
+  }
+}
