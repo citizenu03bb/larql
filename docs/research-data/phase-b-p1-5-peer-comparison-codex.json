@@ -1,0 +1,64 @@
+{
+  "author": "Codex",
+  "comparisons": [
+    {
+      "claude_count": 4,
+      "claude_rate": 0.75,
+      "codex_count": 4,
+      "codex_rate": 0.75,
+      "condition": "edit",
+      "equal_exactly": true,
+      "metric": "ES"
+    },
+    {
+      "claude_count": 16,
+      "claude_rate": 0.8125,
+      "codex_count": 16,
+      "codex_rate": 0.8125,
+      "condition": "edit",
+      "equal_exactly": true,
+      "metric": "NS"
+    },
+    {
+      "claude_count": 17,
+      "claude_rate": 0.7058823529411765,
+      "codex_count": 17,
+      "codex_rate": 0.7058823529411765,
+      "condition": "edit",
+      "equal_exactly": true,
+      "metric": "PS"
+    },
+    {
+      "claude_count": 4,
+      "claude_rate": 0.0,
+      "codex_count": 4,
+      "codex_rate": 0.0,
+      "condition": "random",
+      "equal_exactly": true,
+      "metric": "ES"
+    },
+    {
+      "claude_count": 16,
+      "claude_rate": 0.9375,
+      "codex_count": 16,
+      "codex_rate": 0.9375,
+      "condition": "random",
+      "equal_exactly": true,
+      "metric": "NS"
+    },
+    {
+      "claude_count": 17,
+      "claude_rate": 0.058823529411764705,
+      "codex_count": 17,
+      "codex_rate": 0.058823529411764705,
+      "condition": "random",
+      "equal_exactly": true,
+      "metric": "PS"
+    }
+  ],
+  "forwards_equal": true,
+  "like_paper_equal": true,
+  "model_forwards": 0,
+  "probe_analysis_sha256": "f002eec9288b7b8ef2ca536f6bf288bb4d0196952f8f474a67803a29286483b3",
+  "valid_equal": true
+}
