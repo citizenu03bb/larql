@@ -78,6 +78,7 @@ def main() -> int:
             clamp=float(np.linalg.norm(v - z0)) <= 4 * float(np.linalg.norm(z0)) * (1 + 1e-4),
             finite_trace=all(np.isfinite(t['loss']) for t in st['trace']),
         )
+        checks = {k: bool(v) for k, v in checks.items()}
         facts[fact] = dict(ok=all(checks.values()), checks=checks,
                            readings=dict(nll_first=st['trace'][0]['nll'], nll_last=st['trace'][-1]['nll'],
                                          z0_rel_error=rel(k @ W + b, z0), V_rel_error=rel(V, V_ref),
