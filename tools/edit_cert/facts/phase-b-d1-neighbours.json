@@ -1,0 +1,10 @@
+{
+ "note": "D1 (docs/phase-b-d1-diagnostic-protocol.md): the subject surface named in each v2 off-target prompt, whose last subtoken carries the neighbour dose. Fixed before any D1 forward.",
+ "facts": {
+  "dev-beethoven-nationality-italian": {"O1": "Wolfgang Amadeus Mozart", "O2": "Johann Sebastian Bach", "O3": "Frédéric Chopin", "O4": "Spain"},
+  "dev-bolt-sport-swimming": {"O1": "Michael Phelps", "O2": "Roger Federer", "O3": "Lionel Messi", "O4": "Canada"},
+  "dev-eiffel-city-rome": {"O1": "the Colosseum", "O2": "Big Ben", "O3": "the Louvre", "O4": "Japan"},
+  "dev-kilimanjaro-country-chile": {"O1": "Mount Kenya", "O2": "Aconcagua", "O3": "Mount Fuji", "O4": "Egypt"},
+  "dev-toyota-origin-germany": {"O1": "Honda", "O2": "Volkswagen", "O3": "Hyundai", "O4": "Italy"}
+ }
+}
