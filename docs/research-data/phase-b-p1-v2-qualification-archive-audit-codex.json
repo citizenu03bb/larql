@@ -1,0 +1,10 @@
+{
+  "all_archive_payload_hashes_match": true,
+  "archive_sha256": "6114a3a3b82676bd101b633376ec0dcd551fb62519b8e3165f32a52f534a94f1",
+  "author": "Codex",
+  "crc_error": null,
+  "live_differences": [],
+  "model_forwards": 0,
+  "payload_files": 134,
+  "peer_solve_sources_or_factors_read": false
+}
