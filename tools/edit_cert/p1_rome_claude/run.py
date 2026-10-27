@@ -102,8 +102,24 @@ def solve(fact: str) -> int:
                norms=dict(U=float(np.linalg.norm(r['U'])), V=float(np.linalg.norm(r['V'])),
                           z0=float(np.linalg.norm(r['z0'])), v_minus_z0=float(np.linalg.norm(r['v_star'] - r['z0']))))
     (out / 'status.json').write_text(json.dumps(rec, indent=1) + '\n')
+    write_completion(fact, rec, sha(out / 'status.json'))
     print(json.dumps(dict(ok=True, fact=fact, forwards=c.n, steps=len(r['trace']), constraint_error=r['constraint_error'])))
     return 0
+
+
+COMPLETION = ROOT / 'solves-claude' / 'completion.json'
+
+
+def write_completion(fact: str, rec: dict, status_sha: str) -> None:
+    """The only file Codex reads before P1-4: completion, counts and hashes, no factor, norm or loss."""
+    idx = json.loads(COMPLETION.read_text()) if COMPLETION.exists() else dict(
+        author='Claude Code', note='completion only; factors, norms and traces are in <fact>/status.json, '
+                                   'not to be read by Codex before P1-4', facts={})
+    idx['facts'][fact] = dict(state='complete', forwards=rec['forwards'], gradient_steps=rec['gradient_steps'],
+                              finished=time.strftime('%Y-%m-%dT%H:%M:%S'), status_sha256=status_sha,
+                              edit_content_sha256=rec['edit_content_sha256'])
+    idx['complete'] = sorted(idx['facts']) == sorted(REQUESTS)
+    COMPLETION.write_text(json.dumps(idx, indent=1, sort_keys=True) + '\n')
 
 
 if __name__ == '__main__':
