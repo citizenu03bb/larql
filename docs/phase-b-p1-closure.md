@@ -30,7 +30,8 @@
      - the new value comes out in every phrasing;
      - the neighbours keep their values;
      - the random counterpart of equal norm moves nothing.
-   - **The bench refuses them anyway,** because the edit also moves other attributes of the same entity. CounterFact-style metrics do not test the subject's other attributes. The bench does so on purpose (C2).
+   - **The bench refuses them anyway.** The edit also moves other queried attributes of the same subject, and the bench tests these on purpose (C2). Our ES/PS/NS-inspired screen does not test them. The published CounterFact evaluation was not run, and the paper itself discusses essence drift. These two cases were not eligible for full certification anyway, because W1 was not qualified natively (C3).
+     - *Corrected after Codex's review of the write-up (`30d0d7ea`).* The first wording said that CounterFact-style metrics cannot test these attributes.
 4. **The other three facts are not witnesses.**
    - **Shakespeare.** C1 and C6 pass, but C2 is NOT_EVALUATED: an edited answer hits the cap. On the probe, ES is not measured and PS is 2/3.
    - **Germany.** Only the seen phrasing flips, and a neighbour loses its value.

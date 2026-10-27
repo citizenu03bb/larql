@@ -51,7 +51,9 @@ Its rules were committed (`3205f778`) before any bench verdict was read, and its
   1. **The implementation.** Two independent implementations of the published code agree to 0.03%.
   2. **What the method does.** On three of five facts (BMW, Gretzky, Shakespeare), published-code ROME on GPT-2 XL passes the bench's free-generation efficacy (C1) and its neighbour control (C6).
   3. **Why the bench refuses: two clear witnesses.** BMW and Gretzky also meet every probability threshold, fact by fact. The bench still refuses them, because the edit **also moves other attributes of the same entity** (C2): BMW's headquarters moves to Milan, and Gretzky becomes Mexican, with a new nickname.
-     - CounterFact-style metrics do not test the subject's other attributes, so they cannot see this. The bench was designed to.
+     - Our ES/PS/NS-inspired screen does not test the subject's other attributes, and the bench does, on purpose. The published CounterFact evaluation was not run, and the paper itself discusses essence drift.
+     - These two cases could not be fully certified anyway: W1 is not qualified natively, so C3 cannot pass.
+     - *Corrected after Codex's review (`30d0d7ea`).*
      - For Shakespeare, C2 is unknown, because the edited A1 hits the cap. It is not a third witness.
   4. **Two facts fail outright.** On Germany and Nintendo, ROME fails even by its own metrics. The constraint at Nintendo's clean prompt, with the subject at position 0, gives a norm of 1 332.
 - **No claim is made of fact editing, persistence or generalisation.** Nothing in P1 says why the E4B or E2B edits failed.
