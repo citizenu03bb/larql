@@ -1,0 +1,112 @@
+{
+  "actual_total_forwards": 1472,
+  "article_count": 29444,
+  "author": "Codex",
+  "covariance": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/covariance/C17.npy",
+  "covariance_sha256": "a9c6faa06c9b9155e764a9a38298c62c0a11379369bb3869075a76f61057c715",
+  "discarded_A1_forwards": 272,
+  "dtype": "float32",
+  "gradient_steps": 0,
+  "keys_per_dimension": 192.0,
+  "model_sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
+  "moment": {
+    "count": 1228800,
+    "diagonal_added": 2.7694381490532944e-06,
+    "ridge": 0.0001,
+    "statistic": "uncentered E[k k^T]"
+  },
+  "peer_solves_read": false,
+  "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+  "sample": {
+    "quotas": {
+      "wiki": 1200
+    },
+    "seed": 20261026,
+    "streams": {
+      "wiki": {
+        "records": 29444,
+        "sha256": "99078ad2e688f7cacddf6f54b86d698aca33310779ef69f6be2c75e737c0020a",
+        "tokens": 118009893
+      }
+    },
+    "window": 1024
+  },
+  "sample_sha256": "b1b0e90c921561591dcc8e6a50f4e65e052cce6f3450eae84776ce52de4eb62d",
+  "services": [
+    {
+      "amendment": "A2",
+      "attention_implementation": "sdpa",
+      "forwards": 200,
+      "keys": 204800,
+      "part": 0,
+      "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+      "seconds": 1293.533529418004,
+      "status": "complete",
+      "sum_sha256": "a781d546fc392969eb145537b16bfa12165587fffec721a3431d2aae8a4b8638"
+    },
+    {
+      "amendment": "A2",
+      "attention_implementation": "sdpa",
+      "forwards": 200,
+      "keys": 204800,
+      "part": 1,
+      "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+      "seconds": 1295.923955476006,
+      "status": "complete",
+      "sum_sha256": "060126286d6f38d20c9bc9b7367e4802e4cc9f18219c85d0941e0f55ad5aed6f"
+    },
+    {
+      "amendment": "A2",
+      "attention_implementation": "sdpa",
+      "forwards": 200,
+      "keys": 204800,
+      "part": 2,
+      "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+      "seconds": 1274.0888875269957,
+      "status": "complete",
+      "sum_sha256": "eb4c8f95e893e79f0760cbe8476d761831c14a170b9bf955bb9a466b23083a89"
+    },
+    {
+      "amendment": "A2",
+      "attention_implementation": "sdpa",
+      "forwards": 200,
+      "keys": 204800,
+      "part": 3,
+      "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+      "seconds": 1281.410149463998,
+      "status": "complete",
+      "sum_sha256": "77c99f202153514da1e1c7b0cb0b0c891f24bebad5f90fac9a3a7117ca763928"
+    },
+    {
+      "amendment": "A2",
+      "attention_implementation": "sdpa",
+      "forwards": 200,
+      "keys": 204800,
+      "part": 4,
+      "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+      "seconds": 1323.3683633600012,
+      "status": "complete",
+      "sum_sha256": "c567df18547ed69a5ff9e0c8b2d4204864b65dfa31d88dc14ae45da61906b5f1"
+    },
+    {
+      "amendment": "A2",
+      "attention_implementation": "sdpa",
+      "forwards": 200,
+      "keys": 204800,
+      "part": 5,
+      "preflight_sha256": "4971ae40505bfc01bff07b45a02a5d0d3fb2ae403c6e636d7e432f1f7900fbc2",
+      "seconds": 1274.0050648049946,
+      "status": "complete",
+      "sum_sha256": "940d755f10b81e8c0fe2baded802660e11a48953e0ed1c810c0cd3597e3fabc2"
+    }
+  ],
+  "shape": [
+    6400,
+    6400
+  ],
+  "shared_status_sha256": "55529d9c3712a0f4774194cb26651c564000308e94a9024830733c3a99681e10",
+  "stage": "P1-2",
+  "status": "complete",
+  "successful_forwards": 1200,
+  "windows_sha256": "f6bb7e1c986ffe343e47610ffd2a94820af379d81625873d357455498b6d9de9"
+}
