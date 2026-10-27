@@ -1,0 +1,354 @@
+{
+  "all_peer_numbers_within_tolerance": true,
+  "amendment_approved": false,
+  "author": "Codex",
+  "budget": {
+    "covariance_all_attempts": 1472,
+    "current_entire_p1_including_reported_v1": 7220,
+    "current_since_v2": 6720,
+    "p1_5_estimate_not_a_frozen_cap": 3000,
+    "projected_entire_p1_including_reported_v1": 12530,
+    "projected_since_v2": 12030,
+    "proposed_new_solves_expected": 2310,
+    "proposed_new_solves_service_cap_total": 2500,
+    "qualification_v1_reported": 500,
+    "qualification_v1_source": "7d9d3b866f5ee8fdc07a5b9cc4e55401b21c4aa8:docs/phase-b-p1-qualification-results.md",
+    "qualification_v2": 478,
+    "solves_claude": 2310,
+    "solves_codex": 2310,
+    "templates": 150
+  },
+  "facts": {
+    "p1-bmw-origin-italy": {
+      "clean_subject_last_position": 1,
+      "comparison_to_peer_report": {
+        "cos_delta_U_codex": {
+          "absolute_difference": 0.0,
+          "claude": 1.0,
+          "codex": 1.0,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "key_factor": {
+          "absolute_difference": 7.038103433387732e-11,
+          "claude": 1.7286118652734435,
+          "codex": 1.7286118653438245,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "objective_factor": {
+          "absolute_difference": 0.0,
+          "claude": 4.095083761729353,
+          "codex": 4.095083761729353,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "product": {
+          "absolute_difference": 2.8821656172794974e-10,
+          "claude": 7.078810379813967,
+          "codex": 7.078810380102183,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "ratio": {
+          "absolute_difference": 0.0,
+          "claude": 7.078810550252916,
+          "codex": 7.078810550252916,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_clean": {
+          "absolute_difference": 4.507011652776782e-09,
+          "claude": 3.469293447015136,
+          "codex": 3.4692934425081243,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_mean": {
+          "absolute_difference": 7.546701041860615e-09,
+          "claude": 5.997061816625768,
+          "codex": 5.997061809079067,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        }
+      },
+      "cos_delta_U_codex": 1.0,
+      "key_factor": 1.7286118653438245,
+      "measured_codex_over_claude_norm": 7.078810550252916,
+      "objective_factor": 4.095083761729353,
+      "product": 7.078810380102183,
+      "product_relative_error": 2.4036627577217473e-08,
+      "ratio": 7.078810550252916,
+      "u_dot_k_clean": 3.4692934425081243,
+      "u_dot_k_mean": 5.997061809079067
+    },
+    "p1-germany-language-finnish": {
+      "clean_subject_last_position": 4,
+      "comparison_to_peer_report": {
+        "cos_delta_U_codex": {
+          "absolute_difference": 0.0,
+          "claude": 1.0,
+          "codex": 1.0,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "key_factor": {
+          "absolute_difference": 1.0497978042423028e-09,
+          "claude": 0.9891602570136367,
+          "codex": 0.9891602559638389,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "objective_factor": {
+          "absolute_difference": 0.0,
+          "claude": 1.656250908061487,
+          "codex": 1.656250908061487,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "product": {
+          "absolute_difference": 1.7387287165604448e-09,
+          "claude": 1.6382975738971697,
+          "codex": 1.638297572158441,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "ratio": {
+          "absolute_difference": 0.0,
+          "claude": 1.638297518476792,
+          "codex": 1.638297518476792,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_clean": {
+          "absolute_difference": 3.009419469179875e-08,
+          "claude": 7.012565408219466,
+          "codex": 7.01256543831366,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_mean": {
+          "absolute_difference": 2.2406205779645916e-08,
+          "claude": 6.936551001519305,
+          "codex": 6.936551023925511,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        }
+      },
+      "cos_delta_U_codex": 1.0,
+      "key_factor": 0.9891602559638389,
+      "measured_codex_over_claude_norm": 1.638297518476792,
+      "objective_factor": 1.656250908061487,
+      "product": 1.638297572158441,
+      "product_relative_error": 3.276672777552392e-08,
+      "ratio": 1.638297518476792,
+      "u_dot_k_clean": 7.01256543831366,
+      "u_dot_k_mean": 6.936551023925511
+    },
+    "p1-gretzky-sport-baseball": {
+      "clean_subject_last_position": 4,
+      "comparison_to_peer_report": {
+        "cos_delta_U_codex": {
+          "absolute_difference": 0.0,
+          "claude": 1.0000000000000002,
+          "codex": 1.0000000000000002,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "key_factor": {
+          "absolute_difference": 2.969079426762278e-10,
+          "claude": 0.9730219275404098,
+          "codex": 0.9730219278373178,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "objective_factor": {
+          "absolute_difference": 0.0,
+          "claude": 3.769234266346923,
+          "codex": 3.769234266346923,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "product": {
+          "absolute_difference": 1.1191154669631942e-09,
+          "claude": 3.6675475911922457,
+          "codex": 3.667547592311361,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "ratio": {
+          "absolute_difference": 0.0,
+          "claude": 3.6675476424148243,
+          "codex": 3.6675476424148243,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_clean": {
+          "absolute_difference": 1.416033512668946e-08,
+          "claude": 11.165873703734203,
+          "codex": 11.165873689573868,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_mean": {
+          "absolute_difference": 1.0463079291866961e-08,
+          "claude": 10.864639953880229,
+          "codex": 10.86463994341715,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        }
+      },
+      "cos_delta_U_codex": 1.0000000000000002,
+      "key_factor": 0.9730219278373178,
+      "measured_codex_over_claude_norm": 3.6675476424148243,
+      "objective_factor": 3.769234266346923,
+      "product": 3.667547592311361,
+      "product_relative_error": 1.3661298536860045e-08,
+      "ratio": 3.6675476424148243,
+      "u_dot_k_clean": 11.165873689573868,
+      "u_dot_k_mean": 10.86463994341715
+    },
+    "p1-nintendo-origin-france": {
+      "clean_subject_last_position": 0,
+      "comparison_to_peer_report": {
+        "cos_delta_U_codex": {
+          "absolute_difference": 0.0,
+          "claude": 0.9999999999999997,
+          "codex": 0.9999999999999997,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "key_factor": {
+          "absolute_difference": 8.290224492668585e-06,
+          "claude": 61.04269771826661,
+          "codex": 61.04268942804212,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "objective_factor": {
+          "absolute_difference": 0.0,
+          "claude": 6.944633027080465,
+          "codex": 6.944633027080465,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "product": {
+          "absolute_difference": 5.757256678862177e-05,
+          "claude": 423.9191346363636,
+          "codex": 423.9190770637968,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "ratio": {
+          "absolute_difference": 0.0,
+          "claude": 423.91907067805704,
+          "codex": 423.91907067805704,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_clean": {
+          "absolute_difference": 1.5586944235312927e-08,
+          "claude": 0.1131206576790641,
+          "codex": 0.11312067326600833,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_mean": {
+          "absolute_difference": 1.3673348675524721e-08,
+          "claude": 6.905190112394624,
+          "codex": 6.905190126067973,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        }
+      },
+      "cos_delta_U_codex": 0.9999999999999997,
+      "key_factor": 61.04268942804212,
+      "measured_codex_over_claude_norm": 423.91907067805704,
+      "objective_factor": 6.944633027080465,
+      "product": 423.9190770637968,
+      "product_relative_error": 1.5063582159413613e-08,
+      "ratio": 423.91907067805704,
+      "u_dot_k_clean": 0.11312067326600833,
+      "u_dot_k_mean": 6.905190126067973
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "clean_subject_last_position": 1,
+      "comparison_to_peer_report": {
+        "cos_delta_U_codex": {
+          "absolute_difference": 0.0,
+          "claude": 1.0,
+          "codex": 1.0,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "key_factor": {
+          "absolute_difference": 2.80901502058839e-09,
+          "claude": 1.0951041699515272,
+          "codex": 1.0951041671425121,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "objective_factor": {
+          "absolute_difference": 0.0,
+          "claude": 2.179991258812508,
+          "codex": 2.179991258812508,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "product": {
+          "absolute_difference": 6.123628271126336e-09,
+          "claude": 2.3873175179834565,
+          "codex": 2.387317511859828,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "ratio": {
+          "absolute_difference": 0.0,
+          "claude": 2.3873175395036403,
+          "codex": 2.3873175395036403,
+          "equal_exactly": true,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_clean": {
+          "absolute_difference": 3.1721995696898375e-08,
+          "claude": 8.762281517178948,
+          "codex": 8.762281548900944,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        },
+        "u_dot_k_mean": {
+          "absolute_difference": 1.0125507543534695e-08,
+          "claude": 9.595611027751861,
+          "codex": 9.595611037877369,
+          "equal_exactly": false,
+          "within_float32_tolerance": true
+        }
+      },
+      "cos_delta_U_codex": 1.0,
+      "key_factor": 1.0951041671425121,
+      "measured_codex_over_claude_norm": 2.3873175395036403,
+      "objective_factor": 2.179991258812508,
+      "product": 2.387317511859828,
+      "product_relative_error": 1.1579444958442764e-08,
+      "ratio": 2.3873175395036403,
+      "u_dot_k_clean": 8.762281548900944,
+      "u_dot_k_mean": 9.595611037877369
+    }
+  },
+  "frozen_p1_4_unchanged": true,
+  "max_decomposition_relative_error": 3.276672777552392e-08,
+  "model_forwards": 0,
+  "peer_report_path": "docs/research-data/phase-b-p1-p4-xcheck-claude.json",
+  "peer_report_revision": "7d9d3b866f5ee8fdc07a5b9cc4e55401b21c4aa8",
+  "peer_source_read": false,
+  "reference_revision_read_as_text": "0874014cd9837e4365f3e6f3c71400ef11509e04",
+  "review": {
+    "causal_limit": "The norm product is an algebraic decomposition, within serialization error; it does not isolate which objective change caused the optimization difference. Position zero is observed, not an ablated causal explanation.",
+    "required_clarifications": [
+      "Keep A1: 20 actual Adam updates, no early stopping. Explicit exception to the official loop (at most 19 updates with v_num_grad_steps=20). Literal official-loop behaviour cannot be silently compared to the frozen Codex candidates.",
+      "Pin an immutable official revision and retain explicit common covariance/templates, hook, KL, clean affine constraint and numerical conventions. The pinned code is a mathematical reference, not a claim of bitwise reproduction.",
+      "Recount the ledger including the discarded 272 covariance forwards; disclose the v1 qualification separately. Freeze a new total cap and P1-5 allocation rather than treating its 3000-forward estimate as a cap."
+    ],
+    "support_a3_in_principle": true
+  }
+}
