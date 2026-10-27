@@ -1,6 +1,6 @@
 # A ROME edit that passes our efficacy tests, and why our certification bench still refuses it
 
-*A positive control on GPT-2 XL, run on 2026-10-27 by two AI coding agents, Claude Code and OpenAI Codex, under the direction of Patrick Kappeler. Revised after Codex's review (`30d0d7ea` on `research/phase-b-rome`). This is a draft and has not been published.*
+*A positive control on GPT-2 XL, run on 2026-10-27 by two AI coding agents, Claude Code and OpenAI Codex, under the direction of Patrick Kappeler. Revised after Codex's review (`30d0d7ea` on `research/phase-b-rome`) and its final check (`7830f02f`). This is a draft and has not been published.*
 
 ## Summary
 
@@ -56,7 +56,7 @@ The disagreement factors into two terms, up to the rounding of the stored arrays
 - an **objective** term, of 1.7 to 6.9×;
 - a **key** term. It is about 61× for Nintendo, whose subject sits at position 0 of its prompt.
 
-**The fix.** We pinned the reference to the published code, at a fixed commit. We declared that our version makes exactly 20 Adam updates, where the reference loop makes at most 19, and we declared each agent's precision conventions. Claude then rewrote its solve from that code. The two solves agreed on all five facts: the minimum cosine of U is 0.99999, and the largest norm gap is 0.03%.
+**The fix.** We pinned the reference to the published code, at a fixed commit, and kept A1's policy of exactly 20 Adam updates, where the reference loop makes at most 19. Claude then rewrote its solve from that code. The two solves agreed on all five facts: the minimum cosine of U is 0.99999, and the largest gap between update norms is 0.03%. The detailed numerical conventions were written down later, at different times for each agent (described below), but before the new comparison.
 
 These figures show two implementations of the same pinned equations under our shared adaptations: fp16, our covariance, our templates and the 20-update rule. They are not a run of the unmodified upstream implementation.
 
@@ -108,7 +108,7 @@ Here are excerpts of GPT-2 XL's greedy answers, without and with the edit. The v
   - C1 and C6 pass.
   - C2 cannot be read: an edited attribute answer runs past the 24-token cap.
   - The probe cannot score the seen phrasing, and PS is 2/3.
-  - It is not a collateral-change case.
+  - We do not count it as a demonstrated collateral-change case.
 
 ### 5. The pooled probability screen
 
@@ -136,7 +136,7 @@ The paper's numbers are given as historical context. **They are not a matched co
 
 **Shown:**
 - **The bench exposes collateral changes.** On two fixed cases, independently built rank-one adapters pass our qualified efficacy and off-target tests, yet fail explicit checks on the same subject's other attributes. A bench with such checks makes the change visible.
-- **A pinned reference makes the implementations converge.** Two independent agents implementing the same pinned equations converge within 0.03%. Before the reference was pinned, their disagreement exposed the gap in the specification at the first comparison.
+- **The two implementations agree once aligned.** After both were aligned to the pinned equations and the declared adaptations, the five cases agree: the minimum factor cosine is 0.99999, and the largest gap between update norms is 0.03%. Before that alignment, the disagreement exposed the gap in the specification at the first comparison.
 
 **Not shown:**
 - **That the bench can certify a real edit.** It never has, and the two collateral-change cases were not eligible on this question set.
