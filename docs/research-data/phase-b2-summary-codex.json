@@ -1,0 +1,92 @@
+{
+  "B1": {
+    "forwards": 200,
+    "optimizer_updates": 0
+  },
+  "B2": {
+    "certification_forwards": 5885,
+    "certification_services": 60,
+    "independent_algebra_checks_ok": 15,
+    "optimizer_updates": 375,
+    "primary_edits": 15,
+    "reported_control_counts": {
+      "C0": {
+        "PASS": 15
+      },
+      "C1": {
+        "FAIL": 9,
+        "NOT_EVALUATED": 3,
+        "PASS": 3
+      },
+      "C2": {
+        "FAIL": 8,
+        "PASS": 7
+      },
+      "C3": {
+        "FAIL": 12,
+        "NOT_EVALUATED": 3
+      },
+      "C4": {
+        "NOT_EVALUATED": 3,
+        "PASS": 12
+      },
+      "C5": {
+        "NOT_EVALUATED": 15
+      },
+      "C6": {
+        "FAIL": 11,
+        "PASS": 4
+      },
+      "C7": {
+        "PASS": 15
+      },
+      "C8": {
+        "FAIL": 4,
+        "NOT_EVALUATED": 9,
+        "PASS": 2
+      }
+    },
+    "reported_verdicts": {
+      "REFUSED": 15
+    },
+    "solve_forwards": 1950
+  },
+  "C1_C2_agreements": 25,
+  "C1_C2_control_comparisons": 30,
+  "C2_differences": 5,
+  "all_15_ids_text_eos_cap_counts_provenance_verified": true,
+  "archive": "/home/pat/Projects/larql-research/phase-b-rome-20261026",
+  "author": "Codex",
+  "blind_set_opened": false,
+  "c2_arbitration_commit": "3671139b",
+  "certification_diagnostic_forwards": 120,
+  "certification_generated_tokens": 5765,
+  "certification_generations": 510,
+  "gate": "STOP_BELOW_2_OF_5",
+  "gate_checker_freeze": "1d6af9e8",
+  "gate_feasible_from_native_coverage_after_arbitration": false,
+  "identity_ablation": "NOT_RUN_GATE_NOT_MET",
+  "independent_refusal_witnesses": 15,
+  "initial_method_commit": "70f0cd6c2627856fc323a7e8f016b8414e581998",
+  "interpretation": "No certified dev edits; stop required. The 2/5 gate is unreachable from native coverage after the C2 arbitration, so this is not a clean standalone failure of ROME capacity.",
+  "native_coverage_maximum_possible_score_after_arbitration": 1,
+  "peer_archive": "/home/pat/Projects/larql-research/phase-b-certification-20261026",
+  "protocol": "phase-b-rome-b1-b2-v1",
+  "push": false,
+  "raw_peer_index_sha256": "35576352abc8402a604a2ff3a428b130e68a9054ed11283d6fdf0f31cd0d07bf",
+  "score_after_C2_arbitration": {
+    "12": 0,
+    "4": 0,
+    "8": 0
+  },
+  "score_before_C2_arbitration": {
+    "12": 1,
+    "4": 0,
+    "8": 2
+  },
+  "selected_layer": null,
+  "total_optimizer_updates": 375,
+  "total_real_forwards": 8035,
+  "total_real_services": 76,
+  "unresolved_differences": []
+}

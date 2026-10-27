@@ -1,0 +1,179 @@
+{
+  "all_15_refusals_independently_supported": true,
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C3",
+        "independently_recomputed": "NOT_PASS",
+        "reason": "C3 requires attribute preservation in each order; no native-qualified attribute in: subject_after_relation"
+      },
+      "verified": true
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C3",
+        "independently_recomputed": "NOT_PASS",
+        "reason": "C3 requires attribute preservation in each order; no native-qualified attribute in: subject_after_relation"
+      },
+      "verified": true
+    },
+    "dev-bolt-sport-swimming-L12": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "NOT_EVALUATED",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-eiffel-city-rome-L12": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-eiffel-city-rome-L4": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-eiffel-city-rome-L8": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-kilimanjaro-country-chile-L12": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "NOT_EVALUATED",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-kilimanjaro-country-chile-L4": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-kilimanjaro-country-chile-L8": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-toyota-origin-germany-L12": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "NOT_EVALUATED",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-toyota-origin-germany-L4": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C1",
+        "independently_recomputed": "FAIL",
+        "reason": "Frozen independent control reading agrees with reported non-PASS"
+      },
+      "verified": true
+    },
+    "dev-toyota-origin-germany-L8": {
+      "independent_verdict": "REFUSED",
+      "reported_verdict": "REFUSED",
+      "sufficient_witness": {
+        "cannot_pass": true,
+        "control": "C3",
+        "independently_recomputed": "NOT_PASS",
+        "reason": "C3 requires attribute preservation in each order; no native-qualified attribute in: subject_after_relation"
+      },
+      "verified": true
+    }
+  },
+  "comparison_sha256": "d9507957fa2fb0149eac6359dd69ae8dfa5e127119acd6e75d3e8cae72a61735",
+  "complete": true,
+  "differences": [],
+  "exhaustive_control_status_replay": false,
+  "model_forwards": 0,
+  "post_comparison_extension": true,
+  "script_sha256": "ecb8b02e60b6fd22d4c16bbfa50f06a4296ad79c84f4c316bf29a403ef0049f5",
+  "validates_positive_certifications": false
+}

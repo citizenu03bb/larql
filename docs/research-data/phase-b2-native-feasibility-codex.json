@@ -1,0 +1,118 @@
+{
+  "author": "Codex",
+  "facts": {
+    "dev-beethoven-nationality-italian": {
+      "C1_can_potentially_pass": true,
+      "C2_can_potentially_pass_after_arbitration": false,
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "dual_pass_possible_from_native_coverage": false,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "qualified_attribute_ids": [
+        "A2"
+      ],
+      "qualified_unseen_efficacy_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "dev-bolt-sport-swimming": {
+      "C1_can_potentially_pass": false,
+      "C2_can_potentially_pass_after_arbitration": true,
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "dual_pass_possible_from_native_coverage": false,
+      "efficacy_orders": [
+        "subject_before_relation"
+      ],
+      "qualified_attribute_ids": [
+        "A1",
+        "A2"
+      ],
+      "qualified_unseen_efficacy_ids": [
+        "E3",
+        "E4"
+      ]
+    },
+    "dev-eiffel-city-rome": {
+      "C1_can_potentially_pass": true,
+      "C2_can_potentially_pass_after_arbitration": true,
+      "attribute_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "dual_pass_possible_from_native_coverage": true,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "qualified_attribute_ids": [
+        "A1",
+        "A2"
+      ],
+      "qualified_unseen_efficacy_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "dev-kilimanjaro-country-chile": {
+      "C1_can_potentially_pass": true,
+      "C2_can_potentially_pass_after_arbitration": false,
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "dual_pass_possible_from_native_coverage": false,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "qualified_attribute_ids": [
+        "A2"
+      ],
+      "qualified_unseen_efficacy_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "dev-toyota-origin-germany": {
+      "C1_can_potentially_pass": true,
+      "C2_can_potentially_pass_after_arbitration": false,
+      "attribute_orders": [
+        "subject_before_relation"
+      ],
+      "dual_pass_possible_from_native_coverage": false,
+      "efficacy_orders": [
+        "subject_after_relation",
+        "subject_before_relation"
+      ],
+      "qualified_attribute_ids": [
+        "A2"
+      ],
+      "qualified_unseen_efficacy_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    }
+  },
+  "gate_feasible_under_C2_arbitration": false,
+  "gate_threshold": 2,
+  "interpretation": "The mandatory stop is supported, but this run cannot isolate method failure from evaluation coverage. Native qualification should precede future solves.",
+  "maximum_possible_score_from_native_coverage": 1,
+  "model_forwards": 0,
+  "original_denominator": 5,
+  "post_comparison_diagnostic": true
+}

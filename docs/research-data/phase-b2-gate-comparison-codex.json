@@ -1,0 +1,1536 @@
+{
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian-L12": {
+      "controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 304,
+      "input_sha256": {
+        "evidence": "fe82b5c659c64d518a32bc5e6448eda1242c4dfcab9190f6247397a33437b1ef",
+        "plan": "3fe1a89b4dc756dfa6a994cb6a7f904db54bfa16db8b5a6292c379253112f229",
+        "spec": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+        "verdict": "45e7dbb1fef2e3fd9ccaad19f71aa8da8b5b8508ee5e44748b777e367be6149c"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 145,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/0/records.json",
+          "sha256": "ba4eca8feae59aa5e09cb59f1bfc9714f8aa22e2c89a06e78648540e33e3ad41"
+        },
+        {
+          "forwards": 123,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/1/records.json",
+          "sha256": "b3f28480a53b3aa0d9fff17ec58749599bf7acb4d6c529d917967d0508ce5f5c"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/2/records.json",
+          "sha256": "ccfb0a2168d68e6d20e4ff709bdb270fb584d8e7f0b46d753b2e3a3bbf55549d"
+        },
+        {
+          "forwards": 12,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L12/run/services/3/records.json",
+          "sha256": "75a5c9b1af72c85e4f5c0fe9a6f8f1f8dfc1e27b9c1432dbd7c80942a1da7f94"
+        }
+      ],
+      "reported_controls": {
+        "C1": "PASS",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-beethoven-nationality-italian-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 389,
+      "input_sha256": {
+        "evidence": "d4934c9d0dc6f21b85aacc74633459a3b882e3e2c52af78d2410c8aadfce4c5b",
+        "plan": "f7a6b383630f4f3f82843372b1a3b2866aa3692521b36b72fceb82c922ef8936",
+        "spec": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+        "verdict": "ce9914f140f3ff28823e1c378730dd33e38ac90231e8e0339487e663f54fdc69"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 145,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/0/records.json",
+          "sha256": "956e71b3a225926c1df479d974f2b1c1e74568817b2ab431c1f654484455e506"
+        },
+        {
+          "forwards": 176,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/1/records.json",
+          "sha256": "fa657e2ab4b227572542d3f2d78f84d656207639f121bfd0271ea336d0e73ada"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/2/records.json",
+          "sha256": "d8b6e3cb01fb97e18827d3694a1653c9df0855e7f11906006eebb06877849382"
+        },
+        {
+          "forwards": 44,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L4/run/services/3/records.json",
+          "sha256": "7bccc5edcab81cab131a9784086f5eb0e6328baf7c4084a1fde28ac9c22a02e5"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-beethoven-nationality-italian-L8": {
+      "controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 339,
+      "input_sha256": {
+        "evidence": "9978f9ca46cd89aa4dc4240132cf13e5c02ee700ee153f830eb1bdd2e1ee0d35",
+        "plan": "bfa6faa1e6df0c26d1506473bcd3f57094b01348db2182d33e86569aac61806c",
+        "spec": "37bcb4e49b1877d7a2cc83b776f7aaebfaa0e0db0f1ab9c57418ab674f4f0040",
+        "verdict": "133c37d4fe320c292de12d1bd717cb25e49a0aef4dc6047d45e6644ec28de5c9"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 145,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/0/records.json",
+          "sha256": "2b62d418922608f4942c0a2f2a89590e97c24ed157ba95036154d0724a7890b0"
+        },
+        {
+          "forwards": 154,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/1/records.json",
+          "sha256": "e9f1e5f638a7f164ad054c09e77b72999596aca7af7d5cdb35c580cf971990b1"
+        },
+        {
+          "forwards": 11,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/2/records.json",
+          "sha256": "a82826a680ee7e1149290998d1059eeae27708daa1b884f966b39d936ee0aa50"
+        },
+        {
+          "forwards": 29,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-beethoven-nationality-italian-L8/run/services/3/records.json",
+          "sha256": "4a0a62d9d67fe13c36d7bf66263205df44e1dc70231f6729c1d03f2695550f76"
+        }
+      ],
+      "reported_controls": {
+        "C1": "PASS",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L12": {
+      "controls": {
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL"
+      },
+      "forwards": 391,
+      "input_sha256": {
+        "evidence": "0ca77bad9458ed4cc22f9556d526a79f331be6d707d31450a126a8a838918ed4",
+        "plan": "8a59b7db846d03ee6e2221b9d04ae464de70c35d0bc22b798f7b1944bc1900db",
+        "spec": "b6e174cb606f1d8105e9796114fbf7f10b189778785f4885c932c0a10167e8fc",
+        "verdict": "701fb25be4b6ccc9bb98c37211b634aafc5ae867303ee32143e9bf39fc201f55"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 200,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L12/run/services/0/records.json",
+          "sha256": "ad2907b94298c6ff4474430072c3497d678978d2c1ce0ad1361b4c1d5c92cda7"
+        },
+        {
+          "forwards": 155,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L12/run/services/1/records.json",
+          "sha256": "f82b3c05e76ca2b3a5ac27002826630f5e85308707ce64743db7b89701766a61"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L12/run/services/2/records.json",
+          "sha256": "20132f479c28cdb49ea211d963e8f7842aabf04861d2a5a87597a5908a088765"
+        },
+        {
+          "forwards": 12,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L12/run/services/3/records.json",
+          "sha256": "13f22ec422ac7081aff2ccd3ac2cd08149ee32354d4487396900c9dc66fb5ea4"
+        }
+      ],
+      "reported_controls": {
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "forwards": 541,
+      "input_sha256": {
+        "evidence": "61b55bc7dc8e051eea830c54860374134946d0f09816ebf0673f04d39d36ce48",
+        "plan": "791ba1d09991440fbda7f8f5b7467561c8fce18715016a5793db41fe07b72b52",
+        "spec": "b6e174cb606f1d8105e9796114fbf7f10b189778785f4885c932c0a10167e8fc",
+        "verdict": "8a41cf1411e3c11fac1b05c15ad1273e71d2a6eb5fe77763036b619e9dc3bea2"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 200,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/0/records.json",
+          "sha256": "89629e7b23a92965ffa3ad328d590fb2af4c5e0143cf1a24d264b638e7266e8a"
+        },
+        {
+          "forwards": 247,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/1/records.json",
+          "sha256": "0fcc3b5d86b07e80cbcf4b2aa4259782247f5608ddc7b10373885d96144dfe3b"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/2/records.json",
+          "sha256": "996331d2c720fbc5583c8f427a44657344c867ff88339169a4d5a728b6e1a2e9"
+        },
+        {
+          "forwards": 70,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L4/run/services/3/records.json",
+          "sha256": "728082ad64693292580c748b45606d6e61439da976a1635b957e600fa116da75"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-bolt-sport-swimming-L8": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 537,
+      "input_sha256": {
+        "evidence": "4b0bebb4cca70a6a11ea5225ef83af5aa104801f70605f19a120f7c2fe18894a",
+        "plan": "4c5b0a3009bdd0caaa795b96c22f31ef9cdfe1e4aff21ec5cf9c7762d28410c9",
+        "spec": "b6e174cb606f1d8105e9796114fbf7f10b189778785f4885c932c0a10167e8fc",
+        "verdict": "20667dbfbb2621bd6f2711e627eb3b024fb8fa9e383e5d5e337cc36a5185b043"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "EXCLUDED",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 200,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/0/records.json",
+          "sha256": "cb62703417dcf39ad9034f2c9c76bba538ffa1d908a9d328c9db60054b94f5e3"
+        },
+        {
+          "forwards": 249,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/1/records.json",
+          "sha256": "354a8a037f268cf9894e4d10f28d5f20b07f5d29017f4a2a79031ee733a8059a"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/2/records.json",
+          "sha256": "e17e034cd243ff33b6dc1669b77ccc5e97fa6545cc13ac3726fc6989099de44a"
+        },
+        {
+          "forwards": 64,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-bolt-sport-swimming-L8/run/services/3/records.json",
+          "sha256": "ec851ba9ede4aa51ef18aa9172184330e187a370022678edfb4376f47c5a4bd0"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-eiffel-city-rome-L12": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 335,
+      "input_sha256": {
+        "evidence": "ecc7247235d5ab16df70ddd76c685aed014b6e55622e41f696dc085f3542578c",
+        "plan": "ac025b263996f03749538011cb696663e5e0d252d856324921a2ae7cda72522c",
+        "spec": "394a1ac24644a73135c6346c446cc5481143a04ecec74869581b32c9e31d42e6",
+        "verdict": "af9f6abb98f30377946d621f65291abda8299f91791e8dd61f5cf0f420602254"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 148,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L12/run/services/0/records.json",
+          "sha256": "b3b81777443be01a61e3e2b24bf1a0e41243a68744ab48242b9da3641cd9303e"
+        },
+        {
+          "forwards": 153,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L12/run/services/1/records.json",
+          "sha256": "7c1c657b2aecd7262670e856808021ee89e62b1bcb9265eed29dfaa2b3e54f73"
+        },
+        {
+          "forwards": 2,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L12/run/services/2/records.json",
+          "sha256": "767f1668f56044ca7f73453d2fff10b03acb49f6efbe981c0e4ab30448f94199"
+        },
+        {
+          "forwards": 32,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L12/run/services/3/records.json",
+          "sha256": "c54175f5a799862bb77ebe62ceab53d9add4920b6aeba18039d49d69f3a1f53c"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-eiffel-city-rome-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "forwards": 444,
+      "input_sha256": {
+        "evidence": "044fd430d51213b5a449502221a6ec6149da2d72697c5a5082e45a97f9645f2d",
+        "plan": "ba11a19acb523bfb5ec357bfb750d067c758eeabac43ada99b1ce76c42a6c968",
+        "spec": "394a1ac24644a73135c6346c446cc5481143a04ecec74869581b32c9e31d42e6",
+        "verdict": "b1ddd17dfee51471aa6e2fbd6e80573bb508ecfe9cc0646042c4ad0d3dc25e81"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "NOT_EVALUATED",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 148,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L4/run/services/0/records.json",
+          "sha256": "4616a25cb75138d621de4813667ccbbeb5022863ab998a012c4d6395ba3b0387"
+        },
+        {
+          "forwards": 217,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L4/run/services/1/records.json",
+          "sha256": "019b2bdf4d191b8eba1b2222c2006b055b7589d9635e85aa662a35d324376df9"
+        },
+        {
+          "forwards": 21,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L4/run/services/2/records.json",
+          "sha256": "c033297225c78561ab30f4a765ffb49c77e9ac9e5b70d05b3cca504fbca92b0d"
+        },
+        {
+          "forwards": 58,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L4/run/services/3/records.json",
+          "sha256": "5bd2652b8dbc25863da326585e863b03ed10c807981cf62d44725bd95d774866"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-eiffel-city-rome-L8": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 383,
+      "input_sha256": {
+        "evidence": "1c1cbe2a5df1892534dd5cf3e891872a389636b4fcb4a49b68e7357e6e52a28a",
+        "plan": "78562994a8054756e0d4ed60449617fec9c27942aabf95a10cf974511fcfe774",
+        "spec": "394a1ac24644a73135c6346c446cc5481143a04ecec74869581b32c9e31d42e6",
+        "verdict": "59648707c5b26250131861af3559bfdff91bd411c6f1aa725a4d1447e8648686"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 148,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L8/run/services/0/records.json",
+          "sha256": "ef21140e7b06b4d886f99b2eda4784053e65f9f184889bfd86a96e3ebe5e3fbb"
+        },
+        {
+          "forwards": 186,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L8/run/services/1/records.json",
+          "sha256": "5afec587c7224c485faf935ba272dab1c3b50580c57d1cf2bfe424a1b8ee7836"
+        },
+        {
+          "forwards": 10,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L8/run/services/2/records.json",
+          "sha256": "b41eb987cba7ed3079c365c49b7a4ec3dd46fe93bf128518a0169d5b54c902f8"
+        },
+        {
+          "forwards": 39,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-eiffel-city-rome-L8/run/services/3/records.json",
+          "sha256": "272a9f09e63707d40f685eed394d3a249da2a75d15518c9300f1758b97d73cf9"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-kilimanjaro-country-chile-L12": {
+      "controls": {
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL"
+      },
+      "forwards": 428,
+      "input_sha256": {
+        "evidence": "351b334fa640020bd9a8b9db24b0c069160bea61c5fcf65b57a867b89abb85c5",
+        "plan": "3ee8e42dac381d4492aaa6eb1b791f25af2f9479f5bfea9ee7710cf0a09a3b77",
+        "spec": "5d0229347abd272e8edd162612075fec501e4b237ed7d5dd9077140b768f98c6",
+        "verdict": "ef5c5b676dde86f02996aa0f4c5456e10f2c5d1cf48871152209b315f77d71f7"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "NOT_EVALUATED",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 168,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L12/run/services/0/records.json",
+          "sha256": "0c79913fad253b06dc3b35ede9d2544eb60cebeeb8bd4c16544d2d6982cdca0d"
+        },
+        {
+          "forwards": 200,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L12/run/services/1/records.json",
+          "sha256": "b9e4404a1845e887e30d04ae9414594139fbd5861b85d23b25bcd88b8d4095ce"
+        },
+        {
+          "forwards": 7,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L12/run/services/2/records.json",
+          "sha256": "1e01bd4a3e29215ac38fcfaa23d48001187899ef4cfb0bc976884e1cecc87100"
+        },
+        {
+          "forwards": 53,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L12/run/services/3/records.json",
+          "sha256": "26826ebc5d8a744e6c7d88f101fd9ed946949652a0949780f83ac2447c0a631a"
+        }
+      ],
+      "reported_controls": {
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-kilimanjaro-country-chile-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 412,
+      "input_sha256": {
+        "evidence": "772a3b7a806685f76b7f7749058472d0e5db27bd90c283e3df7954baf3dcc3b1",
+        "plan": "c75d764ea0f0d04a09f4fdf14c3e04018e7065d2314a5093029d34356c78d5e2",
+        "spec": "5d0229347abd272e8edd162612075fec501e4b237ed7d5dd9077140b768f98c6",
+        "verdict": "e5f5a88a6fdd62e2e786a593ef6d895ff2ef0ade153b45765946fae468d15b0a"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 168,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L4/run/services/0/records.json",
+          "sha256": "d5ab8f89d27d8b143d27e30d9897027e5a7a469c2afa26f7a157d13b2fdc0e82"
+        },
+        {
+          "forwards": 181,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L4/run/services/1/records.json",
+          "sha256": "b9f5d6c34ea774f896615dffd6c8de1e1900fac685fa74510147e4f93f10b6bd"
+        },
+        {
+          "forwards": 24,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L4/run/services/2/records.json",
+          "sha256": "6b1a1b84556517844c377a0e5d1feca59e39e15b36375f29e65609df1445a0b8"
+        },
+        {
+          "forwards": 39,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L4/run/services/3/records.json",
+          "sha256": "35f2bcca704423bda148d0bf66da4e436c83e9e2da6f9a1ff8c55332237a2bae"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-kilimanjaro-country-chile-L8": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "forwards": 443,
+      "input_sha256": {
+        "evidence": "16c3c9720d3d29f991cc25d9a02d1517d74d5cd6c5b0e68e73a36dcdbd15ccdb",
+        "plan": "dae1389f85327758aa7da46767ed5a69218c5bde37dc109d7ad079ea2dd776f7",
+        "spec": "5d0229347abd272e8edd162612075fec501e4b237ed7d5dd9077140b768f98c6",
+        "verdict": "b70545c1f6f114e77f12f2cf54e13ecac1fbf81aa712c446898b16eac153c8ba"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 168,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L8/run/services/0/records.json",
+          "sha256": "5fd9fd75a1c9a16ad289058a45ed0528dc548c00252eaca9036ff1acacc5326a"
+        },
+        {
+          "forwards": 202,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L8/run/services/1/records.json",
+          "sha256": "44032258c4f8152e384eef86e1ea1a89b1a501b1e0a5aa211f3cd5dd6b22494c"
+        },
+        {
+          "forwards": 20,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L8/run/services/2/records.json",
+          "sha256": "f9d6adafe072f1bc6370cb1a096a40170e247c8b7aa0ff18e1edcb59971dfe58"
+        },
+        {
+          "forwards": 53,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-kilimanjaro-country-chile-L8/run/services/3/records.json",
+          "sha256": "73120832ac3873cf344ce26f4e0a3bc083de2df40700a25d2e278c43d1ffcb73"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-toyota-origin-germany-L12": {
+      "controls": {
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL"
+      },
+      "forwards": 326,
+      "input_sha256": {
+        "evidence": "cc206e41b16f09de17951f9c1eb4bd26c500a5c5251dc68fdb399481f52c0c19",
+        "plan": "b0dc4c247166b7bc4d4de0b4dffd395db787e1cccdebba40a6fa81bd0b4e3bf2",
+        "spec": "63c0908efea887d439e01d1d92894fc79f9ec5530e14d248b1e2699f7562416f",
+        "verdict": "cae138c43cc361f5a0fc7a57b4328534cec2e8d420c2fafa8d55e0b8b2905e05"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "NOT_EVALUATED",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "FAIL",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 130,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L12/run/services/0/records.json",
+          "sha256": "3fad4ee334521dae3d9fd1ae2637b2a61fb55a0a75f08f7c372879390263d485"
+        },
+        {
+          "forwards": 160,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L12/run/services/1/records.json",
+          "sha256": "91945d506558f4cc822adbdd6139721cfedbc3dd00f872cba3dbb311de3faa6c"
+        },
+        {
+          "forwards": 3,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L12/run/services/2/records.json",
+          "sha256": "e2d2ffcccc05582b9e22a11ad0c2420d2a60d53a865e886c6fbe79c1971d3459"
+        },
+        {
+          "forwards": 33,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L12/run/services/3/records.json",
+          "sha256": "da924c6bde7cf9f349bb7213fbc30c1ef2e87613b5e926c9ce97153161a8ce73"
+        }
+      ],
+      "reported_controls": {
+        "C1": "NOT_EVALUATED",
+        "C2": "FAIL"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-toyota-origin-germany-L4": {
+      "controls": {
+        "C1": "FAIL",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 305,
+      "input_sha256": {
+        "evidence": "2ef4c763f48d7c8de065cd93e03a41dc91894975e4fa3bc8d44996f4bd15b03d",
+        "plan": "cb6735cb58a05aa160d8f2859116b8d723ea7b815eebf916e4ed5cf563456c93",
+        "spec": "63c0908efea887d439e01d1d92894fc79f9ec5530e14d248b1e2699f7562416f",
+        "verdict": "e502c63e6d3a3473bdacfbf69efca21e678654710bdcc2b922c9bc0370d71d40"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "FAIL",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 130,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L4/run/services/0/records.json",
+          "sha256": "c88ddcb65a85f46661da8749ad107980f2d6d4df7b4a57a4dba6c7c2616fa8a4"
+        },
+        {
+          "forwards": 135,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L4/run/services/1/records.json",
+          "sha256": "ff99610bca397c2cf3087744b052e02c4a07397e765537a417e89f06434bc5e3"
+        },
+        {
+          "forwards": 15,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L4/run/services/2/records.json",
+          "sha256": "b034c144e0655ed0f0b14806d710b950ad28c11098896f3938c4672378f5ada0"
+        },
+        {
+          "forwards": 25,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L4/run/services/3/records.json",
+          "sha256": "8e9fc517ef6be4e7a67eb42e3cb2da29e286df54af4f91c40f27ad04ca6c5433"
+        }
+      ],
+      "reported_controls": {
+        "C1": "FAIL",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    },
+    "dev-toyota-origin-germany-L8": {
+      "controls": {
+        "C1": "PASS",
+        "C2": "NOT_EVALUATED"
+      },
+      "forwards": 308,
+      "input_sha256": {
+        "evidence": "d86933140240e4240b622c3dc69195c0cf91b1446b3de937082a12c289114c93",
+        "plan": "925aab52406bc10843a5d5660f8773af8c1acc376dc14896672d43773c8cc915",
+        "spec": "63c0908efea887d439e01d1d92894fc79f9ec5530e14d248b1e2699f7562416f",
+        "verdict": "d1cae3be2c86344f2f2ee2962bad22654083058ef4de81e0fa71a9bbdaaaee57"
+      },
+      "questions": [
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": true
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "efficacy",
+          "edit_status": "PASS",
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "EXCLUDED",
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false,
+          "seen": false
+        },
+        {
+          "control": "attribute",
+          "edit_status": "PASS",
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true,
+          "seen": false
+        }
+      ],
+      "records": [
+        {
+          "forwards": 130,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L8/run/services/0/records.json",
+          "sha256": "18a1b89c54661353991bc63dd296e16730b23ccf9ff2ebac209efd0bd689eb0c"
+        },
+        {
+          "forwards": 136,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L8/run/services/1/records.json",
+          "sha256": "8a43af412d83218a92d6bbeede8aa062c4f2de845725680223b66328eb2cd6f2"
+        },
+        {
+          "forwards": 21,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L8/run/services/2/records.json",
+          "sha256": "f34254ca3e9c73444f244e22654b4aff97307ae9fcae3ceeb71f09addca14491"
+        },
+        {
+          "forwards": 21,
+          "path": "/home/pat/Projects/larql-research/phase-b-certification-20261026/dev-toyota-origin-germany-L8/run/services/3/records.json",
+          "sha256": "c157f688cf4564efaa4010644ea3221a55fa1966eaabae75cf4f4bdefce33ae6"
+        }
+      ],
+      "reported_controls": {
+        "C1": "PASS",
+        "C2": "PASS"
+      },
+      "reported_verdict": "REFUSED"
+    }
+  },
+  "comparator_sha256": "029be17bbc38c9a0bd071027db82eeb51ce966abfd691fd5e12592d45d28ec99",
+  "differences": [
+    {
+      "case": "dev-beethoven-nationality-italian-L12",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    },
+    {
+      "case": "dev-beethoven-nationality-italian-L8",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    },
+    {
+      "case": "dev-kilimanjaro-country-chile-L4",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    },
+    {
+      "case": "dev-toyota-origin-germany-L4",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    },
+    {
+      "case": "dev-toyota-origin-germany-L8",
+      "claude": "PASS",
+      "codex": "NOT_EVALUATED",
+      "control": "C2"
+    }
+  ],
+  "full_certification": false,
+  "full_output": "/home/pat/Projects/larql-research/phase-b-rome-20261026/b2-gate-xcheck-progress-15-complete.json",
+  "full_output_sha256": "d9507957fa2fb0149eac6359dd69ae8dfa5e127119acd6e75d3e8cae72a61735",
+  "gate": "CONTINUE_IDENTITY_ABLATION",
+  "independent_scope": [
+    "C1",
+    "C2"
+  ],
+  "input_index_sha256": "35576352abc8402a604a2ff3a428b130e68a9054ed11283d6fdf0f31cd0d07bf",
+  "interpretations": [
+    "Native qualification requires EOS, no cap, an accepted native surface, no rejected surface or swap marker.",
+    "Surface readings are case-sensitive, bounded by non-ASCII-alphanumeric-or-edge, as declared by the public specs; swap markers are case-insensitive substrings.",
+    "C1 requires min_efficacy unseen qualified positive generations in total and at least one in each subject order (design section 3); it does not reinterpret the later test success threshold as two per order.",
+    "A seen efficacy phrasing can fail C1 but cannot supply positive coverage.",
+    "An explicit old/rejected value or swap marker fails even in a capped edited generation. A capped answer without such counterevidence is unreadable, never PASS. A completed answer missing its accepted value fails.",
+    "C2 needs positive qualified attribute coverage in both subject orders; insufficient coverage is NOT_EVALUATED. Any usable counterexample takes precedence.",
+    "Primary B2 has full free generations. Resumed boundary diagnostics are not used to rescue, replace, or score them.",
+    "Layer selection is the frozen count of REPORTED C1+C2 PASS among the original five facts, ties to the earlier layer. This cross-check reports differences without repairing either side."
+  ],
+  "model_forwards": 0,
+  "peer_complete": true,
+  "pending": [],
+  "reported_pass_counts": {
+    "12": 1,
+    "4": 0,
+    "8": 2
+  },
+  "selected_layer": 8
+}

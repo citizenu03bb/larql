@@ -1,0 +1,336 @@
+{
+  "author": "Codex",
+  "cases": {
+    "dev-beethoven-nationality-italian": {
+      "native_ids_identical_across_layers": true,
+      "native_ids_sha256": {
+        "12": "9e55aa52090f7678e46d8f62045179b03dea527ddfaa4693dec3001ba67359ad",
+        "4": "9e55aa52090f7678e46d8f62045179b03dea527ddfaa4693dec3001ba67359ad",
+        "8": "9e55aa52090f7678e46d8f62045179b03dea527ddfaa4693dec3001ba67359ad"
+      },
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": true,
+          "control": "attribute",
+          "eos": false,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true
+        }
+      ]
+    },
+    "dev-bolt-sport-swimming": {
+      "native_ids_identical_across_layers": true,
+      "native_ids_sha256": {
+        "12": "3732c9910755f0ffb9b3e34c40316a9f0254029fbfce824fb41eb08ff7acd4f1",
+        "4": "3732c9910755f0ffb9b3e34c40316a9f0254029fbfce824fb41eb08ff7acd4f1",
+        "8": "3732c9910755f0ffb9b3e34c40316a9f0254029fbfce824fb41eb08ff7acd4f1"
+      },
+      "questions": [
+        {
+          "capped": true,
+          "control": "efficacy",
+          "eos": false,
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": false
+        },
+        {
+          "capped": true,
+          "control": "efficacy",
+          "eos": false,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": false
+        },
+        {
+          "capped": true,
+          "control": "efficacy",
+          "eos": false,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": false
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true
+        }
+      ]
+    },
+    "dev-eiffel-city-rome": {
+      "native_ids_identical_across_layers": true,
+      "native_ids_sha256": {
+        "12": "460db20bc21b310ba16bc2d530aa17c104256987fb65094910cb4019c82a31c2",
+        "4": "460db20bc21b310ba16bc2d530aa17c104256987fb65094910cb4019c82a31c2",
+        "8": "460db20bc21b310ba16bc2d530aa17c104256987fb65094910cb4019c82a31c2"
+      },
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true
+        }
+      ]
+    },
+    "dev-kilimanjaro-country-chile": {
+      "native_ids_identical_across_layers": true,
+      "native_ids_sha256": {
+        "12": "210237c1f0fa9c2b161362b71eee08d3267b4356e4befafd04d3f8aad464389f",
+        "4": "210237c1f0fa9c2b161362b71eee08d3267b4356e4befafd04d3f8aad464389f",
+        "8": "210237c1f0fa9c2b161362b71eee08d3267b4356e4befafd04d3f8aad464389f"
+      },
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": true,
+          "control": "attribute",
+          "eos": false,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true
+        }
+      ]
+    },
+    "dev-toyota-origin-germany": {
+      "native_ids_identical_across_layers": true,
+      "native_ids_sha256": {
+        "12": "3a8dc2a8b28db485d4d8a4d40f10a4e73baca677797cec652a7a6b7a01c4916a",
+        "4": "3a8dc2a8b28db485d4d8a4d40f10a4e73baca677797cec652a7a6b7a01c4916a",
+        "8": "3a8dc2a8b28db485d4d8a4d40f10a4e73baca677797cec652a7a6b7a01c4916a"
+      },
+      "questions": [
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "S1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E1",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E2",
+          "order": "subject_after_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E3",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": false,
+          "control": "efficacy",
+          "eos": true,
+          "id": "E4",
+          "order": "subject_before_relation",
+          "qualified": true
+        },
+        {
+          "capped": true,
+          "control": "attribute",
+          "eos": false,
+          "id": "A1",
+          "order": "subject_after_relation",
+          "qualified": false
+        },
+        {
+          "capped": false,
+          "control": "attribute",
+          "eos": true,
+          "id": "A2",
+          "order": "subject_before_relation",
+          "qualified": true
+        }
+      ]
+    }
+  },
+  "model_forwards": 0
+}
