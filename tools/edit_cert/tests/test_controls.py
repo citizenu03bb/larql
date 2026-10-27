@@ -145,6 +145,16 @@ def test_reload_mismatch_and_missing_reload():
     assert status(ev)[1]['C7'] == 'FAIL'
 
 
+def test_c7_does_not_pass_on_identical_capped_answers():
+    """Design §14: identical truncated answers are unreadable for C7, as for every control."""
+    ev = evidence()
+    ev.generations = [Generation(g.question_id, g.condition, g.ids, g.text, False, True)
+                      if g.condition == 'reloaded' else g for g in ev.generations]
+    v = decide(SPEC, FORM, ev)
+    c7 = next(c for c in v['controls'] if c['id'] == 'C7')
+    assert c7['status'] == 'NOT_EVALUATED' and 'truncated' in c7['detail']
+
+
 @pytest.mark.parametrize('key,value', [('answer_time_trigger', True), ('donor_pass', True),
                                        ('uses_native_proposal', True), ('applied_every_forward', False),
                                        ('max_write_layer', 23)])

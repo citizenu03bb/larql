@@ -350,6 +350,9 @@ def c7_reload(spec, ev, quals) -> ControlResult:
         a, b = ev.generation(q.id, 'edit'), ev.generation(q.id, 'reloaded')
         if a is None or b is None:
             outcomes.append(Outcome(q.id, 'unevaluated', 'none', 'missing in-session or reloaded answer', q.order))
+        elif a.capped or not a.eos or b.capped or not b.eos:
+            # design §14: a cap hit is unreadable, not a pass, in C7 as everywhere else
+            outcomes.append(Outcome(q.id, 'unevaluated', 'none', 'in-session or reloaded answer truncated at the cap', q.order))
         else:
             same = a.ids == b.ids
             outcomes.append(Outcome(q.id, 'pass' if same else 'fail', 'generation',

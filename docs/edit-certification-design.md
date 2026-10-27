@@ -258,3 +258,11 @@ These come from defects seen on real data in B2 v1 (`docs/phase-b2-certification
 - **The specs (builder v2)** use 64 new tokens, declare off-target values, and declare the subject surfaces for the answer-only mention.
 
 The replay of R1–R5 is unchanged. Tests: `test_off_target_judged_on_declared_values_not_wording`, `test_answer_only_must_still_name_the_subject` and `test_value_ids_cover_spaced_and_multi_token_values`.
+
+## 14. C7 amendment: a capped answer is unreadable for persistence too (2026-10-27, prospective)
+
+Codex's model-free cross-check of B2 v2 (`b4d39ebb`, on `research/phase-b-rome`) found one status difference out of 135. On Bolt L8, the unseen answer E2 reaches the 64-token cap with the same 64 ids in session and after a fresh reload. The harness counted it as "reloaded answer identical", and C7 passed. The design's generation rule for all controls (§2) says "A cap hit is unreadable, not a pass".
+
+- **Pat's decision (2026-10-27): the design rule applies to C7.** An in-session or reloaded answer that is truncated, or that has no EOS, is an unevaluated outcome for C7. C7 then needs its other required answers, under its aggregation rule as before.
+- **Prospective.** B2 is closed and its verdicts stay as published. Bolt L8 is REFUSED under both readings, and C7 is outside the gate score. The amendment applies from the next certification, P1-5 included.
+- **The replay of R1–R5 is unchanged**, since their C7 is NOT_EVALUATED for other reasons. Test: `test_c7_does_not_pass_on_identical_capped_answers`.
