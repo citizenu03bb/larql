@@ -1,0 +1,317 @@
+{
+  "agreement_count": 0,
+  "all_algebra_pass": true,
+  "ambiguous_count": 0,
+  "author": "Codex",
+  "cases": {
+    "p1-bmw-origin-italy": {
+      "algebra_claude": {
+        "error_l2": 3.685616067644229e-07,
+        "max_abs_error": 6.04372356605154e-08,
+        "passed": true,
+        "relative_to_update": 1.6151245139152355e-08
+      },
+      "algebra_codex": {
+        "error_l2": 3.4024836553786954e-06,
+        "max_abs_error": 3.3389733911093344e-07,
+        "passed": true,
+        "relative_to_update": 3.6410712259535046e-08
+      },
+      "comparison": {
+        "agrees": false,
+        "cosine_U": 0.658360647112802,
+        "cosine_V": 0.9999999999999989,
+        "norm_a": 26.935550086359118,
+        "norm_b": 3.805095488167394,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 7.078810550252916,
+        "relative_norm_difference": {
+          "against_a": 0.8587333291517074,
+          "against_b": 6.078810550252916,
+          "against_mean": 1.5048776085144397
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "own_clean_dot_V": 3.4692934494344296,
+      "own_constraint_key": "clean context, first shared template",
+      "own_content_sha256": "33cbf6a5a9ca943029ecc9277e5a04cd2629b980949f416c150311cd5eb116de",
+      "own_key_is_first_context": true,
+      "own_manifest_sha256": "7360e0578acc31b77e77ede1f2b9148b31ef302a4e50c92cfbdd00a49c8453ad",
+      "own_mean_dot_V": 5.997061821051965,
+      "own_payload_hashes_verified": 12,
+      "own_penalty": "0.5 * norm(delta) / norm(clean_native_value)^2",
+      "own_status_sha256": "e5616419a038f526c875b11e0a12e75bfcfbac88659bcbeadc2fbc3f0e185c7c",
+      "peer_content_sha256": "52f1971901fb2b27e8e84871f351189b41f6b36b659c08e731d936b35b4ed0cc",
+      "peer_decisions": [
+        "decay = squared relative L2",
+        "z replaces the c_proj output at the subject last token"
+      ],
+      "peer_key_minus_clean_l2": 16.15539724147136,
+      "peer_key_minus_mean_l2": 2.4605201045207413e-07,
+      "peer_observed_file_sha256": {
+        "U.npy": "e4e4f3d6e6bf24c80cb9decd27d794cf4038280b1e223f595900bbce2b478bae",
+        "V.npy": "17de07a57f930ee15034e0155af20a719b3514c8f1c599ab002025271f1e9b7e",
+        "context_keys.npy": "305563c99bf84817acbed76078f199251572e60731994d7e76e2b0ee7d5c0518",
+        "edit/U0.npy": "e4e4f3d6e6bf24c80cb9decd27d794cf4038280b1e223f595900bbce2b478bae",
+        "edit/V0.npy": "17de07a57f930ee15034e0155af20a719b3514c8f1c599ab002025271f1e9b7e",
+        "edit/backend.json": "b31f52037f912df73ef54fc1edf285d76f4a59ac22132c870021fafe33db51ab",
+        "k_star.npy": "4c0a5f26030f0979782fb39d10d9c931e241b306a13cb7e849a45fccc2331d5e",
+        "status.json": "1e7b413b20ccc95e3ff9425034d21593f781c07d6a2bdf0b5635293ec862c172",
+        "v_star.npy": "35024d1dde52843b00afb7642bbbb8027084d51d94b79b477c4f9870734a966f",
+        "z0.npy": "d123ac657f20bf37339c2cb84fa712b1b77be101110fb6f0a4408481ddd29a7c"
+      },
+      "peer_status_sha256": "1e7b413b20ccc95e3ff9425034d21593f781c07d6a2bdf0b5635293ec862c172",
+      "peer_witness_provenance": "Witness npy hashes recorded now; completion previously pins status and edit content only."
+    },
+    "p1-germany-language-finnish": {
+      "algebra_claude": {
+        "error_l2": 5.39126200440111e-07,
+        "max_abs_error": 1.209285063197285e-07,
+        "passed": true,
+        "relative_to_update": 1.551364329743448e-08
+      },
+      "algebra_codex": {
+        "error_l2": 2.2225662579159603e-06,
+        "max_abs_error": 1.7519646444696946e-07,
+        "passed": true,
+        "relative_to_update": 3.861463650081136e-08
+      },
+      "comparison": {
+        "agrees": false,
+        "cosine_U": 0.7321267872548008,
+        "cosine_V": 0.9999999999999987,
+        "norm_a": 8.207782258262931,
+        "norm_b": 5.009946096905598,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 1.638297518476792,
+        "relative_norm_difference": {
+          "against_a": 0.3896102577694493,
+          "against_b": 0.6382975184767922,
+          "against_mean": 0.48387076438999194
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "own_clean_dot_V": 7.012565422828867,
+      "own_constraint_key": "clean context, first shared template",
+      "own_content_sha256": "9c6e791c75bc1b01338ef468f2bff54df5e120718abd8d33c4cdd9e992d743b2",
+      "own_key_is_first_context": true,
+      "own_manifest_sha256": "f8707c5c1348b378cc3c8a5703ed2f51be5721fc1e162617079851942caadbf6",
+      "own_mean_dot_V": 6.9365510086085695,
+      "own_payload_hashes_verified": 12,
+      "own_penalty": "0.5 * norm(delta) / norm(clean_native_value)^2",
+      "own_status_sha256": "3d8df5dcb8c3e5a79a644754cadac25786ec4e8328eed4a3a1db49c6ecf1b62c",
+      "peer_content_sha256": "e2e20c035771dc4026d3fd0e05e1d3109c234d27ae4e5b4d85fdd5156cc8b118",
+      "peer_decisions": [
+        "decay = squared relative L2",
+        "z replaces the c_proj output at the subject last token"
+      ],
+      "peer_key_minus_clean_l2": 3.195817949051864,
+      "peer_key_minus_mean_l2": 2.911189388050636e-07,
+      "peer_observed_file_sha256": {
+        "U.npy": "ea1bc4a52f17f610aeeb9f0acb75c17cf74d279da4812d48a92ff0aa34818f3c",
+        "V.npy": "5b77bfef46259c7129ec19e804d20dcd1936c96f11e1d961444c5c80e691db60",
+        "context_keys.npy": "238fd58210d915de82fcbbe01cff0de6558f2b4e0920a686d996294cfbf6cb20",
+        "edit/U0.npy": "ea1bc4a52f17f610aeeb9f0acb75c17cf74d279da4812d48a92ff0aa34818f3c",
+        "edit/V0.npy": "5b77bfef46259c7129ec19e804d20dcd1936c96f11e1d961444c5c80e691db60",
+        "edit/backend.json": "7bb8bd1ea235bb309ed1b40c1d79a869b864d60a2ac053dd5f5839226bc24960",
+        "k_star.npy": "59f183cf0f2ee12a9be481c4401d5592fbe239c866e06f4f22a22dadfd3bef3d",
+        "status.json": "525c88a6dfd6104c5285e93d88a3e1a9829ae77cf1f5cc95eb524b3c901b8576",
+        "v_star.npy": "787cb569cfb5e21c48732d4e6e2c0866f88ff3f47e3a206bbc0ac96e5c154b26",
+        "z0.npy": "c57ff2cd005ee77512f45e10967d101be77e211ad44802f3687cdd1e843208e7"
+      },
+      "peer_status_sha256": "525c88a6dfd6104c5285e93d88a3e1a9829ae77cf1f5cc95eb524b3c901b8576",
+      "peer_witness_provenance": "Witness npy hashes recorded now; completion previously pins status and edit content only."
+    },
+    "p1-gretzky-sport-baseball": {
+      "algebra_claude": {
+        "error_l2": 5.366547560541593e-07,
+        "max_abs_error": 1.241390745754245e-07,
+        "passed": true,
+        "relative_to_update": 1.9343471652769542e-08
+      },
+      "algebra_codex": {
+        "error_l2": 3.310576775534596e-06,
+        "max_abs_error": 2.2635055696440531e-07,
+        "passed": true,
+        "relative_to_update": 3.165847361727981e-08
+      },
+      "comparison": {
+        "agrees": false,
+        "cosine_U": 0.5910681863795002,
+        "cosine_V": 0.9999999999999989,
+        "norm_a": 9.365284782230322,
+        "norm_b": 2.5535550442267563,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 3.6675476424148243,
+        "relative_norm_difference": {
+          "against_a": 0.727338238654326,
+          "against_b": 2.667547642414824,
+          "against_mean": 1.14301892418809
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "own_clean_dot_V": 11.165873707233239,
+      "own_constraint_key": "clean context, first shared template",
+      "own_content_sha256": "6ed1c6c4068d6ed1a78747c654bf88d6418ae7bf362f3efe0fece4919e443b0d",
+      "own_key_is_first_context": true,
+      "own_manifest_sha256": "644621d913907228608f9a500cbad8da2eb9e9354cf82e98994bd2e7b0166eb1",
+      "own_mean_dot_V": 10.864639960600107,
+      "own_payload_hashes_verified": 12,
+      "own_penalty": "0.5 * norm(delta) / norm(clean_native_value)^2",
+      "own_status_sha256": "3a8184edef658851c80a77f52174a98f78e9da3d14e15a8cc6c753bf97bf69f1",
+      "peer_content_sha256": "aa842218c4bc6ebfb2994d9b38531f99415cb543f97f900263d18bf3e874e1eb",
+      "peer_decisions": [
+        "decay = squared relative L2",
+        "z replaces the c_proj output at the subject last token"
+      ],
+      "peer_key_minus_clean_l2": 5.406688711504714,
+      "peer_key_minus_mean_l2": 4.0719517843736183e-07,
+      "peer_observed_file_sha256": {
+        "U.npy": "f25c8135bacf0223ff8fc89f7a201337b3fdb2c7f7e710f23826bf3dbc77fd64",
+        "V.npy": "275d0682f339b1df44bf87ecb840367e1b44cebe5a0172359a8d653946846958",
+        "context_keys.npy": "8fafe7f32884f5554774732295886290afb26d64247ac9930ec4790dcf75c58a",
+        "edit/U0.npy": "f25c8135bacf0223ff8fc89f7a201337b3fdb2c7f7e710f23826bf3dbc77fd64",
+        "edit/V0.npy": "275d0682f339b1df44bf87ecb840367e1b44cebe5a0172359a8d653946846958",
+        "edit/backend.json": "ee5d71ffc3e27eac53df8eb302672f03108fd44c51a66b9acbd9d7f15441ad3b",
+        "k_star.npy": "e262d3f7428cac0113e2e6e7f2888ab906a28a7c80f92ef2d35254beec27ad11",
+        "status.json": "8f02e8be293280c5e60d1728e0bf13f774958063edf815599515cc19abd818c1",
+        "v_star.npy": "a06dc9c6fc1fd15fc7cda8b2ccfbd5b140f3ea58b72b2230fe6c2fe7db8f0dc7",
+        "z0.npy": "bde23cfef6485d3a1496e4a9c130bb126e18f53cd98a0d3bd240cbe5f7d4f708"
+      },
+      "peer_status_sha256": "8f02e8be293280c5e60d1728e0bf13f774958063edf815599515cc19abd818c1",
+      "peer_witness_provenance": "Witness npy hashes recorded now; completion previously pins status and edit content only."
+    },
+    "p1-nintendo-origin-france": {
+      "algebra_claude": {
+        "error_l2": 3.646363571524522e-07,
+        "max_abs_error": 1.200941106560549e-07,
+        "passed": true,
+        "relative_to_update": 1.680415988756366e-08
+      },
+      "algebra_codex": {
+        "error_l2": 4.180634385524919e-06,
+        "max_abs_error": 4.871405803186235e-07,
+        "passed": true,
+        "relative_to_update": 2.774276369754254e-08
+      },
+      "comparison": {
+        "agrees": false,
+        "cosine_U": 0.7115787189860348,
+        "cosine_V": 0.999999999999999,
+        "norm_a": 1332.1418695510363,
+        "norm_b": 3.1424438334899163,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 423.91907067805704,
+        "relative_norm_difference": {
+          "against_a": 0.9976410591804692,
+          "against_b": 422.919070678057,
+          "against_mean": 1.9905864427463396
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "own_clean_dot_V": 0.11312067350188704,
+      "own_constraint_key": "clean context, first shared template",
+      "own_content_sha256": "d0a619242d7813f5b93c04e81ffbe5f669663692e525fc59e997df1c785334ec",
+      "own_key_is_first_context": true,
+      "own_manifest_sha256": "af30f62b8d3599ae5595fdb314e97149df10fa746ad1553dec00e1aaebb153a4",
+      "own_mean_dot_V": 6.905190140466679,
+      "own_payload_hashes_verified": 12,
+      "own_penalty": "0.5 * norm(delta) / norm(clean_native_value)^2",
+      "own_status_sha256": "1beb73185e0bad16a4b35e439dfcb595c059d96752d69ebfbe727984ccb431a5",
+      "peer_content_sha256": "c3dd459c7ee786ad590d01e610c24fac4a86fdade09899e7599f2f4c7e934b1c",
+      "peer_decisions": [
+        "decay = squared relative L2",
+        "z replaces the c_proj output at the subject last token"
+      ],
+      "peer_key_minus_clean_l2": 20.97952413531183,
+      "peer_key_minus_mean_l2": 2.511997070286911e-07,
+      "peer_observed_file_sha256": {
+        "U.npy": "6b134410f75c2f72bbbe615c1bca1045d0f7f995b236a084a9f4886859fa9049",
+        "V.npy": "6d08486d6fbc71b5b845aaa6c980eb95b9a4f04df3f54699f35d824cafdb5ccc",
+        "context_keys.npy": "50b3b2ea901cbab0762495a7eb1afc076e71588e021a9bb3a6274e96685eec65",
+        "edit/U0.npy": "6b134410f75c2f72bbbe615c1bca1045d0f7f995b236a084a9f4886859fa9049",
+        "edit/V0.npy": "6d08486d6fbc71b5b845aaa6c980eb95b9a4f04df3f54699f35d824cafdb5ccc",
+        "edit/backend.json": "a98f15504e580b6dde63998ea08e12dfbece9d0b7c730405dd36601170b44f5e",
+        "k_star.npy": "b44133fcca83c64ed013c21316188b58b4cb27d7fc1788be6b9db7919c98bf4f",
+        "status.json": "7f558f3e93748e164c34e1db584cc347bbfbb20a109460de29d535f84102e34f",
+        "v_star.npy": "02d5609129037044e94261538fe555fcf722cb7e881b0cf2dedb606cd0d5aff9",
+        "z0.npy": "1d7312950fd91cf99f448e0f0959ea73f3c9d8df74a4bd9c0acf6efc2d4d6c08"
+      },
+      "peer_status_sha256": "7f558f3e93748e164c34e1db584cc347bbfbb20a109460de29d535f84102e34f",
+      "peer_witness_provenance": "Witness npy hashes recorded now; completion previously pins status and edit content only."
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "algebra_claude": {
+        "error_l2": 4.2103902236893633e-07,
+        "max_abs_error": 6.428987320283852e-08,
+        "passed": true,
+        "relative_to_update": 1.2901089989457376e-08
+      },
+      "algebra_codex": {
+        "error_l2": 2.125665806507059e-06,
+        "max_abs_error": 1.8459110373569843e-07,
+        "passed": true,
+        "relative_to_update": 2.987750241688156e-08
+      },
+      "comparison": {
+        "agrees": false,
+        "cosine_U": 0.751788721449189,
+        "cosine_V": 0.9999999999999987,
+        "norm_a": 8.119578760556463,
+        "norm_b": 3.4011306104862142,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 2.3873175395036403,
+        "relative_norm_difference": {
+          "against_a": 0.5811198202783215,
+          "against_b": 1.3873175395036401,
+          "against_mean": 0.8191245865345889
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "own_clean_dot_V": 8.762281557099946,
+      "own_constraint_key": "clean context, first shared template",
+      "own_content_sha256": "623eaf0a57cf7fdbb808d860846e65ebf31b818a4d45064eea94512a94955824",
+      "own_key_is_first_context": true,
+      "own_manifest_sha256": "340ad78fbb8a96d628d78072506355b04ce262e83e053aa042c39b43129ee1ac",
+      "own_mean_dot_V": 9.595611046856135,
+      "own_payload_hashes_verified": 12,
+      "own_penalty": "0.5 * norm(delta) / norm(clean_native_value)^2",
+      "own_status_sha256": "ce64519d907b90afa9eb01f5167a836a15fcb911a9b530fe51f7f314e32ca30c",
+      "peer_content_sha256": "7da703e308ade081b05adaca033e9ab05fd0c25ed4ce83bd11b40807e036ac1a",
+      "peer_decisions": [
+        "decay = squared relative L2",
+        "z replaces the c_proj output at the subject last token"
+      ],
+      "peer_key_minus_clean_l2": 6.681577588932027,
+      "peer_key_minus_mean_l2": 3.233636873057384e-07,
+      "peer_observed_file_sha256": {
+        "U.npy": "1ea61b68a478be113beeb368b7ea3ef7e1d99a46c2caf5d0c469ace85c268963",
+        "V.npy": "8617612c063658ae181193ffcfb80676457680a7863862bfaeac7760ffdfc809",
+        "context_keys.npy": "4d01b2e6f1c801502ed711d1e2614369ca909ab6f9c1f42c6a1bbae6c4f2e257",
+        "edit/U0.npy": "1ea61b68a478be113beeb368b7ea3ef7e1d99a46c2caf5d0c469ace85c268963",
+        "edit/V0.npy": "8617612c063658ae181193ffcfb80676457680a7863862bfaeac7760ffdfc809",
+        "edit/backend.json": "920e1b03d0e0910ae9827c831ec62ab1089e0588c672b6f90c0c6f8612b22412",
+        "k_star.npy": "737b69667c7e94086d6c27a74da56e09dd64afd1c7bb4325811e5852ac443389",
+        "status.json": "0d03704f97f4148420637e163f237549d72dafbe77f5c93edbc0fc9042077fcd",
+        "v_star.npy": "fea1726205297b3aecb4d16b93e86bdf9d52b1d55d0884f9f81914d5f9c47b97",
+        "z0.npy": "a36e706df088468105f5a8fa78d16850fe85a45afcff8b73ac20bf0c6ca94aaa"
+      },
+      "peer_status_sha256": "0d03704f97f4148420637e163f237549d72dafbe77f5c93edbc0fc9042077fcd",
+      "peer_witness_provenance": "Witness npy hashes recorded now; completion previously pins status and edit content only."
+    }
+  },
+  "covariance_sha256": "a9c6faa06c9b9155e764a9a38298c62c0a11379369bb3869075a76f61057c715",
+  "disagreement_count": 5,
+  "interpretation": "No result repaired or re-solved. Shared keys agree, but output factors and update norms fail the predeclared comparison for all five facts. Different objectives/constraint witnesses are visible in saved metadata; causal contributions have not been isolated.",
+  "math_frozen_commit": "c713a033",
+  "model_forwards": 0,
+  "model_sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
+  "own_gradient_steps": 100,
+  "own_index_sha256": "0c0e5114bd28375ef41beaa826d99181ecd193b2bc04f3fcc9f21567b507cc6c",
+  "own_sequence_forwards": 2310,
+  "p1_5_blocked_by_majority_disagreement": true,
+  "peer_completion_sha256": "07d7f2584720032b4c3cb57a5821f8c52c771e5a3d740c291ffc958a3593c0e4",
+  "peer_source_read": false,
+  "stage": "P1-4",
+  "templates_sha256": "b7dce8e1fa21e362e63e4ea45fc5a25030cce7a61781dcdd55f0c0216afebf15"
+}
