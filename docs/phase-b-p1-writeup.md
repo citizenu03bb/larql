@@ -191,4 +191,4 @@ The paper's numbers are given as historical context. **They are not a matched co
   - `docs/phase-b-p1-closure.md`.
 - **Archives.** Each run is archived with a SHA-256 manifest.
 
-`research/edit-certification` is pushed to the fork. `research/phase-b-rome-public` will follow once it is approved.
+Both `research/edit-certification` and `research/phase-b-rome-public` are published on the fork.
