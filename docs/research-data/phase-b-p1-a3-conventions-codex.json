@@ -1,0 +1,31 @@
+{
+  "a3_artifacts_read": false,
+  "a3_comparison_read": false,
+  "author": "Codex",
+  "chronology": "Existing Codex solves and completed A3 solves precede this declaration; no A3 factor, status or comparison read by Codex before this commit.",
+  "document_sha256": "04dd81e283af072cf343c832dbff236692345cf740b767500f8b2a59d6cfa000",
+  "gate_math_commit": "c713a033",
+  "model_forwards": 0,
+  "native_kl": "separate singleton forward before optimization, subject_last",
+  "old_delivery_commit": "ac0ef8ec",
+  "peer_source_read": false,
+  "posthoc_declaration": true,
+  "precision_summary": {
+    "U": "float32 numerator; NumPy division by Python-float float64-computed clean dot; stored float32",
+    "V": "float64 normalization then float32 rounding BEFORE U",
+    "attention": "sdpa",
+    "delta": "float32 then cast to output float16 before adding",
+    "key_mean": "float64 accumulation then float32 rounding",
+    "losses": "float32",
+    "model": "float16",
+    "moment_solve": "float64 Cholesky"
+  },
+  "reference_base": "first native clean singleton c_proj output, copied to float32",
+  "source_audit_commit": "00d285d0",
+  "source_sha256": {
+    "tools/rome_solver/p1_gpt2_solver.py": "b77d8f217f88f328cafef593bfcb2fb89ca3fb3a911f10ccde1954dd366fecac",
+    "tools/rome_solver/p1_runtime.py": "d7027efe9cd7721b8d42cd2ded7b46c745790ad233cfb51fe916e1ca03c0d4ef",
+    "tools/rome_solver/run_p1_solve_codex.py": "95448a7555777bfcf9af50d07ef275aee36436990c89a61c0b957c3d4ba37c91"
+  },
+  "stage": "conventions frozen before new A3 comparison"
+}
