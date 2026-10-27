@@ -1,0 +1,352 @@
+{
+  "agreement_count": 5,
+  "all_affine_constraints_pass": true,
+  "ambiguous_count": 0,
+  "author": "Codex",
+  "cases": {
+    "p1-bmw-origin-italy": {
+      "algebra_claude_a3": {
+        "error_l2": 2.4327520498805922e-06,
+        "max_abs_error": 2.1702241337351325e-07,
+        "passed": true,
+        "relative_to_update": 2.603721790899887e-08
+      },
+      "algebra_claude_float32_target_diagnostic": {
+        "error_l2": 2.8652333105907606e-06,
+        "max_abs_error": 6.782286732232023e-07,
+        "passed": true,
+        "relative_to_update": 3.066597114490009e-08
+      },
+      "algebra_codex": {
+        "error_l2": 3.4024836553786954e-06,
+        "max_abs_error": 3.3389733911093344e-07,
+        "passed": true,
+        "relative_to_update": 3.6410712259535046e-08
+      },
+      "comparison": {
+        "agrees": true,
+        "cosine_U": 0.9999994898855952,
+        "cosine_V": 0.9999999999999989,
+        "norm_a": 26.935550086359118,
+        "norm_b": 26.931604864746,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 1.0001464904016277,
+        "relative_norm_difference": {
+          "against_a": 0.00014646894533320846,
+          "against_b": 0.00014649040162783634,
+          "against_mean": 0.00014647967269479465
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "gradient_steps": 20,
+      "old_own_manifest_sha256": "7360e0578acc31b77e77ede1f2b9148b31ef302a4e50c92cfbdd00a49c8453ad",
+      "own_content_sha256": "33cbf6a5a9ca943029ecc9277e5a04cd2629b980949f416c150311cd5eb116de",
+      "p1_5_bench_cap": 832,
+      "p1_5_probe_cap": 54,
+      "peer_base_minus_codex_base_max_abs": 0.0,
+      "peer_content_sha256": "bdeb115b3ab41780423f04d5e25e56146f3b3a7b0e410490b757f4de3ca9c561",
+      "peer_initial_minus_singleton_base_l2": 0.05077542023305026,
+      "peer_observed_file_sha256": {
+        "U.npy": "d807afb0eb1ceb20e3627e99b1fcc4144b3398e81a44faae5d31bc11c68317ee",
+        "V.npy": "ba5a1b764e333c602ac4aab77986068295a75e75e96379d7b318d95cff012d4d",
+        "context_keys.npy": "305563c99bf84817acbed76078f199251572e60731994d7e76e2b0ee7d5c0518",
+        "cur_output.npy": "f45ddb18ce84d72ea177ea2734192f3cd1d705ca34f7a1c91ac3a41c2478e592",
+        "delta.npy": "8ee2fb67a631ca45403eb903378ac3e1d42eb95b7202483cf5bbe5bab857ec9b",
+        "edit/U0.npy": "d807afb0eb1ceb20e3627e99b1fcc4144b3398e81a44faae5d31bc11c68317ee",
+        "edit/V0.npy": "ba5a1b764e333c602ac4aab77986068295a75e75e96379d7b318d95cff012d4d",
+        "edit/backend.json": "ee3bd4be9c111b190491db4cf01ab7eb7e270574e4fa54a58e2e352b0e5e4a47",
+        "k_clean.npy": "561929e1716a5d17371fca6ec056c68a46fc150644e28d412fa62515bbf78793",
+        "k_mean.npy": "4c0a5f26030f0979782fb39d10d9c931e241b306a13cb7e849a45fccc2331d5e",
+        "status.json": "6da65fbc5e0113c54b7d986b479cf9c156fb53e10e43bd5f2027c92b3e602813",
+        "target_init.npy": "64214da059dca8e7906cc417b576a168ca55479860d44a3e1e1e572b95e1e91f"
+      },
+      "peer_reported_constraint_error": 4.440892098500626e-16,
+      "peer_status_sha256": "6da65fbc5e0113c54b7d986b479cf9c156fb53e10e43bd5f2027c92b3e602813",
+      "peer_witness_provenance": "Completion pins status and edit content; remaining witness file hashes recorded on first independent comparison.",
+      "raw_sequence_forwards": 462,
+      "reported_division_factor": 3.4692934470151346,
+      "same_subject_positions": true,
+      "stored_V_clean_dot": 3.4692934548568246
+    },
+    "p1-germany-language-finnish": {
+      "algebra_claude_a3": {
+        "error_l2": 1.4242641378780705e-06,
+        "max_abs_error": 1.0571684772031631e-07,
+        "passed": true,
+        "relative_to_update": 2.4750194713219796e-08
+      },
+      "algebra_claude_float32_target_diagnostic": {
+        "error_l2": 1.7449231463777023e-06,
+        "max_abs_error": 2.1739131961240332e-07,
+        "passed": true,
+        "relative_to_update": 3.032245670282982e-08
+      },
+      "algebra_codex": {
+        "error_l2": 2.2225662579159603e-06,
+        "max_abs_error": 1.7519646444696946e-07,
+        "passed": true,
+        "relative_to_update": 3.861463650081136e-08
+      },
+      "comparison": {
+        "agrees": true,
+        "cosine_U": 0.9999996843450403,
+        "cosine_V": 0.9999999999999982,
+        "norm_a": 8.207782258262931,
+        "norm_b": 8.206065775709083,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 1.000209172409869,
+        "relative_norm_difference": {
+          "against_a": 0.00020912866592185511,
+          "against_b": 0.00020917240986887865,
+          "against_mean": 0.0002091505356080994
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "gradient_steps": 20,
+      "old_own_manifest_sha256": "f8707c5c1348b378cc3c8a5703ed2f51be5721fc1e162617079851942caadbf6",
+      "own_content_sha256": "9c6e791c75bc1b01338ef468f2bff54df5e120718abd8d33c4cdd9e992d743b2",
+      "p1_5_bench_cap": 784,
+      "p1_5_probe_cap": 54,
+      "peer_base_minus_codex_base_max_abs": 0.0,
+      "peer_content_sha256": "01fce34daa5f5ecd5c33243ab581c010027680be018adb7fbafa50a15b6a7b76",
+      "peer_initial_minus_singleton_base_l2": 0.030883054777702614,
+      "peer_observed_file_sha256": {
+        "U.npy": "07f4df2de1759a4779aeb962a606e2d955dcc68149d1e3071e0e1b1deff98ce3",
+        "V.npy": "c801801a7ddc1c7f5e370391acd609a321d901a170e0fdaf999026f7433cdf33",
+        "context_keys.npy": "238fd58210d915de82fcbbe01cff0de6558f2b4e0920a686d996294cfbf6cb20",
+        "cur_output.npy": "c77f80f6053688ba295c1f65a9e866aeab02c51f578805a01b33dd1a0de05887",
+        "delta.npy": "159e00ac92a9498c2fbe4c2c1dcd786e9064d9633140fe1f5ed57b0143bed37d",
+        "edit/U0.npy": "07f4df2de1759a4779aeb962a606e2d955dcc68149d1e3071e0e1b1deff98ce3",
+        "edit/V0.npy": "c801801a7ddc1c7f5e370391acd609a321d901a170e0fdaf999026f7433cdf33",
+        "edit/backend.json": "216bd1bdc29510129dce99e48c1173dad471f1134e44177f7c76841f20cb49a7",
+        "k_clean.npy": "af60aa1ddf5ba4ceaf1518d1e5ad63a55617e91a2b271ff2594651550e5b6d27",
+        "k_mean.npy": "59f183cf0f2ee12a9be481c4401d5592fbe239c866e06f4f22a22dadfd3bef3d",
+        "status.json": "cd4e6a30e3d49fc526967ee77f5dfba23013ee99b6ba6181b8d6f7054490f557",
+        "target_init.npy": "a3607ed62db3f7c0c0cbe7facd8efb2ba17c506226a88f3359ac2432f5e4c82b"
+      },
+      "peer_reported_constraint_error": 2.220446049250313e-16,
+      "peer_status_sha256": "cd4e6a30e3d49fc526967ee77f5dfba23013ee99b6ba6181b8d6f7054490f557",
+      "peer_witness_provenance": "Completion pins status and edit content; remaining witness file hashes recorded on first independent comparison.",
+      "raw_sequence_forwards": 462,
+      "reported_division_factor": 7.012565408219465,
+      "same_subject_positions": true,
+      "stored_V_clean_dot": 7.012565401247157
+    },
+    "p1-gretzky-sport-baseball": {
+      "algebra_claude_a3": {
+        "error_l2": 2.81248700495347e-06,
+        "max_abs_error": 1.7029776300248045e-07,
+        "passed": true,
+        "relative_to_update": 2.688867298885771e-08
+      },
+      "algebra_claude_float32_target_diagnostic": {
+        "error_l2": 3.14220147496922e-06,
+        "max_abs_error": 4.059735232431194e-07,
+        "passed": true,
+        "relative_to_update": 3.0040895402191434e-08
+      },
+      "algebra_codex": {
+        "error_l2": 3.310576775534596e-06,
+        "max_abs_error": 2.2635055696440531e-07,
+        "passed": true,
+        "relative_to_update": 3.165847361727981e-08
+      },
+      "comparison": {
+        "agrees": true,
+        "cosine_U": 0.9999994310122163,
+        "cosine_V": 0.9999999999999989,
+        "norm_a": 9.365284782230322,
+        "norm_b": 9.367602284943588,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 1.0002474567263202,
+        "relative_norm_difference": {
+          "against_a": 0.00024745672632010905,
+          "against_b": 0.0002473955066379301,
+          "against_mean": 0.00024742611269218254
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "gradient_steps": 20,
+      "old_own_manifest_sha256": "644621d913907228608f9a500cbad8da2eb9e9354cf82e98994bd2e7b0166eb1",
+      "own_content_sha256": "6ed1c6c4068d6ed1a78747c654bf88d6418ae7bf362f3efe0fece4919e443b0d",
+      "p1_5_bench_cap": 784,
+      "p1_5_probe_cap": 54,
+      "peer_base_minus_codex_base_max_abs": 0.0,
+      "peer_content_sha256": "e1a64e3bc12b3b6366a91779ef2689a347e2b30de8dca8f11faa8ca8d3d8b767",
+      "peer_initial_minus_singleton_base_l2": 0.045762262677314154,
+      "peer_observed_file_sha256": {
+        "U.npy": "5c17bede3a1d8e95547dc4c665cfc08665a45ae831e8ec2fb48e5ffc395a8f36",
+        "V.npy": "c0e5a430332be7ec24d1ed91b23387d6e31fc388ed113a3f120f4227d2e569af",
+        "context_keys.npy": "8fafe7f32884f5554774732295886290afb26d64247ac9930ec4790dcf75c58a",
+        "cur_output.npy": "caf129b54c7400d092c3abcfbda3b34dbdf0bc5dd372dfe88f9fdd31fc25e125",
+        "delta.npy": "354f1a01115b5d2a43f5d014976409230330fa107ec8a91ff18fc2257f0e6f94",
+        "edit/U0.npy": "5c17bede3a1d8e95547dc4c665cfc08665a45ae831e8ec2fb48e5ffc395a8f36",
+        "edit/V0.npy": "c0e5a430332be7ec24d1ed91b23387d6e31fc388ed113a3f120f4227d2e569af",
+        "edit/backend.json": "3e66a6c2550bc33432512fb6255785762b867cd0211a6e30f481670ebb9896b1",
+        "k_clean.npy": "86d7533fafabb76e0a901cb72a96454d60025d2f896d5e2f8b1e2238febe9e57",
+        "k_mean.npy": "e262d3f7428cac0113e2e6e7f2888ab906a28a7c80f92ef2d35254beec27ad11",
+        "status.json": "7fb3489aca0a764b3106095a14a07670c616c3dec415c8b7cde1ea0c3ded0210",
+        "target_init.npy": "fc479eb9af4b40b3b5e63805c48d91556f581af50e6b747889ed9fec7a64ad0d"
+      },
+      "peer_reported_constraint_error": 4.440892098500626e-16,
+      "peer_status_sha256": "7fb3489aca0a764b3106095a14a07670c616c3dec415c8b7cde1ea0c3ded0210",
+      "peer_witness_provenance": "Completion pins status and edit content; remaining witness file hashes recorded on first independent comparison.",
+      "raw_sequence_forwards": 462,
+      "reported_division_factor": 11.165873703734205,
+      "same_subject_positions": true,
+      "stored_V_clean_dot": 11.165873718457446
+    },
+    "p1-nintendo-origin-france": {
+      "algebra_claude_a3": {
+        "error_l2": 1.709319007887907e-05,
+        "max_abs_error": 1.0049974363823821e-06,
+        "passed": true,
+        "relative_to_update": 1.134344696844376e-07
+      },
+      "algebra_claude_float32_target_diagnostic": {
+        "error_l2": 1.7225430195658205e-05,
+        "max_abs_error": 1.4202411477981514e-06,
+        "passed": true,
+        "relative_to_update": 1.1431204651091507e-07
+      },
+      "algebra_codex": {
+        "error_l2": 4.180634385524919e-06,
+        "max_abs_error": 4.871405803186235e-07,
+        "passed": true,
+        "relative_to_update": 2.774276369754254e-08
+      },
+      "comparison": {
+        "agrees": true,
+        "cosine_U": 0.9999907808748442,
+        "cosine_V": 0.9999999999999991,
+        "norm_a": 1332.1418695510363,
+        "norm_b": 1332.0979355973652,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 1.000032981023765,
+        "relative_norm_difference": {
+          "against_a": 3.2979936052805305e-05,
+          "against_b": 3.298102376486002e-05,
+          "against_mean": 3.298047989986435e-05
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "gradient_steps": 20,
+      "old_own_manifest_sha256": "af30f62b8d3599ae5595fdb314e97149df10fa746ad1553dec00e1aaebb153a4",
+      "own_content_sha256": "d0a619242d7813f5b93c04e81ffbe5f669663692e525fc59e997df1c785334ec",
+      "p1_5_bench_cap": 832,
+      "p1_5_probe_cap": 54,
+      "peer_base_minus_codex_base_max_abs": 0.0,
+      "peer_content_sha256": "acd4e769e9db652d1d6e88d4a3a57b1c6b4770760697a40e01a7b7a51076e67d",
+      "peer_initial_minus_singleton_base_l2": 0.005731369211965497,
+      "peer_observed_file_sha256": {
+        "U.npy": "cf2d20fe5b4da3ed754f0e47da2ac83b5e31d582af14300fae756e1f062b8c48",
+        "V.npy": "1a80de88c7ffba2bee9dfd1c2e5a526ecd8b03555a36abe34b0b2d1a2e598ed1",
+        "context_keys.npy": "50b3b2ea901cbab0762495a7eb1afc076e71588e021a9bb3a6274e96685eec65",
+        "cur_output.npy": "c1781df85b526e35cb7fa2bfa12cb42d6e5ce67b93e8ae5d6d114668488f8101",
+        "delta.npy": "675fe23aee13d4ff34c653ef365e55ca600a34b6e8db65141353d47611bd58a3",
+        "edit/U0.npy": "cf2d20fe5b4da3ed754f0e47da2ac83b5e31d582af14300fae756e1f062b8c48",
+        "edit/V0.npy": "1a80de88c7ffba2bee9dfd1c2e5a526ecd8b03555a36abe34b0b2d1a2e598ed1",
+        "edit/backend.json": "c58de145eeffc184848a904a6f677ba18023e1ef593bf763e8e1733a158fa103",
+        "k_clean.npy": "909bef693d4d41528c546318735852e02fb0e15e29595ccf5ba143debd3dbfab",
+        "k_mean.npy": "b44133fcca83c64ed013c21316188b58b4cb27d7fc1788be6b9db7919c98bf4f",
+        "status.json": "6fd41a771c1296571ec66c3096001e7545d1b4c9361d46e19b4bb35f2c65f4c0",
+        "target_init.npy": "1cb516443e93025eabed424b3da9b99ebc9deb43a2745da6829a35e2d38de4a0"
+      },
+      "peer_reported_constraint_error": 8.881784197001252e-16,
+      "peer_status_sha256": "6fd41a771c1296571ec66c3096001e7545d1b4c9361d46e19b4bb35f2c65f4c0",
+      "peer_witness_provenance": "Completion pins status and edit content; remaining witness file hashes recorded on first independent comparison.",
+      "raw_sequence_forwards": 462,
+      "reported_division_factor": 0.11312065767906232,
+      "same_subject_positions": true,
+      "stored_V_clean_dot": 0.11312067026693767
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "algebra_claude_a3": {
+        "error_l2": 1.8688196288274407e-06,
+        "max_abs_error": 1.3868747261724934e-07,
+        "passed": true,
+        "relative_to_update": 2.627458271795125e-08
+      },
+      "algebra_claude_float32_target_diagnostic": {
+        "error_l2": 2.095294846461197e-06,
+        "max_abs_error": 1.7633946214345997e-07,
+        "passed": true,
+        "relative_to_update": 2.9458700503883942e-08
+      },
+      "algebra_codex": {
+        "error_l2": 2.125665806507059e-06,
+        "max_abs_error": 1.8459110373569843e-07,
+        "passed": true,
+        "relative_to_update": 2.987750241688156e-08
+      },
+      "comparison": {
+        "agrees": true,
+        "cosine_U": 0.999995134310189,
+        "cosine_V": 0.9999999999999989,
+        "norm_a": 8.119578760556463,
+        "norm_b": 8.11735156369514,
+        "norm_convention_ambiguous": false,
+        "norm_ratio_max_min": 1.000274374818418,
+        "relative_norm_difference": {
+          "against_a": 0.0002742995575266252,
+          "against_b": 0.0002743748184179137,
+          "against_mean": 0.0002743371828105542
+        }
+      },
+      "context_keys_exactly_equal": true,
+      "gradient_steps": 20,
+      "old_own_manifest_sha256": "340ad78fbb8a96d628d78072506355b04ce262e83e053aa042c39b43129ee1ac",
+      "own_content_sha256": "623eaf0a57cf7fdbb808d860846e65ebf31b818a4d45064eea94512a94955824",
+      "p1_5_bench_cap": 832,
+      "p1_5_probe_cap": 54,
+      "peer_base_minus_codex_base_max_abs": 0.0,
+      "peer_content_sha256": "68bcb6fa46f97c302626da9966dd640ee03f575bdd2c96ba77e0f9291a00a15b",
+      "peer_initial_minus_singleton_base_l2": 0.03890832872140519,
+      "peer_observed_file_sha256": {
+        "U.npy": "d004418a86c25a2cbb13eec51194018b3019626ebbeda484d5be7fe18ecb771d",
+        "V.npy": "7664aaa32e7f60f12f54b8bc483670daa44e80e4e155ed83afe363de3c07c2d1",
+        "context_keys.npy": "4d01b2e6f1c801502ed711d1e2614369ca909ab6f9c1f42c6a1bbae6c4f2e257",
+        "cur_output.npy": "4f3ee26826961a42a11c6c882a3880a180ce726432cc31bb905ec1492f8d9ac7",
+        "delta.npy": "86d60ddf489c543a810499bd56333bcf5e1ba847c8e83bc697bb23149306d9fc",
+        "edit/U0.npy": "d004418a86c25a2cbb13eec51194018b3019626ebbeda484d5be7fe18ecb771d",
+        "edit/V0.npy": "7664aaa32e7f60f12f54b8bc483670daa44e80e4e155ed83afe363de3c07c2d1",
+        "edit/backend.json": "4b87ed0d3b8c9867a88cb536678dce3ecd38275c4caad39c528f38c9e888ec9f",
+        "k_clean.npy": "ec3df059ec5906c7150f1c22bce4ac0b19dfea52277adbad02aa6d01bc989efb",
+        "k_mean.npy": "737b69667c7e94086d6c27a74da56e09dd64afd1c7bb4325811e5852ac443389",
+        "status.json": "17148a24c68e16cc2509dd8595e85cfb4f19d58cb5e71c1b01431136bef864ae",
+        "target_init.npy": "197e2a1e2af77894b44798bc91daafa7a4d103aca7bd268106bd371ea99e5fcf"
+      },
+      "peer_reported_constraint_error": 4.440892098500626e-16,
+      "peer_status_sha256": "17148a24c68e16cc2509dd8595e85cfb4f19d58cb5e71c1b01431136bef864ae",
+      "peer_witness_provenance": "Completion pins status and edit content; remaining witness file hashes recorded on first independent comparison.",
+      "raw_sequence_forwards": 462,
+      "reported_division_factor": 8.762281517178945,
+      "same_subject_positions": true,
+      "stored_V_clean_dot": 8.762281493976127
+    }
+  },
+  "conventions_commit": "60482963",
+  "conventions_document_sha256": "04dd81e283af072cf343c832dbff236692345cf740b767500f8b2a59d6cfa000",
+  "covariance_sha256": "a9c6faa06c9b9155e764a9a38298c62c0a11379369bb3869075a76f61057c715",
+  "disagreement_count": 0,
+  "forwards_spent_since_v2": 9030,
+  "interpretation": "Agreement is a replication gate for candidate construction, not certification. No candidate or threshold changed, no new solve, no rescore under altered conventions. Explanatory conjectures must use the declarations frozen before this comparison.",
+  "math_frozen_commit": "c713a033",
+  "model_forwards": 0,
+  "model_sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
+  "original_p1_4_unchanged": true,
+  "p1_5_eligible_facts": [
+    "p1-bmw-origin-italy",
+    "p1-germany-language-finnish",
+    "p1-gretzky-sport-baseball",
+    "p1-nintendo-origin-france",
+    "p1-shakespeare-nationality-spanish"
+  ],
+  "p1_5_total_cap_for_eligible_facts": 4334,
+  "p1_closes_no_A4": false,
+  "peer_completion_sha256": "725a06742a5c22e644ee980ebd560516fbc7f4f9c7d9e5d0ef8405845f7a504d",
+  "peer_source_or_comparison_read": false,
+  "primary_peer_target_convention": "float64(target_init) + float64(delta), following declared float64 U construction; native float32 sum reported diagnostically, never used to rescore agreement",
+  "stage": "P1-4 A3",
+  "templates_sha256": "b7dce8e1fa21e362e63e4ea45fc5a25030cce7a61781dcdd55f0c0216afebf15"
+}

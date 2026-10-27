@@ -1,0 +1,72 @@
+{
+  "author": "Codex",
+  "cases": {
+    "p1-bmw-origin-italy": {
+      "bench_forward_cap": 832,
+      "edit_content_sha256": "33cbf6a5a9ca943029ecc9277e5a04cd2629b980949f416c150311cd5eb116de",
+      "edit_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/solves-codex/p1-bmw-origin-italy",
+      "native_qualification_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-bmw-origin-italy/run",
+      "probability_probe_forward_cap": 54,
+      "solver_manifest_sha256": "7360e0578acc31b77e77ede1f2b9148b31ef302a4e50c92cfbdd00a49c8453ad",
+      "spec_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-bmw-origin-italy/run/spec.json",
+      "spec_sha256": "6d6993fa463cafc3314edf64bafb1d60ad3e3f1df0035fee6842ac6972f8ac07",
+      "total_forward_cap": 886
+    },
+    "p1-germany-language-finnish": {
+      "bench_forward_cap": 784,
+      "edit_content_sha256": "9c6e791c75bc1b01338ef468f2bff54df5e120718abd8d33c4cdd9e992d743b2",
+      "edit_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/solves-codex/p1-germany-language-finnish",
+      "native_qualification_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-germany-language-finnish/run",
+      "probability_probe_forward_cap": 54,
+      "solver_manifest_sha256": "f8707c5c1348b378cc3c8a5703ed2f51be5721fc1e162617079851942caadbf6",
+      "spec_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-germany-language-finnish/run/spec.json",
+      "spec_sha256": "cf9517d17d15ce8044eae7b2612da5183c4954b3429985692d096d443c3b665b",
+      "total_forward_cap": 838
+    },
+    "p1-gretzky-sport-baseball": {
+      "bench_forward_cap": 784,
+      "edit_content_sha256": "6ed1c6c4068d6ed1a78747c654bf88d6418ae7bf362f3efe0fece4919e443b0d",
+      "edit_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/solves-codex/p1-gretzky-sport-baseball",
+      "native_qualification_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-gretzky-sport-baseball/run",
+      "probability_probe_forward_cap": 54,
+      "solver_manifest_sha256": "644621d913907228608f9a500cbad8da2eb9e9354cf82e98994bd2e7b0166eb1",
+      "spec_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-gretzky-sport-baseball/run/spec.json",
+      "spec_sha256": "a32e73d07a5db17bc2ab0ecc7abb08ec62b6433e8ba660d44a27ed9e34e9cd4b",
+      "total_forward_cap": 838
+    },
+    "p1-nintendo-origin-france": {
+      "bench_forward_cap": 832,
+      "edit_content_sha256": "d0a619242d7813f5b93c04e81ffbe5f669663692e525fc59e997df1c785334ec",
+      "edit_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/solves-codex/p1-nintendo-origin-france",
+      "native_qualification_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-nintendo-origin-france/run",
+      "probability_probe_forward_cap": 54,
+      "solver_manifest_sha256": "af30f62b8d3599ae5595fdb314e97149df10fa746ad1553dec00e1aaebb153a4",
+      "spec_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-nintendo-origin-france/run/spec.json",
+      "spec_sha256": "a52e0ea7c0333fe09d37e131de66473c36b471897d2f305d64b454c5e13d144d",
+      "total_forward_cap": 886
+    },
+    "p1-shakespeare-nationality-spanish": {
+      "bench_forward_cap": 832,
+      "edit_content_sha256": "623eaf0a57cf7fdbb808d860846e65ebf31b818a4d45064eea94512a94955824",
+      "edit_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/solves-codex/p1-shakespeare-nationality-spanish",
+      "native_qualification_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-shakespeare-nationality-spanish/run",
+      "probability_probe_forward_cap": 54,
+      "solver_manifest_sha256": "340ad78fbb8a96d628d78072506355b04ce262e83e053aa042c39b43129ee1ac",
+      "spec_path": "/home/pat/Projects/larql-research/phase-b-p1-v2-20261027/qualification/p1-shakespeare-nationality-spanish/run/spec.json",
+      "spec_sha256": "1b74d9792695798e033af84582a5aa3feddb902591558f8ef19c9819b5a0bb65",
+      "total_forward_cap": 886
+    }
+  },
+  "certifier": "Claude Code",
+  "comparator_commit": "dd12dc99",
+  "comparison_sha256": "c7992e91c9eb590e1138cffe1a7b52b17dc54d176e4568b82854f4e0b1d75bda",
+  "conventions_commit": "60482963",
+  "independent_replay": "Codex",
+  "model_forwards_used_by_this_handoff": 0,
+  "model_service_forward_cap": 400,
+  "no_retry": true,
+  "requires_fresh_dry_run": true,
+  "shared_lock": "/home/pat/Projects/larql-research/exploratory-natural-fact-edit/.heavy-model.lock",
+  "stage": "P1-5 inputs after 5/5 A3 agreement",
+  "total_forward_cap": 4334
+}
