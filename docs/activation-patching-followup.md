@@ -4,7 +4,7 @@
 
 ## In short
 
-- **Architecture sets a write deadline.** In Gemma 4 E4B, layers 24–41 reuse the keys and values computed at layers 22/23. A residual patch at layer 23's FFN or later changes the token being produced but cannot reach later positions; their logits stay bit-for-bit identical.
+- **Architecture sets a write deadline for patches at one position.** In Gemma 4 E4B, layers 24–41 reuse the keys and values computed at layers 22/23. A residual patch applied at one position, at layer 23's FFN or later, changes the token being produced there but does not reach the later positions: in the tested cases, their logits stay bit-for-bit identical.
 - **A one-token counterfactual is easy to flip and hard to own.** Adding a helium−hydrogen difference to the hydrogen token at layer 21 makes the model write "Hydrogen's chemical symbol is He." from an empty answer, on two phrasings. When the element's name comes *after* the symbol, the model tends to continue "…He is the symbol for helium": an entity swap, not a fact edit.
 - **The same vector changes the symbol but not the atomic number.** At layer 21 it moves the He−H margin by +16.5 to +19.7 and the two−one margin by +0.05 to +0.8, while random directions of equal norm do almost nothing and a full helium subject flips both. Neither the form of the name (H1) nor the per-layer embedding path (PLE, H2) explains the gap. Injected at layer 8 instead, the vector moves the number by +9.6.
 - **The selectivity does not survive a persistent form.** Applied statically to every hydrogen mention, the vector gives He, but the atomic number becomes "three". The number effect comes from the answer's own "Hydrogen" mention, which has already read the question: +15.6, against +0.05 on the prompt mention that precedes the relation.
@@ -33,7 +33,9 @@ On the edited multi-token artifact of the earlier posts, replacing the pre-FFN r
 
 On the LARQL instrument, a vector re-applied after layer 31 at an earlier position left all 262 144 logits of each following token bit-for-bit identical. Residual plus K/V at layer 22 reproduce the effect exactly; neither alone does. On the NF4 bench, Gemma 4 E2B (35 layers, layers 15–34 reuse the K/V of 13/14) shows the same boundary: a perturbation after layer 14 leaves the next position's logits and shared K/V bit-identical.
 
-**Consequence.** Any edit meant to influence later tokens must be written at layer 22 or earlier on E4B. This also explains an earlier negative of the slot-based line, whose injections sat at layers 25–32.
+**Consequence.** An edit applied at an earlier position, and meant to influence later tokens through attention, must be written at layer 22 or earlier on E4B. An edit applied at every position, such as a weight edit, is not bound by this deadline: at each position it can still change the token being produced. The deadline is consistent with an earlier negative of the slot-based line, whose injections sat at layers 25–32. It was not tested as that negative's cause.
+
+*Corrected on 2026-10-27, after Codex's review of the research index. The first version stated the deadline for every edit, and said it explained the slot-line negative.*
 
 ## 3. H → He, and the entity-substitution trap
 
